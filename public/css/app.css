@@ -10262,3 +10262,73 @@ a.text-gray-dark:hover {
   }
 }
 
+body {
+  font-family: IRANSans !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea,
+button {
+  font-family: IRANSans !important;
+}
+
+a {
+  color: inherit;
+  cursor: pointer;
+}
+
+a:focus,
+a:hover {
+  text-decoration: none !important;
+}
+
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  font-size: 12px;
+}
+
+::-moz-placeholder {
+  /* Firefox 19+ */
+  font-size: 12px;
+}
+
+:-ms-input-placeholder {
+  /* IE 10+ */
+  font-size: 12px;
+}
+
+:-moz-placeholder {
+  /* Firefox 18- */
+  font-size: 12px;
+}
+
+.l-autoWidth {
+  width: auto !important;
+}
+
+.l-autoHeight {
+  height: auto !important;
+}
+
+.l-autoMargin {
+  margin: auto;
+}
+
+.paragraph-lineHeight {
+  line-height: 40px;
+}
+
+.thin-title {
+  font-weight: 100 !important;
+}
+
+.medium-title {
+  font-weight: 400 !important;
+}
+
