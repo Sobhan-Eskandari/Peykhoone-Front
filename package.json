@@ -11,11 +11,18 @@
   },
   "devDependencies": {
     "axios": "^0.16.2",
-    "bootstrap-sass": "^3.3.7",
+    "bootstrap": "4.0.0-alpha.6",
     "cross-env": "^5.0.1",
-    "jquery": "^3.1.1",
+    "jquery": "^2.2.4",
     "laravel-mix": "^1.0",
     "lodash": "^4.17.4",
     "vue": "^2.1.10"
+  },
+  "dependencies": {
+    "flickity": "^2.0.9",
+    "infinite-scroll": "^3.0.1",
+    "node-waves": "^0.7.5",
+    "tether": "^1.4.0",
+    "typeit": "^4.4.0"
   }
 }
