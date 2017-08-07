@@ -13,7 +13,12 @@ let mix = require('laravel-mix');
 
 mix.js([
     'node_modules/jquery/dist/jquery.min.js',
+    'resources/assets/js/app.js',
     'node_modules/bootstrap/dist/js/bootstrap.js',
-    'resources/assets/js/app.js'
+    'node_modules/flickity/dist/flickity.pkgd.js',
+    'node_modules/infinite-scroll/dist/infinite-scroll.pkgd.js',
+    'node_modules/node-waves/dist/waves.js',
+    'node_modules/tether/dist/js/tether.js',
+    'node_modules/typeit/dist/typeit.js',
 ], 'public/js/app.js')
     .sass('resources/assets/sass/app.scss', 'public/css/app.css');
