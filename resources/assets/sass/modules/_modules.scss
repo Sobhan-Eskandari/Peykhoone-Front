@@ -1,0 +1,443 @@
+.header-logo{
+  width: 130px;
+  height: 50px;
+}
+
+.m-card{
+  border-radius: 0;
+  padding: 20px 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24) !important;
+  background-color: white;
+}
+
+.joziateBishtarBtn{
+  border: 2px solid $sormeie;
+  border-radius: 20px;
+  background-color: transparent;
+  padding: 5px 10px;
+  color: $sormeie;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color,color 0.5s ease;
+
+  &:hover{
+    background-color: $sormeie;
+    color: white;
+  }
+}
+
+.m-btn-flat{
+  padding: 5px 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+}
+
+.m-btn-round{
+  padding: 5px 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 25px;
+}
+
+.m-btn-tranparent{
+  padding: 5px 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+}
+
+.m-btn-moveSection{
+  background:none;
+  border: none;
+}
+
+.m-features-icon{
+  width: 25px;
+  height: 25px;
+  margin-left: 10px;
+}
+
+.m-roundImage{
+  border-radius: 5px;
+}
+.m-flatCard{
+  border-radius: 0;
+  background: transparent;
+}
+
+.m-stars{
+  width: 100px;
+  height: 20px !important;
+}
+.m-filter-star{
+  height: 30px;
+}
+.m-offpercentLine{
+  text-decoration: line-through;
+}
+.m-downArrow {
+  margin-top: 40px;
+  div {
+    margin: auto;
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+    line-height: 40px;
+    transform-origin: 50% 50%;
+    i {
+      color: $grassyGreen;
+    }
+  }
+}
+
+//----------- [ Borders and Lines Style ] -----------
+.m-halfLine{
+  border-top: 1px solid lightslategrey;
+  width: 40%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.m-fullLine{
+  border-top: 1px solid lightslategrey;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.m-doubleSideBorder{
+  border-right: 1px solid lightslategrey;
+  border-left: 1px solid lightslategrey;
+}
+
+//----------- [ Costs Filter ] -----------
+.noUi-horizontal .noUi-handle {
+  width: 22px !important;
+  height: 22px !important;
+  left: -11px !important;
+  top: -8px !important;
+}
+.noUi-handle{
+  border-radius: 50% !important;
+  box-shadow: none !important;
+  background-color: rgba(59,171,109,0.7) !important;
+  border: none !important;
+}
+.noUi-handle:before{
+  display: none !important;
+}
+.noUi-handle:after {
+  background-color: $sabz !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 25px !important;
+  left: 7px !important;
+  top: 7px !important;
+}
+.noUi-target{
+  box-shadow: none !important;
+  border: none !important;
+  background-color: transparent;
+}
+.noUi-horizontal {
+  height: 5px !important;
+}
+.noUi-connect{
+  background-color: $sabz !important;
+}
+.noUi-tooltip{
+  font-size: 10px !important;
+  border: none !important;
+  background-color: transparent !important;
+  bottom: -120% !important;
+  color: $sormeie !important;
+}
+#cost-slider{
+  margin: auto;
+}
+
+//----------- [ Gallery of Images ] -----------
+.gallery{
+  /* external css: flickity.css */
+
+  * { box-sizing: border-box; }
+
+  body { font-family: sans-serif; }
+
+  /* force scrollbar, not necessary, but may reduce gaps. Setting a max-height on .carousel also works */
+  html { overflow-y: scroll; }
+
+  .carousel {
+    margin-top: 20px;
+    background: #EEE;
+  }
+
+  .carousel img {
+    display: block;
+    height: 400px;
+  }
+
+  .carousel-nav{
+    margin-top: 20px;
+  }
+
+  .carousel-nav .carousel-cell {
+    height: 80px;
+    width: 100px;
+  }
+
+  .carousel-nav .carousel-cell:before {
+    font-size: 50px;
+    line-height: 80px;
+  }
+
+  .carousel-nav .carousel-cell.is-nav-selected {
+    border: 3px solid #0D9E72;
+  }
+
+  .carousel-cell {
+    width: 100%;
+    height: 200px;
+    margin-right: 10px;
+    background: #8C8;
+    border-radius: 5px;
+    counter-increment: carousel-cell;
+  }
+
+}
+
+//----------- [ Slider of Famous Hotels ] -----------
+.city-carousel{
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+  .carousel-cell {
+    width: 25%;
+    //height: 200px;
+    //margin-right: 0px;
+    margin-left: 0px;
+    padding: 10px 25px;
+    border-radius: 5px;
+    counter-increment: gallery-cell;
+
+    img{
+      height: 200px;
+    }
+
+  }
+
+  /* position outside */
+  .fullWidth-carousel .carousel-cell {
+    width: 100%;
+    margin-right: 0px;
+    margin-left: 0px;
+    padding: 10px;
+    border-radius: 5px;
+    counter-increment: gallery-cell;
+  }
+  .fullWidth-carousel .card{
+    height: 300px;
+    border-radius: 0;
+  }
+
+}
+.city-carousel .flickity-prev-next-button.previous {
+  right: -40px !important;
+}
+.city-carousel .flickity-prev-next-button.next {
+  left: -40px !important;
+}
+
+
+.google-map{
+  width: 100%;
+  height: 400px;
+}
+
+.off-percentage{
+  position: absolute;
+  top: 30%;
+  right: 45%;
+  color: white;
+  font-size: 15px;
+  width: 100%;
+}
+.off_ribbon{
+  margin-right: 35%;
+}
+
+.m-input{
+  border-radius: 25px;
+  border: 1px solid $sormeie;
+  padding: 10px 30px;
+}
+.m-round-input{
+  border-radius: 25px;
+  border: 1px solid $sormeie;
+  padding: 5px 10px;
+  width: 100%;
+}
+.m-simple-input{
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid $sormeie;
+  width: 100%;
+}
+
+.m-simple-input:focus{
+  outline: none;
+}
+
+.m-profileAvatar{
+  width: 40%;
+  margin-top: -45px;
+  border-radius: 50%;
+}
+.m-ribbon{
+  position: absolute;
+  left: -20px;
+  top: 13%;
+
+  .off_ribbon{
+    width: 100px;
+    margin-right:0;
+  }
+  .off-percentage{
+    right: 10%;
+  }
+}
+
+/* ============[ Pagination ]=========== */
+.pagination{
+  border-radius: 10px;
+  direction: ltr;
+}
+
+/* ============[ Each pagination number item ]=========== */
+.page-link{
+  color: $sabz;
+  font-weight: $font-weight--medium;
+  border: 1px solid $sabz;
+
+  &:focus{
+    background-color: $sabz;
+    color: whitesmoke;
+    border: 1px solid $sabz;
+  }
+  &:hover{
+    border: 1px solid $sabz;
+  }
+}
+
+/* ============[ Next and Prev buttons of Pagination ]=========== */
+.nextBtn,.prevBtn{
+  background-color: white;
+}
+.nextBtn{
+  border-top-left-radius: 9px !important;
+  border-bottom-left-radius: 9px !important;
+}
+.prevBtn{
+  border-top-right-radius: 9px !important;
+  border-bottom-right-radius: 9px !important;
+}
+
+/* ============[ Profile Page ]=========== */
+.m-reserveTable{
+  color: white;
+  width: 100%;
+  border: none;
+  th{
+    background-color: #4f6c87;
+    border: none;
+    font-weight: $font-weight--medium;
+    font-size: 13px;
+    text-align: center;
+  }
+  td{
+    background-color: $khakestarie-roshan;
+    color: $sormeie-tire;
+    border: none;
+  }
+  tr,td{
+    padding:10px;
+  }
+}
+.m-tableFooter{
+  font-size: 14px;
+  color: $sormeie-tire;
+  background-color: $khakestarie-roshan;
+  padding: 5px;
+}
+
+
+
+/* ============[ Package Dropdown ]=========== */
+
+.m-package-dropdown{
+  border-radius: 2px;
+
+  #m-dropdown-button{
+    padding: 0;
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-weight: bold;
+    border: transparent;
+    color: $sormeie;
+    transition: none;
+    -webkit-box-shadow: none !important;
+    box-shadow:none !important;
+    font-size: 14px;
+    background-color: white;
+    line-height: 50px;
+    border-radius: 2px;
+
+    &:hover{
+      cursor: pointer;
+      color: white;
+      -webkit-filter: brightness(120%);
+    }
+  }
+  .dropdown-toggle{
+    color: $sormeie-tire !important;
+    border-radius: 0px;
+    outline: none;
+    padding: 10px 10px;
+  }
+  .dropdown-toggle::after{
+    font-family: "FontAwesome";
+    content: "\f078";
+    border: none;
+    color: white !important;
+    float: left;
+    margin-left: 0;
+    background-color: $sormeie-tire;
+    height: 50px;
+    width: 30px;
+  }
+  .dropdown-item{
+    font-weight: $font-weight--light;
+    font-size: 13px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: black;
+
+    &:active{
+      background-color: transparent !important;
+      outline: none;
+    }
+  }
+  .dropdown-menu{
+    border: transparent;
+  }
+
+  .dropdown-divider{
+    background-color: grey;
+  }
+}
+
+
+

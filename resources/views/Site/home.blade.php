@@ -7,13 +7,13 @@
 
     <title>Laravel</title>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    <!-- App Css -->
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
 
 </head>
 <body>
 
-<h1>Home Page</h1>
+<h1>سلام دنیا</h1>
 
 <script src="{{asset('js/app.js')}}"></script>
 </body>

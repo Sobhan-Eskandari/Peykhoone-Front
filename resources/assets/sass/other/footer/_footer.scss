@@ -1,0 +1,70 @@
+
+.Footer{
+  border-top: 1px solid whitesmoke;
+
+  .SignUpNewsLetter{
+    width: 100%;
+  }
+  .SignUpNewsLetter form,.SignUpNewsLetter .form-group{
+    width: 100%;
+    direction: rtl;
+  }
+
+  .SignUpNewsLetter__input{
+    width: 70% !important;
+  }
+
+
+  /*!* Custom, iPhone Retina *!*/
+  @media (max-width: 575px) {
+    .SignUpNewsLetter{
+      margin-right: 2em;
+    }
+    .SignUpNewsLetter__input{
+      width: 90% !important;
+      margin-bottom: 1em;
+    }
+  }
+
+  .LinksCol__link{
+    color: #98a6ad;
+    display: block;
+    line-height: 30px;
+    transition: color 0.5s;
+    transition-property: color;
+  }
+  .LinksCol__link:hover{
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .FooterLinks{
+    direction: rtl;
+    margin-bottom: 4%;
+  }
+  .FooterPlaceholder{
+    padding-top: 20px;
+    background-color: $sormeie;
+    color: white;
+    text-align: right;
+  }
+
+  .Logo{
+    text-align: center;
+    padding: 0;
+  }
+  .Logo img{
+    width: 8em;
+    height: 8em;
+  }
+
+  hr{
+    background-color: #45525A;
+    margin-top: 0.1rem;
+    margin-bottom: 0.1rem;
+  }
+
+}
+
+/*# sourceMappingURL=footer.css.map */

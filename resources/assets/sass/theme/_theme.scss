@@ -1,0 +1,90 @@
+.btn-flat-theme{
+  background-color: $sabz;
+  color: white;
+  border: transparent;
+}
+
+.btn-round-theme{
+  background-color: transparent;
+  color: $sabz;
+  border: 2px solid $sabz;
+}
+
+.btn-round-filled-theme{
+  background-color: $sabz;
+  color: white;
+  border: 2px solid $sabz;
+}
+
+.sormeie-theme{
+  color: $sormeie;
+}
+.sormeie-bc-theme{
+  background-color: $sormeie;
+}
+.tosi-theme{
+  color: $tosi;
+}
+.khakestari-bc-theme{
+  background-color: $khakestarie-roshan !important;
+}
+
+//----------- [ Typography Style ] -----------
+.dinar-title{
+  font-family: 'Dinar_medium' !important;
+  color: $sormeie-tire;
+}
+.dinar-title-thin{
+  font-family: 'Dinar_light' !important;
+}
+
+.frab-title{
+  font-family: 'Frabk' !important;
+}
+.paragraph-lineHeight{
+  line-height: 40px;
+}
+
+.thin-title{
+  font-weight: $font-weight--thin !important;
+}
+.medium-title{
+  font-weight: $font-weight--medium !important;
+}
+
+//----------- [ Line Style ] -----------
+.line-theme{
+  border-top: 1px solid $tosi-roshan;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.dottedLine-theme{
+  border-top: 3px dotted $sormeie;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.green-line-theme{
+  border-top: 1px solid $grassyGreen;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+//----------- [ Borders Style ] -----------
+.borderBottom-theme{
+  border-bottom: 1px solid $tosi-roshan;
+}
+.borderRight-theme{
+  border-right: 1px solid $tosi-roshan;
+}
+.border-theme{
+  border: 1px solid $sormeie;
+}
+
+
+
+.terminal-info{
+  margin-top: 20px;
+  line-height: 45px;
+  padding-right: 30px;
+  padding-left: 30px;
+}

@@ -1,0 +1,75 @@
+// ==========================================================================
+// Global Config
+// ==========================================================================
+
+// Font Stacks
+@import url('../Resources/css/Font/font.css'); /* لینک فایلی که وظیفه بارگذاری فونت ها را برعهده دارد */
+
+$font-family--primary    : 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-family--secondary  : 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+// Font Weights
+
+$font-weight--thin       : 100;
+$font-weight--light      : 300;
+$font-weight--medium     : 400;
+$font-weight--bold       : 700;
+$font-weight--ultra-bold : 900;
+
+body {
+  font-family: IRANSans;
+  font-weight: 300;
+  direction: rtl;
+  margin: 0;
+}
+h1, h2, h3, h4, h5, h6,input, textarea,button {
+  font-family: IRANSans;
+}
+
+// Descriptive Base Colors
+
+$white : #fff;
+$black : #0b0b0b;
+$grey  : #797e83;
+
+$grassyGreen    : #42b574;
+$card-bgColor   : #f3f3f3;
+$transportBg-color  : #f7f7f7;
+$hotelsBg-color     : #FFFFFF;
+$sormeie        : #082845;
+$red            : #d62a2a;
+$text-gray      : #a6a6a6;
+
+//------------ Colors -----------//
+$sabz                : #42b574;
+$sabz-roshan         : #7acb9d;
+$sormeie-tire        : #092d4f;
+$sormeie-roshan      : #4f6c87;
+$khakestarie-roshan  : #f8f8f8;
+$tosie-tire          : #505050;
+$tosi                : #6a6a6a;
+$tosi-roshan         : #8b8b8b;
+$tosi-roshantar         : #878787;
+$red                 : #c41b47;
+
+// Text
+
+$base__font-size : 16px;
+$base__line      : 24px;
+$letter-space    : 1px;
+
+// Border radius
+
+$br--default    : .4em;
+$br--round      : 50%;
+
+// Transitions
+
+$trns-duration  : .3s;
+
+
+// Breakpoints
+
+$brkpoint--sm    : 1px;
+$brkpoint--md    : 768px;
+$brkpoint--lg    : 1100px;

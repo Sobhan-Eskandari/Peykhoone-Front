@@ -1,0 +1,49 @@
+.navbarSection{
+  .navbar{
+    background: transparent;
+
+    /* =========[ Menu items Color ]======== */
+    .nav-item,.navbar-nav .active{
+      a{
+        color: whitesmoke;
+      }
+    }
+
+    .nav-item:hover,.navbar-nav .active:hover{
+      a{
+        color: $grassyGreen;
+      }
+    }
+
+    /* =======[ Menu items Color Active State ]====== */
+    .navbar-nav .active{
+      border-bottom: 3px solid $grassyGreen;
+    }
+
+    .navbar-nav{
+      width: 100% !important;
+      border-bottom: 2px solid whitesmoke;
+      overflow: auto;
+
+      li { float:right; }
+      li:last-child { float: left; }
+
+    }
+
+    #loginBtn{
+      position: absolute;
+      left: 70px;
+      border-left: 1px solid whitesmoke;
+      margin-left: 5px;
+      margin-top: 7px;
+      padding-left: 10px;
+    }
+    #signupBtn{
+      position: absolute;
+      left: 10px;
+      color: $sabz;
+    }
+
+
+  }
+}

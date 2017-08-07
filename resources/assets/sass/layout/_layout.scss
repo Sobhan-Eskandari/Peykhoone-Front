@@ -1,0 +1,63 @@
+.l-header{
+  background-color: white;
+}
+.l-nav{
+  border-bottom: none !important;
+}
+
+.l-stickyMover{
+  position: fixed;
+  width: 80px;
+}
+
+.l-profile{
+  margin-top: -550px;
+}
+
+.l-profile-imageHeader{
+  height: 50% !important;
+}
+.l-contactus-imageHeader{
+  height: 550px !important;
+  background: url("../images_site/pic-contact us.png") !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+}
+.l-aboutus-imageHeader{
+  height: 550px !important;
+  background: url("../images_site/pic-about us.png") !important;
+  background-size: cover;
+}
+
+.l-cities{
+  background: url("../../public/images_site/blur.jpg");
+  background-size: cover;
+}
+.l-transOverFlow{
+  margin-top: -40px;
+  background-color: rgba(0,0,0,0.6);
+  margin-right: 0px;
+  margin-left:  0px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.l-autoWidth{
+  width:  auto !important;
+}
+.l-autoHeight{
+  height:  auto !important;
+}
+.l-stars{
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  top: 5px;
+}
+.l-outerLine{
+  border: 1px solid lightslategrey;
+}
+.l-autoMargin{
+  margin: auto;
+}
