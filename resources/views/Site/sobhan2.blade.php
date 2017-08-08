@@ -35,6 +35,12 @@
     </div>
 </footer>
 
+{{--background-image: url("/images/home.jpg");--}}
+{{--height: 4000px;--}}
+{{--background-size: cover;--}}
+{{--background-position-y: -3230px;--}}
+{{--overflow-y: scroll;--}}
+
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/libraries.js')}}"></script>
 <script src="https://use.fontawesome.com/7cd1915430.js"></script>
