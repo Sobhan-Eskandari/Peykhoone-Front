@@ -10266,11 +10266,6 @@ a.text-gray-dark:hover {
 
 body {
   font-family: IRANSans !important;
-  background-image: url("/images/home.jpg");
-  height: 4000px;
-  background-size: cover;
-  background-position-y: -3230px;
-  overflow-y: scroll;
 }
 
 h1,

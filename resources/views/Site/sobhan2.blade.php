@@ -54,6 +54,12 @@
             </ul>
         </div>
 
+        {{--background-image: url("/images/home.jpg");--}}
+        {{--height: 4000px;--}}
+        {{--background-size: cover;--}}
+        {{--background-position-y: -3230px;--}}
+        {{--overflow-y: scroll;--}}
+
         <div class="col-lg-auto align-self-center mr-5">
             <ul class="m-horizental-category">
                 <li class="firstChild"><a href="#">درباره ما</a> </li>
