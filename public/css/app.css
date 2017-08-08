@@ -10267,7 +10267,9 @@ a.text-gray-dark:hover {
 body {
   font-family: IRANSans !important;
   background-image: url("/images/home.jpg");
+  height: 4000px;
   background-size: cover;
+  background-position-y: -3230px;
   overflow-y: scroll;
 }
 
@@ -10333,29 +10335,71 @@ button:focus {
   margin: auto;
 }
 
+#l-footer {
+  background-color: #282828;
+  position: absolute;
+  bottom: 190px;
+  width: 100%;
+  opacity: 0.8;
+}
+
 .m-btn {
   border-radius: 8px;
   color: #f4f4f4;
   cursor: pointer;
   font-size: 12px;
+  padding: 8px 10px;
   border: transparent;
+  font-weight: 200;
 }
 
-.m-btn-1 {
+.m-btn:hover {
+  -webkit-filter: brightness(120%);
+}
+
+.m-btn-outline {
   border: 1px solid #FFFFFF;
-  padding: 7px 19px;
+  padding-right: 19px;
+  padding-left: 19px;
   background: transparent;
   margin-left: 147px;
   margin-top: 5px;
 }
 
-.m-btn-2 {
+.m-btn-gradient {
   border: transparent;
-  padding: 7px 26px;
+  padding-right: 26px;
+  padding-left: 26px;
   background: -webkit-gradient(linear, left top, left bottom, from(#007991), to(#63E7CA));
   background: linear-gradient(-180deg, #007991 0%, #63E7CA 100%);
   margin-left: 10px;
   margin-top: 5px;
+  font-weight: 500;
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.27) !important;
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.27) !important;
+}
+
+.m-btn-appdl {
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 60px;
+}
+
+.m-btn-gradientOutline {
+  border-radius: 60px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#007991), to(#63E7CA));
+  background: linear-gradient(-180deg, #007991 0%, #63E7CA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 8px 15px;
+  cursor: pointer;
+  border: 2px solid white;
+  -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+.m-btn-gradientOutline i {
+  -webkit-text-fill-color: white;
 }
 
 .paragraph-lineHeight {
@@ -10368,6 +10412,10 @@ button:focus {
 
 .medium-title {
   font-weight: 400 !important;
+}
+
+.rounded {
+  border-radius: 60px;
 }
 
 .light-aquamarine {
@@ -10383,7 +10431,7 @@ button:focus {
 }
 
 .black {
-  background-color: #272727;
+  background-color: #282828;
 }
 
 .white {
@@ -10391,7 +10439,7 @@ button:focus {
 }
 
 .warm-grey {
-  background-color: #949494;
+  background-color: #787878;
 }
 
 .black-darker {

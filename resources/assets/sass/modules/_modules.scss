@@ -5,21 +5,50 @@
   color: $white;
   cursor: pointer;
   font-size: 12px;
+  padding: 8px 10px;
   border: transparent;
+  font-weight: 200;
+
+  &:hover{
+    -webkit-filter: brightness(120%);
+  }
 }
 
-.m-btn-1{
+.m-btn-outline{
   border: 1px solid #FFFFFF;
-  padding: 7px 19px;
+  padding-right: 19px;
+  padding-left: 19px;
   background: transparent;
   margin-left: 147px;
   margin-top: 5px;
 }
 
-.m-btn-2{
+.m-btn-gradient{
   border: transparent;
-  padding: 7px 26px;
+  padding-right: 26px;
+  padding-left: 26px;
   background: $gradient;
   margin-left: 10px;
   margin-top: 5px;
+  font-weight: 500;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.27) !important;
+}
+
+.m-btn-appdl{
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+  border-radius: 60px;
+}
+
+.m-btn-gradientOutline{
+  border-radius: $br-five;
+  background: $gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 8px 15px;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.50);
+  i{
+    -webkit-text-fill-color: white;
+  }
 }
