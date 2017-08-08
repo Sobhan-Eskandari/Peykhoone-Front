@@ -18,3 +18,8 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('Site.home');
 });
+
+Route::get('/sobhan', function () {
+    return view('Site.sobhan');
+});
+
