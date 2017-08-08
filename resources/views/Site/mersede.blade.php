@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<h1>Mersede</h1>
+<h1>pey khoone project</h1>
 
 <script src="{{asset('js/app.js')}}"></script>
 </body>

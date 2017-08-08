@@ -23,3 +23,7 @@ Route::get('/sobhan', function () {
     return view('Site.sobhan2');
 });
 
+Route::get('/mersede', function () {
+    return view('Site.mersede');
+});
+
