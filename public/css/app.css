@@ -10310,6 +10310,10 @@ a:hover {
   font-size: 12px;
 }
 
+.l-rtl {
+  direction: rtl;
+}
+
 .l-autoWidth {
   width: auto !important;
 }
