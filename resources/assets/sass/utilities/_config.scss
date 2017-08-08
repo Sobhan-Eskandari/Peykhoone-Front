@@ -10,8 +10,15 @@ $font-weight--medium     : 400;
 $font-weight--bold       : 700;
 $font-weight--ultra-bold : 900;
 
-//------------ Colors -----------//
+/* Color palette */
 
+$light-aquamarine: #73f9d3;
+$ocean: #007991;
+$white-two: #eeeeee;
+$black: #272727;
+$white: #f4f4f4;
+$warm-grey: #949494;
+$black-darker: #111111;
 
 
 // Text
@@ -20,7 +27,11 @@ $base__font-size : 16px;
 
 // Border radius
 
-$br--default    : .4em;
+$br-one    : 4px;
+$br-two    : 5px;
+$br-three    : 8px;
+$br-four  : 10px;
+$br-five   : 60px;
 
 
 // Transitions
