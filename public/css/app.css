@@ -10290,6 +10290,10 @@ a:hover {
   text-decoration: none !important;
 }
 
+button:focus {
+  outline: none !important;
+}
+
 ::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
   font-size: 12px;
@@ -10324,6 +10328,12 @@ a:hover {
 
 .l-autoMargin {
   margin: auto;
+}
+
+.m-btn-1 {
+  border-radius: 5px;
+  color: #f4f4f4;
+  border-color: #f4f4f4;
 }
 
 .paragraph-lineHeight {
