@@ -1,0 +1,25 @@
+//----------- [ Buttons Style ] -----------
+
+.m-btn{
+  border-radius: 8px;
+  color: $white;
+  cursor: pointer;
+  font-size: 12px;
+  border: transparent;
+}
+
+.m-btn-1{
+  border: 1px solid #FFFFFF;
+  padding: 7px 19px;
+  background: transparent;
+  margin-left: 147px;
+  margin-top: 5px;
+}
+
+.m-btn-2{
+  border: transparent;
+  padding: 7px 26px;
+  background: $gradient;
+  margin-left: 10px;
+  margin-top: 5px;
+}

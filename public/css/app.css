@@ -10266,6 +10266,9 @@ a.text-gray-dark:hover {
 
 body {
   font-family: IRANSans !important;
+  background-image: url("/images/home.jpg");
+  background-size: cover;
+  overflow-y: scroll;
 }
 
 h1,
@@ -10290,6 +10293,10 @@ a:hover {
   text-decoration: none !important;
 }
 
+button:focus {
+  outline: none !important;
+}
+
 ::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
   font-size: 12px;
@@ -10310,6 +10317,10 @@ a:hover {
   font-size: 12px;
 }
 
+.l-rtl {
+  direction: rtl;
+}
+
 .l-autoWidth {
   width: auto !important;
 }
@@ -10322,6 +10333,31 @@ a:hover {
   margin: auto;
 }
 
+.m-btn {
+  border-radius: 8px;
+  color: #f4f4f4;
+  cursor: pointer;
+  font-size: 12px;
+  border: transparent;
+}
+
+.m-btn-1 {
+  border: 1px solid #FFFFFF;
+  padding: 7px 19px;
+  background: transparent;
+  margin-left: 147px;
+  margin-top: 5px;
+}
+
+.m-btn-2 {
+  border: transparent;
+  padding: 7px 26px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#007991), to(#63E7CA));
+  background: linear-gradient(-180deg, #007991 0%, #63E7CA 100%);
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
 .paragraph-lineHeight {
   line-height: 40px;
 }
@@ -10332,5 +10368,33 @@ a:hover {
 
 .medium-title {
   font-weight: 400 !important;
+}
+
+.light-aquamarine {
+  background-color: #73f9d3;
+}
+
+.ocean {
+  background-color: #007991;
+}
+
+.white-two {
+  background-color: #eeeeee;
+}
+
+.black {
+  background-color: #272727;
+}
+
+.white {
+  background-color: #f4f4f4;
+}
+
+.warm-grey {
+  background-color: #949494;
+}
+
+.black-darker {
+  background-color: #111111;
 }
 

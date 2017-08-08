@@ -23,5 +23,8 @@ mix.js([
     'node_modules/flickity/dist/flickity.pkgd.min.js',
     'node_modules/infinite-scroll/dist/infinite-scroll.pkgd.js',
     'node_modules/node-waves/dist/waves.min.js',
-    'node_modules/typeit/dist/typeit.min.js',
+    'node_modules/typed.js/lib/typed.min.js',
+    'resources/assets/js/public.js',
 ], 'public/js/libraries.js');
+
+mix.sass('public/Hi_Framework/dist/Hi_Framework.scss','public/css/Hi_Framework.css');
