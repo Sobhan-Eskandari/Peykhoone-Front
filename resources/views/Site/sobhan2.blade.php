@@ -27,19 +27,47 @@
 
 {{--<p class="m-btn-gradientOutline rounded"><i class="fa fa-chevron-down"></i> پی خونه رو تجربه کنید  </p>--}}
 
-<footer class="container-fluid" id="l-footer" style="height: 200px">
+<footer class="container-fluid" id="l-footer" style="height: 340px">
     <div class="row">
-        <div class="col-lg-auto">
 
+        <div class="col-lg-auto align-self-center text-center pr-3">
+            <img class="m-footer-logo" src="{{asset('images/logo.png')}}">
         </div>
+
+        <div class="col-lg-auto align-self-center">
+            <ul class="m-horizental-list">
+                <li><a href="#">درباره ما</a> </li>
+                <li><a href="#">تماس با ما</a> </li>
+                <li><a href="#">قوانین و مقررات</a> </li>
+                <li><a href="#">راهنمای سایت</a> </li>
+                <li><a href="#">دانلود برنامه</a> </li>
+            </ul>
+        </div>
+
+        <div class="col-lg-auto align-self-center" style="margin-right: 8rem">
+            <ul class="m-horizental-category">
+                <li><a href="#">درباره ما</a> </li>
+                <li><a href="#">تماس با ما</a> </li>
+                <li><a href="#">قوانین و مقررات</a> </li>
+                <li><a href="#">راهنمای سایت</a> </li>
+                <li><a href="#">دانلود برنامه</a> </li>
+            </ul>
+        </div>
+
+        <div class="col-lg-auto align-self-center mr-5">
+            <ul class="m-horizental-category">
+                <li class="firstChild"><a href="#">درباره ما</a> </li>
+                <li><a href="#">تماس با ما</a> </li>
+                <li><a href="#">قوانین و مقررات</a> </li>
+                <li><a href="#">راهنمای سایت</a> </li>
+                <li><a href="#">دانلود برنامه</a> </li>
+            </ul>
+        </div>
+
     </div>
 </footer>
 
-{{--background-image: url("/images/home.jpg");--}}
-{{--height: 4000px;--}}
-{{--background-size: cover;--}}
-{{--background-position-y: -3230px;--}}
-{{--overflow-y: scroll;--}}
+
 
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/libraries.js')}}"></script>

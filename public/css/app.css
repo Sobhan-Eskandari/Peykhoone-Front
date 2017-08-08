@@ -10293,6 +10293,7 @@ a {
 a:focus,
 a:hover {
   text-decoration: none !important;
+  color: inherit !important;
 }
 
 button:focus {
@@ -10338,9 +10339,14 @@ button:focus {
 #l-footer {
   background-color: #282828;
   position: absolute;
-  bottom: 190px;
+  bottom: 55px;
   width: 100%;
   opacity: 0.8;
+  direction: rtl;
+}
+
+#l-footer .row {
+  height: 100%;
 }
 
 .m-btn {
@@ -10402,6 +10408,53 @@ button:focus {
   -webkit-text-fill-color: white;
 }
 
+.m-horizental-list {
+  list-style-type: none;
+  color: white;
+  line-height: 45px;
+  padding-right: 30px;
+  border-right: 1px solid lightgray;
+}
+
+.m-horizental-list li {
+  opacity: .65;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+.m-horizental-list li:hover {
+  cursor: pointer;
+  opacity: 1;
+  filter: brightness(1.7);
+  -webkit-filter: brightness(1.7);
+  font-size: 17px;
+}
+
+.m-horizental-category {
+  list-style-type: none;
+  color: white;
+  line-height: 45px;
+  padding-right: 30px;
+}
+
+.m-horizental-category li {
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  font-weight: bold;
+}
+
+.m-horizental-category li:hover {
+  cursor: pointer;
+  filter: brightness(0.7);
+  -webkit-filter: brightness(0.7);
+}
+
+.m-footer-logo {
+  width: 70%;
+}
+
 .paragraph-lineHeight {
   line-height: 40px;
 }
@@ -10416,6 +10469,13 @@ button:focus {
 
 .rounded {
   border-radius: 60px;
+}
+
+.gradient-borderBottom {
+  border: 5px solid transparent;
+  -o-border-image: url(/images/line.png) 20% round;
+  border-image: url(/images/line.png) 10 round;
+  border-top: 0;
 }
 
 .light-aquamarine {
