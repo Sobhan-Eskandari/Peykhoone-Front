@@ -52,3 +52,48 @@
     -webkit-text-fill-color: white;
   }
 }
+
+//----------- [ Lists Style ] -----------
+.m-horizental-list{
+  list-style-type: none;
+  color: white;
+  line-height: 45px;
+  padding-right: 30px;
+  border-right: 1px solid lightgray;
+
+  li{
+    opacity: .65;
+    transition: all 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    &:hover{
+      cursor: pointer;
+      opacity: 1;
+      filter:brightness(1.7);
+      -webkit-filter:brightness(1.7);
+      font-size: 17px;
+    }
+  }
+}
+
+.m-horizental-category{
+  list-style-type: none;
+  color: white;
+  line-height: 45px;
+  padding-right: 30px;
+
+  li{
+    transition: all 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    font-weight: bold;
+    &:hover{
+      cursor: pointer;
+      filter:brightness(.7);
+      -webkit-filter:brightness(.7);
+    }
+  }
+}
+
+//----------- [ Footer Logo Style ] -----------
+.m-footer-logo{
+  width: 70%;
+}
