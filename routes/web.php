@@ -20,6 +20,6 @@ Route::get('/home', function () {
 });
 
 Route::get('/sobhan', function () {
-    return view('Site.sobhan');
+    return view('Site.sobhan2');
 });
 
