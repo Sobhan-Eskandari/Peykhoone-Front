@@ -5,11 +5,11 @@ Error: File to import not found or unreadable: resources/assets/fonts/css/font.
 1: 
 2: // Fonts
 3: @import "resources/assets/fonts/css/font";
-4: 
+4: //@import "../../assets/fonts/css/_font.scss";
 5: // Bootstrap
 6: @import "node_modules/bootstrap/scss/bootstrap.scss";
-7: 
-8: // Site Css
+7: //@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+8: 
 
 Backtrace:
 app.scss:3
@@ -55,4 +55,4 @@ C:/RailsInstaller/Ruby2.2.0/bin/scss:23:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: File to import not found or unreadable: resources/assets/fonts/css/font.\A         on line 3 of app.scss\A \A 1: \A 2: // Fonts\A 3: @import \"resources/assets/fonts/css/font\";\A 4: \A 5: // Bootstrap\A 6: @import \"node_modules/bootstrap/scss/bootstrap.scss\";\A 7: \A 8: // Site Css"; }
+  content: "Error: File to import not found or unreadable: resources/assets/fonts/css/font.\A         on line 3 of app.scss\A \A 1: \A 2: // Fonts\A 3: @import \"resources/assets/fonts/css/font\";\A 4: //@import \"../../assets/fonts/css/_font.scss\";\A 5: // Bootstrap\A 6: @import \"node_modules/bootstrap/scss/bootstrap.scss\";\A 7: //@import \"../../../node_modules/bootstrap/scss/bootstrap.scss\";\A 8: "; }
