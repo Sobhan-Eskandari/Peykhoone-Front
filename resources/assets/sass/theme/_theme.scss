@@ -18,8 +18,8 @@
 
 .gradient-borderBottom{
   border: 5px solid transparent;
-  -o-border-image: url(/images/line.png) 20% round;
-  border-image: url(/images/line.png) 10 round;
+  -o-border-image: url('/images/line.png') 10 round;
+  border-image: url('/images/line.png') 10 round;
   border-top: 0;
 }
 

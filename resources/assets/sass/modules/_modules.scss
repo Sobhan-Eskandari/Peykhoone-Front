@@ -55,9 +55,6 @@
 
 //----------- [ Lists Style ] -----------
 .m-horizental-list{
-  list-style-type: none;
-  color: white;
-  line-height: 45px;
   padding-right: 30px;
   border-right: 1px solid lightgray;
 
@@ -76,11 +73,7 @@
 }
 
 .m-horizental-category{
-  list-style-type: none;
-  color: white;
-  line-height: 45px;
   padding-right: 30px;
-
   li{
     transition: all 0.3s ease;
     -webkit-font-smoothing: antialiased;
@@ -91,9 +84,46 @@
       -webkit-filter:brightness(.7);
     }
   }
+
+  &:first-of-type{
+    border-left: 1px solid dimgray;
+  }
 }
 
-//----------- [ Footer Logo Style ] -----------
+.m-horizental-SN{
+  padding-right: 0;
+  border-left: transparent !important;
+  a{display: flex;}
+  p{margin-bottom: 0}
+}
+
+//----------- [ Footer Icons Style ] -----------
 .m-footer-logo{
   width: 70%;
+}
+.m-footer-about{
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 30px;
+  padding-right: 30px;
+  color: whitesmoke;
+}
+.m-Sn-icon{
+  width: 50px;
+  height: 40px;
+  background-size: 70px 900px !important;
+  background-repeat-x: no-repeat !important;
+  flex: 1;
+}
+.m-telegram-icon{
+  background: url(/images/home-icon.png) 0px 240px;
+}
+.m-instagram-icon{
+  background: url(/images/home-icon.png) 0px 50px;
+}
+.m-twitter-icon{
+  background: url(/images/home-icon.png) 0px 175px;
+}
+.m-facebook-icon{
+  background: url(/images/home-icon.png) 0px 113px;
 }

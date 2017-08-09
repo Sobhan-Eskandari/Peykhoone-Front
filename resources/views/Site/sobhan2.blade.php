@@ -27,15 +27,14 @@
 
 {{--<p class="m-btn-gradientOutline rounded"><i class="fa fa-chevron-down"></i> پی خونه رو تجربه کنید  </p>--}}
 
-<footer class="container-fluid" id="l-footer" style="height: 340px">
-    <div class="row">
-
-        <div class="col-lg-auto align-self-center text-center pr-3">
+<footer class="container-fluid" id="l-footer">
+    <div class="row py-4">
+        <div class="col-12 col-sm-10 col-md-6 col-lg-2 align-self-center text-center p-3">
             <img class="m-footer-logo" src="{{asset('images/logo.png')}}">
         </div>
 
-        <div class="col-lg-auto align-self-center">
-            <ul class="m-horizental-list">
+        <div class="col-6 col-sm-6  col-md-6 col-lg-2 align-self-center">
+            <ul class="l-horizental-list m-horizental-list">
                 <li><a href="#">درباره ما</a> </li>
                 <li><a href="#">تماس با ما</a> </li>
                 <li><a href="#">قوانین و مقررات</a> </li>
@@ -44,8 +43,8 @@
             </ul>
         </div>
 
-        <div class="col-lg-auto align-self-center" style="margin-right: 8rem">
-            <ul class="m-horizental-category">
+        <div class="col-6 col-sm-6  col-md-4 col-lg-2 align-self-center">
+            <ul class="l-horizental-list m-horizental-category">
                 <li><a href="#">درباره ما</a> </li>
                 <li><a href="#">تماس با ما</a> </li>
                 <li><a href="#">قوانین و مقررات</a> </li>
@@ -54,22 +53,28 @@
             </ul>
         </div>
 
-        {{--background-image: url("/images/home.jpg");--}}
-        {{--height: 4000px;--}}
-        {{--background-size: cover;--}}
-        {{--background-position-y: -3230px;--}}
-        {{--overflow-y: scroll;--}}
-
-        <div class="col-lg-auto align-self-center mr-5">
-            <ul class="m-horizental-category">
-                <li class="firstChild"><a href="#">درباره ما</a> </li>
-                <li><a href="#">تماس با ما</a> </li>
-                <li><a href="#">قوانین و مقررات</a> </li>
-                <li><a href="#">راهنمای سایت</a> </li>
-                <li><a href="#">دانلود برنامه</a> </li>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-2 align-self-center">
+            <ul class="l-horizental-list m-horizental-category m-horizental-SN">
+                <li class="gradient-borderBottom"><a href="#">شبکه‌های اجتماعی</a> </li>
+                <li><a href="#">Telegram<p class="m-Sn-icon m-telegram-icon pull-left"></p> </a> </li>
+                <li><a href="#">Instagram<p class="m-Sn-icon m-instagram-icon pull-left"></p> </a> </li>
+                <li><a href="#">Twitter<p class="m-Sn-icon m-twitter-icon pull-left"></p> </a> </li>
+                <li><a href="#">Facebook<p class="m-Sn-icon m-facebook-icon pull-left"></p> </a> </li>
             </ul>
         </div>
 
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 align-self-center">
+            <p class="gradient-borderBottom white-text pb-2">درباره پی خونه</p>
+            <p class="m-footer-about p-0"> پی خونه سامانه ای برای خرید، اجاره خانه و ارائه اطلاعات ملکی در رشت است که با هدف افزایش اعتماد در خرید و اجاره ملک در رشت، بستر ارتباطی ایمن متقاضیان ملک و مشاوران املاک قابل اعتماد و حرفه ای در تمامی محله های رشت را توسعه داده است.</p>
+        </div>
+    </div>
+    <div class="row black-darker py-2">
+        <div class="col-11 text-center align-self-center">
+            <p class="white-text hi-fontSize-12 mb-0">C) 2017  <a href="#"><span class="teal-text">Horoofnegar Team Design</span></a>. All  Right Reserved)</p>
+        </div>
+        <div class="col-1 align-self-center">
+            <button class="hi-button-btn1 white-text hi-fontSize-25"><i class="fa fa-chevron-up"></i> </button>
+        </div>
     </div>
 </footer>
 

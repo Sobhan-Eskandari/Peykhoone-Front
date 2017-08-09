@@ -13,13 +13,19 @@
 
 #l-footer{
   background-color: $black;
-  position: absolute;
-  bottom: 55px;
-  width: 100%;
-  opacity: 0.8;
+  //position: absolute;
+  //bottom: 55px;
+  //width: 100%;
+  //opacity: 0.8;
   direction: rtl;
 
   .row{
     height: 100%;
   }
+}
+
+.l-horizental-list{
+  list-style-type: none;
+  color: white;
+  line-height: 45px;
 }
