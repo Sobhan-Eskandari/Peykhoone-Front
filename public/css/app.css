@@ -10266,6 +10266,11 @@ a.text-gray-dark:hover {
 
 body {
   font-family: IRANSans !important;
+  background-image: url("/images/home.jpg");
+  height: 4000px;
+  background-size: cover;
+  background-position-y: -3230px;
+  overflow-y: scroll;
 }
 
 h1,
@@ -10333,15 +10338,24 @@ button:focus {
 
 #l-footer {
   background-color: #282828;
-  position: absolute;
-  bottom: 55px;
-  width: 100%;
-  opacity: 0.8;
   direction: rtl;
 }
 
 #l-footer .row {
   height: 100%;
+}
+
+.l-horizental-list {
+  list-style-type: none;
+  color: white;
+  line-height: 45px;
+}
+
+.m-card {
+  background: #FFFFFF;
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.21);
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.21);
+  border-radius: 5px;
 }
 
 .m-btn {
@@ -10404,9 +10418,6 @@ button:focus {
 }
 
 .m-horizental-list {
-  list-style-type: none;
-  color: white;
-  line-height: 45px;
   padding-right: 30px;
   border-right: 1px solid lightgray;
 }
@@ -10427,9 +10438,6 @@ button:focus {
 }
 
 .m-horizental-category {
-  list-style-type: none;
-  color: white;
-  line-height: 45px;
   padding-right: 30px;
 }
 
@@ -10444,6 +10452,25 @@ button:focus {
   cursor: pointer;
   filter: brightness(0.7);
   -webkit-filter: brightness(0.7);
+}
+
+.m-horizental-category:first-of-type {
+  border-left: 1px solid dimgray;
+}
+
+.m-horizental-SN {
+  padding-right: 0;
+  border-left: transparent !important;
+}
+
+.m-horizental-SN a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.m-horizental-SN p {
+  margin-bottom: 0;
 }
 
 .m-footer-logo {
@@ -10510,6 +10537,40 @@ button:focus {
   }
 }
 
+.m-footer-about {
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 30px;
+  padding-right: 30px;
+  color: whitesmoke;
+}
+
+.m-Sn-icon {
+  width: 50px;
+  height: 40px;
+  background-size: 70px 900px !important;
+  background-repeat-x: no-repeat !important;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.m-telegram-icon {
+  background: url("/images/home-icon.png") 0 240px;
+}
+
+.m-instagram-icon {
+  background: url("/images/home-icon.png") 0 50px;
+}
+
+.m-twitter-icon {
+  background: url("/images/home-icon.png") 0 175px;
+}
+
+.m-facebook-icon {
+  background: url("/images/home-icon.png") 0 113px;
+}
+
 .paragraph-lineHeight {
   line-height: 40px;
 }
@@ -10528,8 +10589,8 @@ button:focus {
 
 .gradient-borderBottom {
   border: 5px solid transparent;
-  -o-border-image: url(/images/line.png) 20% round;
-  border-image: url(/images/line.png) 10 round;
+  -o-border-image: url("/images/line.png") 10 round;
+  border-image: url("/images/line.png") 10 round;
   border-top: 0;
 }
 
