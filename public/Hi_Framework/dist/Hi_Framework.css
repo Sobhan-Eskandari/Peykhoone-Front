@@ -6376,7 +6376,7 @@ select.selectpicker {
   transition-duration: 0.1s; }
 
 .hvr-icon-back:before {
-  content: "\f137";
+  content: "\f053";
   position: absolute;
   left: 1em;
   padding: 0 1px;

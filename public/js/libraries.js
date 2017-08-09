@@ -12168,7 +12168,8 @@ throw new Error("Cannot find module \"typed.js\"");
 
 
 
-__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('button', ['waves-float', 'waves-light']);
+__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-btn', ['waves-float', 'waves-light']);
+__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-btn-gradientOutline', ['waves-float', 'waves-light']);
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.init();
 
 /***/ }),
