@@ -29,6 +29,8 @@ mix.js([
     'node_modules/infinite-scroll/dist/infinite-scroll.pkgd.js',
     'node_modules/node-waves/dist/waves.min.js',
     'node_modules/typed.js/lib/typed.min.js',
+    'public/Hi_Framework/components/Slider/Other Libraries/noUI/nouislider.min.js',
+    'node_modules/wnumb/wNumb.js',
     'resources/assets/js/public.js',
 ], 'public/js/libraries.js');
 

@@ -18,12 +18,18 @@
 .rounded-6 {
   border-radius: 6px;
 }
+.rounded-10 {
+  border-radius: 10px;
+}
 
 .gradient-borderBottom{
   border: 5px solid transparent;
   -o-border-image: url('/images/line.png') 10 round;
   border-image: url('/images/line.png') 10 round;
   border-top: 0;
+}
+.border-top-teal{
+  border-top: 3px solid teal;
 }
 
 //----------- [ Color Style ] -----------

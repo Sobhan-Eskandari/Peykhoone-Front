@@ -10325,11 +10325,6 @@ a.text-gray-dark:hover {
 
 body {
   font-family: IRANSans !important;
-  background-image: url("/images/home.jpg");
-  height: 4000px;
-  background-size: cover;
-  background-position-y: -1230px;
-  overflow-y: scroll;
 }
 
 h1,
@@ -10715,6 +10710,100 @@ button:focus {
   background: url("/images/home-icon.png") 0 113px;
 }
 
+.m-filter-nav .nav-tabs {
+  border-bottom: transparent !important;
+}
+
+.m-filter-nav .nav-tabs .nav-link {
+  border: transparent !important;
+  background: transparent;
+}
+
+.m-filter-nav .nav-item {
+  font-size: 14px;
+  padding: 2px 5px;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+.m-filter-nav .nav-item:hover,
+.m-filter-nav .nav-item:focus {
+  color: #4db6ac;
+  outline: none;
+}
+
+.m-filter-nav [aria-expanded="true"] {
+  color: #4db6ac !important;
+}
+
+.m-slider-place {
+  background-color: #f4f4f4;
+  padding: 40px 50px;
+  border-radius: 6px;
+  border-top: 3px solid #dbdbdb;
+}
+
+.noUi-horizontal .noUi-handle {
+  width: 22px !important;
+  height: 22px !important;
+  left: -11px !important;
+  top: -8px !important;
+}
+
+.noUi-handle:focus {
+  outline: none;
+}
+
+.noUi-base {
+  background: -webkit-gradient(linear, left top, left bottom, from(#007991), to(#63E7CA));
+  background: linear-gradient(-180deg, #007991 0%, #63E7CA 100%);
+  border-radius: 20px;
+}
+
+.noUi-handle {
+  border-radius: 50% !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+  background-color: #007991 !important;
+  border: none !important;
+}
+
+.noUi-handle:before {
+  display: none !important;
+}
+
+.noUi-handle:after {
+  background-color: #007991 !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 25px !important;
+  left: 7px !important;
+  top: 7px !important;
+}
+
+.noUi-target {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+  border: none !important;
+  background-color: transparent;
+}
+
+.noUi-horizontal {
+  height: 5px !important;
+}
+
+.noUi-connect {
+  background-color: linear-gradient(-180deg, #007991 0%, #63E7CA 100%) !important;
+}
+
+.noUi-tooltip {
+  font-size: 11px !important;
+  border: none !important;
+  background-color: transparent !important;
+  bottom: -120% !important;
+  color: black !important;
+}
+
 .is-hover-gradient:hover {
   background: -webkit-gradient(linear, left top, left bottom, from(#007991), to(#63E7CA));
   background: linear-gradient(-180deg, #007991 0%, #63E7CA 100%);
@@ -10741,11 +10830,19 @@ button:focus {
   border-radius: 6px;
 }
 
+.rounded-10 {
+  border-radius: 10px;
+}
+
 .gradient-borderBottom {
   border: 5px solid transparent;
   -o-border-image: url("/images/line.png") 10 round;
   border-image: url("/images/line.png") 10 round;
   border-top: 0;
+}
+
+.border-top-teal {
+  border-top: 3px solid teal;
 }
 
 .light-aquamarine {

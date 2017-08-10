@@ -279,3 +279,82 @@
   background: url('/images/home-icon.png') 0 113px;
 }
 
+//----------- [ Filter Nav ] -----------
+.m-filter-nav{
+  .nav-tabs{
+    border-bottom: transparent !important;
+  }
+  .nav-tabs .nav-link{
+    border:transparent !important;
+    background: transparent;
+  }
+  .nav-item{
+    font-size: 14px;
+    padding: 2px 5px;
+    transition: all 0.2s ease-in;
+
+    &:hover,&:focus{
+      color: #4db6ac;
+      outline: none;
+    }
+  }
+  [aria-expanded="true"]{
+    color: #4db6ac !important;
+  }
+}
+
+//----------- [ Costs Filter ] -----------
+.m-slider-place{
+  background-color: $white;
+  padding: 40px 50px;
+  border-radius: 6px;
+  border-top: 3px solid #dbdbdb;
+}
+.noUi-horizontal .noUi-handle {
+  width: 22px !important;
+  height: 22px !important;
+  left: -11px !important;
+  top: -8px !important;
+}
+.noUi-handle:focus{
+  outline: none;
+}
+.noUi-base{
+  background: $gradient;
+  border-radius: 20px;
+}
+.noUi-handle{
+  border-radius: 50% !important;
+  box-shadow: none !important;
+  background-color: $ocean !important;
+  border: none !important;
+}
+.noUi-handle:before{
+  display: none !important;
+}
+.noUi-handle:after {
+  background-color: $ocean !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 25px !important;
+  left: 7px !important;
+  top: 7px !important;
+}
+.noUi-target{
+  box-shadow: none !important;
+  border: none !important;
+  background-color: transparent;
+}
+.noUi-horizontal {
+  height: 5px !important;
+}
+.noUi-connect{
+  background-color: $gradient !important;
+}
+.noUi-tooltip{
+  font-size: 11px !important;
+  border: none !important;
+  background-color: transparent !important;
+  bottom: -120% !important;
+  color: black !important;
+}
