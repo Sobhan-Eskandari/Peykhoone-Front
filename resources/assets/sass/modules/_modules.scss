@@ -1,8 +1,53 @@
 .m-card{
   background: #FFFFFF;
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.21);
-  border-radius: 5px;
+  border-radius: 6px;
 }
+
+//----------- [ Ad Card Style ] -----------
+.m-card-image{
+  height: 165px;
+  width: 100%;
+}
+.m-card-azhansName{
+  background: url(/images/home-icon.png) -2px 289px;
+  background-color: #f6f6f6;
+  margin: auto;
+  width: 25px;
+  height: 25px;
+  background-size: 30px 400px !important;
+  background-repeat-x: no-repeat !important;
+}
+
+.m-card-moreInfo{
+  font-size: 11px;
+  margin-bottom: 0;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.m-card [data-balloon]:after{
+  background: #f6f6f6;
+  border-radius: 2px;
+  color: gray;
+  font-size: 9px;
+  margin-bottom: 5px;
+  left: 180% !important;
+}
+.m-card [data-balloon]:before {
+  background: url(/images/down.png);
+  background-size: 8px 6px;
+  background-repeat-x: no-repeat;
+  margin-bottom: 0;
+}
+
+.m-card{
+  .hvr-fade:hover, .hvr-fade:focus, .hvr-fade:active {
+    background-image: linear-gradient(-229deg, #007991 0%, #63E7CA 100%);
+    color: white;
+  }
+}
+
 
 //----------- [ Buttons Style ] -----------
 
@@ -21,27 +66,23 @@
 }
 
 .m-btn-outline {
-  .m-btn-1 {
-    border: 1px solid #FFFFFF;
-    padding-right: 19px;
-    padding-left: 19px;
-    background: transparent;
-    margin-left: 147px;
-    margin-top: 5px;
-  }
+  border: 1px solid #FFFFFF;
+  padding-right: 19px;
+  padding-left: 19px;
+  background: transparent;
+  margin-left: 147px;
+  margin-top: 5px;
 }
 
 .m-btn-gradient {
-  .m-btn-2 {
-    border: transparent;
-    padding-right: 26px;
-    padding-left: 26px;
-    background: $gradient;
-    margin-left: 10px;
-    margin-top: 5px;
-    font-weight: 500;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.27) !important;
-  }
+  border: transparent;
+  padding-right: 26px;
+  padding-left: 26px;
+  background: $gradient;
+  margin-left: 10px;
+  margin-top: 5px;
+  font-weight: 500;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.27) !important;
 }
 
 .m-btn-appdl {
@@ -119,7 +160,6 @@
   a{display: flex;}
   p{margin-bottom: 0}
 }
-
 //----------- [ Footer Logo Style ] -----------
 .m-footer-logo {
 
@@ -205,6 +245,10 @@
   }
 }
 
+//----------- [ Footer Icons Style ] -----------
+.m-footer-logo{
+  width: 70%;
+}
 .m-footer-about{
   font-size: 14px;
   font-weight: 100;
@@ -219,6 +263,9 @@
   background-repeat-x: no-repeat !important;
   flex: 1;
 }
+
+
+//----------- [ Icons Style ] -----------
 .m-telegram-icon{
   background: url('/images/home-icon.png') 0 240px;
 }

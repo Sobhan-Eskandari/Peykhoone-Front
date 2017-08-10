@@ -2,6 +2,10 @@
 // Fonts
 //@import "resources/assets/fonts/css/font";
 @import "../../assets/fonts/css/_font.scss";
+
+@import "resources/assets/fonts/css/font";
+//@import "../../assets/fonts/css/_font.scss";
+
 // Bootstrap
 //@import "node_modules/bootstrap/scss/bootstrap.scss";
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
@@ -13,3 +17,4 @@
 @import "modules/modules";
 @import "state/state";
 @import "theme/theme";
+
