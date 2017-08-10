@@ -27,6 +27,11 @@ Route::get('/mersede', function () {
     return view('Site.mersede');
 });
 
+
 Route::get('/fake', function () {
     return view('Site.home');
+});
+
+Route::get('/test', function (){
+    dd('hello');
 });
