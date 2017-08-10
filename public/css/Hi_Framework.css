@@ -13460,6 +13460,20 @@ button[data-balloon] {
   transform: translate(-50%, 0);
 }
 
+[data-balloon].showTooltip:before,
+[data-balloon][data-balloon-visible]:before,
+[data-balloon].showTooltip:after,
+[data-balloon][data-balloon-visible]:after {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: alpha(opacity=100);
+  -khtml-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
+  pointer-events: auto;
+  -webkit-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+}
+
 [data-balloon].font-awesome:after {
   font-family: FontAwesome;
 }

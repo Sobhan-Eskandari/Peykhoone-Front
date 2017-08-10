@@ -12196,11 +12196,14 @@ __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.init();
 
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").mouseenter(function () {
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".m-card-moreInfo").addClass('show');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".m-card-azhansName").addClass('showTooltip');
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".m-card-moreInfo").css('color', 'white');
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".home-cost").css('font-weight', 'bold');
 });
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").mouseleave(function () {
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".m-card-moreInfo").removeClass('show');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".m-card-azhansName").removeClass('showTooltip');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".m-card-moreInfo").css('color', 'white');
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".m-card-moreInfo").css('color', 'black');
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".home-cost").css('font-weight', 'normal');
 });
