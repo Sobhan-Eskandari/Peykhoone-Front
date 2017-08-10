@@ -9,11 +9,10 @@
   border: transparent;
   font-weight: 200;
 
-  &:hover{
+  &:hover {
     -webkit-filter: brightness(120%);
   }
 }
-
 
 .m-btn-outline {
   .m-btn-1 {
@@ -39,12 +38,12 @@
   }
 }
 
-.m-btn-appdl{
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+.m-btn-appdl {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
   border-radius: 60px;
 }
 
-.m-btn-gradientOutline{
+.m-btn-gradientOutline {
   border-radius: $br-five;
   background: $gradient;
   -webkit-background-clip: text;
@@ -52,54 +51,54 @@
   padding: 8px 15px;
   cursor: pointer;
   border: 2px solid white;
-  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.50);
-  i{
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.50);
+  i {
     -webkit-text-fill-color: white;
   }
 }
 
 //----------- [ Lists Style ] -----------
-.m-horizental-list{
+.m-horizental-list {
   list-style-type: none;
   color: white;
   line-height: 45px;
   padding-right: 30px;
   border-right: 1px solid lightgray;
 
-  li{
+  li {
     opacity: .65;
     transition: all 0.3s ease;
     -webkit-font-smoothing: antialiased;
-    &:hover{
+    &:hover {
       cursor: pointer;
       opacity: 1;
-      filter:brightness(1.7);
-      -webkit-filter:brightness(1.7);
+      filter: brightness(1.7);
+      -webkit-filter: brightness(1.7);
       font-size: 17px;
     }
   }
 }
 
-.m-horizental-category{
+.m-horizental-category {
   list-style-type: none;
   color: white;
   line-height: 45px;
   padding-right: 30px;
 
-  li{
+  li {
     transition: all 0.3s ease;
     -webkit-font-smoothing: antialiased;
     font-weight: bold;
-    &:hover{
+    &:hover {
       cursor: pointer;
-      filter:brightness(.7);
-      -webkit-filter:brightness(.7);
+      filter: brightness(.7);
+      -webkit-filter: brightness(.7);
     }
   }
 }
 
 //----------- [ Footer Logo Style ] -----------
-.m-footer-logo{
+.m-footer-logo {
   width: 70%;
 }
 
@@ -113,10 +112,28 @@
   color: white !important;
 }
 
+.m-navBar-link{
+  -webkit-transition: height 2s linear;
+}
+
+.m-navBar-link{
+  content: '';
+  display: block;
+  -webkit-transition: width .3s;
+  transition: width .3s;
+}
 .m-navBar-link {
   color: white !important;
   font-weight: 400;
   font-size: 14px;
+}
+
+.m-navBar-link:focus,.m-navBar-link:hover {
+  color: #73f9d3 !important;
+}
+
+.m-navBar-activeLink {
+  color: #73f9d3 !important;
 }
 
 .m-navBar-btn {
@@ -129,6 +146,7 @@
   vertical-align: middle;
   background-color: white;
 }
+
 // make buttons responsive
 @media (max-width: 1000px) {
   .m-navBar-link, .m-navBar-btn {
@@ -162,3 +180,4 @@
     font-size: 14px;
   }
 }
+

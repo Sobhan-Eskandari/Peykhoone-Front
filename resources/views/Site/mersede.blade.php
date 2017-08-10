@@ -16,40 +16,40 @@
 <body>
 <div class="container-fluid px-0 l-rtl">
 
-    <nav class="navbar navbar-toggleable-md navbar-light bg-faded py-0 m-navBar">
+    <nav class="navbar navbar-toggleable-md navbar-light py-0 m-navBar">
         <button class="navbar-toggler navbar-toggler-left mt-4 m-navBar-toggler" type="button" data-toggle="collapse"
                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand pr-lg-5 mr-lg-5 m-navBar-brand" href="#">
-            <img src="{{ asset('images/logo.png') }}" alt="در حال بارگذاری" height="77px"
+            <img src="{{ asset('images/logo-mersede.png') }}" alt="در حال بارگذاری" height="77px"
                  width="120px"></a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link  m-navBar-link px-3" href="#">صفحه اصلی<span class="sr-only">(current)</span></a>
+                    <a class="nav-link  m-navBar-link px-3 gradient-borderBottom m-navBar-activeLink" href="#">صفحه اصلی<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link m-navBar-link  px-3" href="#">املاک</a>
+                    <a class="nav-link m-navBar-link  px-3 " href="#">املاک</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link m-navBar-link  px-3" href="#">آژانس های املاک</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  m-navBar-link  px-3" href="#">درباره ما</a>
+                    <a class="nav-link  m-navBar-link px-3" href="#">درباره ما</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  m-navBar-link  px-3" href="#">تماس با ما</a>
+                    <a class="nav-link  m-navBar-link px-3" href="#">تماس با ما</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0 pl-0 pl-lg-5 ml-0 ml-lg-2" >
-                <div class="row mx-auto text-center" style="float: left;">
-                    <button class="btn btn-primary my-2 my-sm-0 mx-2 m-navBar-btn text-center" type="submit">ثبت آگهی
+                <div class="row mx-auto text-center">
+                    <button class="btn btn-primary m-btn m-btn-gradient my-2 my-sm-0 mx-2 m-navBar-btn text-center" type="submit">ثبت آگهی
                         +
                     </button>
-                    <button class="btn btn-outline-primary my-2 my-sm-0 mx-2 m-navBar-btn text-center" type="submit">ثبت
+                    <button class="btn btn-outline-primary m-btn m-btn-outline hvr-shutter-out-horizontal my-2 my-sm-0 mx-2 m-navBar-btn text-center" type="submit">ثبت
                         نام | ورود
                     </button>
                 </div>
@@ -58,5 +58,19 @@
     </nav>
 </div>
 <script src="{{asset('js/app.js')}}"></script>
+<script>
+    $(document).ready(function () {
+        $('ul li a.m-navBar-link').click(function () {
+            $('li a.m-navBar-link').removeClass("m-navBar-activeLink gradient-borderBottom");
+            $(this).addClass("m-navBar-activeLink gradient-borderBottom");
+        });
+    });
+    $(document).ready(function () {
+        $('ul li a.m-navBar-link').mouseenter(function () {
+            $('li a.m-navBar-link').removeClass("m-navBar-activeLink gradient-borderBottom" , 10000 , "linear" );
+            $(this).addClass("m-navBar-activeLink gradient-borderBottom");
+        });
+    });
+</script>
 </body>
 </html>

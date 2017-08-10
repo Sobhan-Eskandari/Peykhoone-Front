@@ -10459,9 +10459,29 @@ button:focus {
 }
 
 .m-navBar-link {
+  -webkit-transition: height 2s linear;
+}
+
+.m-navBar-link {
+  content: '';
+  display: block;
+  -webkit-transition: width .3s;
+  transition: width .3s;
+}
+
+.m-navBar-link {
   color: white !important;
   font-weight: 400;
   font-size: 14px;
+}
+
+.m-navBar-link:focus,
+.m-navBar-link:hover {
+  color: #73f9d3 !important;
+}
+
+.m-navBar-activeLink {
+  color: #73f9d3 !important;
 }
 
 .m-navBar-btn {
