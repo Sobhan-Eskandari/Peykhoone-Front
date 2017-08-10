@@ -15,11 +15,10 @@
   border: transparent;
   font-weight: 200;
 
-  &:hover{
+  &:hover {
     -webkit-filter: brightness(120%);
   }
 }
-
 
 .m-btn-outline {
   .m-btn-1 {
@@ -45,12 +44,12 @@
   }
 }
 
-.m-btn-appdl{
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+.m-btn-appdl {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
   border-radius: 60px;
 }
 
-.m-btn-gradientOutline{
+.m-btn-gradientOutline {
   border-radius: $br-five;
   background: $gradient;
   -webkit-background-clip: text;
@@ -58,43 +57,56 @@
   padding: 8px 15px;
   cursor: pointer;
   border: 2px solid white;
-  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.50);
-  i{
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.50);
+  i {
     -webkit-text-fill-color: white;
   }
 }
 
 //----------- [ Lists Style ] -----------
-.m-horizental-list{
-  padding-right: 30px;
-  border-right: 1px solid lightgray;
 
-  li{
-    opacity: .65;
-    transition: all 0.3s ease;
-    -webkit-font-smoothing: antialiased;
-    &:hover{
-      cursor: pointer;
-      opacity: 1;
-      filter:brightness(1.7);
-      -webkit-filter:brightness(1.7);
-      font-size: 17px;
+.m-horizental-list {
+    list-style-type: none;
+    color: white;
+    line-height: 45px;
+    padding-right: 30px;
+    border-right: 1px solid lightgray;
+
+    li {
+      opacity: .65;
+      transition: all 0.3s ease;
+      -webkit-font-smoothing: antialiased;
+      &:hover {
+        cursor: pointer;
+        opacity: 1;
+        filter: brightness(1.7);
+        -webkit-filter: brightness(1.7);
+        font-size: 17px;
+      }
     }
   }
-}
 
 .m-horizental-category{
   padding-right: 30px;
-  li{
-    transition: all 0.3s ease;
-    -webkit-font-smoothing: antialiased;
-    font-weight: bold;
-    &:hover{
-      cursor: pointer;
-      filter:brightness(.7);
-      -webkit-filter:brightness(.7);
+  li {
+    .m-horizental-category {
+      list-style-type: none;
+      color: white;
+      line-height: 45px;
+      padding-right: 30px;
+    }
+    li {
+      transition: all 0.3s ease;
+      -webkit-font-smoothing: antialiased;
+      font-weight: bold;
+      &:hover {
+        cursor: pointer;
+        filter: brightness(.7);
+        -webkit-filter: brightness(.7);
+      }
     }
   }
+
 
   &:first-of-type{
     border-left: 1px solid dimgray;
@@ -108,8 +120,9 @@
   p{margin-bottom: 0}
 }
 
-//----------- [ Footer Icons Style ] -----------
-.m-footer-logo{
+//----------- [ Footer Logo Style ] -----------
+.m-footer-logo {
+
   width: 70%;
 }
 
@@ -123,10 +136,28 @@
   color: white !important;
 }
 
+.m-navBar-link{
+  -webkit-transition: height 2s linear;
+}
+
+.m-navBar-link{
+  content: '';
+  display: block;
+  -webkit-transition: width .3s;
+  transition: width .3s;
+}
 .m-navBar-link {
   color: white !important;
   font-weight: 400;
   font-size: 14px;
+}
+
+.m-navBar-link:focus,.m-navBar-link:hover {
+  color: #73f9d3 !important;
+}
+
+.m-navBar-activeLink {
+  color: #73f9d3 !important;
 }
 
 .m-navBar-btn {
@@ -139,6 +170,7 @@
   vertical-align: middle;
   background-color: white;
 }
+
 // make buttons responsive
 @media (max-width: 1000px) {
   .m-navBar-link, .m-navBar-btn {
@@ -199,3 +231,4 @@
 .m-facebook-icon{
   background: url('/images/home-icon.png') 0 113px;
 }
+
