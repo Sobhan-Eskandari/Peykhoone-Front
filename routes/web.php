@@ -35,3 +35,7 @@ Route::get('/fake', function () {
 Route::get('/test', function (){
     dd('hello');
 });
+
+Route::get('/fake2', function () {
+    return view('Site.home');
+});
