@@ -10269,7 +10269,7 @@ body {
   background-image: url("/images/home.jpg");
   height: 4000px;
   background-size: cover;
-  background-position-y: -3230px;
+  background-position-y: -1230px;
   overflow-y: scroll;
 }
 
@@ -10336,6 +10336,11 @@ button:focus {
   margin: auto;
 }
 
+.l-topCornered {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
 #l-footer {
   background-color: #282828;
   direction: rtl;
@@ -10355,7 +10360,53 @@ button:focus {
   background: #FFFFFF;
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.21);
           box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.21);
-  border-radius: 5px;
+  border-radius: 6px;
+}
+
+.m-card-image {
+  height: 165px;
+  width: 100%;
+}
+
+.m-card-azhansName {
+  background: url(/images/home-icon.png) -2px 289px;
+  background-color: #f6f6f6;
+  margin: auto;
+  width: 25px;
+  height: 25px;
+  background-size: 30px 400px !important;
+  background-repeat-x: no-repeat !important;
+}
+
+.m-card-moreInfo {
+  font-size: 11px;
+  margin-bottom: 0;
+  border-radius: 6px;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.m-card [data-balloon]:after {
+  background: #f6f6f6;
+  border-radius: 2px;
+  color: gray;
+  font-size: 9px;
+  margin-bottom: 5px;
+  left: 180% !important;
+}
+
+.m-card [data-balloon]:before {
+  background: url(/images/down.png);
+  background-size: 8px 6px;
+  background-repeat-x: no-repeat;
+  margin-bottom: 0;
+}
+
+.m-card .hvr-fade:hover,
+.m-card .hvr-fade:focus,
+.m-card .hvr-fade:active {
+  background-image: linear-gradient(-229deg, #007991 0%, #63E7CA 100%);
+  color: white;
 }
 
 .m-btn {
@@ -10372,7 +10423,7 @@ button:focus {
   -webkit-filter: brightness(120%);
 }
 
-.m-btn-outline .m-btn-1 {
+.m-btn-outline {
   border: 1px solid #FFFFFF;
   padding-right: 19px;
   padding-left: 19px;
@@ -10381,7 +10432,7 @@ button:focus {
   margin-top: 5px;
 }
 
-.m-btn-gradient .m-btn-2 {
+.m-btn-gradient {
   border: transparent;
   padding-right: 26px;
   padding-left: 26px;
@@ -10473,10 +10524,6 @@ button:focus {
   margin-bottom: 0;
 }
 
-.m-footer-logo {
-  width: 70%;
-}
-
 .m-navBar {
   background-color: #282828;
 }
@@ -10537,6 +10584,10 @@ button:focus {
   }
 }
 
+.m-footer-logo {
+  width: 70%;
+}
+
 .m-footer-about {
   font-size: 14px;
   font-weight: 100;
@@ -10571,6 +10622,12 @@ button:focus {
   background: url("/images/home-icon.png") 0 113px;
 }
 
+.is-hover-gradient:hover {
+  background: -webkit-gradient(linear, left top, left bottom, from(#007991), to(#63E7CA));
+  background: linear-gradient(-180deg, #007991 0%, #63E7CA 100%);
+  color: whitesmoke;
+}
+
 .paragraph-lineHeight {
   line-height: 40px;
 }
@@ -10585,6 +10642,10 @@ button:focus {
 
 .rounded {
   border-radius: 60px;
+}
+
+.rounded-6 {
+  border-radius: 6px;
 }
 
 .gradient-borderBottom {

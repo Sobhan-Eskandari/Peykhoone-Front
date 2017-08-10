@@ -28,56 +28,89 @@
 {{--<p class="m-btn-gradientOutline rounded"><i class="fa fa-chevron-down"></i> پی خونه رو تجربه کنید  </p>--}}
 
 <footer class="container-fluid" id="l-footer">
-    <div class="row py-4">
-        <div class="col-12 col-sm-10 col-md-6 col-lg-2 align-self-center text-center p-3">
-            <img class="m-footer-logo" src="{{asset('images/logo.png')}}">
-        </div>
+    {{--<div class="row py-4">--}}
+        {{------------ [ pey khoone logo place ] ------------}}
+        {{--<div class="col-12 col-sm-10 col-md-6 col-lg-2 align-self-center text-center p-3">--}}
+            {{--<img class="m-footer-logo" alt="لوگوی پی‌ خونه" src="{{asset('images/logo.png')}}">--}}
+        {{--</div>--}}
 
-        <div class="col-6 col-sm-6  col-md-6 col-lg-2 align-self-center">
-            <ul class="l-horizental-list m-horizental-list">
-                <li><a href="#">درباره ما</a> </li>
-                <li><a href="#">تماس با ما</a> </li>
-                <li><a href="#">قوانین و مقررات</a> </li>
-                <li><a href="#">راهنمای سایت</a> </li>
-                <li><a href="#">دانلود برنامه</a> </li>
-            </ul>
-        </div>
+        {{------------ [ Contactus List ] ------------}}
+        {{--<div class="col-6 col-sm-6  col-md-6 col-lg-2 align-self-center">--}}
+            {{--<ul class="l-horizental-list m-horizental-list">--}}
+                {{--<li><a href="#">درباره ما</a> </li>--}}
+                {{--<li><a href="#">تماس با ما</a> </li>--}}
+                {{--<li><a href="#">قوانین و مقررات</a> </li>--}}
+                {{--<li><a href="#">راهنمای سایت</a> </li>--}}
+                {{--<li><a href="#">دانلود برنامه</a> </li>--}}
+            {{--</ul>--}}
+        {{--</div>--}}
 
-        <div class="col-6 col-sm-6  col-md-4 col-lg-2 align-self-center">
-            <ul class="l-horizental-list m-horizental-category">
-                <li><a href="#">درباره ما</a> </li>
-                <li><a href="#">تماس با ما</a> </li>
-                <li><a href="#">قوانین و مقررات</a> </li>
-                <li><a href="#">راهنمای سایت</a> </li>
-                <li><a href="#">دانلود برنامه</a> </li>
-            </ul>
-        </div>
+        {{------------ [ Categories List ] ------------}}
+        {{--<div class="col-6 col-sm-6  col-md-4 col-lg-2 align-self-center">--}}
+            {{--<ul class="l-horizental-list m-horizental-category">--}}
+                {{--<li><a href="#">درباره ما</a> </li>--}}
+                {{--<li><a href="#">تماس با ما</a> </li>--}}
+                {{--<li><a href="#">قوانین و مقررات</a> </li>--}}
+                {{--<li><a href="#">راهنمای سایت</a> </li>--}}
+                {{--<li><a href="#">دانلود برنامه</a> </li>--}}
+            {{--</ul>--}}
+        {{--</div>--}}
 
-        <div class="col-12 col-sm-6 col-md-4 col-lg-2 align-self-center">
-            <ul class="l-horizental-list m-horizental-category m-horizental-SN">
-                <li class="gradient-borderBottom"><a href="#">شبکه‌های اجتماعی</a> </li>
-                <li><a href="#">Telegram<p class="m-Sn-icon m-telegram-icon pull-left"></p> </a> </li>
-                <li><a href="#">Instagram<p class="m-Sn-icon m-instagram-icon pull-left"></p> </a> </li>
-                <li><a href="#">Twitter<p class="m-Sn-icon m-twitter-icon pull-left"></p> </a> </li>
-                <li><a href="#">Facebook<p class="m-Sn-icon m-facebook-icon pull-left"></p> </a> </li>
-            </ul>
-        </div>
+        {{------------ [ Social netwrok List ] ------------}}
+        {{--<div class="col-12 col-sm-6 col-md-4 col-lg-2 align-self-center">--}}
+            {{--<ul class="l-horizental-list m-horizental-category m-horizental-SN">--}}
+                {{--<li class="gradient-borderBottom"><a href="#">شبکه‌های اجتماعی</a> </li>--}}
+                {{--<li><a href="#">Telegram<p class="m-Sn-icon m-telegram-icon pull-left"></p> </a> </li>--}}
+                {{--<li><a href="#">Instagram<p class="m-Sn-icon m-instagram-icon pull-left"></p> </a> </li>--}}
+                {{--<li><a href="#">Twitter<p class="m-Sn-icon m-twitter-icon pull-left"></p> </a> </li>--}}
+                {{--<li><a href="#">Facebook<p class="m-Sn-icon m-facebook-icon pull-left"></p> </a> </li>--}}
+            {{--</ul>--}}
+        {{--</div>--}}
 
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 align-self-center">
-            <p class="gradient-borderBottom white-text pb-2">درباره پی خونه</p>
-            <p class="m-footer-about p-0"> پی خونه سامانه ای برای خرید، اجاره خانه و ارائه اطلاعات ملکی در رشت است که با هدف افزایش اعتماد در خرید و اجاره ملک در رشت، بستر ارتباطی ایمن متقاضیان ملک و مشاوران املاک قابل اعتماد و حرفه ای در تمامی محله های رشت را توسعه داده است.</p>
-        </div>
-    </div>
-    <div class="row black-darker py-2">
-        <div class="col-11 text-center align-self-center">
-            <p class="white-text hi-fontSize-12 mb-0">C) 2017  <a href="#"><span class="teal-text">Horoofnegar Team Design</span></a>. All  Right Reserved)</p>
-        </div>
-        <div class="col-1 align-self-center">
-            <button class="hi-button-btn1 white-text hi-fontSize-25"><i class="fa fa-chevron-up"></i> </button>
-        </div>
-    </div>
+        {{------------ [ About Pey khoone Section ] ------------}}
+        {{--<div class="col-12 col-sm-6 col-md-4 col-lg-3 align-self-center">--}}
+            {{--<p class="gradient-borderBottom white-text pb-2">درباره پی خونه</p>--}}
+            {{--<p class="m-footer-about p-0"> پی خونه سامانه ای برای خرید، اجاره خانه و ارائه اطلاعات ملکی در رشت است که با هدف افزایش اعتماد در خرید و اجاره ملک در رشت، بستر ارتباطی ایمن متقاضیان ملک و مشاوران املاک قابل اعتماد و حرفه ای در تمامی محله های رشت را توسعه داده است.</p>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+    {{------------ [ Copyright Section ] ------------}}
+    {{--<div class="row black-darker py-2">--}}
+        {{------------ [ Copyright Text ] ------------}}
+        {{--<div class="col-11 text-center align-self-center">--}}
+            {{--<p class="white-text hi-fontSize-12 mb-0">C) 2017  <a href="#"><span class="teal-text">Horoofnegar Team Design</span></a>. All  Right Reserved)</p>--}}
+        {{--</div>--}}
+        {{------------ [ Up to top Button ] ------------}}
+        {{--<div class="col-1 align-self-center">--}}
+            {{--<button class="hi-button-btn1 white-text hi-fontSize-25"><i class="fa fa-chevron-up"></i> </button>--}}
+        {{--</div>--}}
+    {{--</div>--}}
 </footer>
 
+<div class="container" style="margin-top: 175px;margin-left: 133px">
+    <div class="row">
+        <div class="col-3">
+            <a href="#" class="is-hovered-adCard">
+                <div class="m-card">
+                    <img class="img-fluid l-topCornered m-card-image" src="{{asset('images/home-image.jpg')}}">
+                    <p class="text-center mt-2 mb-2"><strong>یوسف آباد</strong></p>
+                    <p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>
+                    <p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>
+                    <div class="container-fluid">
+                        <div class="row py-3 align-items-center">
+                            <div class="col-4 pl-0">
+                                <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>
+                            </div>
+                            <div class="col-7 text-right pr-0">
+                                <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</div>
 
 
 <script src="{{asset('js/app.js')}}"></script>

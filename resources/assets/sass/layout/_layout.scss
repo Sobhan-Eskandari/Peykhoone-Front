@@ -10,15 +10,14 @@
 .l-autoMargin{
   margin: auto;
 }
+.l-topCornered{
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
 
 #l-footer{
   background-color: $black;
-  //position: absolute;
-  //bottom: 55px;
-  //width: 100%;
-  //opacity: 0.8;
   direction: rtl;
-
   .row{
     height: 100%;
   }
