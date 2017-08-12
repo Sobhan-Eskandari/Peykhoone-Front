@@ -358,3 +358,232 @@
   bottom: -120% !important;
   color: black !important;
 }
+
+//----------- [ fields ] -----------
+
+.m-field{
+  border-radius : 4px;
+  border: transparent;
+  border-top : 3px solid #dbdbdb;
+  background-color: $white;
+}
+.m-field.form-control:focus{
+  background-color: $white;
+  border: transparent;
+  border-top : 3px solid teal;
+}
+.form-control-label{
+  //@extend .gradient-text;
+  color: teal;
+}
+
+
+/* ============[ Top Bar Dropdown ]=========== */
+
+.Topbar_dropdown_container{
+  padding-top: 10px;
+  padding-right: 0;
+  margin-right: -50px;
+}
+
+.Topbar_dropdown{
+
+  .btn-group{
+    width: 100%;
+  }
+  .dropdown-toggle.btn{
+    margin-top: auto;
+    margin-bottom: auto;
+    font-weight: normal;
+    color: black;
+    width: 100%;
+    transition: none;
+    -webkit-box-shadow: none !important;
+    box-shadow:none !important;
+    font-size: 14px;
+
+    &:hover{
+      cursor: pointer;
+    }
+    &:focus{
+      border-top: 3px solid teal;
+    }
+  }
+  .dropdown-toggle{
+    background-color: $white !important;
+    border: transparent;
+    border-top: 3px solid #dbdbdb;
+    color: black !important;
+    outline: none;
+  }
+  .dropdown-toggle::before{
+    font-family: "FontAwesome";
+    content: "\f078";
+    border: none;
+    float: left;
+    color: gray;
+  }
+  .dropdown-toggle::after{
+    content: none !important;
+  }
+
+  li{
+    font-weight: $font-weight--light !important;
+    font-size: 13px;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    color: black;
+
+    &:active{
+      background-color: transparent !important;
+      outline: none;
+    }
+    &:hover{
+      background-color: $white-two;
+      cursor: pointer;
+    }
+  }
+  .dropdown-menu{
+    border: transparent;
+    padding-top: 0;
+    padding-bottom: 0;
+    /* Rectangle 35: */
+    background: #FFFFFF;
+    width: 100%;
+    box-shadow: 0 0 2px 0 rgba(0,0,0,0.15);
+    border-radius: 3px;
+  }
+
+  .dropdown-divider{
+    background-color: grey;
+  }
+
+  label{
+    width: 100%;
+    text-align: right;
+
+    input{
+      margin-left: 5px;
+    }
+  }
+
+}
+
+/* ============[ Main Filter Style ]=========== */
+.m-curved-bg{
+  width: 100%;
+  z-index: 1000000;
+  border-radius: 15px !important;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.22);
+}
+.m-gradient-placeholder{
+  width: 99.5%;
+  border-radius: 15px;
+  margin: 0 auto 0 0;
+  height: 124px;
+  background-color: white;
+}
+.m-filters-placeholder{
+  width: 100%;
+  border-radius: 15px;
+  height: 124px;
+  background-color: #f4f4f4;
+
+  label{
+    color: #949494;
+    font-size: 14px;
+    font-weight: 300;
+  }
+}
+
+
+.filter-search-btn{
+  height: 100%;
+  border-radius: 15px 0 0 15px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#007991), to(#63E7CA));
+  background: linear-gradient(-180deg, #007991 0%, #63E7CA 100%);
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: grid;
+  width: 94%;
+  font-size: 17px;
+  padding-top: 15px;
+
+  i{
+    font-size: 40px;
+  }
+}
+.m-filters-btn{
+  height: 100%;
+  text-align: center;
+  background: white;
+  cursor: pointer;
+  border-width: 1px 1px 1px 0;
+  border-style: solid;
+  border-image: linear-gradient(-180deg, #007991 0%, #63E7CA 100%) 1 100%;
+
+  i,.filter-selected{
+    color: $filter-khakestari;
+  }
+  .filter-type{
+    margin-top: 17px;
+    font-size: 12px;
+  }
+  .filter-selected{
+    font-size: 15px;
+  }
+}
+#filters-moamele-btn{
+  border-radius: 0 15px 15px 0;
+  border-right: transparent;
+}
+
+#filters-row{
+  z-index: 10000;
+}
+#filters-tray-row,#costs-tray-row{
+  z-index: 0;
+}
+#costs-tray-row{
+  margin-right: 30rem;
+}
+
+
+/* ============[ Media Queries ]=========== */
+
+// Large devices (desktops, less than 1200px)
+@media (max-width: 1199px) {
+
+}
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991px) {
+  #costs-tray-row{
+    margin-right: 23rem;
+  }
+}
+
+// Medium devices (tablets, less than 992px)
+@media (min-width: 992px) {
+
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 767px) {
+  #costs-tray-row{
+    margin-right: 10rem;
+  }
+}
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575px) {
+  #costs-tray-row{
+    margin-right: 20rem;
+  }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+
+}

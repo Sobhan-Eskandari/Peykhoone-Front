@@ -19,11 +19,13 @@
     "vue": "^2.1.10"
   },
   "dependencies": {
+    "bootstrap-multiselect": "^0.9.13-1",
     "flickity": "^2.0.9",
     "infinite-scroll": "^3.0.1",
     "node-waves": "^0.7.5",
     "nouislider": "^10.1.0",
     "smooth-scroll": "github:cferdinandi/smooth-scroll",
+    "sweet-dropdown": "^1.0.0",
     "sweetalert2": "^6.6.6",
     "tether": "^1.4.0",
     "typed.js": "^2.0.5",

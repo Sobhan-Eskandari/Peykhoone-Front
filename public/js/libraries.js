@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 43);
+/******/ 	return __webpack_require__(__webpack_require__.s = 46);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 1:
+/******/ ([
+/* 0 */,
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -9886,8 +9886,7 @@ return jQuery;
 
 
 /***/ }),
-
-/***/ 2:
+/* 2 */
 /***/ (function(module, exports) {
 
 var g;
@@ -9914,22 +9913,1717 @@ module.exports = g;
 
 
 /***/ }),
-
-/***/ 43:
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(44);
-__webpack_require__(45);
-__webpack_require__(46);
-__webpack_require__(47);
-__webpack_require__(48);
-__webpack_require__(49);
-module.exports = __webpack_require__(50);
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (factory) {
+
+    if ( true ) {
+
+        // AMD. Register as an anonymous module.
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+    } else if ( typeof exports === 'object' ) {
+
+        // Node/CommonJS
+        module.exports = factory();
+
+    } else {
+
+        // Browser globals
+        window.wNumb = factory();
+    }
+
+}(function(){
+
+	'use strict';
+
+var FormatOptions = [
+	'decimals',
+	'thousand',
+	'mark',
+	'prefix',
+	'suffix',
+	'encoder',
+	'decoder',
+	'negativeBefore',
+	'negative',
+	'edit',
+	'undo'
+];
+
+// General
+
+	// Reverse a string
+	function strReverse ( a ) {
+		return a.split('').reverse().join('');
+	}
+
+	// Check if a string starts with a specified prefix.
+	function strStartsWith ( input, match ) {
+		return input.substring(0, match.length) === match;
+	}
+
+	// Check is a string ends in a specified suffix.
+	function strEndsWith ( input, match ) {
+		return input.slice(-1 * match.length) === match;
+	}
+
+	// Throw an error if formatting options are incompatible.
+	function throwEqualError( F, a, b ) {
+		if ( (F[a] || F[b]) && (F[a] === F[b]) ) {
+			throw new Error(a);
+		}
+	}
+
+	// Check if a number is finite and not NaN
+	function isValidNumber ( input ) {
+		return typeof input === 'number' && isFinite( input );
+	}
+
+	// Provide rounding-accurate toFixed method.
+	// Borrowed: http://stackoverflow.com/a/21323330/775265
+	function toFixed ( value, exp ) {
+		value = value.toString().split('e');
+		value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+		value = value.toString().split('e');
+		return (+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp))).toFixed(exp);
+	}
+
+
+// Formatting
+
+	// Accept a number as input, output formatted string.
+	function formatTo ( decimals, thousand, mark, prefix, suffix, encoder, decoder, negativeBefore, negative, edit, undo, input ) {
+
+		var originalInput = input, inputIsNegative, inputPieces, inputBase, inputDecimals = '', output = '';
+
+		// Apply user encoder to the input.
+		// Expected outcome: number.
+		if ( encoder ) {
+			input = encoder(input);
+		}
+
+		// Stop if no valid number was provided, the number is infinite or NaN.
+		if ( !isValidNumber(input) ) {
+			return false;
+		}
+
+		// Rounding away decimals might cause a value of -0
+		// when using very small ranges. Remove those cases.
+		if ( decimals !== false && parseFloat(input.toFixed(decimals)) === 0 ) {
+			input = 0;
+		}
+
+		// Formatting is done on absolute numbers,
+		// decorated by an optional negative symbol.
+		if ( input < 0 ) {
+			inputIsNegative = true;
+			input = Math.abs(input);
+		}
+
+		// Reduce the number of decimals to the specified option.
+		if ( decimals !== false ) {
+			input = toFixed( input, decimals );
+		}
+
+		// Transform the number into a string, so it can be split.
+		input = input.toString();
+
+		// Break the number on the decimal separator.
+		if ( input.indexOf('.') !== -1 ) {
+			inputPieces = input.split('.');
+
+			inputBase = inputPieces[0];
+
+			if ( mark ) {
+				inputDecimals = mark + inputPieces[1];
+			}
+
+		} else {
+
+		// If it isn't split, the entire number will do.
+			inputBase = input;
+		}
+
+		// Group numbers in sets of three.
+		if ( thousand ) {
+			inputBase = strReverse(inputBase).match(/.{1,3}/g);
+			inputBase = strReverse(inputBase.join( strReverse( thousand ) ));
+		}
+
+		// If the number is negative, prefix with negation symbol.
+		if ( inputIsNegative && negativeBefore ) {
+			output += negativeBefore;
+		}
+
+		// Prefix the number
+		if ( prefix ) {
+			output += prefix;
+		}
+
+		// Normal negative option comes after the prefix. Defaults to '-'.
+		if ( inputIsNegative && negative ) {
+			output += negative;
+		}
+
+		// Append the actual number.
+		output += inputBase;
+		output += inputDecimals;
+
+		// Apply the suffix.
+		if ( suffix ) {
+			output += suffix;
+		}
+
+		// Run the output through a user-specified post-formatter.
+		if ( edit ) {
+			output = edit ( output, originalInput );
+		}
+
+		// All done.
+		return output;
+	}
+
+	// Accept a sting as input, output decoded number.
+	function formatFrom ( decimals, thousand, mark, prefix, suffix, encoder, decoder, negativeBefore, negative, edit, undo, input ) {
+
+		var originalInput = input, inputIsNegative, output = '';
+
+		// User defined pre-decoder. Result must be a non empty string.
+		if ( undo ) {
+			input = undo(input);
+		}
+
+		// Test the input. Can't be empty.
+		if ( !input || typeof input !== 'string' ) {
+			return false;
+		}
+
+		// If the string starts with the negativeBefore value: remove it.
+		// Remember is was there, the number is negative.
+		if ( negativeBefore && strStartsWith(input, negativeBefore) ) {
+			input = input.replace(negativeBefore, '');
+			inputIsNegative = true;
+		}
+
+		// Repeat the same procedure for the prefix.
+		if ( prefix && strStartsWith(input, prefix) ) {
+			input = input.replace(prefix, '');
+		}
+
+		// And again for negative.
+		if ( negative && strStartsWith(input, negative) ) {
+			input = input.replace(negative, '');
+			inputIsNegative = true;
+		}
+
+		// Remove the suffix.
+		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice
+		if ( suffix && strEndsWith(input, suffix) ) {
+			input = input.slice(0, -1 * suffix.length);
+		}
+
+		// Remove the thousand grouping.
+		if ( thousand ) {
+			input = input.split(thousand).join('');
+		}
+
+		// Set the decimal separator back to period.
+		if ( mark ) {
+			input = input.replace(mark, '.');
+		}
+
+		// Prepend the negative symbol.
+		if ( inputIsNegative ) {
+			output += '-';
+		}
+
+		// Add the number
+		output += input;
+
+		// Trim all non-numeric characters (allow '.' and '-');
+		output = output.replace(/[^0-9\.\-.]/g, '');
+
+		// The value contains no parse-able number.
+		if ( output === '' ) {
+			return false;
+		}
+
+		// Covert to number.
+		output = Number(output);
+
+		// Run the user-specified post-decoder.
+		if ( decoder ) {
+			output = decoder(output);
+		}
+
+		// Check is the output is valid, otherwise: return false.
+		if ( !isValidNumber(output) ) {
+			return false;
+		}
+
+		return output;
+	}
+
+
+// Framework
+
+	// Validate formatting options
+	function validate ( inputOptions ) {
+
+		var i, optionName, optionValue,
+			filteredOptions = {};
+
+		if ( inputOptions['suffix'] === undefined ) {
+			inputOptions['suffix'] = inputOptions['postfix'];
+		}
+
+		for ( i = 0; i < FormatOptions.length; i+=1 ) {
+
+			optionName = FormatOptions[i];
+			optionValue = inputOptions[optionName];
+
+			if ( optionValue === undefined ) {
+
+				// Only default if negativeBefore isn't set.
+				if ( optionName === 'negative' && !filteredOptions.negativeBefore ) {
+					filteredOptions[optionName] = '-';
+				// Don't set a default for mark when 'thousand' is set.
+				} else if ( optionName === 'mark' && filteredOptions.thousand !== '.' ) {
+					filteredOptions[optionName] = '.';
+				} else {
+					filteredOptions[optionName] = false;
+				}
+
+			// Floating points in JS are stable up to 7 decimals.
+			} else if ( optionName === 'decimals' ) {
+				if ( optionValue >= 0 && optionValue < 8 ) {
+					filteredOptions[optionName] = optionValue;
+				} else {
+					throw new Error(optionName);
+				}
+
+			// These options, when provided, must be functions.
+			} else if ( optionName === 'encoder' || optionName === 'decoder' || optionName === 'edit' || optionName === 'undo' ) {
+				if ( typeof optionValue === 'function' ) {
+					filteredOptions[optionName] = optionValue;
+				} else {
+					throw new Error(optionName);
+				}
+
+			// Other options are strings.
+			} else {
+
+				if ( typeof optionValue === 'string' ) {
+					filteredOptions[optionName] = optionValue;
+				} else {
+					throw new Error(optionName);
+				}
+			}
+		}
+
+		// Some values can't be extracted from a
+		// string if certain combinations are present.
+		throwEqualError(filteredOptions, 'mark', 'thousand');
+		throwEqualError(filteredOptions, 'prefix', 'negative');
+		throwEqualError(filteredOptions, 'prefix', 'negativeBefore');
+
+		return filteredOptions;
+	}
+
+	// Pass all options as function arguments
+	function passAll ( options, method, input ) {
+		var i, args = [];
+
+		// Add all options in order of FormatOptions
+		for ( i = 0; i < FormatOptions.length; i+=1 ) {
+			args.push(options[FormatOptions[i]]);
+		}
+
+		// Append the input, then call the method, presenting all
+		// options as arguments.
+		args.push(input);
+		return method.apply('', args);
+	}
+
+	function wNumb ( options ) {
+
+		if ( !(this instanceof wNumb) ) {
+			return new wNumb ( options );
+		}
+
+		if ( typeof options !== "object" ) {
+			return;
+		}
+
+		options = validate(options);
+
+		// Call 'formatTo' with proper arguments.
+		this.to = function ( input ) {
+			return passAll(options, formatTo, input);
+		};
+
+		// Call 'formatFrom' with proper arguments.
+		this.from = function ( input ) {
+			return passAll(options, formatFrom, input);
+		};
+	}
+
+	return wNumb;
+
+}));
 
 
 /***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/***/ 44:
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_params_js__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_utils_js__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__ = __webpack_require__(53);
+
+
+
+
+
+let modalParams = Object.assign({}, __WEBPACK_IMPORTED_MODULE_0__utils_params_js__["a" /* default */])
+let queue = []
+let swal2Observer
+
+/*
+ * Set type, text and actions on modal
+ */
+const setParameters = (params) => {
+  const modal = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["q" /* getModal */]() || __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["w" /* init */](params)
+
+  for (let param in params) {
+    if (!__WEBPACK_IMPORTED_MODULE_0__utils_params_js__["a" /* default */].hasOwnProperty(param) && param !== 'extraParams') {
+      console.warn(`SweetAlert2: Unknown parameter "${param}"`)
+    }
+  }
+
+  // Set modal width
+  modal.style.width = (typeof params.width === 'number') ? params.width + 'px' : params.width
+
+  modal.style.padding = params.padding + 'px'
+  modal.style.background = params.background
+  const successIconParts = modal.querySelectorAll('[class^=swal2-success-circular-line], .swal2-success-fix')
+  for (let i = 0; i < successIconParts.length; i++) {
+    successIconParts[i].style.background = params.background
+  }
+
+  const title = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["s" /* getTitle */]()
+  const content = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["m" /* getContent */]()
+  const buttonsWrapper = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["g" /* getButtonsWrapper */]()
+  const confirmButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["k" /* getConfirmButton */]()
+  const cancelButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["h" /* getCancelButton */]()
+  const closeButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["j" /* getCloseButton */]()
+
+  // Title
+  if (params.titleText) {
+    title.innerText = params.titleText
+  } else {
+    title.innerHTML = params.title.split('\n').join('<br />')
+  }
+
+  // Content
+  if (params.text || params.html) {
+    if (typeof params.html === 'object') {
+      content.innerHTML = ''
+      if (0 in params.html) {
+        for (let i = 0; i in params.html; i++) {
+          content.appendChild(params.html[i].cloneNode(true))
+        }
+      } else {
+        content.appendChild(params.html.cloneNode(true))
+      }
+    } else if (params.html) {
+      content.innerHTML = params.html
+    } else if (params.text) {
+      content.textContent = params.text
+    }
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](content)
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](content)
+  }
+
+  // Close button
+  if (params.showCloseButton) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](closeButton)
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](closeButton)
+  }
+
+  // Custom Class
+  modal.className = __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].modal
+  if (params.customClass) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](modal, params.customClass)
+  }
+
+  // Progress steps
+  let progressStepsContainer = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["r" /* getProgressSteps */]()
+  let currentProgressStep = parseInt(params.currentProgressStep === null ? sweetAlert.getQueueStep() : params.currentProgressStep, 10)
+  if (params.progressSteps.length) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](progressStepsContainer)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["d" /* empty */](progressStepsContainer)
+    if (currentProgressStep >= params.progressSteps.length) {
+      console.warn(
+        'SweetAlert2: Invalid currentProgressStep parameter, it should be less than progressSteps.length ' +
+        '(currentProgressStep like JS arrays starts from 0)'
+      )
+    }
+    params.progressSteps.forEach((step, index) => {
+      let circle = document.createElement('li')
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](circle, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].progresscircle)
+      circle.innerHTML = step
+      if (index === currentProgressStep) {
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](circle, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].activeprogressstep)
+      }
+      progressStepsContainer.appendChild(circle)
+      if (index !== params.progressSteps.length - 1) {
+        let line = document.createElement('li')
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](line, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].progressline)
+        line.style.width = params.progressStepsDistance
+        progressStepsContainer.appendChild(line)
+      }
+    })
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](progressStepsContainer)
+  }
+
+  // Icon
+  const icons = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["o" /* getIcons */]()
+  for (let i = 0; i < icons.length; i++) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](icons[i])
+  }
+  if (params.type) {
+    let validType = false
+    for (let iconType in __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["a" /* iconTypes */]) {
+      if (params.type === iconType) {
+        validType = true
+        break
+      }
+    }
+    if (!validType) {
+      console.error(`SweetAlert2: Unknown alert type: ${params.type}`)
+      return false
+    }
+    const icon = modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].icon}.${__WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["a" /* iconTypes */][params.type]}`)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](icon)
+
+    // Animate icon
+    if (params.animation) {
+      switch (params.type) {
+        case 'success':
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](icon, 'swal2-animate-success-icon')
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](icon.querySelector('.swal2-success-line-tip'), 'swal2-animate-success-line-tip')
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](icon.querySelector('.swal2-success-line-long'), 'swal2-animate-success-line-long')
+          break
+        case 'error':
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](icon, 'swal2-animate-error-icon')
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](icon.querySelector('.swal2-x-mark'), 'swal2-animate-x-mark')
+          break
+        default:
+          break
+      }
+    }
+  }
+
+  // Custom image
+  const image = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["p" /* getImage */]()
+  if (params.imageUrl) {
+    image.setAttribute('src', params.imageUrl)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](image)
+
+    if (params.imageWidth) {
+      image.setAttribute('width', params.imageWidth)
+    } else {
+      image.removeAttribute('width')
+    }
+
+    if (params.imageHeight) {
+      image.setAttribute('height', params.imageHeight)
+    } else {
+      image.removeAttribute('height')
+    }
+
+    image.className = __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].image
+    if (params.imageClass) {
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](image, params.imageClass)
+    }
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](image)
+  }
+
+  // Cancel button
+  if (params.showCancelButton) {
+    cancelButton.style.display = 'inline-block'
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](cancelButton)
+  }
+
+  // Confirm button
+  if (params.showConfirmButton) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["A" /* removeStyleProperty */](confirmButton, 'display')
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](confirmButton)
+  }
+
+  // Buttons wrapper
+  if (!params.showConfirmButton && !params.showCancelButton) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](buttonsWrapper)
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](buttonsWrapper)
+  }
+
+  // Edit text on cancel and confirm buttons
+  confirmButton.innerHTML = params.confirmButtonText
+  cancelButton.innerHTML = params.cancelButtonText
+
+  // Set buttons to selected background colors
+  if (params.buttonsStyling) {
+    confirmButton.style.backgroundColor = params.confirmButtonColor
+    cancelButton.style.backgroundColor = params.cancelButtonColor
+  }
+
+  // Add buttons custom classes
+  confirmButton.className = __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].confirm
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](confirmButton, params.confirmButtonClass)
+  cancelButton.className = __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].cancel
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](cancelButton, params.cancelButtonClass)
+
+  // Buttons styling
+  if (params.buttonsStyling) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](confirmButton, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].styled)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](cancelButton, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].styled)
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](confirmButton, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].styled)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](cancelButton, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].styled)
+
+    confirmButton.style.backgroundColor = confirmButton.style.borderLeftColor = confirmButton.style.borderRightColor = ''
+    cancelButton.style.backgroundColor = cancelButton.style.borderLeftColor = cancelButton.style.borderRightColor = ''
+  }
+
+  // CSS animation
+  if (params.animation === true) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].noanimation)
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].noanimation)
+  }
+}
+
+/*
+ * Animations
+ */
+const openModal = (animation, onComplete) => {
+  const container = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["l" /* getContainer */]()
+  const modal = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["q" /* getModal */]()
+
+  if (animation) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].show)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](container, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].fade)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].hide)
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].fade)
+  }
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](modal)
+
+  // scrolling is 'hidden' until animation is done, after that 'auto'
+  container.style.overflowY = 'hidden'
+  if (__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["b" /* animationEndEvent */] && !__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["u" /* hasClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].noanimation)) {
+    modal.addEventListener(__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["b" /* animationEndEvent */], function swalCloseEventFinished () {
+      modal.removeEventListener(__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["b" /* animationEndEvent */], swalCloseEventFinished)
+      container.style.overflowY = 'auto'
+    })
+  } else {
+    container.style.overflowY = 'auto'
+  }
+
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](document.documentElement, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].shown)
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](document.body, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].shown)
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](container, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].shown)
+  fixScrollbar()
+  iOSfix()
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["D" /* states */].previousActiveElement = document.activeElement
+  if (onComplete !== null && typeof onComplete === 'function') {
+    setTimeout(function () {
+      onComplete(modal)
+    })
+  }
+}
+
+const fixScrollbar = () => {
+  // for queues, do not do this more than once
+  if (__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["D" /* states */].previousBodyPadding !== null) {
+    return
+  }
+  // if the body has overflow
+  if (document.body.scrollHeight > window.innerHeight) {
+    // add padding so the content doesn't shift after removal of scrollbar
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["D" /* states */].previousBodyPadding = document.body.style.paddingRight
+    document.body.style.paddingRight = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["y" /* measureScrollbar */]() + 'px'
+  }
+}
+
+const undoScrollbar = () => {
+  if (__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["D" /* states */].previousBodyPadding !== null) {
+    document.body.style.paddingRight = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["D" /* states */].previousBodyPadding
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["D" /* states */].previousBodyPadding = null
+  }
+}
+
+// Fix iOS scrolling http://stackoverflow.com/q/39626302/1331425
+const iOSfix = () => {
+  const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+  if (iOS && !__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["u" /* hasClass */](document.body, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].iosfix)) {
+    const offset = document.body.scrollTop
+    document.body.style.top = (offset * -1) + 'px'
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](document.body, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].iosfix)
+  }
+}
+
+const undoIOSfix = () => {
+  if (__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["u" /* hasClass */](document.body, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].iosfix)) {
+    const offset = parseInt(document.body.style.top, 10)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](document.body, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].iosfix)
+    document.body.style.top = ''
+    document.body.scrollTop = (offset * -1)
+  }
+}
+
+// SweetAlert entry point
+const sweetAlert = (...args) => {
+  if (args[0] === undefined) {
+    console.error('SweetAlert2 expects at least 1 attribute!')
+    return false
+  }
+
+  let params = Object.assign({}, modalParams)
+
+  switch (typeof args[0]) {
+    case 'string':
+      [params.title, params.html, params.type] = args
+      break
+
+    case 'object':
+      Object.assign(params, args[0])
+      params.extraParams = args[0].extraParams
+
+      if (params.input === 'email' && params.inputValidator === null) {
+        params.inputValidator = (email) => {
+          return new Promise((resolve, reject) => {
+            const emailRegex = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
+            if (emailRegex.test(email)) {
+              resolve()
+            } else {
+              reject('Invalid email address')
+            }
+          })
+        }
+      }
+
+      if (params.input === 'url' && params.inputValidator === null) {
+        params.inputValidator = (url) => {
+          return new Promise((resolve, reject) => {
+            // taken from https://stackoverflow.com/a/3809435/1331425
+            const urlRegex = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)$/
+            if (urlRegex.test(url)) {
+              resolve()
+            } else {
+              reject('Invalid URL')
+            }
+          })
+        }
+      }
+      break
+
+    default:
+      console.error('SweetAlert2: Unexpected type of argument! Expected "string" or "object", got ' + typeof args[0])
+      return false
+  }
+
+  setParameters(params)
+
+  const container = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["l" /* getContainer */]()
+  const modal = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["q" /* getModal */]()
+
+  return new Promise((resolve, reject) => {
+    // Close on timer
+    if (params.timer) {
+      modal.timeout = setTimeout(() => {
+        sweetAlert.closeModal(params.onClose)
+        if (params.useRejections) {
+          reject('timer')
+        } else {
+          resolve({dismiss: 'timer'})
+        }
+      }, params.timer)
+    }
+
+    // Get input element by specified type or, if type isn't specified, by params.input
+    const getInput = (inputType) => {
+      inputType = inputType || params.input
+      if (!inputType) {
+        return null
+      }
+      switch (inputType) {
+        case 'select':
+        case 'textarea':
+        case 'file':
+          return __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */][inputType])
+        case 'checkbox':
+          return modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].checkbox} input`)
+        case 'radio':
+          return modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].radio} input:checked`) ||
+            modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].radio} input:first-child`)
+        case 'range':
+          return modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].range} input`)
+        default:
+          return __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].input)
+      }
+    }
+
+    // Get the value of the modal input
+    const getInputValue = () => {
+      const input = getInput()
+      if (!input) {
+        return null
+      }
+      switch (params.input) {
+        case 'checkbox':
+          return input.checked ? 1 : 0
+        case 'radio':
+          return input.checked ? input.value : null
+        case 'file':
+          return input.files.length ? input.files[0] : null
+        default:
+          return params.inputAutoTrim ? input.value.trim() : input.value
+      }
+    }
+
+    // input autofocus
+    if (params.input) {
+      setTimeout(() => {
+        const input = getInput()
+        if (input) {
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["f" /* focusInput */](input)
+        }
+      }, 0)
+    }
+
+    const confirm = (value) => {
+      if (params.showLoaderOnConfirm) {
+        sweetAlert.showLoading()
+      }
+
+      if (params.preConfirm) {
+        params.preConfirm(value, params.extraParams).then(
+          (preConfirmValue) => {
+            sweetAlert.closeModal(params.onClose)
+            resolve(preConfirmValue || value)
+          },
+          (error) => {
+            sweetAlert.hideLoading()
+            if (error) {
+              sweetAlert.showValidationError(error)
+            }
+          }
+        )
+      } else {
+        sweetAlert.closeModal(params.onClose)
+        if (params.useRejections) {
+          resolve(value)
+        } else {
+          resolve({value: value})
+        }
+      }
+    }
+
+    // Mouse interactions
+    const onButtonEvent = (event) => {
+      const e = event || window.event
+      const target = e.target || e.srcElement
+      const confirmButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["k" /* getConfirmButton */]()
+      const cancelButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["h" /* getCancelButton */]()
+      const targetedConfirm = confirmButton && (confirmButton === target || confirmButton.contains(target))
+      const targetedCancel = cancelButton && (cancelButton === target || cancelButton.contains(target))
+
+      switch (e.type) {
+        case 'mouseover':
+        case 'mouseup':
+          if (params.buttonsStyling) {
+            if (targetedConfirm) {
+              confirmButton.style.backgroundColor = Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils_js__["a" /* colorLuminance */])(params.confirmButtonColor, -0.1)
+            } else if (targetedCancel) {
+              cancelButton.style.backgroundColor = Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils_js__["a" /* colorLuminance */])(params.cancelButtonColor, -0.1)
+            }
+          }
+          break
+        case 'mouseout':
+          if (params.buttonsStyling) {
+            if (targetedConfirm) {
+              confirmButton.style.backgroundColor = params.confirmButtonColor
+            } else if (targetedCancel) {
+              cancelButton.style.backgroundColor = params.cancelButtonColor
+            }
+          }
+          break
+        case 'mousedown':
+          if (params.buttonsStyling) {
+            if (targetedConfirm) {
+              confirmButton.style.backgroundColor = Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils_js__["a" /* colorLuminance */])(params.confirmButtonColor, -0.2)
+            } else if (targetedCancel) {
+              cancelButton.style.backgroundColor = Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils_js__["a" /* colorLuminance */])(params.cancelButtonColor, -0.2)
+            }
+          }
+          break
+        case 'click':
+          // Clicked 'confirm'
+          if (targetedConfirm && sweetAlert.isVisible()) {
+            sweetAlert.disableButtons()
+            if (params.input) {
+              const inputValue = getInputValue()
+
+              if (params.inputValidator) {
+                sweetAlert.disableInput()
+                params.inputValidator(inputValue, params.extraParams).then(
+                  () => {
+                    sweetAlert.enableButtons()
+                    sweetAlert.enableInput()
+                    confirm(inputValue)
+                  },
+                  (error) => {
+                    sweetAlert.enableButtons()
+                    sweetAlert.enableInput()
+                    if (error) {
+                      sweetAlert.showValidationError(error)
+                    }
+                  }
+                )
+              } else {
+                confirm(inputValue)
+              }
+            } else {
+              confirm(true)
+            }
+
+          // Clicked 'cancel'
+          } else if (targetedCancel && sweetAlert.isVisible()) {
+            sweetAlert.disableButtons()
+            sweetAlert.closeModal(params.onClose)
+            if (params.useRejections) {
+              reject('cancel')
+            } else {
+              resolve({dismiss: 'cancel'})
+            }
+          }
+          break
+        default:
+      }
+    }
+
+    const buttons = modal.querySelectorAll('button')
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].onclick = onButtonEvent
+      buttons[i].onmouseover = onButtonEvent
+      buttons[i].onmouseout = onButtonEvent
+      buttons[i].onmousedown = onButtonEvent
+    }
+
+    // Closing modal by close button
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["j" /* getCloseButton */]().onclick = () => {
+      sweetAlert.closeModal(params.onClose)
+      if (params.useRejections) {
+        reject('close')
+      } else {
+        resolve({dismiss: 'close'})
+      }
+    }
+
+    // Closing modal by overlay click
+    container.onclick = (e) => {
+      if (e.target !== container) {
+        return
+      }
+      if (params.allowOutsideClick) {
+        sweetAlert.closeModal(params.onClose)
+        if (params.useRejections) {
+          reject('overlay')
+        } else {
+          resolve({dismiss: 'overlay'})
+        }
+      }
+    }
+
+    const buttonsWrapper = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["g" /* getButtonsWrapper */]()
+    const confirmButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["k" /* getConfirmButton */]()
+    const cancelButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["h" /* getCancelButton */]()
+
+    // Reverse buttons (Confirm on the right side)
+    if (params.reverseButtons) {
+      confirmButton.parentNode.insertBefore(cancelButton, confirmButton)
+    } else {
+      confirmButton.parentNode.insertBefore(confirmButton, cancelButton)
+    }
+
+    // Focus handling
+    const setFocus = (index, increment) => {
+      const focusableElements = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["n" /* getFocusableElements */](params.focusCancel)
+      // search for visible elements and select the next possible match
+      for (let i = 0; i < focusableElements.length; i++) {
+        index = index + increment
+
+        // rollover to first item
+        if (index === focusableElements.length) {
+          index = 0
+
+        // go to last item
+        } else if (index === -1) {
+          index = focusableElements.length - 1
+        }
+
+        // determine if element is visible
+        const el = focusableElements[index]
+        if (__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["x" /* isVisible */](el)) {
+          return el.focus()
+        }
+      }
+    }
+
+    const handleKeyDown = (event) => {
+      const e = event || window.event
+      const keyCode = e.keyCode || e.which
+
+      if ([9, 13, 32, 27, 37, 38, 39, 40].indexOf(keyCode) === -1) {
+        // Don't do work on keys we don't care about.
+        return
+      }
+
+      const targetElement = e.target || e.srcElement
+
+      const focusableElements = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["n" /* getFocusableElements */](params.focusCancel)
+      let btnIndex = -1 // Find the button - note, this is a nodelist, not an array.
+      for (let i = 0; i < focusableElements.length; i++) {
+        if (targetElement === focusableElements[i]) {
+          btnIndex = i
+          break
+        }
+      }
+
+      // TAB
+      if (keyCode === 9) {
+        if (!e.shiftKey) {
+          // Cycle to the next button
+          setFocus(btnIndex, 1)
+        } else {
+          // Cycle to the prev button
+          setFocus(btnIndex, -1)
+        }
+        e.stopPropagation()
+        e.preventDefault()
+
+      // ARROWS - switch focus between buttons
+      } else if (keyCode === 37 || keyCode === 38 || keyCode === 39 || keyCode === 40) {
+        // focus Cancel button if Confirm button is currently focused
+        if (document.activeElement === confirmButton && __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["x" /* isVisible */](cancelButton)) {
+          cancelButton.focus()
+        // and vice versa
+        } else if (document.activeElement === cancelButton && __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["x" /* isVisible */](confirmButton)) {
+          confirmButton.focus()
+        }
+
+      // ENTER/SPACE
+      } else if (keyCode === 13 || keyCode === 32) {
+        if (btnIndex === -1 && params.allowEnterKey) {
+          // ENTER/SPACE clicked outside of a button.
+          if (params.focusCancel) {
+            __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["e" /* fireClick */](cancelButton, e)
+          } else {
+            __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["e" /* fireClick */](confirmButton, e)
+          }
+          e.stopPropagation()
+          e.preventDefault()
+        }
+
+      // ESC
+      } else if (keyCode === 27 && params.allowEscapeKey === true) {
+        sweetAlert.closeModal(params.onClose)
+        if (params.useRejections) {
+          reject('esc')
+        } else {
+          resolve({dismiss: 'esc'})
+        }
+      }
+    }
+
+    if (!window.onkeydown || window.onkeydown.toString() !== handleKeyDown.toString()) {
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["D" /* states */].previousWindowKeyDown = window.onkeydown
+      window.onkeydown = handleKeyDown
+    }
+
+    // Loading state
+    if (params.buttonsStyling) {
+      confirmButton.style.borderLeftColor = params.confirmButtonColor
+      confirmButton.style.borderRightColor = params.confirmButtonColor
+    }
+
+    /**
+     * Show spinner instead of Confirm button and disable Cancel button
+     */
+    sweetAlert.hideLoading = sweetAlert.disableLoading = () => {
+      if (!params.showConfirmButton) {
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](confirmButton)
+        if (!params.showCancelButton) {
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["g" /* getButtonsWrapper */]())
+        }
+      }
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](buttonsWrapper, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].loading)
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].loading)
+      confirmButton.disabled = false
+      cancelButton.disabled = false
+    }
+
+    sweetAlert.getTitle = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["s" /* getTitle */]()
+    sweetAlert.getContent = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["m" /* getContent */]()
+    sweetAlert.getInput = () => getInput()
+    sweetAlert.getImage = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["p" /* getImage */]()
+    sweetAlert.getButtonsWrapper = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["g" /* getButtonsWrapper */]()
+    sweetAlert.getConfirmButton = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["k" /* getConfirmButton */]()
+    sweetAlert.getCancelButton = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["h" /* getCancelButton */]()
+
+    sweetAlert.enableButtons = () => {
+      confirmButton.disabled = false
+      cancelButton.disabled = false
+    }
+
+    sweetAlert.disableButtons = () => {
+      confirmButton.disabled = true
+      cancelButton.disabled = true
+    }
+
+    sweetAlert.enableConfirmButton = () => {
+      confirmButton.disabled = false
+    }
+
+    sweetAlert.disableConfirmButton = () => {
+      confirmButton.disabled = true
+    }
+
+    sweetAlert.enableInput = () => {
+      const input = getInput()
+      if (!input) {
+        return false
+      }
+      if (input.type === 'radio') {
+        const radiosContainer = input.parentNode.parentNode
+        const radios = radiosContainer.querySelectorAll('input')
+        for (let i = 0; i < radios.length; i++) {
+          radios[i].disabled = false
+        }
+      } else {
+        input.disabled = false
+      }
+    }
+
+    sweetAlert.disableInput = () => {
+      const input = getInput()
+      if (!input) {
+        return false
+      }
+      if (input && input.type === 'radio') {
+        const radiosContainer = input.parentNode.parentNode
+        const radios = radiosContainer.querySelectorAll('input')
+        for (let i = 0; i < radios.length; i++) {
+          radios[i].disabled = true
+        }
+      } else {
+        input.disabled = true
+      }
+    }
+
+    // Set modal min-height to disable scrolling inside the modal
+    sweetAlert.recalculateHeight = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["c" /* debounce */](() => {
+      const modal = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["q" /* getModal */]()
+      if (!modal) {
+        return
+      }
+      const prevState = modal.style.display
+      modal.style.minHeight = ''
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](modal)
+      modal.style.minHeight = (modal.scrollHeight + 1) + 'px'
+      modal.style.display = prevState
+    }, 50)
+
+    // Show block with validation error
+    sweetAlert.showValidationError = (error) => {
+      const validationError = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["t" /* getValidationError */]()
+      validationError.innerHTML = error
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](validationError)
+
+      const input = getInput()
+      if (input) {
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["f" /* focusInput */](input)
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](input, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].inputerror)
+      }
+    }
+
+    // Hide block with validation error
+    sweetAlert.resetValidationError = () => {
+      const validationError = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["t" /* getValidationError */]()
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](validationError)
+      sweetAlert.recalculateHeight()
+
+      const input = getInput()
+      if (input) {
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](input, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].inputerror)
+      }
+    }
+
+    sweetAlert.getProgressSteps = () => {
+      return params.progressSteps
+    }
+
+    sweetAlert.setProgressSteps = (progressSteps) => {
+      params.progressSteps = progressSteps
+      setParameters(params)
+    }
+
+    sweetAlert.showProgressSteps = () => {
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["r" /* getProgressSteps */]())
+    }
+
+    sweetAlert.hideProgressSteps = () => {
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["r" /* getProgressSteps */]())
+    }
+
+    sweetAlert.enableButtons()
+    sweetAlert.hideLoading()
+    sweetAlert.resetValidationError()
+
+    // inputs
+    const inputTypes = ['input', 'file', 'range', 'select', 'radio', 'checkbox', 'textarea']
+    let input
+    for (let i = 0; i < inputTypes.length; i++) {
+      const inputClass = __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */][inputTypes[i]]
+      const inputContainer = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, inputClass)
+      input = getInput(inputTypes[i])
+
+      // set attributes
+      if (input) {
+        for (let j in input.attributes) {
+          if (input.attributes.hasOwnProperty(j)) {
+            const attrName = input.attributes[j].name
+            if (attrName !== 'type' && attrName !== 'value') {
+              input.removeAttribute(attrName)
+            }
+          }
+        }
+        for (let attr in params.inputAttributes) {
+          input.setAttribute(attr, params.inputAttributes[attr])
+        }
+      }
+
+      // set class
+      inputContainer.className = inputClass
+      if (params.inputClass) {
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](inputContainer, params.inputClass)
+      }
+
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](inputContainer)
+    }
+
+    let populateInputOptions
+    switch (params.input) {
+      case 'text':
+      case 'email':
+      case 'password':
+      case 'number':
+      case 'tel':
+      case 'url':
+        input = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].input)
+        input.value = params.inputValue
+        input.placeholder = params.inputPlaceholder
+        input.type = params.input
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](input)
+        break
+      case 'file':
+        input = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].file)
+        input.placeholder = params.inputPlaceholder
+        input.type = params.input
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](input)
+        break
+      case 'range':
+        const range = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].range)
+        const rangeInput = range.querySelector('input')
+        const rangeOutput = range.querySelector('output')
+        rangeInput.value = params.inputValue
+        rangeInput.type = params.input
+        rangeOutput.value = params.inputValue
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](range)
+        break
+      case 'select':
+        const select = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].select)
+        select.innerHTML = ''
+        if (params.inputPlaceholder) {
+          const placeholder = document.createElement('option')
+          placeholder.innerHTML = params.inputPlaceholder
+          placeholder.value = ''
+          placeholder.disabled = true
+          placeholder.selected = true
+          select.appendChild(placeholder)
+        }
+        populateInputOptions = (inputOptions) => {
+          for (let optionValue in inputOptions) {
+            const option = document.createElement('option')
+            option.value = optionValue
+            option.innerHTML = inputOptions[optionValue]
+            if (params.inputValue === optionValue) {
+              option.selected = true
+            }
+            select.appendChild(option)
+          }
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](select)
+          select.focus()
+        }
+        break
+      case 'radio':
+        const radio = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].radio)
+        radio.innerHTML = ''
+        populateInputOptions = (inputOptions) => {
+          for (let radioValue in inputOptions) {
+            const radioInput = document.createElement('input')
+            const radioLabel = document.createElement('label')
+            const radioLabelSpan = document.createElement('span')
+            radioInput.type = 'radio'
+            radioInput.name = __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].radio
+            radioInput.value = radioValue
+            if (params.inputValue === radioValue) {
+              radioInput.checked = true
+            }
+            radioLabelSpan.innerHTML = inputOptions[radioValue]
+            radioLabel.appendChild(radioInput)
+            radioLabel.appendChild(radioLabelSpan)
+            radioLabel.for = radioInput.id
+            radio.appendChild(radioLabel)
+          }
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](radio)
+          const radios = radio.querySelectorAll('input')
+          if (radios.length) {
+            radios[0].focus()
+          }
+        }
+        break
+      case 'checkbox':
+        const checkbox = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].checkbox)
+        const checkboxInput = getInput('checkbox')
+        checkboxInput.type = 'checkbox'
+        checkboxInput.value = 1
+        checkboxInput.id = __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].checkbox
+        checkboxInput.checked = Boolean(params.inputValue)
+        let label = checkbox.getElementsByTagName('span')
+        if (label.length) {
+          checkbox.removeChild(label[0])
+        }
+        label = document.createElement('span')
+        label.innerHTML = params.inputPlaceholder
+        checkbox.appendChild(label)
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](checkbox)
+        break
+      case 'textarea':
+        const textarea = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].textarea)
+        textarea.value = params.inputValue
+        textarea.placeholder = params.inputPlaceholder
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](textarea)
+        break
+      case null:
+        break
+      default:
+        console.error(`SweetAlert2: Unexpected type of input! Expected "text", "email", "password", "number", "tel", "select", "radio", "checkbox", "textarea", "file" or "url", got "${params.input}"`)
+        break
+    }
+
+    if (params.input === 'select' || params.input === 'radio') {
+      if (params.inputOptions instanceof Promise) {
+        sweetAlert.showLoading()
+        params.inputOptions.then((inputOptions) => {
+          sweetAlert.hideLoading()
+          populateInputOptions(inputOptions)
+        })
+      } else if (typeof params.inputOptions === 'object') {
+        populateInputOptions(params.inputOptions)
+      } else {
+        console.error('SweetAlert2: Unexpected type of inputOptions! Expected object or Promise, got ' + typeof params.inputOptions)
+      }
+    }
+
+    openModal(params.animation, params.onOpen)
+
+    // Focus the first element (input or button)
+    if (params.allowEnterKey) {
+      setFocus(-1, 1)
+    } else {
+      if (document.activeElement) {
+        document.activeElement.blur()
+      }
+    }
+
+    // fix scroll
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["l" /* getContainer */]().scrollTop = 0
+
+    // Observe changes inside the modal and adjust height
+    if (typeof MutationObserver !== 'undefined' && !swal2Observer) {
+      swal2Observer = new MutationObserver(sweetAlert.recalculateHeight)
+      swal2Observer.observe(modal, {childList: true, characterData: true, subtree: true})
+    }
+  })
+}
+
+/*
+ * Global function to determine if swal2 modal is shown
+ */
+sweetAlert.isVisible = () => {
+  return !!__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["q" /* getModal */]()
+}
+
+/*
+ * Global function for chaining sweetAlert modals
+ */
+sweetAlert.queue = (steps) => {
+  queue = steps
+  const resetQueue = () => {
+    queue = []
+    document.body.removeAttribute('data-swal2-queue-step')
+  }
+  let queueResult = []
+  return new Promise((resolve, reject) => {
+    (function step (i, callback) {
+      if (i < queue.length) {
+        document.body.setAttribute('data-swal2-queue-step', i)
+
+        sweetAlert(queue[i]).then(
+          (result) => {
+            queueResult.push(result)
+            step(i + 1, callback)
+          },
+          (dismiss) => {
+            resetQueue()
+            reject(dismiss)
+          }
+        )
+      } else {
+        resetQueue()
+        resolve(queueResult)
+      }
+    })(0)
+  })
+}
+
+/*
+ * Global function for getting the index of current modal in queue
+ */
+sweetAlert.getQueueStep = () => document.body.getAttribute('data-swal2-queue-step')
+
+/*
+ * Global function for inserting a modal to the queue
+ */
+sweetAlert.insertQueueStep = (step, index) => {
+  if (index && index < queue.length) {
+    return queue.splice(index, 0, step)
+  }
+  return queue.push(step)
+}
+
+/*
+ * Global function for deleting a modal from the queue
+ */
+sweetAlert.deleteQueueStep = (index) => {
+  if (typeof queue[index] !== 'undefined') {
+    queue.splice(index, 1)
+  }
+}
+
+/*
+ * Global function to close sweetAlert
+ */
+sweetAlert.close = sweetAlert.closeModal = (onComplete) => {
+  const container = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["l" /* getContainer */]()
+  const modal = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["q" /* getModal */]()
+  if (!modal) {
+    return
+  }
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].show)
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].hide)
+  clearTimeout(modal.timeout)
+
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["B" /* resetPrevState */]()
+
+  const removeModalAndResetState = () => {
+    if (container.parentNode) {
+      container.parentNode.removeChild(container)
+    }
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](document.documentElement, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].shown)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](document.body, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].shown)
+    undoScrollbar()
+    undoIOSfix()
+  }
+
+  // If animation is supported, animate
+  if (__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["b" /* animationEndEvent */] && !__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["u" /* hasClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].noanimation)) {
+    modal.addEventListener(__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["b" /* animationEndEvent */], function swalCloseEventFinished () {
+      modal.removeEventListener(__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["b" /* animationEndEvent */], swalCloseEventFinished)
+      if (__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["u" /* hasClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].hide)) {
+        removeModalAndResetState()
+      }
+    })
+  } else {
+    // Otherwise, remove immediately
+    removeModalAndResetState()
+  }
+  if (onComplete !== null && typeof onComplete === 'function') {
+    setTimeout(function () {
+      onComplete(modal)
+    })
+  }
+}
+
+/*
+ * Global function to click 'Confirm' button
+ */
+sweetAlert.clickConfirm = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["k" /* getConfirmButton */]().click()
+
+/*
+ * Global function to click 'Cancel' button
+ */
+sweetAlert.clickCancel = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["h" /* getCancelButton */]().click()
+
+/**
+ * Show spinner instead of Confirm button and disable Cancel button
+ */
+sweetAlert.showLoading = sweetAlert.enableLoading = () => {
+  const modal = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["q" /* getModal */]()
+  if (!modal) {
+    sweetAlert('')
+  }
+  const buttonsWrapper = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["g" /* getButtonsWrapper */]()
+  const confirmButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["k" /* getConfirmButton */]()
+  const cancelButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["h" /* getCancelButton */]()
+
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](buttonsWrapper)
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](confirmButton, 'inline-block')
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](buttonsWrapper, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].loading)
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].loading)
+  confirmButton.disabled = true
+  cancelButton.disabled = true
+}
+
+/**
+ * Set default params for each popup
+ * @param {Object} userParams
+ */
+sweetAlert.setDefaults = (userParams) => {
+  if (!userParams || typeof userParams !== 'object') {
+    return console.error('SweetAlert2: the argument for setDefaults() is required and has to be a object')
+  }
+
+  for (let param in userParams) {
+    if (!__WEBPACK_IMPORTED_MODULE_0__utils_params_js__["a" /* default */].hasOwnProperty(param) && param !== 'extraParams') {
+      console.warn(`SweetAlert2: Unknown parameter "${param}"`)
+      delete userParams[param]
+    }
+  }
+
+  Object.assign(modalParams, userParams)
+}
+
+/**
+ * Reset default params for each popup
+ */
+sweetAlert.resetDefaults = () => {
+  modalParams = Object.assign({}, __WEBPACK_IMPORTED_MODULE_0__utils_params_js__["a" /* default */])
+}
+
+sweetAlert.noop = () => { }
+
+sweetAlert.version = ''
+
+sweetAlert.default = sweetAlert
+
+/* harmony default export */ __webpack_exports__["default"] = (sweetAlert);
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const swalPrefix = 'swal2-'
+/* unused harmony export swalPrefix */
+
+
+const prefix = (items) => {
+  const result = {}
+  for (const i in items) {
+    result[items[i]] = swalPrefix + items[i]
+  }
+  return result
+}
+/* unused harmony export prefix */
+
+
+const swalClasses = prefix([
+  'container',
+  'shown',
+  'iosfix',
+  'modal',
+  'overlay',
+  'fade',
+  'show',
+  'hide',
+  'noanimation',
+  'close',
+  'title',
+  'content',
+  'buttonswrapper',
+  'confirm',
+  'cancel',
+  'icon',
+  'image',
+  'input',
+  'file',
+  'range',
+  'select',
+  'radio',
+  'checkbox',
+  'textarea',
+  'inputerror',
+  'validationerror',
+  'progresssteps',
+  'activeprogressstep',
+  'progresscircle',
+  'progressline',
+  'loading',
+  'styled'
+])
+/* harmony export (immutable) */ __webpack_exports__["b"] = swalClasses;
+
+
+const iconTypes = prefix([
+  'success',
+  'warning',
+  'info',
+  'question',
+  'error'
+])
+/* harmony export (immutable) */ __webpack_exports__["a"] = iconTypes;
+
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/*
+ * Set hover, active and focus-states for buttons (source: http://www.sitepoint.com/javascript-generate-lighter-darker-color)
+ */
+const colorLuminance = (hex, lum) => {
+  // Validate hex string
+  hex = String(hex).replace(/[^0-9a-f]/gi, '')
+  if (hex.length < 6) {
+    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
+  }
+  lum = lum || 0
+
+  // Convert to decimal and change luminosity
+  let rgb = '#'
+  for (let i = 0; i < 3; i++) {
+    let c = parseInt(hex.substr(i * 2, 2), 16)
+    c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16)
+    rgb += ('00' + c).substr(c.length)
+  }
+
+  return rgb
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = colorLuminance;
+
+
+const uniqueArray = (arr) => {
+  const result = []
+  for (var i in arr) {
+    if (result.indexOf(arr[i]) === -1) {
+      result.push(arr[i])
+    }
+  }
+  return result
+}
+/* harmony export (immutable) */ __webpack_exports__["b"] = uniqueArray;
+
+
+
+/***/ }),
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(47);
+__webpack_require__(48);
+__webpack_require__(49);
+__webpack_require__(50);
+__webpack_require__(51);
+__webpack_require__(10);
+__webpack_require__(11);
+__webpack_require__(54);
+__webpack_require__(55);
+module.exports = __webpack_require__(56);
+
+
+/***/ }),
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_LOCAL_MODULE_1__, __WEBPACK_LOCAL_MODULE_1__factory, __WEBPACK_LOCAL_MODULE_1__module;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_2__;var __WEBPACK_LOCAL_MODULE_3__, __WEBPACK_LOCAL_MODULE_3__factory, __WEBPACK_LOCAL_MODULE_3__module;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_4__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_5__;var __WEBPACK_LOCAL_MODULE_6__, __WEBPACK_LOCAL_MODULE_6__factory, __WEBPACK_LOCAL_MODULE_6__module;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_7__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_8__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_9__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_10__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_11__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_12__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_13__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_14__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_15__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_16__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_17__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_LOCAL_MODULE_18__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_20__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -9954,8 +11648,7 @@ return s},r._getClosestResting=function(t,e,i){for(var n=this.selectedIndex,s=1/
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):"object"==typeof module&&module.exports?module.exports=e(t,require("flickity"),require("imagesloaded")):t.Flickity=e(t,t.Flickity,t.imagesLoaded)}(window,function(t,e,i){"use strict";e.createMethods.push("_createImagesLoaded");var n=e.prototype;return n._createImagesLoaded=function(){this.on("activate",this.imagesLoaded)},n.imagesLoaded=function(){function t(t,i){var n=e.getParentCell(i.img);e.cellSizeChange(n&&n.element),e.options.freeScroll||e.positionSliderAtSelected()}if(this.options.imagesLoaded){var e=this;i(this.slider).on("progress",t)}},e});
 
 /***/ }),
-
-/***/ 45:
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_LOCAL_MODULE_1__, __WEBPACK_LOCAL_MODULE_1__factory, __WEBPACK_LOCAL_MODULE_1__module;var __WEBPACK_LOCAL_MODULE_2__, __WEBPACK_LOCAL_MODULE_2__factory, __WEBPACK_LOCAL_MODULE_2__module;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_3__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_4__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_5__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_6__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_7__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_8__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_9__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -12140,8 +13833,7 @@ return ImagesLoaded;
 
 
 /***/ }),
-
-/***/ 46:
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -12158,8 +13850,7 @@ return ImagesLoaded;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-
-/***/ 47:
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -12176,8 +13867,7 @@ return ImagesLoaded;
 
 
 /***/ }),
-
-/***/ 48:
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -12660,388 +14350,2206 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 });
 
 /***/ }),
-
-/***/ 49:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (factory) {
-
-    if ( true ) {
-
-        // AMD. Register as an anonymous module.
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-    } else if ( typeof exports === 'object' ) {
-
-        // Node/CommonJS
-        module.exports = factory();
-
-    } else {
-
-        // Browser globals
-        window.wNumb = factory();
-    }
-
-}(function(){
-
-	'use strict';
-
-var FormatOptions = [
-	'decimals',
-	'thousand',
-	'mark',
-	'prefix',
-	'suffix',
-	'encoder',
-	'decoder',
-	'negativeBefore',
-	'negative',
-	'edit',
-	'undo'
-];
-
-// General
-
-	// Reverse a string
-	function strReverse ( a ) {
-		return a.split('').reverse().join('');
-	}
-
-	// Check if a string starts with a specified prefix.
-	function strStartsWith ( input, match ) {
-		return input.substring(0, match.length) === match;
-	}
-
-	// Check is a string ends in a specified suffix.
-	function strEndsWith ( input, match ) {
-		return input.slice(-1 * match.length) === match;
-	}
-
-	// Throw an error if formatting options are incompatible.
-	function throwEqualError( F, a, b ) {
-		if ( (F[a] || F[b]) && (F[a] === F[b]) ) {
-			throw new Error(a);
-		}
-	}
-
-	// Check if a number is finite and not NaN
-	function isValidNumber ( input ) {
-		return typeof input === 'number' && isFinite( input );
-	}
-
-	// Provide rounding-accurate toFixed method.
-	// Borrowed: http://stackoverflow.com/a/21323330/775265
-	function toFixed ( value, exp ) {
-		value = value.toString().split('e');
-		value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
-		value = value.toString().split('e');
-		return (+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp))).toFixed(exp);
-	}
-
-
-// Formatting
-
-	// Accept a number as input, output formatted string.
-	function formatTo ( decimals, thousand, mark, prefix, suffix, encoder, decoder, negativeBefore, negative, edit, undo, input ) {
-
-		var originalInput = input, inputIsNegative, inputPieces, inputBase, inputDecimals = '', output = '';
-
-		// Apply user encoder to the input.
-		// Expected outcome: number.
-		if ( encoder ) {
-			input = encoder(input);
-		}
-
-		// Stop if no valid number was provided, the number is infinite or NaN.
-		if ( !isValidNumber(input) ) {
-			return false;
-		}
-
-		// Rounding away decimals might cause a value of -0
-		// when using very small ranges. Remove those cases.
-		if ( decimals !== false && parseFloat(input.toFixed(decimals)) === 0 ) {
-			input = 0;
-		}
-
-		// Formatting is done on absolute numbers,
-		// decorated by an optional negative symbol.
-		if ( input < 0 ) {
-			inputIsNegative = true;
-			input = Math.abs(input);
-		}
-
-		// Reduce the number of decimals to the specified option.
-		if ( decimals !== false ) {
-			input = toFixed( input, decimals );
-		}
-
-		// Transform the number into a string, so it can be split.
-		input = input.toString();
-
-		// Break the number on the decimal separator.
-		if ( input.indexOf('.') !== -1 ) {
-			inputPieces = input.split('.');
-
-			inputBase = inputPieces[0];
-
-			if ( mark ) {
-				inputDecimals = mark + inputPieces[1];
-			}
-
-		} else {
-
-		// If it isn't split, the entire number will do.
-			inputBase = input;
-		}
-
-		// Group numbers in sets of three.
-		if ( thousand ) {
-			inputBase = strReverse(inputBase).match(/.{1,3}/g);
-			inputBase = strReverse(inputBase.join( strReverse( thousand ) ));
-		}
-
-		// If the number is negative, prefix with negation symbol.
-		if ( inputIsNegative && negativeBefore ) {
-			output += negativeBefore;
-		}
-
-		// Prefix the number
-		if ( prefix ) {
-			output += prefix;
-		}
-
-		// Normal negative option comes after the prefix. Defaults to '-'.
-		if ( inputIsNegative && negative ) {
-			output += negative;
-		}
-
-		// Append the actual number.
-		output += inputBase;
-		output += inputDecimals;
-
-		// Apply the suffix.
-		if ( suffix ) {
-			output += suffix;
-		}
-
-		// Run the output through a user-specified post-formatter.
-		if ( edit ) {
-			output = edit ( output, originalInput );
-		}
-
-		// All done.
-		return output;
-	}
-
-	// Accept a sting as input, output decoded number.
-	function formatFrom ( decimals, thousand, mark, prefix, suffix, encoder, decoder, negativeBefore, negative, edit, undo, input ) {
-
-		var originalInput = input, inputIsNegative, output = '';
-
-		// User defined pre-decoder. Result must be a non empty string.
-		if ( undo ) {
-			input = undo(input);
-		}
-
-		// Test the input. Can't be empty.
-		if ( !input || typeof input !== 'string' ) {
-			return false;
-		}
-
-		// If the string starts with the negativeBefore value: remove it.
-		// Remember is was there, the number is negative.
-		if ( negativeBefore && strStartsWith(input, negativeBefore) ) {
-			input = input.replace(negativeBefore, '');
-			inputIsNegative = true;
-		}
-
-		// Repeat the same procedure for the prefix.
-		if ( prefix && strStartsWith(input, prefix) ) {
-			input = input.replace(prefix, '');
-		}
-
-		// And again for negative.
-		if ( negative && strStartsWith(input, negative) ) {
-			input = input.replace(negative, '');
-			inputIsNegative = true;
-		}
-
-		// Remove the suffix.
-		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice
-		if ( suffix && strEndsWith(input, suffix) ) {
-			input = input.slice(0, -1 * suffix.length);
-		}
-
-		// Remove the thousand grouping.
-		if ( thousand ) {
-			input = input.split(thousand).join('');
-		}
-
-		// Set the decimal separator back to period.
-		if ( mark ) {
-			input = input.replace(mark, '.');
-		}
-
-		// Prepend the negative symbol.
-		if ( inputIsNegative ) {
-			output += '-';
-		}
-
-		// Add the number
-		output += input;
-
-		// Trim all non-numeric characters (allow '.' and '-');
-		output = output.replace(/[^0-9\.\-.]/g, '');
-
-		// The value contains no parse-able number.
-		if ( output === '' ) {
-			return false;
-		}
-
-		// Covert to number.
-		output = Number(output);
-
-		// Run the user-specified post-decoder.
-		if ( decoder ) {
-			output = decoder(output);
-		}
-
-		// Check is the output is valid, otherwise: return false.
-		if ( !isValidNumber(output) ) {
-			return false;
-		}
-
-		return output;
-	}
-
-
-// Framework
-
-	// Validate formatting options
-	function validate ( inputOptions ) {
-
-		var i, optionName, optionValue,
-			filteredOptions = {};
-
-		if ( inputOptions['suffix'] === undefined ) {
-			inputOptions['suffix'] = inputOptions['postfix'];
-		}
-
-		for ( i = 0; i < FormatOptions.length; i+=1 ) {
-
-			optionName = FormatOptions[i];
-			optionValue = inputOptions[optionName];
-
-			if ( optionValue === undefined ) {
-
-				// Only default if negativeBefore isn't set.
-				if ( optionName === 'negative' && !filteredOptions.negativeBefore ) {
-					filteredOptions[optionName] = '-';
-				// Don't set a default for mark when 'thousand' is set.
-				} else if ( optionName === 'mark' && filteredOptions.thousand !== '.' ) {
-					filteredOptions[optionName] = '.';
-				} else {
-					filteredOptions[optionName] = false;
-				}
-
-			// Floating points in JS are stable up to 7 decimals.
-			} else if ( optionName === 'decimals' ) {
-				if ( optionValue >= 0 && optionValue < 8 ) {
-					filteredOptions[optionName] = optionValue;
-				} else {
-					throw new Error(optionName);
-				}
-
-			// These options, when provided, must be functions.
-			} else if ( optionName === 'encoder' || optionName === 'decoder' || optionName === 'edit' || optionName === 'undo' ) {
-				if ( typeof optionValue === 'function' ) {
-					filteredOptions[optionName] = optionValue;
-				} else {
-					throw new Error(optionName);
-				}
-
-			// Other options are strings.
-			} else {
-
-				if ( typeof optionValue === 'string' ) {
-					filteredOptions[optionName] = optionValue;
-				} else {
-					throw new Error(optionName);
-				}
-			}
-		}
-
-		// Some values can't be extracted from a
-		// string if certain combinations are present.
-		throwEqualError(filteredOptions, 'mark', 'thousand');
-		throwEqualError(filteredOptions, 'prefix', 'negative');
-		throwEqualError(filteredOptions, 'prefix', 'negativeBefore');
-
-		return filteredOptions;
-	}
-
-	// Pass all options as function arguments
-	function passAll ( options, method, input ) {
-		var i, args = [];
-
-		// Add all options in order of FormatOptions
-		for ( i = 0; i < FormatOptions.length; i+=1 ) {
-			args.push(options[FormatOptions[i]]);
-		}
-
-		// Append the input, then call the method, presenting all
-		// options as arguments.
-		args.push(input);
-		return method.apply('', args);
-	}
-
-	function wNumb ( options ) {
-
-		if ( !(this instanceof wNumb) ) {
-			return new wNumb ( options );
-		}
-
-		if ( typeof options !== "object" ) {
-			return;
-		}
-
-		options = validate(options);
-
-		// Call 'formatTo' with proper arguments.
-		this.to = function ( input ) {
-			return passAll(options, formatTo, input);
-		};
-
-		// Call 'formatFrom' with proper arguments.
-		this.from = function ( input ) {
-			return passAll(options, formatFrom, input);
-		};
-	}
-
-	return wNumb;
-
-}));
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+  title: '',
+  titleText: '',
+  text: '',
+  html: '',
+  type: null,
+  customClass: '',
+  target: 'body',
+  animation: true,
+  allowOutsideClick: true,
+  allowEscapeKey: true,
+  allowEnterKey: true,
+  showConfirmButton: true,
+  showCancelButton: false,
+  preConfirm: null,
+  confirmButtonText: 'OK',
+  confirmButtonColor: '#3085d6',
+  confirmButtonClass: null,
+  cancelButtonText: 'Cancel',
+  cancelButtonColor: '#aaa',
+  cancelButtonClass: null,
+  buttonsStyling: true,
+  reverseButtons: false,
+  focusCancel: false,
+  showCloseButton: false,
+  showLoaderOnConfirm: false,
+  imageUrl: null,
+  imageWidth: null,
+  imageHeight: null,
+  imageClass: null,
+  timer: null,
+  width: 500,
+  padding: 20,
+  background: '#fff',
+  input: null,
+  inputPlaceholder: '',
+  inputValue: '',
+  inputOptions: {},
+  inputAutoTrim: true,
+  inputClass: null,
+  inputAttributes: {},
+  inputValidator: null,
+  progressSteps: [],
+  currentProgressStep: null,
+  progressStepsDistance: '40px',
+  onOpen: null,
+  onClose: null,
+  useRejections: true
+});
 
 
 /***/ }),
+/* 53 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/***/ 50:
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__classes_js__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(13);
+/* global MouseEvent */
+
+
+
+
+
+// Remember state in cases where opening and handling a modal will fiddle with it.
+const states = {
+  previousWindowKeyDown: null,
+  previousActiveElement: null,
+  previousBodyPadding: null
+}
+/* harmony export (immutable) */ __webpack_exports__["D"] = states;
+
+
+/*
+ * Add modal + overlay to DOM
+ */
+const init = (params) => {
+  if (typeof document === 'undefined') {
+    console.error('SweetAlert2 requires document to initialize')
+    return
+  }
+
+  const container = document.createElement('div')
+  container.className = __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].container
+  container.innerHTML = sweetHTML
+
+  let targetElement = document.querySelector(params.target)
+  if (!targetElement) {
+    console.warn(`SweetAlert2: Can't find the target "${params.target}"`)
+    targetElement = document.body
+  }
+  targetElement.appendChild(container)
+
+  const modal = getModal()
+  const input = getChildByClass(modal, __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].input)
+  const file = getChildByClass(modal, __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].file)
+  const range = modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].range} input`)
+  const rangeOutput = modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].range} output`)
+  const select = getChildByClass(modal, __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].select)
+  const checkbox = modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].checkbox} input`)
+  const textarea = getChildByClass(modal, __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].textarea)
+
+  input.oninput = () => {
+    __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].resetValidationError()
+  }
+
+  input.onkeydown = (event) => {
+    setTimeout(() => {
+      if (event.keyCode === 13 && params.allowEnterKey) {
+        event.stopPropagation()
+        __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].clickConfirm()
+      }
+    }, 0)
+  }
+
+  file.onchange = () => {
+    __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].resetValidationError()
+  }
+
+  range.oninput = () => {
+    __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].resetValidationError()
+    rangeOutput.value = range.value
+  }
+
+  range.onchange = () => {
+    __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].resetValidationError()
+    range.previousSibling.value = range.value
+  }
+
+  select.onchange = () => {
+    __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].resetValidationError()
+  }
+
+  checkbox.onchange = () => {
+    __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].resetValidationError()
+  }
+
+  textarea.oninput = () => {
+    __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].resetValidationError()
+  }
+
+  return modal
+}
+/* harmony export (immutable) */ __webpack_exports__["w"] = init;
+
+
+/*
+ * Manipulate DOM
+ */
+
+const sweetHTML = `
+ <div role="dialog" aria-labelledby="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].title}" aria-describedby="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].content}" class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].modal}" tabindex="-1">
+   <ul class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].progresssteps}"></ul>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].icon} ${__WEBPACK_IMPORTED_MODULE_1__classes_js__["a" /* iconTypes */].error}">
+     <span class="swal2-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span>
+   </div>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].icon} ${__WEBPACK_IMPORTED_MODULE_1__classes_js__["a" /* iconTypes */].question}">?</div>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].icon} ${__WEBPACK_IMPORTED_MODULE_1__classes_js__["a" /* iconTypes */].warning}">!</div>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].icon} ${__WEBPACK_IMPORTED_MODULE_1__classes_js__["a" /* iconTypes */].info}">i</div>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].icon} ${__WEBPACK_IMPORTED_MODULE_1__classes_js__["a" /* iconTypes */].success}">
+     <div class="swal2-success-circular-line-left"></div>
+     <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+     <div class="swal2-success-ring"></div> <div class="swal2-success-fix"></div>
+     <div class="swal2-success-circular-line-right"></div>
+   </div>
+   <img class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].image}" />
+   <h2 class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].title}" id="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].title}"></h2>
+   <div id="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].content}" class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].content}"></div>
+   <input class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].input}" />
+   <input type="file" class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].file}" />
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].range}">
+     <output></output>
+     <input type="range" />
+   </div>
+   <select class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].select}"></select>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].radio}"></div>
+   <label for="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].checkbox}" class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].checkbox}">
+     <input type="checkbox" />
+   </label>
+   <textarea class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].textarea}"></textarea>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].validationerror}"></div>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].buttonswrapper}">
+     <button type="button" class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].confirm}">OK</button>
+     <button type="button" class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].cancel}">Cancel</button>
+   </div>
+   <button type="button" class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].close}" aria-label="Close this dialog">×</button>
+ </div>
+`.replace(/(^|\n)\s*/g, '')
+
+const getContainer = () => document.body.querySelector('.' + __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].container)
+/* harmony export (immutable) */ __webpack_exports__["l"] = getContainer;
+
+
+const getModal = () => getContainer() ? getContainer().querySelector('.' + __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].modal) : null
+/* harmony export (immutable) */ __webpack_exports__["q"] = getModal;
+
+
+const getIcons = () => {
+  const modal = getModal()
+  return modal.querySelectorAll('.' + __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].icon)
+}
+/* harmony export (immutable) */ __webpack_exports__["o"] = getIcons;
+
+
+const elementByClass = (className) => getContainer() ? getContainer().querySelector('.' + className) : null
+/* unused harmony export elementByClass */
+
+
+const getTitle = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].title)
+/* harmony export (immutable) */ __webpack_exports__["s"] = getTitle;
+
+
+const getContent = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].content)
+/* harmony export (immutable) */ __webpack_exports__["m"] = getContent;
+
+
+const getImage = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].image)
+/* harmony export (immutable) */ __webpack_exports__["p"] = getImage;
+
+
+const getButtonsWrapper = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].buttonswrapper)
+/* harmony export (immutable) */ __webpack_exports__["g"] = getButtonsWrapper;
+
+
+const getProgressSteps = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].progresssteps)
+/* harmony export (immutable) */ __webpack_exports__["r"] = getProgressSteps;
+
+
+const getValidationError = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].validationerror)
+/* harmony export (immutable) */ __webpack_exports__["t"] = getValidationError;
+
+
+const getConfirmButton = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].confirm)
+/* harmony export (immutable) */ __webpack_exports__["k"] = getConfirmButton;
+
+
+const getCancelButton = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].cancel)
+/* harmony export (immutable) */ __webpack_exports__["h"] = getCancelButton;
+
+
+const getCloseButton = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].close)
+/* harmony export (immutable) */ __webpack_exports__["j"] = getCloseButton;
+
+
+const getFocusableElements = (focusCancel) => {
+  const buttons = [getConfirmButton(), getCancelButton()]
+  if (focusCancel) {
+    buttons.reverse()
+  }
+  const focusableElements = buttons.concat(Array.prototype.slice.call(
+    getModal().querySelectorAll('button, input:not([type=hidden]), textarea, select, a, *[tabindex]:not([tabindex="-1"])')
+  ))
+  return Object(__WEBPACK_IMPORTED_MODULE_2__utils_js__["b" /* uniqueArray */])(focusableElements)
+}
+/* harmony export (immutable) */ __webpack_exports__["n"] = getFocusableElements;
+
+
+const hasClass = (elem, className) => {
+  if (elem.classList) {
+    return elem.classList.contains(className)
+  }
+  return false
+}
+/* harmony export (immutable) */ __webpack_exports__["u"] = hasClass;
+
+
+const focusInput = (input) => {
+  input.focus()
+
+  // place cursor at end of text in text input
+  if (input.type !== 'file') {
+    // http://stackoverflow.com/a/2345915/1331425
+    const val = input.value
+    input.value = ''
+    input.value = val
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["f"] = focusInput;
+
+
+const addClass = (elem, className) => {
+  if (!elem || !className) {
+    return
+  }
+  const classes = className.split(/\s+/).filter(Boolean)
+  classes.forEach((className) => {
+    elem.classList.add(className)
+  })
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = addClass;
+
+
+const removeClass = (elem, className) => {
+  if (!elem || !className) {
+    return
+  }
+  const classes = className.split(/\s+/).filter(Boolean)
+  classes.forEach((className) => {
+    elem.classList.remove(className)
+  })
+}
+/* harmony export (immutable) */ __webpack_exports__["z"] = removeClass;
+
+
+const getChildByClass = (elem, className) => {
+  for (let i = 0; i < elem.childNodes.length; i++) {
+    if (hasClass(elem.childNodes[i], className)) {
+      return elem.childNodes[i]
+    }
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["i"] = getChildByClass;
+
+
+const show = (elem, display) => {
+  if (!display) {
+    display = 'block'
+  }
+  elem.style.opacity = ''
+  elem.style.display = display
+}
+/* harmony export (immutable) */ __webpack_exports__["C"] = show;
+
+
+const hide = (elem) => {
+  elem.style.opacity = ''
+  elem.style.display = 'none'
+}
+/* harmony export (immutable) */ __webpack_exports__["v"] = hide;
+
+
+const empty = (elem) => {
+  while (elem.firstChild) {
+    elem.removeChild(elem.firstChild)
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["d"] = empty;
+
+
+// borrowed from jqeury $(elem).is(':visible') implementation
+const isVisible = (elem) => elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length
+/* harmony export (immutable) */ __webpack_exports__["x"] = isVisible;
+
+
+const removeStyleProperty = (elem, property) => {
+  if (elem.style.removeProperty) {
+    elem.style.removeProperty(property)
+  } else {
+    elem.style.removeAttribute(property)
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["A"] = removeStyleProperty;
+
+
+const fireClick = (node) => {
+  if (!isVisible(node)) {
+    return false
+  }
+
+  // Taken from http://www.nonobtrusive.com/2011/11/29/programatically-fire-crossbrowser-click-event-with-javascript/
+  // Then fixed for today's Chrome browser.
+  if (typeof MouseEvent === 'function') {
+    // Up-to-date approach
+    const mevt = new MouseEvent('click', {
+      view: window,
+      bubbles: false,
+      cancelable: true
+    })
+    node.dispatchEvent(mevt)
+  } else if (document.createEvent) {
+    // Fallback
+    const evt = document.createEvent('MouseEvents')
+    evt.initEvent('click', false, false)
+    node.dispatchEvent(evt)
+  } else if (document.createEventObject) {
+    node.fireEvent('onclick')
+  } else if (typeof node.onclick === 'function') {
+    node.onclick()
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["e"] = fireClick;
+
+
+const animationEndEvent = (() => {
+  const testEl = document.createElement('div')
+  const transEndEventNames = {
+    'WebkitAnimation': 'webkitAnimationEnd',
+    'OAnimation': 'oAnimationEnd oanimationend',
+    'msAnimation': 'MSAnimationEnd',
+    'animation': 'animationend'
+  }
+  for (const i in transEndEventNames) {
+    if (transEndEventNames.hasOwnProperty(i) &&
+      testEl.style[i] !== undefined) {
+      return transEndEventNames[i]
+    }
+  }
+
+  return false
+})()
+/* harmony export (immutable) */ __webpack_exports__["b"] = animationEndEvent;
+
+
+// Reset previous window keydown handler and focued element
+const resetPrevState = () => {
+  window.onkeydown = states.previousWindowKeyDown
+  if (states.previousActiveElement && states.previousActiveElement.focus) {
+    let x = window.scrollX
+    let y = window.scrollY
+    states.previousActiveElement.focus()
+    if (x && y) { // IE has no scrollX/scrollY support
+      window.scrollTo(x, y)
+    }
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["B"] = resetPrevState;
+
+
+// Measure width of scrollbar
+// https://github.com/twbs/bootstrap/blob/master/js/modal.js#L279-L286
+const measureScrollbar = () => {
+  var supportsTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints
+  if (supportsTouch) {
+    return 0
+  }
+  const scrollDiv = document.createElement('div')
+  scrollDiv.style.width = '50px'
+  scrollDiv.style.height = '50px'
+  scrollDiv.style.overflow = 'scroll'
+  document.body.appendChild(scrollDiv)
+  const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
+  document.body.removeChild(scrollDiv)
+  return scrollbarWidth
+}
+/* harmony export (immutable) */ __webpack_exports__["y"] = measureScrollbar;
+
+
+// JavaScript Debounce Function
+// Simplivied version of https://davidwalsh.name/javascript-debounce-function
+const debounce = (func, wait) => {
+  let timeout
+  return () => {
+    const later = () => {
+      timeout = null
+      func()
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["c"] = debounce;
+
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery) {/**
+ * Bootstrap Multiselect (https://github.com/davidstutz/bootstrap-multiselect)
+ * 
+ * Apache License, Version 2.0:
+ * Copyright (c) 2012 - 2015 David Stutz
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a
+ * copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ * 
+ * BSD 3-Clause License:
+ * Copyright (c) 2012 - 2015 David Stutz
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *    - Redistributions of source code must retain the above copyright notice,
+ *      this list of conditions and the following disclaimer.
+ *    - Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
+ *      and/or other materials provided with the distribution.
+ *    - Neither the name of David Stutz nor the names of its contributors may be
+ *      used to endorse or promote products derived from this software without
+ *      specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+!function ($) {
+    "use strict";// jshint ;_;
+
+    if (typeof ko !== 'undefined' && ko.bindingHandlers && !ko.bindingHandlers.multiselect) {
+        ko.bindingHandlers.multiselect = {
+            after: ['options', 'value', 'selectedOptions'],
+
+            init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+                var $element = $(element);
+                var config = ko.toJS(valueAccessor());
+
+                $element.multiselect(config);
+
+                if (allBindings.has('options')) {
+                    var options = allBindings.get('options');
+                    if (ko.isObservable(options)) {
+                        ko.computed({
+                            read: function() {
+                                options();
+                                setTimeout(function() {
+                                    var ms = $element.data('multiselect');
+                                    if (ms)
+                                        ms.updateOriginalOptions();//Not sure how beneficial this is.
+                                    $element.multiselect('rebuild');
+                                }, 1);
+                            },
+                            disposeWhenNodeIsRemoved: element
+                        });
+                    }
+                }
+
+                //value and selectedOptions are two-way, so these will be triggered even by our own actions.
+                //It needs some way to tell if they are triggered because of us or because of outside change.
+                //It doesn't loop but it's a waste of processing.
+                if (allBindings.has('value')) {
+                    var value = allBindings.get('value');
+                    if (ko.isObservable(value)) {
+                        ko.computed({
+                            read: function() {
+                                value();
+                                setTimeout(function() {
+                                    $element.multiselect('refresh');
+                                }, 1);
+                            },
+                            disposeWhenNodeIsRemoved: element
+                        }).extend({ rateLimit: 100, notifyWhenChangesStop: true });
+                    }
+                }
+
+                //Switched from arrayChange subscription to general subscription using 'refresh'.
+                //Not sure performance is any better using 'select' and 'deselect'.
+                if (allBindings.has('selectedOptions')) {
+                    var selectedOptions = allBindings.get('selectedOptions');
+                    if (ko.isObservable(selectedOptions)) {
+                        ko.computed({
+                            read: function() {
+                                selectedOptions();
+                                setTimeout(function() {
+                                    $element.multiselect('refresh');
+                                }, 1);
+                            },
+                            disposeWhenNodeIsRemoved: element
+                        }).extend({ rateLimit: 100, notifyWhenChangesStop: true });
+                    }
+                }
+
+                ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
+                    $element.multiselect('destroy');
+                });
+            },
+
+            update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+                var $element = $(element);
+                var config = ko.toJS(valueAccessor());
+
+                $element.multiselect('setOptions', config);
+                $element.multiselect('rebuild');
+            }
+        };
+    }
+
+    function forEach(array, callback) {
+        for (var index = 0; index < array.length; ++index) {
+            callback(array[index], index);
+        }
+    }
+
+    /**
+     * Constructor to create a new multiselect using the given select.
+     *
+     * @param {jQuery} select
+     * @param {Object} options
+     * @returns {Multiselect}
+     */
+    function Multiselect(select, options) {
+
+        this.$select = $(select);
+        
+        // Placeholder via data attributes
+        if (this.$select.attr("data-placeholder")) {
+            options.nonSelectedText = this.$select.data("placeholder");
+        }
+        
+        this.options = this.mergeOptions($.extend({}, options, this.$select.data()));
+
+        // Initialization.
+        // We have to clone to create a new reference.
+        this.originalOptions = this.$select.clone()[0].options;
+        this.query = '';
+        this.searchTimeout = null;
+        this.lastToggledInput = null
+
+        this.options.multiple = this.$select.attr('multiple') === "multiple";
+        this.options.onChange = $.proxy(this.options.onChange, this);
+        this.options.onDropdownShow = $.proxy(this.options.onDropdownShow, this);
+        this.options.onDropdownHide = $.proxy(this.options.onDropdownHide, this);
+        this.options.onDropdownShown = $.proxy(this.options.onDropdownShown, this);
+        this.options.onDropdownHidden = $.proxy(this.options.onDropdownHidden, this);
+        
+        // Build select all if enabled.
+        this.buildContainer();
+        this.buildButton();
+        this.buildDropdown();
+        this.buildSelectAll();
+        this.buildDropdownOptions();
+        this.buildFilter();
+
+        this.updateButtonText();
+        this.updateSelectAll();
+
+        if (this.options.disableIfEmpty && $('option', this.$select).length <= 0) {
+            this.disable();
+        }
+        
+        this.$select.hide().after(this.$container);
+    };
+
+    Multiselect.prototype = {
+
+        defaults: {
+            /**
+             * Default text function will either print 'None selected' in case no
+             * option is selected or a list of the selected options up to a length
+             * of 3 selected options.
+             * 
+             * @param {jQuery} options
+             * @param {jQuery} select
+             * @returns {String}
+             */
+            buttonText: function(options, select) {
+                if (options.length === 0) {
+                    return this.nonSelectedText;
+                }
+                else if (this.allSelectedText 
+                            && options.length === $('option', $(select)).length 
+                            && $('option', $(select)).length !== 1 
+                            && this.multiple) {
+
+                    if (this.selectAllNumber) {
+                        return this.allSelectedText + ' (' + options.length + ')';
+                    }
+                    else {
+                        return this.allSelectedText;
+                    }
+                }
+                else if (options.length > this.numberDisplayed) {
+                    return options.length + ' ' + this.nSelectedText;
+                }
+                else {
+                    var selected = '';
+                    var delimiter = this.delimiterText;
+                    
+                    options.each(function() {
+                        var label = ($(this).attr('label') !== undefined) ? $(this).attr('label') : $(this).text();
+                        selected += label + delimiter;
+                    });
+                    
+                    return selected.substr(0, selected.length - 2);
+                }
+            },
+            /**
+             * Updates the title of the button similar to the buttonText function.
+             * 
+             * @param {jQuery} options
+             * @param {jQuery} select
+             * @returns {@exp;selected@call;substr}
+             */
+            buttonTitle: function(options, select) {
+                if (options.length === 0) {
+                    return this.nonSelectedText;
+                }
+                else {
+                    var selected = '';
+                    var delimiter = this.delimiterText;
+                    
+                    options.each(function () {
+                        var label = ($(this).attr('label') !== undefined) ? $(this).attr('label') : $(this).text();
+                        selected += label + delimiter;
+                    });
+                    return selected.substr(0, selected.length - 2);
+                }
+            },
+            /**
+             * Create a label.
+             *
+             * @param {jQuery} element
+             * @returns {String}
+             */
+            optionLabel: function(element){
+                return $(element).attr('label') || $(element).text();
+            },
+            /**
+             * Triggered on change of the multiselect.
+             * 
+             * Not triggered when selecting/deselecting options manually.
+             * 
+             * @param {jQuery} option
+             * @param {Boolean} checked
+             */
+            onChange : function(option, checked) {
+
+            },
+            /**
+             * Triggered when the dropdown is shown.
+             *
+             * @param {jQuery} event
+             */
+            onDropdownShow: function(event) {
+
+            },
+            /**
+             * Triggered when the dropdown is hidden.
+             *
+             * @param {jQuery} event
+             */
+            onDropdownHide: function(event) {
+
+            },
+            /**
+             * Triggered after the dropdown is shown.
+             * 
+             * @param {jQuery} event
+             */
+            onDropdownShown: function(event) {
+                
+            },
+            /**
+             * Triggered after the dropdown is hidden.
+             * 
+             * @param {jQuery} event
+             */
+            onDropdownHidden: function(event) {
+                
+            },
+            /**
+             * Triggered on select all.
+             */
+            onSelectAll: function() {
+                
+            },
+            enableHTML: false,
+            buttonClass: 'btn btn-default',
+            inheritClass: false,
+            buttonWidth: 'auto',
+            buttonContainer: '<div class="btn-group" />',
+            dropRight: false,
+            selectedClass: 'active',
+            // Maximum height of the dropdown menu.
+            // If maximum height is exceeded a scrollbar will be displayed.
+            maxHeight: false,
+            checkboxName: false,
+            includeSelectAllOption: false,
+            includeSelectAllIfMoreThan: 0,
+            selectAllText: 'انتخاب همه',
+            selectAllValue: 'multiselect-all',
+            selectAllName: false,
+            selectAllNumber: true,
+            enableFiltering: false,
+            enableCaseInsensitiveFiltering: false,
+            enableClickableOptGroups: false,
+            filterPlaceholder: 'Search',
+            // possible options: 'text', 'value', 'both'
+            filterBehavior: 'text',
+            includeFilterClearBtn: true,
+            preventInputChangeEvent: false,
+            nonSelectedText: 'None selected',
+            nSelectedText: 'selected',
+            allSelectedText: 'All selected',
+            numberDisplayed: 3,
+            disableIfEmpty: false,
+            delimiterText: ', ',
+            templates: {
+                button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> <b class="caret"></b></button>',
+                ul: '<ul class="multiselect-container dropdown-menu"></ul>',
+                filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
+                filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default multiselect-clear-filter" type="button"><i class="glyphicon glyphicon-remove-circle"></i></button></span>',
+                li: '<li><a tabindex="0"><label></label></a></li>',
+                divider: '<li class="multiselect-item divider"></li>',
+                liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
+            }
+        },
+
+        constructor: Multiselect,
+
+        /**
+         * Builds the container of the multiselect.
+         */
+        buildContainer: function() {
+            this.$container = $(this.options.buttonContainer);
+            this.$container.on('show.bs.dropdown', this.options.onDropdownShow);
+            this.$container.on('hide.bs.dropdown', this.options.onDropdownHide);
+            this.$container.on('shown.bs.dropdown', this.options.onDropdownShown);
+            this.$container.on('hidden.bs.dropdown', this.options.onDropdownHidden);
+        },
+
+        /**
+         * Builds the button of the multiselect.
+         */
+        buildButton: function() {
+            this.$button = $(this.options.templates.button).addClass(this.options.buttonClass);
+            if (this.$select.attr('class') && this.options.inheritClass) {
+                this.$button.addClass(this.$select.attr('class'));
+            }
+            // Adopt active state.
+            if (this.$select.prop('disabled')) {
+                this.disable();
+            }
+            else {
+                this.enable();
+            }
+
+            // Manually add button width if set.
+            if (this.options.buttonWidth && this.options.buttonWidth !== 'auto') {
+                this.$button.css({
+                    'width' : this.options.buttonWidth,
+                    'overflow' : 'hidden',
+                    'text-overflow' : 'ellipsis'
+                });
+                this.$container.css({
+                    'width': this.options.buttonWidth
+                });
+            }
+
+            // Keep the tab index from the select.
+            var tabindex = this.$select.attr('tabindex');
+            if (tabindex) {
+                this.$button.attr('tabindex', tabindex);
+            }
+
+            this.$container.prepend(this.$button);
+        },
+
+        /**
+         * Builds the ul representing the dropdown menu.
+         */
+        buildDropdown: function() {
+
+            // Build ul.
+            this.$ul = $(this.options.templates.ul);
+
+            if (this.options.dropRight) {
+                this.$ul.addClass('pull-right');
+            }
+
+            // Set max height of dropdown menu to activate auto scrollbar.
+            if (this.options.maxHeight) {
+                // TODO: Add a class for this option to move the css declarations.
+                this.$ul.css({
+                    'max-height': this.options.maxHeight + 'px',
+                    'overflow-y': 'auto',
+                    'overflow-x': 'hidden'
+                });
+            }
+
+            this.$container.append(this.$ul);
+        },
+
+        /**
+         * Build the dropdown options and binds all nessecary events.
+         * 
+         * Uses createDivider and createOptionValue to create the necessary options.
+         */
+        buildDropdownOptions: function() {
+
+            this.$select.children().each($.proxy(function(index, element) {
+
+                var $element = $(element);
+                // Support optgroups and options without a group simultaneously.
+                var tag = $element.prop('tagName')
+                    .toLowerCase();
+            
+                if ($element.prop('value') === this.options.selectAllValue) {
+                    return;
+                }
+
+                if (tag === 'optgroup') {
+                    this.createOptgroup(element);
+                }
+                else if (tag === 'option') {
+
+                    if ($element.data('role') === 'divider') {
+                        this.createDivider();
+                    }
+                    else {
+                        this.createOptionValue(element);
+                    }
+
+                }
+
+                // Other illegal tags will be ignored.
+            }, this));
+
+            // Bind the change event on the dropdown elements.
+            $('li input', this.$ul).on('change', $.proxy(function(event) {
+                var $target = $(event.target);
+
+                var checked = $target.prop('checked') || false;
+                var isSelectAllOption = $target.val() === this.options.selectAllValue;
+
+                // Apply or unapply the configured selected class.
+                if (this.options.selectedClass) {
+                    if (checked) {
+                        $target.closest('li')
+                            .addClass(this.options.selectedClass);
+                    }
+                    else {
+                        $target.closest('li')
+                            .removeClass(this.options.selectedClass);
+                    }
+                }
+
+                // Get the corresponding option.
+                var value = $target.val();
+                var $option = this.getOptionByValue(value);
+
+                var $optionsNotThis = $('option', this.$select).not($option);
+                var $checkboxesNotThis = $('input', this.$container).not($target);
+
+                if (isSelectAllOption) {
+                    if (checked) {
+                        this.selectAll();
+                    }
+                    else {
+                        this.deselectAll();
+                    }
+                }
+
+                if(!isSelectAllOption){
+                    if (checked) {
+                        $option.prop('selected', true);
+
+                        if (this.options.multiple) {
+                            // Simply select additional option.
+                            $option.prop('selected', true);
+                        }
+                        else {
+                            // Unselect all other options and corresponding checkboxes.
+                            if (this.options.selectedClass) {
+                                $($checkboxesNotThis).closest('li').removeClass(this.options.selectedClass);
+                            }
+
+                            $($checkboxesNotThis).prop('checked', false);
+                            $optionsNotThis.prop('selected', false);
+
+                            // It's a single selection, so close.
+                            this.$button.click();
+                        }
+
+                        if (this.options.selectedClass === "active") {
+                            $optionsNotThis.closest("a").css("outline", "");
+                        }
+                    }
+                    else {
+                        // Unselect option.
+                        $option.prop('selected', false);
+                    }
+                }
+
+                this.$select.change();
+
+                this.updateButtonText();
+                this.updateSelectAll();
+
+                this.options.onChange($option, checked);
+
+                if(this.options.preventInputChangeEvent) {
+                    return false;
+                }
+            }, this));
+
+            $('li a', this.$ul).on('mousedown', function(e) {
+                if (e.shiftKey) {
+                    // Prevent selecting text by Shift+click
+                    return false;
+                }
+            });
+        
+            $('li a', this.$ul).on('touchstart click', $.proxy(function(event) {
+                event.stopPropagation();
+
+                var $target = $(event.target);
+                
+                if (event.shiftKey && this.options.multiple) {
+                    if($target.is("label")){ // Handles checkbox selection manually (see https://github.com/davidstutz/bootstrap-multiselect/issues/431)
+                        event.preventDefault();
+                        $target = $target.find("input");
+                        $target.prop("checked", !$target.prop("checked"));
+                    }
+                    var checked = $target.prop('checked') || false;
+
+                    if (this.lastToggledInput !== null && this.lastToggledInput !== $target) { // Make sure we actually have a range
+                        var from = $target.closest("li").index();
+                        var to = this.lastToggledInput.closest("li").index();
+                        
+                        if (from > to) { // Swap the indices
+                            var tmp = to;
+                            to = from;
+                            from = tmp;
+                        }
+                        
+                        // Make sure we grab all elements since slice excludes the last index
+                        ++to;
+                        
+                        // Change the checkboxes and underlying options
+                        var range = this.$ul.find("li").slice(from, to).find("input");
+                        
+                        range.prop('checked', checked);
+                        
+                        if (this.options.selectedClass) {
+                            range.closest('li')
+                                .toggleClass(this.options.selectedClass, checked);
+                        }
+                        
+                        for (var i = 0, j = range.length; i < j; i++) {
+                            var $checkbox = $(range[i]);
+
+                            var $option = this.getOptionByValue($checkbox.val());
+
+                            $option.prop('selected', checked);
+                        }                   
+                    }
+                    
+                    // Trigger the select "change" event
+                    $target.trigger("change");
+                }
+                
+                // Remembers last clicked option
+                if($target.is("input") && !$target.closest("li").is(".multiselect-item")){
+                    this.lastToggledInput = $target;
+                }
+
+                $target.blur();
+            }, this));
+
+            // Keyboard support.
+            this.$container.off('keydown.multiselect').on('keydown.multiselect', $.proxy(function(event) {
+                if ($('input[type="text"]', this.$container).is(':focus')) {
+                    return;
+                }
+
+                if (event.keyCode === 9 && this.$container.hasClass('open')) {
+                    this.$button.click();
+                }
+                else {
+                    var $items = $(this.$container).find("li:not(.divider):not(.disabled) a").filter(":visible");
+
+                    if (!$items.length) {
+                        return;
+                    }
+
+                    var index = $items.index($items.filter(':focus'));
+
+                    // Navigation up.
+                    if (event.keyCode === 38 && index > 0) {
+                        index--;
+                    }
+                    // Navigate down.
+                    else if (event.keyCode === 40 && index < $items.length - 1) {
+                        index++;
+                    }
+                    else if (!~index) {
+                        index = 0;
+                    }
+
+                    var $current = $items.eq(index);
+                    $current.focus();
+
+                    if (event.keyCode === 32 || event.keyCode === 13) {
+                        var $checkbox = $current.find('input');
+
+                        $checkbox.prop("checked", !$checkbox.prop("checked"));
+                        $checkbox.change();
+                    }
+
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            }, this));
+
+            if(this.options.enableClickableOptGroups && this.options.multiple) {
+                $('li.multiselect-group', this.$ul).on('click', $.proxy(function(event) {
+                    event.stopPropagation();
+
+                    var group = $(event.target).parent();
+
+                    // Search all option in optgroup
+                    var $options = group.nextUntil('li.multiselect-group');
+                    var $visibleOptions = $options.filter(":visible:not(.disabled)");
+
+                    // check or uncheck items
+                    var allChecked = true;
+                    var optionInputs = $visibleOptions.find('input');
+                    optionInputs.each(function() {
+                        allChecked = allChecked && $(this).prop('checked');
+                    });
+
+                    optionInputs.prop('checked', !allChecked).trigger('change');
+               }, this));
+            }
+        },
+
+        /**
+         * Create an option using the given select option.
+         *
+         * @param {jQuery} element
+         */
+        createOptionValue: function(element) {
+            var $element = $(element);
+            if ($element.is(':selected')) {
+                $element.prop('selected', true);
+            }
+
+            // Support the label attribute on options.
+            var label = this.options.optionLabel(element);
+            var value = $element.val();
+            var inputType = this.options.multiple ? "checkbox" : "radio";
+
+            var $li = $(this.options.templates.li);
+            var $label = $('label', $li);
+            $label.addClass(inputType);
+
+            if (this.options.enableHTML) {
+                $label.html(" " + label);
+            }
+            else {
+                $label.text(" " + label);
+            }
+        
+            var $checkbox = $('<input/>').attr('type', inputType);
+
+            if (this.options.checkboxName) {
+                $checkbox.attr('name', this.options.checkboxName);
+            }
+            $label.prepend($checkbox);
+
+            var selected = $element.prop('selected') || false;
+            $checkbox.val(value);
+
+            if (value === this.options.selectAllValue) {
+                $li.addClass("multiselect-item multiselect-all");
+                $checkbox.parent().parent()
+                    .addClass('multiselect-all');
+            }
+
+            $label.attr('title', $element.attr('title'));
+
+            this.$ul.append($li);
+
+            if ($element.is(':disabled')) {
+                $checkbox.attr('disabled', 'disabled')
+                    .prop('disabled', true)
+                    .closest('a')
+                    .attr("tabindex", "-1")
+                    .closest('li')
+                    .addClass('disabled');
+            }
+
+            $checkbox.prop('checked', selected);
+
+            if (selected && this.options.selectedClass) {
+                $checkbox.closest('li')
+                    .addClass(this.options.selectedClass);
+            }
+        },
+
+        /**
+         * Creates a divider using the given select option.
+         *
+         * @param {jQuery} element
+         */
+        createDivider: function(element) {
+            var $divider = $(this.options.templates.divider);
+            this.$ul.append($divider);
+        },
+
+        /**
+         * Creates an optgroup.
+         *
+         * @param {jQuery} group
+         */
+        createOptgroup: function(group) {
+            var groupName = $(group).prop('label');
+
+            // Add a header for the group.
+            var $li = $(this.options.templates.liGroup);
+            
+            if (this.options.enableHTML) {
+                $('label', $li).html(groupName);
+            }
+            else {
+                $('label', $li).text(groupName);
+            }
+            
+            if (this.options.enableClickableOptGroups) {
+                $li.addClass('multiselect-group-clickable');
+            }
+
+            this.$ul.append($li);
+
+            if ($(group).is(':disabled')) {
+                $li.addClass('disabled');
+            }
+
+            // Add the options of the group.
+            $('option', group).each($.proxy(function(index, element) {
+                this.createOptionValue(element);
+            }, this));
+        },
+
+        /**
+         * Build the selct all.
+         * 
+         * Checks if a select all has already been created.
+         */
+        buildSelectAll: function() {
+            if (typeof this.options.selectAllValue === 'number') {
+                this.options.selectAllValue = this.options.selectAllValue.toString();
+            }
+            
+            var alreadyHasSelectAll = this.hasSelectAll();
+
+            if (!alreadyHasSelectAll && this.options.includeSelectAllOption && this.options.multiple
+                    && $('option', this.$select).length > this.options.includeSelectAllIfMoreThan) {
+
+                // Check whether to add a divider after the select all.
+                if (this.options.includeSelectAllDivider) {
+                    this.$ul.prepend($(this.options.templates.divider));
+                }
+
+                var $li = $(this.options.templates.li);
+                $('label', $li).addClass("checkbox");
+                
+                if (this.options.enableHTML) {
+                    $('label', $li).html(" " + this.options.selectAllText);
+                }
+                else {
+                    $('label', $li).text(" " + this.options.selectAllText);
+                }
+                
+                if (this.options.selectAllName) {
+                    $('label', $li).prepend('<input type="checkbox" name="' + this.options.selectAllName + '" />');
+                }
+                else {
+                    $('label', $li).prepend('<input type="checkbox" />');
+                }
+                
+                var $checkbox = $('input', $li);
+                $checkbox.val(this.options.selectAllValue);
+
+                $li.addClass("multiselect-item multiselect-all");
+                $checkbox.parent().parent()
+                    .addClass('multiselect-all');
+
+                this.$ul.prepend($li);
+
+                $checkbox.prop('checked', false);
+            }
+        },
+
+        /**
+         * Builds the filter.
+         */
+        buildFilter: function() {
+
+            // Build filter if filtering OR case insensitive filtering is enabled and the number of options exceeds (or equals) enableFilterLength.
+            if (this.options.enableFiltering || this.options.enableCaseInsensitiveFiltering) {
+                var enableFilterLength = Math.max(this.options.enableFiltering, this.options.enableCaseInsensitiveFiltering);
+
+                if (this.$select.find('option').length >= enableFilterLength) {
+
+                    this.$filter = $(this.options.templates.filter);
+                    $('input', this.$filter).attr('placeholder', this.options.filterPlaceholder);
+                    
+                    // Adds optional filter clear button
+                    if(this.options.includeFilterClearBtn){
+                        var clearBtn = $(this.options.templates.filterClearBtn);
+                        clearBtn.on('click', $.proxy(function(event){
+                            clearTimeout(this.searchTimeout);
+                            this.$filter.find('.multiselect-search').val('');
+                            $('li', this.$ul).show().removeClass("filter-hidden");
+                            this.updateSelectAll();
+                        }, this));
+                        this.$filter.find('.input-group').append(clearBtn);
+                    }
+                    
+                    this.$ul.prepend(this.$filter);
+
+                    this.$filter.val(this.query).on('click', function(event) {
+                        event.stopPropagation();
+                    }).on('input keydown', $.proxy(function(event) {
+                        // Cancel enter key default behaviour
+                        if (event.which === 13) {
+                          event.preventDefault();
+                        }
+                        
+                        // This is useful to catch "keydown" events after the browser has updated the control.
+                        clearTimeout(this.searchTimeout);
+
+                        this.searchTimeout = this.asyncFunction($.proxy(function() {
+
+                            if (this.query !== event.target.value) {
+                                this.query = event.target.value;
+
+                                var currentGroup, currentGroupVisible;
+                                $.each($('li', this.$ul), $.proxy(function(index, element) {
+                                    var value = $('input', element).length > 0 ? $('input', element).val() : "";
+                                    var text = $('label', element).text();
+
+                                    var filterCandidate = '';
+                                    if ((this.options.filterBehavior === 'text')) {
+                                        filterCandidate = text;
+                                    }
+                                    else if ((this.options.filterBehavior === 'value')) {
+                                        filterCandidate = value;
+                                    }
+                                    else if (this.options.filterBehavior === 'both') {
+                                        filterCandidate = text + '\n' + value;
+                                    }
+
+                                    if (value !== this.options.selectAllValue && text) {
+                                        // By default lets assume that element is not
+                                        // interesting for this search.
+                                        var showElement = false;
+
+                                        if (this.options.enableCaseInsensitiveFiltering && filterCandidate.toLowerCase().indexOf(this.query.toLowerCase()) > -1) {
+                                            showElement = true;
+                                        }
+                                        else if (filterCandidate.indexOf(this.query) > -1) {
+                                            showElement = true;
+                                        }
+
+                                        // Toggle current element (group or group item) according to showElement boolean.
+                                        $(element).toggle(showElement).toggleClass('filter-hidden', !showElement);
+                                        
+                                        // Differentiate groups and group items.
+                                        if ($(element).hasClass('multiselect-group')) {
+                                            // Remember group status.
+                                            currentGroup = element;
+                                            currentGroupVisible = showElement;
+                                        }
+                                        else {
+                                            // Show group name when at least one of its items is visible.
+                                            if (showElement) {
+                                                $(currentGroup).show().removeClass('filter-hidden');
+                                            }
+                                            
+                                            // Show all group items when group name satisfies filter.
+                                            if (!showElement && currentGroupVisible) {
+                                                $(element).show().removeClass('filter-hidden');
+                                            }
+                                        }
+                                    }
+                                }, this));
+                            }
+
+                            this.updateSelectAll();
+                        }, this), 300, this);
+                    }, this));
+                }
+            }
+        },
+
+        /**
+         * Unbinds the whole plugin.
+         */
+        destroy: function() {
+            this.$container.remove();
+            this.$select.show();
+            this.$select.data('multiselect', null);
+        },
+
+        /**
+         * Refreshs the multiselect based on the selected options of the select.
+         */
+        refresh: function() {
+            $('option', this.$select).each($.proxy(function(index, element) {
+                var $input = $('li input', this.$ul).filter(function() {
+                    return $(this).val() === $(element).val();
+                });
+
+                if ($(element).is(':selected')) {
+                    $input.prop('checked', true);
+
+                    if (this.options.selectedClass) {
+                        $input.closest('li')
+                            .addClass(this.options.selectedClass);
+                    }
+                }
+                else {
+                    $input.prop('checked', false);
+
+                    if (this.options.selectedClass) {
+                        $input.closest('li')
+                            .removeClass(this.options.selectedClass);
+                    }
+                }
+
+                if ($(element).is(":disabled")) {
+                    $input.attr('disabled', 'disabled')
+                        .prop('disabled', true)
+                        .closest('li')
+                        .addClass('disabled');
+                }
+                else {
+                    $input.prop('disabled', false)
+                        .closest('li')
+                        .removeClass('disabled');
+                }
+            }, this));
+
+            this.updateButtonText();
+            this.updateSelectAll();
+        },
+
+        /**
+         * Select all options of the given values.
+         * 
+         * If triggerOnChange is set to true, the on change event is triggered if
+         * and only if one value is passed.
+         * 
+         * @param {Array} selectValues
+         * @param {Boolean} triggerOnChange
+         */
+        select: function(selectValues, triggerOnChange) {
+            if(!$.isArray(selectValues)) {
+                selectValues = [selectValues];
+            }
+
+            for (var i = 0; i < selectValues.length; i++) {
+                var value = selectValues[i];
+
+                if (value === null || value === undefined) {
+                    continue;
+                }
+
+                var $option = this.getOptionByValue(value);
+                var $checkbox = this.getInputByValue(value);
+
+                if($option === undefined || $checkbox === undefined) {
+                    continue;
+                }
+                
+                if (!this.options.multiple) {
+                    this.deselectAll(false);
+                }
+                
+                if (this.options.selectedClass) {
+                    $checkbox.closest('li')
+                        .addClass(this.options.selectedClass);
+                }
+
+                $checkbox.prop('checked', true);
+                $option.prop('selected', true);
+                
+                if (triggerOnChange) {
+                    this.options.onChange($option, true);
+                }
+            }
+
+            this.updateButtonText();
+            this.updateSelectAll();
+        },
+
+        /**
+         * Clears all selected items.
+         */
+        clearSelection: function () {
+            this.deselectAll(false);
+            this.updateButtonText();
+            this.updateSelectAll();
+        },
+
+        /**
+         * Deselects all options of the given values.
+         * 
+         * If triggerOnChange is set to true, the on change event is triggered, if
+         * and only if one value is passed.
+         * 
+         * @param {Array} deselectValues
+         * @param {Boolean} triggerOnChange
+         */
+        deselect: function(deselectValues, triggerOnChange) {
+            if(!$.isArray(deselectValues)) {
+                deselectValues = [deselectValues];
+            }
+
+            for (var i = 0; i < deselectValues.length; i++) {
+                var value = deselectValues[i];
+
+                if (value === null || value === undefined) {
+                    continue;
+                }
+
+                var $option = this.getOptionByValue(value);
+                var $checkbox = this.getInputByValue(value);
+
+                if($option === undefined || $checkbox === undefined) {
+                    continue;
+                }
+
+                if (this.options.selectedClass) {
+                    $checkbox.closest('li')
+                        .removeClass(this.options.selectedClass);
+                }
+
+                $checkbox.prop('checked', false);
+                $option.prop('selected', false);
+                
+                if (triggerOnChange) {
+                    this.options.onChange($option, false);
+                }
+            }
+
+            this.updateButtonText();
+            this.updateSelectAll();
+        },
+        
+        /**
+         * Selects all enabled & visible options.
+         *
+         * If justVisible is true or not specified, only visible options are selected.
+         *
+         * @param {Boolean} justVisible
+         * @param {Boolean} triggerOnSelectAll
+         */
+        selectAll: function (justVisible, triggerOnSelectAll) {
+            var justVisible = typeof justVisible === 'undefined' ? true : justVisible;
+            var allCheckboxes = $("li input[type='checkbox']:enabled", this.$ul);
+            var visibleCheckboxes = allCheckboxes.filter(":visible");
+            var allCheckboxesCount = allCheckboxes.length;
+            var visibleCheckboxesCount = visibleCheckboxes.length;
+            
+            if(justVisible) {
+                visibleCheckboxes.prop('checked', true);
+                $("li:not(.divider):not(.disabled)", this.$ul).filter(":visible").addClass(this.options.selectedClass);
+            }
+            else {
+                allCheckboxes.prop('checked', true);
+                $("li:not(.divider):not(.disabled)", this.$ul).addClass(this.options.selectedClass);
+            }
+                
+            if (allCheckboxesCount === visibleCheckboxesCount || justVisible === false) {
+                $("option:enabled", this.$select).prop('selected', true);
+            }
+            else {
+                var values = visibleCheckboxes.map(function() {
+                    return $(this).val();
+                }).get();
+                
+                $("option:enabled", this.$select).filter(function(index) {
+                    return $.inArray($(this).val(), values) !== -1;
+                }).prop('selected', true);
+            }
+            
+            if (triggerOnSelectAll) {
+                this.options.onSelectAll();
+            }
+        },
+
+        /**
+         * Deselects all options.
+         * 
+         * If justVisible is true or not specified, only visible options are deselected.
+         * 
+         * @param {Boolean} justVisible
+         */
+        deselectAll: function (justVisible) {
+            var justVisible = typeof justVisible === 'undefined' ? true : justVisible;
+            
+            if(justVisible) {              
+                var visibleCheckboxes = $("li input[type='checkbox']:not(:disabled)", this.$ul).filter(":visible");
+                visibleCheckboxes.prop('checked', false);
+                
+                var values = visibleCheckboxes.map(function() {
+                    return $(this).val();
+                }).get();
+                
+                $("option:enabled", this.$select).filter(function(index) {
+                    return $.inArray($(this).val(), values) !== -1;
+                }).prop('selected', false);
+                
+                if (this.options.selectedClass) {
+                    $("li:not(.divider):not(.disabled)", this.$ul).filter(":visible").removeClass(this.options.selectedClass);
+                }
+            }
+            else {
+                $("li input[type='checkbox']:enabled", this.$ul).prop('checked', false);
+                $("option:enabled", this.$select).prop('selected', false);
+                
+                if (this.options.selectedClass) {
+                    $("li:not(.divider):not(.disabled)", this.$ul).removeClass(this.options.selectedClass);
+                }
+            }
+        },
+
+        /**
+         * Rebuild the plugin.
+         * 
+         * Rebuilds the dropdown, the filter and the select all option.
+         */
+        rebuild: function() {
+            this.$ul.html('');
+
+            // Important to distinguish between radios and checkboxes.
+            this.options.multiple = this.$select.attr('multiple') === "multiple";
+
+            this.buildSelectAll();
+            this.buildDropdownOptions();
+            this.buildFilter();
+
+            this.updateButtonText();
+            this.updateSelectAll();
+            
+            if (this.options.disableIfEmpty && $('option', this.$select).length <= 0) {
+                this.disable();
+            }
+            else {
+                this.enable();
+            }
+            
+            if (this.options.dropRight) {
+                this.$ul.addClass('pull-right');
+            }
+        },
+
+        /**
+         * The provided data will be used to build the dropdown.
+         */
+        dataprovider: function(dataprovider) {
+            
+            var groupCounter = 0;
+            var $select = this.$select.empty();
+            
+            $.each(dataprovider, function (index, option) {
+                var $tag;
+                
+                if ($.isArray(option.children)) { // create optiongroup tag
+                    groupCounter++;
+                    
+                    $tag = $('<optgroup/>').attr({
+                        label: option.label || 'Group ' + groupCounter,
+                        disabled: !!option.disabled
+                    });
+                    
+                    forEach(option.children, function(subOption) { // add children option tags
+                        $tag.append($('<option/>').attr({
+                            value: subOption.value,
+                            label: subOption.label || subOption.value,
+                            title: subOption.title,
+                            selected: !!subOption.selected,
+                            disabled: !!subOption.disabled
+                        }));
+                    });
+                }
+                else {
+                    $tag = $('<option/>').attr({
+                        value: option.value,
+                        label: option.label || option.value,
+                        title: option.title,
+                        selected: !!option.selected,
+                        disabled: !!option.disabled
+                    });
+                }
+                
+                $select.append($tag);
+            });
+            
+            this.rebuild();
+        },
+
+        /**
+         * Enable the multiselect.
+         */
+        enable: function() {
+            this.$select.prop('disabled', false);
+            this.$button.prop('disabled', false)
+                .removeClass('disabled');
+        },
+
+        /**
+         * Disable the multiselect.
+         */
+        disable: function() {
+            this.$select.prop('disabled', true);
+            this.$button.prop('disabled', true)
+                .addClass('disabled');
+        },
+
+        /**
+         * Set the options.
+         *
+         * @param {Array} options
+         */
+        setOptions: function(options) {
+            this.options = this.mergeOptions(options);
+        },
+
+        /**
+         * Merges the given options with the default options.
+         *
+         * @param {Array} options
+         * @returns {Array}
+         */
+        mergeOptions: function(options) {
+            return $.extend(true, {}, this.defaults, this.options, options);
+        },
+
+        /**
+         * Checks whether a select all checkbox is present.
+         *
+         * @returns {Boolean}
+         */
+        hasSelectAll: function() {
+            return $('li.multiselect-all', this.$ul).length > 0;
+        },
+
+        /**
+         * Updates the select all checkbox based on the currently displayed and selected checkboxes.
+         */
+        updateSelectAll: function() {
+            if (this.hasSelectAll()) {
+                var allBoxes = $("li:not(.multiselect-item):not(.filter-hidden) input:enabled", this.$ul);
+                var allBoxesLength = allBoxes.length;
+                var checkedBoxesLength = allBoxes.filter(":checked").length;
+                var selectAllLi  = $("li.multiselect-all", this.$ul);
+                var selectAllInput = selectAllLi.find("input");
+                
+                if (checkedBoxesLength > 0 && checkedBoxesLength === allBoxesLength) {
+                    selectAllInput.prop("checked", true);
+                    selectAllLi.addClass(this.options.selectedClass);
+                    this.options.onSelectAll();
+                }
+                else {
+                    selectAllInput.prop("checked", false);
+                    selectAllLi.removeClass(this.options.selectedClass);
+                }
+            }
+        },
+
+        /**
+         * Update the button text and its title based on the currently selected options.
+         */
+        updateButtonText: function() {
+            var options = this.getSelected();
+            
+            // First update the displayed button text.
+            if (this.options.enableHTML) {
+                $('.multiselect .multiselect-selected-text', this.$container).html(this.options.buttonText(options, this.$select));
+            }
+            else {
+                $('.multiselect .multiselect-selected-text', this.$container).text(this.options.buttonText(options, this.$select));
+            }
+            
+            // Now update the title attribute of the button.
+            $('.multiselect', this.$container).attr('title', this.options.buttonTitle(options, this.$select));
+        },
+
+        /**
+         * Get all selected options.
+         *
+         * @returns {jQUery}
+         */
+        getSelected: function() {
+            return $('option', this.$select).filter(":selected");
+        },
+
+        /**
+         * Gets a select option by its value.
+         *
+         * @param {String} value
+         * @returns {jQuery}
+         */
+        getOptionByValue: function (value) {
+
+            var options = $('option', this.$select);
+            var valueToCompare = value.toString();
+
+            for (var i = 0; i < options.length; i = i + 1) {
+                var option = options[i];
+                if (option.value === valueToCompare) {
+                    return $(option);
+                }
+            }
+        },
+
+        /**
+         * Get the input (radio/checkbox) by its value.
+         *
+         * @param {String} value
+         * @returns {jQuery}
+         */
+        getInputByValue: function (value) {
+
+            var checkboxes = $('li input', this.$ul);
+            var valueToCompare = value.toString();
+
+            for (var i = 0; i < checkboxes.length; i = i + 1) {
+                var checkbox = checkboxes[i];
+                if (checkbox.value === valueToCompare) {
+                    return $(checkbox);
+                }
+            }
+        },
+
+        /**
+         * Used for knockout integration.
+         */
+        updateOriginalOptions: function() {
+            this.originalOptions = this.$select.clone()[0].options;
+        },
+
+        asyncFunction: function(callback, timeout, self) {
+            var args = Array.prototype.slice.call(arguments, 3);
+            return setTimeout(function() {
+                callback.apply(self || window, args);
+            }, timeout);
+        },
+
+        setAllSelectedText: function(allSelectedText) {
+            this.options.allSelectedText = allSelectedText;
+            this.updateButtonText();
+        }
+    };
+
+    $.fn.multiselect = function(option, parameter, extraOptions) {
+        return this.each(function() {
+            var data = $(this).data('multiselect');
+            var options = typeof option === 'object' && option;
+
+            // Initialize the multiselect.
+            if (!data) {
+                data = new Multiselect(this, options);
+                $(this).data('multiselect', data);
+            }
+
+            // Call multiselect method.
+            if (typeof option === 'string') {
+                data[option](parameter, extraOptions);
+                
+                if (option === 'destroy') {
+                    $(this).data('multiselect', false);
+                }
+            }
+        });
+    };
+
+    $.fn.multiselect.Constructor = Multiselect;
+
+    $(function() {
+        $("select[data-role=multiselect]").multiselect();
+    });
+
+}(__webpack_provided_window_dot_jQuery);
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(jQuery, $) {var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/*!
+ * Bez v1.0.10-g5ae0136
+ * http://github.com/rdallasgray/bez
+ * 
+ * A plugin to convert CSS3 cubic-bezier co-ordinates to jQuery-compatible easing functions
+ * 
+ * With thanks to Nikolay Nemshilov for clarification on the cubic-bezier maths
+ * See http://st-on-it.blogspot.com/2011/05/calculating-cubic-bezier-function.html
+ * 
+ * Copyright 2011 Robert Dallas Gray. All rights reserved.
+ * Provided under the FreeBSD license: https://github.com/rdallasgray/bez/blob/master/LICENSE.txt
+*/jQuery.extend({ bez: function bez(a) {
+    var b = "bez_" + $.makeArray(arguments).join("_").replace(".", "p");if (typeof jQuery.easing[b] != "function") {
+      var c = function c(a, b) {
+        var c = [null, null],
+            d = [null, null],
+            e = [null, null],
+            f = function f(_f, g) {
+          return e[g] = 3 * a[g], d[g] = 3 * (b[g] - a[g]) - e[g], c[g] = 1 - e[g] - d[g], _f * (e[g] + _f * (d[g] + _f * c[g]));
+        },
+            g = function g(a) {
+          return e[0] + a * (2 * d[0] + 3 * c[0] * a);
+        },
+            h = function h(a) {
+          var b = a,
+              c = 0,
+              d;while (++c < 14) {
+            d = f(b, 0) - a;if (Math.abs(d) < .001) break;b -= d / g(b);
+          }return b;
+        };return function (a) {
+          return f(h(a), 1);
+        };
+      };jQuery.easing[b] = function (b, d, e, f, g) {
+        return f * c([a[0], a[1]], [a[2], a[3]])(d / g) + e;
+      };
+    }return b;
+  } });
+/*!
+ * Roto v1.5.5-gfe1c278
+ * http://github.com/rdallasgray/roto
+ * 
+ * A simple, flexible, touch-capable scrolling plugin for jQuery
+ * 
+ * Copyright 2012 Robert Dallas Gray. All rights reserved.
+ * Provided under the FreeBSD license: https://github.com/rdallasgray/roto/blob/master/LICENSE.txt
+ */(function (e, t, n, r) {
+  e.fn.roto = function (i) {
+    var s = { rotoSelector: ".rotoFrame", btnPrev: ".prev", btnNext: ".next", btnAction: "shift", direction: "h", shift_duration: 200, shift_bezier: [0, 0, 0, 1], drift_duration: 1800, drift_factor: 500, drift_bezier: [0, 0, .3, 1], bounce_duration: 400, bounce_bezier: [0, .5, .5, 1], pull_divisor: 1.7, timer_interval: 50, disable_transitions: !1, startOffset: 0, endOffset: 0, snap: !0, clickables: "a, img", auto_disable: !0 },
+        i = e.extend(s, i || {}),
+        o = 1e3,
+        u = "client",
+        a = function () {
+      try {
+        return n.createEvent("TouchEvent"), !0;
+      } catch (e) {
+        return !1;
+      }
+    }(),
+        f = a ? { start: "touchstart", move: "touchmove", end: "touchend" } : { start: "mousedown", move: "mousemove", end: "mouseup" },
+        l = function l(e) {
+      return a && typeof e.originalEvent.touches != "undefined" ? e.originalEvent.touches[0] : e;
+    },
+        c = { h: { measure: "Width", offsetName: "left", coOrd: "X", opp: "v" }, v: { measure: "Height", offsetName: "top", coOrd: "Y", opp: "h" } },
+        h = c[i.direction],
+        p = null,
+        d = null,
+        v = null,
+        m = null;if (!i.disable_transitions) {
+      var g = n.body || n.documentElement,
+          y = { transform: "transform", MozTransform: "-moz-transform", WebkitTransform: "-webkit-transform" },
+          b = { transition: { prop: "transition", event: "transitionend" }, MozTransition: { prop: "-moz-transition", event: "transitionend" }, WebkitTransition: { prop: "-webkit-transition", event: "webkitTransitionEnd" } };for (var w in y) {
+        if (typeof g.style[w] != "undefined") {
+          p = y[w];break;
+        }
+      }for (var w in b) {
+        if (typeof g.style[w] != "undefined") {
+          d = b[w].prop, v = b[w].event;break;
+        }
+      }
+    }var E = d !== null;return this.each(function () {
+      var m = e(this),
+          g = m.children(i.rotoSelector).length > 0 ? m.children(i.rotoSelector).first() : m.children("ul").length > 0 ? m.children("ul").first() : m.children().first(),
+          y = g.children(),
+          b = 0,
+          w = 0,
+          S = 0,
+          x = 0,
+          T = -1,
+          N = 0,
+          C = 0,
+          k = _typeof(m.attr("id")) !== r ? m.attr("id") : "roto" + new Date().getTime(),
+          L = null,
+          A = null,
+          O = { ready: "ready", tracking: "tracking", drifting: "drifting", shifting: "shifting", bouncing: "bouncing" },
+          M = O.ready,
+          _ = !1,
+          D = m.find(i.btnPrev),
+          P = m.find(i.btnNext),
+          H = null,
+          B = !0,
+          j = function j(t, n, s, u) {
+        var a = u,
+            f = i[s + "_duration"];if (!_ || !E) a = function a() {
+          G(), u();
+        }, _ = !0;if (E) {
+          var l = I();l.timingFunction[s] === r && (l.timingFunction[s] = ["cubic-bezier(", i[s + "_bezier"].join(","), ")"].join(""));var c = {};c[l.durationProp] = f / o + "s", c[l.timingFunctionProp] = A.timingFunction[s], t.css(c), t.data("animationCallback", a), t.unbind(v), t.one(v, function () {
+            t.data("animationCallback", null), a();
+          }), t.css(n);
+        } else t.animate(n, f, e.bez(i[s + "_bezier"]), a);
+      },
+          F = function F(e) {
+        if (E) {
+          var t = R();e.unbind(v), e.css(q(t)), typeof e.data("animationCallback") == "function" && (e.data("animationCallback")(), e.data("animationCallback", null));
+        } else e.stop();
+      },
+          I = function I() {
+        return A === null && (A = { durationProp: d + "-duration", timingFunctionProp: d + "-timing-function", timingFunction: {} }), A;
+      },
+          q = function q(e) {
+        var t = {};if (E) {
+          if (L === null) {
+            var n = a ? "3d" : "",
+                r = n === "3d" ? "(Xpx,Ypx,0px)" : "(Xpx,Ypx)",
+                i = c[h.opp].coOrd;L = ["translate", n, r.replace(i, "0")].join("");
+          }t[p] = L.replace(h.coOrd, e);
+        } else t[h.offsetName] = e + "px";return t;
+      },
+          R = function R() {
+        var e;if (!E) e = g.position()[h.offsetName] - b;else {
+          var t = g.css(p);if (t === "none") return 0;var n = t.match(/\-?[0-9]+/g),
+              r = h.coOrd === "X" ? n[4] : n[5];e = parseInt(r);
+        }return e - i.startOffset;
+      },
+          U = function U(t, n) {
+        var r = 0,
+            i,
+            s,
+            o = n > 0 ? y.get().reverse() : y,
+            u,
+            a,
+            f = "outer" + h.measure;return e.each(o, function (o, l) {
+          a = e(l), r = -1 * Math.round(a.position()[h.offsetName]), u = l;if (r * n >= t * n) return !1;n < 0 ? (i = -1 * r + a[f](!0), s = -1 * t) : (i = a.prev().length > 0 ? r + a.prev()[f](!0) : r, s = t);if (i > s) return !1;
+        }), [u, r];
+      },
+          z = function z(t, n) {
+        var r = n < 0 ? "next" : "prev",
+            i = e(U(t, n)[0]),
+            s = i;while (s[r]().length > 0 && s.position()[h.offsetName] === i.position()[h.offsetName]) {
+          s = s[r]();
+        }return s;
+      },
+          W = function W(e, t, n) {
+        var t = t === 0 ? T : t;return n ? -1 * Math.round(z(e, t).position()[h.offsetName]) : U(e, t)[1];
+      },
+          X = function X() {
+        var e = R();return e === W(e, T, !1);
+      },
+          V = function V() {
+        C = 0, y = g.children(), y.css({ display: "block", "float": "left" });if (i.direction === "h") y.each(function (t, n) {
+          C += Math.round(e(n)["outer" + h.measure](!0));
+        }), g[h.measure.toLowerCase()](C);else {
+          var t = e(y.last());C = Math.round(t.position()[h.offsetName] + t["outer" + h.measure](!0));
+        }N = Math.round(m[h.measure.toLowerCase()]()), S = -1 * Math.round(Math.max(0, C - N) + b + i.endOffset);if (i.snap) {
+          var n = W(S, -1, !1);S = n > S ? W(S, -1, !0) : n;
+        }i.auto_disable && J(S !== w);
+      },
+          J = function J(e) {
+        e || nt(w), B = !!e;
+      },
+          K = function K() {
+        return H === null && (H = (typeof D === "undefined" ? "undefined" : _typeof(D)) == "object" && typeof D.click == "function" && (typeof P === "undefined" ? "undefined" : _typeof(P)) == "object" && typeof P.click == "function"), H;
+      },
+          Q = function Q() {
+        if (!K()) return;var e = R();e > S ? P.removeAttr("disabled") : P.attr("disabled", "disabled"), e < w ? D.removeAttr("disabled") : D.attr("disabled", "disabled");
+      },
+          G = function G() {
+        m.trigger("rotoChange", [U(R(), 1)[0]]), _ = !1;
+      },
+          Y = function Y(e) {
+        var t = typeof e === "undefined" ? "undefined" : _typeof(e),
+            n;switch (t) {case "number":
+            Z(e);break;case "object":
+            et(e);break;case "string":
+            (n = e.match(/(-?[0-9]+)(px$)/)) ? nt(parseInt(n[1])) : (n = e.match(/prev|next/)) && tt(e);}
+      },
+          Z = function Z(t) {
+        if (t < 0 || t >= y.length) return;var n = e(y.get(t));et(n);
+      },
+          et = function et(t) {
+        var n = e(t);if (!n.parent() === g) return;nt(-1 * n.position()[h.offsetName]);
+      },
+          tt = function tt(e) {
+        var t = e === "prev" ? 1 : -1;et(z(R(), t));
+      },
+          nt = function nt(e, t) {
+        t = t || "shift", e > w ? e = w : e < S && (e = S), e += i.startOffset, j(g, q(e), t, function () {
+          Q(), M = O.ready;
+        });
+      },
+          rt = function rt(e) {
+        if (M === O.shifting) return;var t = 0;M = O.shifting, T = e, e < 0 ? t = Math.max(W(R() - (N - i.startOffset), e, !1), S) : t = Math.min(W(R() + (N - i.startOffset), e, !1), w), nt(t);
+      },
+          it = function it(e) {
+        var t = e < 0 ? "next" : "prev";tt(t);
+      },
+          st = function st(e) {
+        var t = Math.round(e + x),
+            n;if (t < w && t > S) n = t;else var r = t >= w ? t - w : t - S,
+            n = t - r / i.pull_divisor;if (M !== O.tracking) {
+          var s = {},
+              o = I();s[o.durationProp] = "0s", s[o.timingFunctionProp] = "none", g.css(s);
+        }M = O.tracking, g.css(q(n));
+      },
+          ot = function ot() {
+        var e = ft.getPointerSpeed(),
+            t = e[0],
+            n = e[1],
+            r = R(),
+            s = t * i.drift_factor * n,
+            o = s + r;o > w ? o = w : o < S ? o = S : i.snap && !X() && (o = W(o, n, !0));if (o === r) {
+          G();return;
+        }M = O.drifting, nt(o, "drift");
+      },
+          ut = function ut(e) {
+        var t = e < 0 ? S : w;M = O.bouncing, nt(t, "bounce");
+      },
+          at = i.btnAction === "shift" ? rt : it,
+          ft = function () {
+        var e = 0,
+            n = 0,
+            r = 0,
+            s = null,
+            o = { startCoOrd: 0, endCoOrd: 0 };return { start: function start() {
+            r = e = n, s = t.setInterval(function () {
+              o.startCoOrd = e, o.endCoOrd = n, e = n;
+            }, i.timer_interval);
+          }, stop: function stop() {
+            clearInterval(s), o.endCoOrd = n;
+          }, getPointerSpeed: function getPointerSpeed() {
+            var e = o.endCoOrd - o.startCoOrd,
+                t = Math.abs(e),
+                n = t / i.timer_interval,
+                s = e === 0 ? o.endCoOrd - r : e,
+                u = s <= 0 ? s === 0 ? 0 : -1 : 1;return u !== 0 && (T = u), [n, u];
+          }, setCurrentCoOrd: function setCurrentCoOrd(e) {
+            n = e;
+          } };
+      }(),
+          lt = function lt() {
+        V(), Q(), i.setTestVars && setTestVars();
+      };g.bind(f.start + ".roto-" + k, function (s) {
+        var o = M;x = R(), F(g);var c = g.find("a"),
+            p = {},
+            d = u + h.coOrd,
+            v = !1;o !== O.drifting && g.undelegate(i.clickables, "click.roto-trackclick-" + k), M = O.ready, a || (s.target.draggable && s.preventDefault(), n.ondragstart !== r && g.find(i.clickables).one("dragstart.roto-" + k, function (e) {
+          e.preventDefault();
+        }), c.length > 0 && e(n).one(f.move + ".roto-" + k, function (t) {
+          c.data("events") !== r && (e.each(c.data("events"), function (t, n) {
+            p[t] = [], e.each(n, function (e, n) {
+              n.namespace !== "roto-" + k && p[t].push(n);
+            });
+          }), c.unbind(), v = !0), g.delegate(i.clickables, "click.roto-trackclick-" + k, function (e) {
+            e.preventDefault();
+          });
+        })), s = l(s);var m = s[d];ft.setCurrentCoOrd(m), e(n).bind(f.move + ".roto-" + k, function (e) {
+          if (!B) return;e.preventDefault(), e = l(e), ft.setCurrentCoOrd(e[d]), st(e[d] - m);
+        }), e(n).bind(f.end + ".roto-" + k, function () {
+          ft.stop();var r = R();r > w || r < S ? ut(R() - w) : ot(), e(n).unbind(f.move + ".roto-" + k), t.setTimeout(function () {
+            v && e.each(p, function (t, n) {
+              e.each(n, function (e, t) {
+                var n = t.type;t.namespace !== "" && (n = [n, ".", t.namespace].join("")), c.bind(n, t.data, t.handler);
+              });
+            });
+          }, 250), e(this).unbind();
+        }), ft.start();
+      }), D.length === 0 && i.btnPrev === s.btnPrev && m.attr("id") && (D = e("#" + m.attr("id") + "-prev"), P = e("#" + m.attr("id") + "-next")), K() && (D.click(function () {
+        return at(1);
+      }), P.click(function () {
+        return at(-1);
+      })), e(t).resize(function () {
+        lt();
+      }), d === "-webkit-transition" && g.css("-webkit-backface-visibility", "hidden"), m.css({ display: "block", overflow: "hidden", position: "relative" }), g.css({ position: "relative", padding: 0, margin: 0 }), m.bind("rotoGoto", function (e, t) {
+        Y(t);
+      }), m.bind("rotoShift", function (e, t) {
+        rt(t);
+      }), m.bind("rotoContentChange", function () {
+        lt();
+      }), m.bind("rotoDisable", function () {
+        J(!1);
+      }), m.bind("rotoEnable", function () {
+        J(!0);
+      }), lt(), i.startOffset !== 0 && (g.css(q(i.startOffset)), Q()), b = Math.round(g.position()[h.offsetName]), b !== i.startOffset && V();
+    });
+  };
+})(jQuery, window, document);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(1)))
+
+/***/ }),
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_typed_js__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_typed_js__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_typed_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_typed_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_node_waves__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_node_waves__ = __webpack_require__(58);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_node_waves___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_node_waves__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nouislider__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nouislider__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nouislider___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_nouislider__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_wnumb__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_wnumb__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_wnumb___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_wnumb__);
 
 
@@ -13049,8 +16557,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-btn', ['waves-float', 'waves-light']);
-__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-btn-gradientOutline', ['waves-float', 'waves-light']);
+__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-btn', ['waves-light']);
+__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-btn-gradientOutline', ['waves-light']);
+__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.filter-search-btn', ['waves-light']);
+__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-filters-btn', ['waves-block']);
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.init();
 
 //****************** Ads Card Hover Effect ********************
@@ -13069,30 +16579,104 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").mouseleave(
 });
 
 //****************** Cost Slider ********************
-var stepSlider = document.getElementById('slider-step');
+// var stepSlider = document.getElementById('slider-step');
+//
+// noUiSlider.create(stepSlider, {
+//     start: [50000, 5000000],
+//     step: 50000,
+//     connect: true,
+//     direction: 'rtl',
+//     tooltips: true,
+//     range: {
+//         'min': 50000,
+//         'max': 5000000
+//     },
+//     format: wNumb({
+//         decimals: 0,
+//         thousand: ',',
+//         postfix: ' تومان',
+//     })
+// });
+//
+//
+// stepSlider.noUiSlider.on('update', function(){
+//
+// });
 
-__WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(stepSlider, {
-    start: [50000, 5000000],
-    step: 50000,
-    connect: true,
-    direction: 'rtl',
-    tooltips: true,
-    range: {
-        'min': 50000,
-        'max': 5000000
-    },
-    format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
-        decimals: 0,
-        thousand: ',',
-        postfix: ' تومان'
-    })
+// <!-- Initialize the plugin: -->
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()(document).ready(function () {
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()('#example-getting-started').multiselect({
+        nonSelectedText: 'انتخاب کنید',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
 });
 
-stepSlider.noUiSlider.on('update', function () {});
+//****************** Filters Tray ********************
+var isTrayOpen = false;
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-cost-btn").click(function () {
+    if (isTrayOpen) {
+        closeTray();
+        openTray(this);
+    } else {
+        isTrayOpen = true;
+        openTray(this);
+    }
+});
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-metr-btn").click(function () {
+    if (isTrayOpen) {
+        closeTray();
+        openTray(this);
+    } else {
+        isTrayOpen = true;
+        openTray(this);
+    }
+});
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-room-btn").click(function () {
+    if (isTrayOpen) {
+        closeTray();
+        openTray(this);
+    } else {
+        isTrayOpen = true;
+        openTray(this);
+    }
+});
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-noemelk-btn").click(function () {
+    if (isTrayOpen) {
+        closeTray();
+        openTray(this);
+    } else {
+        isTrayOpen = true;
+        openTray(this);
+    }
+});
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-moamele-btn").click(function () {
+    if (isTrayOpen) {
+        closeTray();
+        openTray(this);
+    } else {
+        isTrayOpen = true;
+        openTray(this);
+    }
+});
+
+function closeTray() {
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".m-filters-btn i").removeClass('gradient-text');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()('.filter-selected').css('color', '#949494');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray").animate({
+        "margin-top": -124
+    }, 530, __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.bez([0.45, -0.41, 0.52, 1.04]));
+}
+function openTray(element) {
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(element).find('i').addClass('gradient-text');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(element).find('.filter-selected').css('color', 'black');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray").animate({
+        "margin-top": 0
+    }, 530, __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.bez([0.86, 0, 0.07, 1]));
+}
 
 /***/ }),
-
-/***/ 51:
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -14149,8 +17733,7 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-
-/***/ 52:
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -14740,8 +18323,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-
-/***/ 53:
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! nouislider - 10.1.0 - 2017-07-28 17:11:18 */
@@ -17061,5 +20643,4 @@ function closure ( target, options, originalOptions ){
 }));
 
 /***/ })
-
-/******/ });
+/******/ ]);

@@ -1,14 +1,12 @@
 
 // Fonts
-//@import "resources/assets/fonts/css/font";
 @import "../../assets/fonts/css/_font.scss";
 
-@import "resources/assets/fonts/css/font";
-//@import "../../assets/fonts/css/_font.scss";
-
 // Bootstrap
-//@import "node_modules/bootstrap/scss/bootstrap.scss";
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+
+//Dropdown
+@import "../../../node_modules/bootstrap-multiselect/dist/css/bootstrap-multiselect.css";
 
 // Site Css
 @import "utilities/config";
