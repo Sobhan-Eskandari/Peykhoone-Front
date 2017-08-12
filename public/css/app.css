@@ -10325,6 +10325,11 @@ a.text-gray-dark:hover {
 
 body {
   font-family: IRANSans !important;
+  /* background-image: url("/images/home.jpg");
+  height: 4000px;
+  background-size: cover;
+  background-position-y: -3230px;
+  overflow-y: scroll;*/
 }
 
 h1,
@@ -10414,7 +10419,7 @@ button:focus {
   background: #FFFFFF;
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.21);
           box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.21);
-  border-radius: 6px;
+  border-radius: 5px;
 }
 
 .m-card-image {
@@ -10592,6 +10597,40 @@ button:focus {
   width: 70%;
 }
 
+.m-footer-about {
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 30px;
+  padding-right: 30px;
+  color: whitesmoke;
+}
+
+.m-Sn-icon {
+  width: 50px;
+  height: 40px;
+  background-size: 70px 900px !important;
+  background-repeat-x: no-repeat !important;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.m-telegram-icon {
+  background: url("/images/home-icon.png") 0 240px;
+}
+
+.m-instagram-icon {
+  background: url("/images/home-icon.png") 0 50px;
+}
+
+.m-twitter-icon {
+  background: url("/images/home-icon.png") 0 175px;
+}
+
+.m-facebook-icon {
+  background: url("/images/home-icon.png") 0 113px;
+}
+
 .m-navBar {
   background-color: #282828;
 }
@@ -10676,38 +10715,115 @@ button:focus {
   width: 70%;
 }
 
-.m-footer-about {
-  font-size: 14px;
-  font-weight: 100;
-  line-height: 30px;
-  padding-right: 30px;
-  color: whitesmoke;
+.m-aboutUs {
+  background-color: #2aafe4;
+  padding-top: 3%;
+  padding-bottom: 2%;
 }
 
-.m-Sn-icon {
-  width: 50px;
-  height: 40px;
-  background-size: 70px 900px !important;
-  background-repeat-x: no-repeat !important;
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+.m-aboutUs-tel {
+  direction: ltr;
+  font-size: 19px;
+}
+
+.m-aboutUs-msg,
+.m-aboutUs-tel {
+  color: white;
+  font-weight: 400 !important;
+  line-height: normal;
+}
+
+@media (max-width: 1000px) {
+  .m-aboutUs-msg,
+  .m-aboutUs-tel {
+    text-align: center;
+  }
+}
+
+.m-profileBox-sublayer {
+  border-radius: 18px;
+  height: 210px;
+  width: 100%;
+  background: -webkit-gradient(linear, left top, left bottom, from(#007991), to(#63E7CA));
+  background: linear-gradient(-180deg, #007991 0%, #63E7CA 100%);
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.29);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.29);
+}
+
+.m-profileBox-upperLayer {
+  border-radius: 18px;
+  height: 210px;
+  width: 100%;
+  background: white;
+  margin-left: 1.3%;
+}
+
+.m-breadcrumb {
+  padding: 1.15% 3.4% 1.15% 3.4%;
+  background-color: white;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+}
+
+.m-breadcrumb-item {
+  float: right;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.m-list-homeItem {
+  border-top: 1px solid #eeeeee !important;
 }
 
 .m-telegram-icon {
   background: url("/images/home-icon.png") 0 240px;
 }
 
-.m-instagram-icon {
-  background: url("/images/home-icon.png") 0 50px;
+.m-list-home {
+  background-color: white;
 }
 
-.m-twitter-icon {
-  background: url("/images/home-icon.png") 0 175px;
+.m-list-homeItem-l {
+  font-size: 14px;
+  font-weight: 400;
+  padding-top: 2.5%;
 }
 
-.m-facebook-icon {
-  background: url("/images/home-icon.png") 0 113px;
+.m-list-homeItem-r {
+  font-size: 16px;
+  font-weight: 400;
+  padding-top: 7.4%;
+}
+
+.m-facilities-title {
+  color: #007991;
+  font-size: 17px;
+}
+
+.m-facilities-checkText {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.m-facilities-hr {
+  border-top-color: #EEEEEE;
+}
+
+.m-facilities-cardBox {
+  background-color: white;
+  padding: 2.5%;
+  border-radius: 12px;
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+}
+
+.m-pagination-angle {
+  font-family: FontAwesome;
+}
+
+.m-pagination-num {
+  padding: 9.5px 12px 9.5px 12px;
 }
 
 .m-filter-nav .nav-tabs {
@@ -10802,6 +10918,63 @@ button:focus {
   background-color: transparent !important;
   bottom: -120% !important;
   color: black !important;
+}
+
+.m-pagination-angle,
+.m-pagination-num {
+  color: #3c3d41;
+}
+
+.m-pagination-num:focus {
+  background-color: #007991 !important;
+  color: white !important;
+}
+
+.m-pagination-angleLink:focus {
+  background-color: #007991 !important;
+  color: white;
+}
+
+.m-horizentalCard-box {
+  border-radius: 10px;
+  background-color: white;
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.29);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.29);
+}
+
+.m-horizentalCard-img {
+  border-radius: 10px;
+}
+
+.m-horizentalCard-title {
+  font-size: 15px;
+}
+
+.m-horizentalCard-exp {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.m-horizentalCard-moreExp {
+  font-size: 11px;
+  color: #949494;
+}
+
+.m-horizentalCard-btn {
+  font-size: 12px;
+  width: 80px;
+  border-radius: 5px;
+  float: left;
+}
+
+.m-realState-info {
+  background-color: white;
+}
+
+.m-realState-detailInfo {
+  font-size: 14px;
+  line-height: normal;
 }
 
 .is-hover-gradient:hover {
