@@ -16563,6 +16563,18 @@ __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.filter-search-btn', 
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-filters-btn', ['waves-block']);
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.init();
 
+// ============[ Translate English digits to farsi ]===========
+var translate = function translate(englishNumber) {
+    var chars = englishNumber.split('');
+    var arabicNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    for (var i = 0; i < chars.length; i++) {
+        if (/\d/.test(chars[i])) {
+            chars[i] = arabicNumbers[chars[i]];
+        }
+    }
+    return chars.join('');
+};
+
 //****************** Ads Card Hover Effect ********************
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").mouseenter(function () {
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".m-card-moreInfo").addClass('show');
@@ -16578,30 +16590,52 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").mouseleave(
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".home-cost").css('font-weight', 'normal');
 });
 
-//****************** Cost Slider ********************
-// var stepSlider = document.getElementById('slider-step');
-//
-// noUiSlider.create(stepSlider, {
-//     start: [50000, 5000000],
-//     step: 50000,
-//     connect: true,
-//     direction: 'rtl',
-//     tooltips: true,
-//     range: {
-//         'min': 50000,
-//         'max': 5000000
-//     },
-//     format: wNumb({
-//         decimals: 0,
-//         thousand: ',',
-//         postfix: ' تومان',
-//     })
-// });
-//
-//
-// stepSlider.noUiSlider.on('update', function(){
-//
-// });
+// ****************** Cost Slider ********************
+var stepSlider = document.getElementById('slider-step');
+
+__WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(stepSlider, {
+    start: [50000, 5000000],
+    step: 50000,
+    connect: true,
+    direction: 'rtl',
+    tooltips: true,
+    range: {
+        'min': 50000,
+        'max': 5000000
+    },
+    format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
+        decimals: 0,
+        thousand: ',',
+        postfix: ' تومان'
+    })
+});
+// ****************** Metraj Slider ********************
+var metrajSlider = document.getElementById('metraj-slider');
+
+__WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(metrajSlider, {
+    start: [10, 50000],
+    step: 10,
+    connect: true,
+    direction: 'rtl',
+    tooltips: true,
+    range: {
+        'min': 10,
+        'max': 50000
+    },
+    format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
+        decimals: 0,
+        thousand: ',',
+        postfix: 'متر'
+    })
+});
+
+metrajSlider.noUiSlider.on('update', function (values, handle) {
+    // snapValues[handle].innerHTML = values[handle];
+    var translatedMin = values[0].replace("متر", "");
+    var translatedMax = values[1].replace("متر", "");
+
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-place").text('\u0627\u0632 ' + translate(translatedMin) + ' \u062A\u0627 ' + translate(translatedMax));
+});
 
 // <!-- Initialize the plugin: -->
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()(document).ready(function () {
@@ -16612,68 +16646,248 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()(document).ready(function () {
     });
 });
 
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filters").hide();
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemoamele-filters").hide();
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filters").hide();
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#costs-tray-row").hide();
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-tray-row").hide();
 //****************** Filters Tray ********************
 var isTrayOpen = false;
+var openedTray = "";
+var selectedBtn = void 0;
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-cost-btn").click(function () {
+    selectedBtn = this;
     if (isTrayOpen) {
-        closeTray();
-        openTray(this);
+        closeTray("gheimat");
     } else {
         isTrayOpen = true;
-        openTray(this);
+        openTray("gheimat");
     }
 });
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-metr-btn").click(function () {
+    selectedBtn = this;
     if (isTrayOpen) {
-        closeTray();
-        openTray(this);
+        closeTray("metraj");
     } else {
         isTrayOpen = true;
-        openTray(this);
+        openTray("metraj");
     }
 });
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-room-btn").click(function () {
+    selectedBtn = this;
     if (isTrayOpen) {
-        closeTray();
-        openTray(this);
+        closeTray("tedadekhab");
     } else {
         isTrayOpen = true;
-        openTray(this);
+        openTray("tedadekhab");
     }
 });
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-noemelk-btn").click(function () {
+    selectedBtn = this;
     if (isTrayOpen) {
-        closeTray();
-        openTray(this);
+        closeTray("noemelk");
     } else {
         isTrayOpen = true;
-        openTray(this);
+        openTray("noemelk");
     }
 });
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-moamele-btn").click(function () {
+    selectedBtn = this;
     if (isTrayOpen) {
-        closeTray();
-        openTray(this);
+        closeTray("noemoamele");
     } else {
         isTrayOpen = true;
-        openTray(this);
+        openTray("noemoamele");
     }
 });
 
-function closeTray() {
+function closeTray(filterToShow) {
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".m-filters-btn i").removeClass('gradient-text');
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()('.filter-selected').css('color', '#949494');
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray").animate({
         "margin-top": -124
-    }, 530, __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.bez([0.45, -0.41, 0.52, 1.04]));
+    }, 530, __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.bez([0.45, -0.41, 0.52, 1.04]), function () {
+        if (openedTray !== filterToShow) {
+            switch (filterToShow) {
+                case "noemoamele":
+                    openTray("noemoamele");
+                    break;
+                case "noemelk":
+                    openTray("noemelk");
+                    break;
+                case "tedadekhab":
+                    openTray("tedadekhab");
+                    break;
+                case "gheimat":
+                    openTray("gheimat");
+                    break;
+                case "metraj":
+                    openTray("metraj");
+                    break;
+            }
+        } else {
+            openedTray = "";
+            showOrHideFilters("");
+        }
+    });
 }
-function openTray(element) {
-    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(element).find('i').addClass('gradient-text');
-    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(element).find('.filter-selected').css('color', 'black');
+function openTray(filter) {
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(selectedBtn).find('i').addClass('gradient-text');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(selectedBtn).find('.filter-selected').css('color', 'black');
+    openedTray = filter;
+    showOrHideFilters(filter);
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray").animate({
         "margin-top": 0
-    }, 530, __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.bez([0.86, 0, 0.07, 1]));
+    }, 430, __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.bez([0.86, 0, 0.07, 1]));
 }
+
+function showOrHideFilters(filter) {
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filters").hide();
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemoamele-filters").hide();
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filters").hide();
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#costs-tray-row").hide();
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-tray-row").hide();
+    switch (filter) {
+        case "noemoamele":
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray-row").show();
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemoamele-filters").show();
+            break;
+        case "noemelk":
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray-row").show();
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filters").show();
+            break;
+        case "tedadekhab":
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray-row").show();
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filters").show();
+            break;
+        case "gheimat":
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray-row").hide();
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#costs-tray-row").show();
+            break;
+        case "metraj":
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray-row").hide();
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-tray-row").show();
+            break;
+    }
+}
+
+//****************** Set kardane title Filter Noe Moamele ********************
+var dictionaryOfSelectedMoameleFilters = {
+    "خرید و پیش خرید": true,
+    "رهن و اجاره": false
+};
+var moamelefiltersSelectedCount = 1;
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#kharidVaPishkharid,#rahnVaEjare").click(function () {
+    var labelText = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).siblings('label').text();
+
+    // tedade checkbox haie entekhab shode ra negah midarad
+    if (this.checked) {
+        moamelefiltersSelectedCount++;
+        // dar dictrionary filterha filtere entekhabi ra true mikonad
+        dictionaryOfSelectedMoameleFilters[labelText] = true;
+    } else {
+        moamelefiltersSelectedCount--;
+        // dar dictrionary filterha filtere entekhabi ra false mikonad
+        dictionaryOfSelectedMoameleFilters[labelText] = false;
+    }
+
+    // dar dictionary iterate mikonad va avvalin filteri ke true shode ra be onvane title set mikonad
+    for (var key in dictionaryOfSelectedMoameleFilters) {
+        var value = dictionaryOfSelectedMoameleFilters[key];
+        if (value) {
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemoamele-filter-text").text(key);
+            break;
+        }
+    }
+    // dar soorati ke tedade filterhaie entekhabi bish az 1 bashad و ... ra ezafe mikonad
+    if (moamelefiltersSelectedCount > 1) {
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemoamele-filter-text").text(__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemoamele-filter-text").text() + " و ...");
+    } else if (moamelefiltersSelectedCount === 0) {
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemoamele-filter-text").text("انتخاب کنید");
+    }
+});
+
+//****************** Set kardane title Filter Noe Melk ********************
+var dictionaryOfSelectedMelkFilters = {
+    "آپارتمان مسکونی": true,
+    "آپارتمان اداری": false,
+    "ویلا": false,
+    "کلنگی": false,
+    "مستغلات": false,
+    "زمین": false,
+    "تجاری": false,
+    "پنت هاوس": false
+};
+var melkfiltersSelectedCount = 1;
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filters input").click(function () {
+    var labelText = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).siblings('label').text();
+
+    // tedade checkbox haie entekhab shode ra negah midarad
+    if (this.checked) {
+        melkfiltersSelectedCount++;
+        // dar dictrionary filterha filtere entekhabi ra true mikonad
+        dictionaryOfSelectedMelkFilters[labelText] = true;
+    } else {
+        melkfiltersSelectedCount--;
+        // dar dictrionary filterha filtere entekhabi ra false mikonad
+        dictionaryOfSelectedMelkFilters[labelText] = false;
+    }
+
+    // dar dictionary iterate mikonad va avvalin filteri ke true shode ra be onvane title set mikonad
+    for (var key in dictionaryOfSelectedMelkFilters) {
+        var value = dictionaryOfSelectedMelkFilters[key];
+        if (value) {
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filter-text").text(key);
+            break;
+        }
+    }
+    // dar soorati ke tedade filterhaie entekhabi bish az 1 bashad و ... ra ezafe mikonad
+    if (melkfiltersSelectedCount > 1) {
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filter-text").text(__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filter-text").text() + " و ...");
+    } else if (melkfiltersSelectedCount === 0) {
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filter-text").text("انتخاب کنید");
+    }
+});
+
+//****************** Set kardane title Filter Tedade Khab ********************
+var dictionaryOfSelectedRoomsFilters = {
+    "۱ خوابه": true,
+    "۲ خوابه": false,
+    "۳ خوابه": false,
+    "۴ خوابه": false,
+    "۵ خوابه": false,
+    "بیشتر از ۵ خواب": false
+};
+var tedadeKhabfiltersSelectedCount = 1;
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filters input").click(function () {
+    var labelText = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).siblings('label').text();
+
+    // tedade checkbox haie entekhab shode ra negah midarad
+    if (this.checked) {
+        tedadeKhabfiltersSelectedCount++;
+        // dar dictrionary filterha filtere entekhabi ra true mikonad
+        dictionaryOfSelectedRoomsFilters[labelText] = true;
+    } else {
+        tedadeKhabfiltersSelectedCount--;
+        // dar dictrionary filterha filtere entekhabi ra false mikonad
+        dictionaryOfSelectedRoomsFilters[labelText] = false;
+    }
+
+    // dar dictionary iterate mikonad va avvalin filteri ke true shode ra be onvane title set mikonad
+    for (var key in dictionaryOfSelectedRoomsFilters) {
+        var value = dictionaryOfSelectedRoomsFilters[key];
+        if (value) {
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filter-text").text(key);
+            break;
+        }
+    }
+    // dar soorati ke tedade filterhaie entekhabi bish az 1 bashad و ... ra ezafe mikonad
+    if (tedadeKhabfiltersSelectedCount > 1) {
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filter-text").text(__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filter-text").text() + " و ...");
+    } else if (tedadeKhabfiltersSelectedCount === 0) {
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filter-text").text("انتخاب کنید");
+    }
+});
 
 /***/ }),
 /* 57 */

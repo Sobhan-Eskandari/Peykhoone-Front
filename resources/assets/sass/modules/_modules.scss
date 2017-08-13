@@ -506,7 +506,7 @@
   color: white;
   cursor: pointer;
   display: grid;
-  width: 94%;
+  width: 100%;
   font-size: 17px;
   padding-top: 15px;
 
@@ -532,6 +532,7 @@
   }
   .filter-selected{
     font-size: 15px;
+    direction: rtl;
   }
 }
 #filters-moamele-btn{
@@ -542,11 +543,14 @@
 #filters-row{
   z-index: 10000;
 }
-#filters-tray-row,#costs-tray-row{
+#filters-tray-row,#costs-tray-row,#metraj-tray-row{
   z-index: 0;
 }
 #costs-tray-row{
   margin-right: 30rem;
+}
+#metraj-tray-row{
+  margin-right: 10rem;
 }
 
 
@@ -562,6 +566,9 @@
   #costs-tray-row{
     margin-right: 23rem;
   }
+  #metraj-tray-row{
+    margin-right: 8rem;
+  }
 }
 
 // Medium devices (tablets, less than 992px)
@@ -574,6 +581,9 @@
   #costs-tray-row{
     margin-right: 10rem;
   }
+  #metraj-tray-row{
+    margin-right: 10rem;
+  }
 }
 
 // Extra small devices (portrait phones, less than 576px)
@@ -581,6 +591,36 @@
   #costs-tray-row{
     margin-right: 20rem;
   }
+  .m-gradient-placeholder,.m-filters-placeholder{
+    height: 100%;
+  }
+  #filters-moamele-btn{
+    border-radius: 0 0px 15px 15px;
+    border-right: transparent;
+  }
+  .filter-search-btn{
+    border-radius: 15px 15px 0 0;
+  }
+  .m-filters-btn{
+    border-image: none;
+    border: transparent;
+    border-bottom: 0.3px solid teal !important;
+  }
+  #costs-tray-row{
+    margin-right: 0rem;
+    .row{
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+  }
+  #metraj-tray-row{
+    margin-right: 0rem;
+    .row{
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+  }
+
 }
 
 // Extra large devices (large desktops, 1200px and up)
