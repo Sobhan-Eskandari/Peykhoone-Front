@@ -35,6 +35,9 @@ mix.js([
     'node_modules/bootstrap-multiselect/dist/js/bootstrap-multiselect.js',
     'public/Hi_Framework/javascript/other/jquery.roto.min.js',
     'resources/assets/js/public.js',
+    'resources/assets/js/nav/classie.js',
+    'resources/assets/js/nav/mlpushmenu.js',
+    'resources/assets/js/nav/modernizr.custom.js',
 ], 'public/js/libraries.js');
 
 mix.sass('public/Hi_Framework/dist/Hi_Framework.scss','public/css/Hi_Framework.css');
