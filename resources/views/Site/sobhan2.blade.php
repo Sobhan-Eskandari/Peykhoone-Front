@@ -91,19 +91,19 @@
     {{--<div class="row justify-content-center">--}}
         {{--<div class="col-auto">--}}
             {{--<!-- Nav tabs -->--}}
-            {{--<div class="m-card rounded-10 m-filter-nav px-3">--}}
-                {{--<ul class="nav nav-tabs" role="tablist">--}}
-                    {{--<li class="nav-item">--}}
-                        {{--<a class="nav-link active" data-toggle="tab" href="#home" role="tab">آپارتمان مسکونی</a>--}}
+            {{--<div class="m-card rounded-10 m-filter-others px-3">--}}
+                {{--<ul class="others others-tabs" role="tablist">--}}
+                    {{--<li class="others-item">--}}
+                        {{--<a class="others-link active" data-toggle="tab" href="#home" role="tab">آپارتمان مسکونی</a>--}}
                     {{--</li>--}}
-                    {{--<li class="nav-item">--}}
-                        {{--<a class="nav-link" data-toggle="tab" href="#profile" role="tab">آپارتمان اداری</a>--}}
+                    {{--<li class="others-item">--}}
+                        {{--<a class="others-link" data-toggle="tab" href="#profile" role="tab">آپارتمان اداری</a>--}}
                     {{--</li>--}}
-                    {{--<li class="nav-item">--}}
-                        {{--<a class="nav-link" data-toggle="tab" href="#messages" role="tab">مستغلات</a>--}}
+                    {{--<li class="others-item">--}}
+                        {{--<a class="others-link" data-toggle="tab" href="#messages" role="tab">مستغلات</a>--}}
                     {{--</li>--}}
-                    {{--<li class="nav-item">--}}
-                        {{--<a class="nav-link" data-toggle="tab" href="#settings" role="tab">کلنگی</a>--}}
+                    {{--<li class="others-item">--}}
+                        {{--<a class="others-link" data-toggle="tab" href="#settings" role="tab">کلنگی</a>--}}
                     {{--</li>--}}
                 {{--</ul>--}}
             {{--</div>--}}

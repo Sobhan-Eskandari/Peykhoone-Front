@@ -27,3 +27,7 @@ Route::get('/mersede', function () {
     return view('Site.mersede');
 });
 
+Route::get('/navside', function () {
+    return view('Site.navside');
+});
+
