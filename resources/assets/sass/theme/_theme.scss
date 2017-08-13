@@ -8,6 +8,11 @@
 .medium-title{
   font-weight: $font-weight--medium !important;
 }
+.gradient-text{
+  background: $gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 //----------- [ Line Style ] -----------
 
 
@@ -53,6 +58,12 @@
 }
 .black-darker{
   background-color: $black-darker;
+}
+.filter-khakestari{
+  background-color: $filter-khakestari;
+}
+.gradient-background{
+  background: $gradient;
 }
 
 
