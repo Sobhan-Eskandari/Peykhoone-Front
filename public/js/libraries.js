@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 43);
+/******/ 	return __webpack_require__(__webpack_require__.s = 46);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 1:
+/******/ ([
+/* 0 */,
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -9886,8 +9886,7 @@ return jQuery;
 
 
 /***/ }),
-
-/***/ 2:
+/* 2 */
 /***/ (function(module, exports) {
 
 var g;
@@ -9914,25 +9913,1717 @@ module.exports = g;
 
 
 /***/ }),
-
-/***/ 43:
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(44);
-__webpack_require__(45);
-__webpack_require__(46);
-(function webpackMissingModule() { throw new Error("Cannot find module \"C:\\xampp\\htdocs\\Peykhoone-Front\\node_modules\\typed.js\\lib\\typed.min.js\""); }());
-__webpack_require__(47);
-(function webpackMissingModule() { throw new Error("Cannot find module \"C:\\xampp\\htdocs\\Peykhoone-Front\\node_modules\\wnumb\\wNumb.js\""); }());
-__webpack_require__(48);
-__webpack_require__(50);
-__webpack_require__(51);
-module.exports = __webpack_require__(52);
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (factory) {
+
+    if ( true ) {
+
+        // AMD. Register as an anonymous module.
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+    } else if ( typeof exports === 'object' ) {
+
+        // Node/CommonJS
+        module.exports = factory();
+
+    } else {
+
+        // Browser globals
+        window.wNumb = factory();
+    }
+
+}(function(){
+
+	'use strict';
+
+var FormatOptions = [
+	'decimals',
+	'thousand',
+	'mark',
+	'prefix',
+	'suffix',
+	'encoder',
+	'decoder',
+	'negativeBefore',
+	'negative',
+	'edit',
+	'undo'
+];
+
+// General
+
+	// Reverse a string
+	function strReverse ( a ) {
+		return a.split('').reverse().join('');
+	}
+
+	// Check if a string starts with a specified prefix.
+	function strStartsWith ( input, match ) {
+		return input.substring(0, match.length) === match;
+	}
+
+	// Check is a string ends in a specified suffix.
+	function strEndsWith ( input, match ) {
+		return input.slice(-1 * match.length) === match;
+	}
+
+	// Throw an error if formatting options are incompatible.
+	function throwEqualError( F, a, b ) {
+		if ( (F[a] || F[b]) && (F[a] === F[b]) ) {
+			throw new Error(a);
+		}
+	}
+
+	// Check if a number is finite and not NaN
+	function isValidNumber ( input ) {
+		return typeof input === 'number' && isFinite( input );
+	}
+
+	// Provide rounding-accurate toFixed method.
+	// Borrowed: http://stackoverflow.com/a/21323330/775265
+	function toFixed ( value, exp ) {
+		value = value.toString().split('e');
+		value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+		value = value.toString().split('e');
+		return (+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp))).toFixed(exp);
+	}
+
+
+// Formatting
+
+	// Accept a number as input, output formatted string.
+	function formatTo ( decimals, thousand, mark, prefix, suffix, encoder, decoder, negativeBefore, negative, edit, undo, input ) {
+
+		var originalInput = input, inputIsNegative, inputPieces, inputBase, inputDecimals = '', output = '';
+
+		// Apply user encoder to the input.
+		// Expected outcome: number.
+		if ( encoder ) {
+			input = encoder(input);
+		}
+
+		// Stop if no valid number was provided, the number is infinite or NaN.
+		if ( !isValidNumber(input) ) {
+			return false;
+		}
+
+		// Rounding away decimals might cause a value of -0
+		// when using very small ranges. Remove those cases.
+		if ( decimals !== false && parseFloat(input.toFixed(decimals)) === 0 ) {
+			input = 0;
+		}
+
+		// Formatting is done on absolute numbers,
+		// decorated by an optional negative symbol.
+		if ( input < 0 ) {
+			inputIsNegative = true;
+			input = Math.abs(input);
+		}
+
+		// Reduce the number of decimals to the specified option.
+		if ( decimals !== false ) {
+			input = toFixed( input, decimals );
+		}
+
+		// Transform the number into a string, so it can be split.
+		input = input.toString();
+
+		// Break the number on the decimal separator.
+		if ( input.indexOf('.') !== -1 ) {
+			inputPieces = input.split('.');
+
+			inputBase = inputPieces[0];
+
+			if ( mark ) {
+				inputDecimals = mark + inputPieces[1];
+			}
+
+		} else {
+
+		// If it isn't split, the entire number will do.
+			inputBase = input;
+		}
+
+		// Group numbers in sets of three.
+		if ( thousand ) {
+			inputBase = strReverse(inputBase).match(/.{1,3}/g);
+			inputBase = strReverse(inputBase.join( strReverse( thousand ) ));
+		}
+
+		// If the number is negative, prefix with negation symbol.
+		if ( inputIsNegative && negativeBefore ) {
+			output += negativeBefore;
+		}
+
+		// Prefix the number
+		if ( prefix ) {
+			output += prefix;
+		}
+
+		// Normal negative option comes after the prefix. Defaults to '-'.
+		if ( inputIsNegative && negative ) {
+			output += negative;
+		}
+
+		// Append the actual number.
+		output += inputBase;
+		output += inputDecimals;
+
+		// Apply the suffix.
+		if ( suffix ) {
+			output += suffix;
+		}
+
+		// Run the output through a user-specified post-formatter.
+		if ( edit ) {
+			output = edit ( output, originalInput );
+		}
+
+		// All done.
+		return output;
+	}
+
+	// Accept a sting as input, output decoded number.
+	function formatFrom ( decimals, thousand, mark, prefix, suffix, encoder, decoder, negativeBefore, negative, edit, undo, input ) {
+
+		var originalInput = input, inputIsNegative, output = '';
+
+		// User defined pre-decoder. Result must be a non empty string.
+		if ( undo ) {
+			input = undo(input);
+		}
+
+		// Test the input. Can't be empty.
+		if ( !input || typeof input !== 'string' ) {
+			return false;
+		}
+
+		// If the string starts with the negativeBefore value: remove it.
+		// Remember is was there, the number is negative.
+		if ( negativeBefore && strStartsWith(input, negativeBefore) ) {
+			input = input.replace(negativeBefore, '');
+			inputIsNegative = true;
+		}
+
+		// Repeat the same procedure for the prefix.
+		if ( prefix && strStartsWith(input, prefix) ) {
+			input = input.replace(prefix, '');
+		}
+
+		// And again for negative.
+		if ( negative && strStartsWith(input, negative) ) {
+			input = input.replace(negative, '');
+			inputIsNegative = true;
+		}
+
+		// Remove the suffix.
+		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice
+		if ( suffix && strEndsWith(input, suffix) ) {
+			input = input.slice(0, -1 * suffix.length);
+		}
+
+		// Remove the thousand grouping.
+		if ( thousand ) {
+			input = input.split(thousand).join('');
+		}
+
+		// Set the decimal separator back to period.
+		if ( mark ) {
+			input = input.replace(mark, '.');
+		}
+
+		// Prepend the negative symbol.
+		if ( inputIsNegative ) {
+			output += '-';
+		}
+
+		// Add the number
+		output += input;
+
+		// Trim all non-numeric characters (allow '.' and '-');
+		output = output.replace(/[^0-9\.\-.]/g, '');
+
+		// The value contains no parse-able number.
+		if ( output === '' ) {
+			return false;
+		}
+
+		// Covert to number.
+		output = Number(output);
+
+		// Run the user-specified post-decoder.
+		if ( decoder ) {
+			output = decoder(output);
+		}
+
+		// Check is the output is valid, otherwise: return false.
+		if ( !isValidNumber(output) ) {
+			return false;
+		}
+
+		return output;
+	}
+
+
+// Framework
+
+	// Validate formatting options
+	function validate ( inputOptions ) {
+
+		var i, optionName, optionValue,
+			filteredOptions = {};
+
+		if ( inputOptions['suffix'] === undefined ) {
+			inputOptions['suffix'] = inputOptions['postfix'];
+		}
+
+		for ( i = 0; i < FormatOptions.length; i+=1 ) {
+
+			optionName = FormatOptions[i];
+			optionValue = inputOptions[optionName];
+
+			if ( optionValue === undefined ) {
+
+				// Only default if negativeBefore isn't set.
+				if ( optionName === 'negative' && !filteredOptions.negativeBefore ) {
+					filteredOptions[optionName] = '-';
+				// Don't set a default for mark when 'thousand' is set.
+				} else if ( optionName === 'mark' && filteredOptions.thousand !== '.' ) {
+					filteredOptions[optionName] = '.';
+				} else {
+					filteredOptions[optionName] = false;
+				}
+
+			// Floating points in JS are stable up to 7 decimals.
+			} else if ( optionName === 'decimals' ) {
+				if ( optionValue >= 0 && optionValue < 8 ) {
+					filteredOptions[optionName] = optionValue;
+				} else {
+					throw new Error(optionName);
+				}
+
+			// These options, when provided, must be functions.
+			} else if ( optionName === 'encoder' || optionName === 'decoder' || optionName === 'edit' || optionName === 'undo' ) {
+				if ( typeof optionValue === 'function' ) {
+					filteredOptions[optionName] = optionValue;
+				} else {
+					throw new Error(optionName);
+				}
+
+			// Other options are strings.
+			} else {
+
+				if ( typeof optionValue === 'string' ) {
+					filteredOptions[optionName] = optionValue;
+				} else {
+					throw new Error(optionName);
+				}
+			}
+		}
+
+		// Some values can't be extracted from a
+		// string if certain combinations are present.
+		throwEqualError(filteredOptions, 'mark', 'thousand');
+		throwEqualError(filteredOptions, 'prefix', 'negative');
+		throwEqualError(filteredOptions, 'prefix', 'negativeBefore');
+
+		return filteredOptions;
+	}
+
+	// Pass all options as function arguments
+	function passAll ( options, method, input ) {
+		var i, args = [];
+
+		// Add all options in order of FormatOptions
+		for ( i = 0; i < FormatOptions.length; i+=1 ) {
+			args.push(options[FormatOptions[i]]);
+		}
+
+		// Append the input, then call the method, presenting all
+		// options as arguments.
+		args.push(input);
+		return method.apply('', args);
+	}
+
+	function wNumb ( options ) {
+
+		if ( !(this instanceof wNumb) ) {
+			return new wNumb ( options );
+		}
+
+		if ( typeof options !== "object" ) {
+			return;
+		}
+
+		options = validate(options);
+
+		// Call 'formatTo' with proper arguments.
+		this.to = function ( input ) {
+			return passAll(options, formatTo, input);
+		};
+
+		// Call 'formatFrom' with proper arguments.
+		this.from = function ( input ) {
+			return passAll(options, formatFrom, input);
+		};
+	}
+
+	return wNumb;
+
+}));
 
 
 /***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/***/ 44:
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_params_js__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_utils_js__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__ = __webpack_require__(53);
+
+
+
+
+
+let modalParams = Object.assign({}, __WEBPACK_IMPORTED_MODULE_0__utils_params_js__["a" /* default */])
+let queue = []
+let swal2Observer
+
+/*
+ * Set type, text and actions on modal
+ */
+const setParameters = (params) => {
+  const modal = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["q" /* getModal */]() || __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["w" /* init */](params)
+
+  for (let param in params) {
+    if (!__WEBPACK_IMPORTED_MODULE_0__utils_params_js__["a" /* default */].hasOwnProperty(param) && param !== 'extraParams') {
+      console.warn(`SweetAlert2: Unknown parameter "${param}"`)
+    }
+  }
+
+  // Set modal width
+  modal.style.width = (typeof params.width === 'number') ? params.width + 'px' : params.width
+
+  modal.style.padding = params.padding + 'px'
+  modal.style.background = params.background
+  const successIconParts = modal.querySelectorAll('[class^=swal2-success-circular-line], .swal2-success-fix')
+  for (let i = 0; i < successIconParts.length; i++) {
+    successIconParts[i].style.background = params.background
+  }
+
+  const title = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["s" /* getTitle */]()
+  const content = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["m" /* getContent */]()
+  const buttonsWrapper = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["g" /* getButtonsWrapper */]()
+  const confirmButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["k" /* getConfirmButton */]()
+  const cancelButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["h" /* getCancelButton */]()
+  const closeButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["j" /* getCloseButton */]()
+
+  // Title
+  if (params.titleText) {
+    title.innerText = params.titleText
+  } else {
+    title.innerHTML = params.title.split('\n').join('<br />')
+  }
+
+  // Content
+  if (params.text || params.html) {
+    if (typeof params.html === 'object') {
+      content.innerHTML = ''
+      if (0 in params.html) {
+        for (let i = 0; i in params.html; i++) {
+          content.appendChild(params.html[i].cloneNode(true))
+        }
+      } else {
+        content.appendChild(params.html.cloneNode(true))
+      }
+    } else if (params.html) {
+      content.innerHTML = params.html
+    } else if (params.text) {
+      content.textContent = params.text
+    }
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](content)
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](content)
+  }
+
+  // Close button
+  if (params.showCloseButton) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](closeButton)
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](closeButton)
+  }
+
+  // Custom Class
+  modal.className = __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].modal
+  if (params.customClass) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](modal, params.customClass)
+  }
+
+  // Progress steps
+  let progressStepsContainer = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["r" /* getProgressSteps */]()
+  let currentProgressStep = parseInt(params.currentProgressStep === null ? sweetAlert.getQueueStep() : params.currentProgressStep, 10)
+  if (params.progressSteps.length) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](progressStepsContainer)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["d" /* empty */](progressStepsContainer)
+    if (currentProgressStep >= params.progressSteps.length) {
+      console.warn(
+        'SweetAlert2: Invalid currentProgressStep parameter, it should be less than progressSteps.length ' +
+        '(currentProgressStep like JS arrays starts from 0)'
+      )
+    }
+    params.progressSteps.forEach((step, index) => {
+      let circle = document.createElement('li')
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](circle, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].progresscircle)
+      circle.innerHTML = step
+      if (index === currentProgressStep) {
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](circle, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].activeprogressstep)
+      }
+      progressStepsContainer.appendChild(circle)
+      if (index !== params.progressSteps.length - 1) {
+        let line = document.createElement('li')
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](line, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].progressline)
+        line.style.width = params.progressStepsDistance
+        progressStepsContainer.appendChild(line)
+      }
+    })
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](progressStepsContainer)
+  }
+
+  // Icon
+  const icons = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["o" /* getIcons */]()
+  for (let i = 0; i < icons.length; i++) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](icons[i])
+  }
+  if (params.type) {
+    let validType = false
+    for (let iconType in __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["a" /* iconTypes */]) {
+      if (params.type === iconType) {
+        validType = true
+        break
+      }
+    }
+    if (!validType) {
+      console.error(`SweetAlert2: Unknown alert type: ${params.type}`)
+      return false
+    }
+    const icon = modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].icon}.${__WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["a" /* iconTypes */][params.type]}`)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](icon)
+
+    // Animate icon
+    if (params.animation) {
+      switch (params.type) {
+        case 'success':
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](icon, 'swal2-animate-success-icon')
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](icon.querySelector('.swal2-success-line-tip'), 'swal2-animate-success-line-tip')
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](icon.querySelector('.swal2-success-line-long'), 'swal2-animate-success-line-long')
+          break
+        case 'error':
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](icon, 'swal2-animate-error-icon')
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](icon.querySelector('.swal2-x-mark'), 'swal2-animate-x-mark')
+          break
+        default:
+          break
+      }
+    }
+  }
+
+  // Custom image
+  const image = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["p" /* getImage */]()
+  if (params.imageUrl) {
+    image.setAttribute('src', params.imageUrl)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](image)
+
+    if (params.imageWidth) {
+      image.setAttribute('width', params.imageWidth)
+    } else {
+      image.removeAttribute('width')
+    }
+
+    if (params.imageHeight) {
+      image.setAttribute('height', params.imageHeight)
+    } else {
+      image.removeAttribute('height')
+    }
+
+    image.className = __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].image
+    if (params.imageClass) {
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](image, params.imageClass)
+    }
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](image)
+  }
+
+  // Cancel button
+  if (params.showCancelButton) {
+    cancelButton.style.display = 'inline-block'
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](cancelButton)
+  }
+
+  // Confirm button
+  if (params.showConfirmButton) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["A" /* removeStyleProperty */](confirmButton, 'display')
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](confirmButton)
+  }
+
+  // Buttons wrapper
+  if (!params.showConfirmButton && !params.showCancelButton) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](buttonsWrapper)
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](buttonsWrapper)
+  }
+
+  // Edit text on cancel and confirm buttons
+  confirmButton.innerHTML = params.confirmButtonText
+  cancelButton.innerHTML = params.cancelButtonText
+
+  // Set buttons to selected background colors
+  if (params.buttonsStyling) {
+    confirmButton.style.backgroundColor = params.confirmButtonColor
+    cancelButton.style.backgroundColor = params.cancelButtonColor
+  }
+
+  // Add buttons custom classes
+  confirmButton.className = __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].confirm
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](confirmButton, params.confirmButtonClass)
+  cancelButton.className = __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].cancel
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](cancelButton, params.cancelButtonClass)
+
+  // Buttons styling
+  if (params.buttonsStyling) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](confirmButton, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].styled)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](cancelButton, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].styled)
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](confirmButton, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].styled)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](cancelButton, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].styled)
+
+    confirmButton.style.backgroundColor = confirmButton.style.borderLeftColor = confirmButton.style.borderRightColor = ''
+    cancelButton.style.backgroundColor = cancelButton.style.borderLeftColor = cancelButton.style.borderRightColor = ''
+  }
+
+  // CSS animation
+  if (params.animation === true) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].noanimation)
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].noanimation)
+  }
+}
+
+/*
+ * Animations
+ */
+const openModal = (animation, onComplete) => {
+  const container = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["l" /* getContainer */]()
+  const modal = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["q" /* getModal */]()
+
+  if (animation) {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].show)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](container, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].fade)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].hide)
+  } else {
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].fade)
+  }
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](modal)
+
+  // scrolling is 'hidden' until animation is done, after that 'auto'
+  container.style.overflowY = 'hidden'
+  if (__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["b" /* animationEndEvent */] && !__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["u" /* hasClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].noanimation)) {
+    modal.addEventListener(__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["b" /* animationEndEvent */], function swalCloseEventFinished () {
+      modal.removeEventListener(__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["b" /* animationEndEvent */], swalCloseEventFinished)
+      container.style.overflowY = 'auto'
+    })
+  } else {
+    container.style.overflowY = 'auto'
+  }
+
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](document.documentElement, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].shown)
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](document.body, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].shown)
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](container, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].shown)
+  fixScrollbar()
+  iOSfix()
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["D" /* states */].previousActiveElement = document.activeElement
+  if (onComplete !== null && typeof onComplete === 'function') {
+    setTimeout(function () {
+      onComplete(modal)
+    })
+  }
+}
+
+const fixScrollbar = () => {
+  // for queues, do not do this more than once
+  if (__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["D" /* states */].previousBodyPadding !== null) {
+    return
+  }
+  // if the body has overflow
+  if (document.body.scrollHeight > window.innerHeight) {
+    // add padding so the content doesn't shift after removal of scrollbar
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["D" /* states */].previousBodyPadding = document.body.style.paddingRight
+    document.body.style.paddingRight = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["y" /* measureScrollbar */]() + 'px'
+  }
+}
+
+const undoScrollbar = () => {
+  if (__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["D" /* states */].previousBodyPadding !== null) {
+    document.body.style.paddingRight = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["D" /* states */].previousBodyPadding
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["D" /* states */].previousBodyPadding = null
+  }
+}
+
+// Fix iOS scrolling http://stackoverflow.com/q/39626302/1331425
+const iOSfix = () => {
+  const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+  if (iOS && !__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["u" /* hasClass */](document.body, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].iosfix)) {
+    const offset = document.body.scrollTop
+    document.body.style.top = (offset * -1) + 'px'
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](document.body, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].iosfix)
+  }
+}
+
+const undoIOSfix = () => {
+  if (__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["u" /* hasClass */](document.body, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].iosfix)) {
+    const offset = parseInt(document.body.style.top, 10)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](document.body, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].iosfix)
+    document.body.style.top = ''
+    document.body.scrollTop = (offset * -1)
+  }
+}
+
+// SweetAlert entry point
+const sweetAlert = (...args) => {
+  if (args[0] === undefined) {
+    console.error('SweetAlert2 expects at least 1 attribute!')
+    return false
+  }
+
+  let params = Object.assign({}, modalParams)
+
+  switch (typeof args[0]) {
+    case 'string':
+      [params.title, params.html, params.type] = args
+      break
+
+    case 'object':
+      Object.assign(params, args[0])
+      params.extraParams = args[0].extraParams
+
+      if (params.input === 'email' && params.inputValidator === null) {
+        params.inputValidator = (email) => {
+          return new Promise((resolve, reject) => {
+            const emailRegex = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
+            if (emailRegex.test(email)) {
+              resolve()
+            } else {
+              reject('Invalid email address')
+            }
+          })
+        }
+      }
+
+      if (params.input === 'url' && params.inputValidator === null) {
+        params.inputValidator = (url) => {
+          return new Promise((resolve, reject) => {
+            // taken from https://stackoverflow.com/a/3809435/1331425
+            const urlRegex = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)$/
+            if (urlRegex.test(url)) {
+              resolve()
+            } else {
+              reject('Invalid URL')
+            }
+          })
+        }
+      }
+      break
+
+    default:
+      console.error('SweetAlert2: Unexpected type of argument! Expected "string" or "object", got ' + typeof args[0])
+      return false
+  }
+
+  setParameters(params)
+
+  const container = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["l" /* getContainer */]()
+  const modal = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["q" /* getModal */]()
+
+  return new Promise((resolve, reject) => {
+    // Close on timer
+    if (params.timer) {
+      modal.timeout = setTimeout(() => {
+        sweetAlert.closeModal(params.onClose)
+        if (params.useRejections) {
+          reject('timer')
+        } else {
+          resolve({dismiss: 'timer'})
+        }
+      }, params.timer)
+    }
+
+    // Get input element by specified type or, if type isn't specified, by params.input
+    const getInput = (inputType) => {
+      inputType = inputType || params.input
+      if (!inputType) {
+        return null
+      }
+      switch (inputType) {
+        case 'select':
+        case 'textarea':
+        case 'file':
+          return __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */][inputType])
+        case 'checkbox':
+          return modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].checkbox} input`)
+        case 'radio':
+          return modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].radio} input:checked`) ||
+            modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].radio} input:first-child`)
+        case 'range':
+          return modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].range} input`)
+        default:
+          return __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].input)
+      }
+    }
+
+    // Get the value of the modal input
+    const getInputValue = () => {
+      const input = getInput()
+      if (!input) {
+        return null
+      }
+      switch (params.input) {
+        case 'checkbox':
+          return input.checked ? 1 : 0
+        case 'radio':
+          return input.checked ? input.value : null
+        case 'file':
+          return input.files.length ? input.files[0] : null
+        default:
+          return params.inputAutoTrim ? input.value.trim() : input.value
+      }
+    }
+
+    // input autofocus
+    if (params.input) {
+      setTimeout(() => {
+        const input = getInput()
+        if (input) {
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["f" /* focusInput */](input)
+        }
+      }, 0)
+    }
+
+    const confirm = (value) => {
+      if (params.showLoaderOnConfirm) {
+        sweetAlert.showLoading()
+      }
+
+      if (params.preConfirm) {
+        params.preConfirm(value, params.extraParams).then(
+          (preConfirmValue) => {
+            sweetAlert.closeModal(params.onClose)
+            resolve(preConfirmValue || value)
+          },
+          (error) => {
+            sweetAlert.hideLoading()
+            if (error) {
+              sweetAlert.showValidationError(error)
+            }
+          }
+        )
+      } else {
+        sweetAlert.closeModal(params.onClose)
+        if (params.useRejections) {
+          resolve(value)
+        } else {
+          resolve({value: value})
+        }
+      }
+    }
+
+    // Mouse interactions
+    const onButtonEvent = (event) => {
+      const e = event || window.event
+      const target = e.target || e.srcElement
+      const confirmButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["k" /* getConfirmButton */]()
+      const cancelButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["h" /* getCancelButton */]()
+      const targetedConfirm = confirmButton && (confirmButton === target || confirmButton.contains(target))
+      const targetedCancel = cancelButton && (cancelButton === target || cancelButton.contains(target))
+
+      switch (e.type) {
+        case 'mouseover':
+        case 'mouseup':
+          if (params.buttonsStyling) {
+            if (targetedConfirm) {
+              confirmButton.style.backgroundColor = Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils_js__["a" /* colorLuminance */])(params.confirmButtonColor, -0.1)
+            } else if (targetedCancel) {
+              cancelButton.style.backgroundColor = Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils_js__["a" /* colorLuminance */])(params.cancelButtonColor, -0.1)
+            }
+          }
+          break
+        case 'mouseout':
+          if (params.buttonsStyling) {
+            if (targetedConfirm) {
+              confirmButton.style.backgroundColor = params.confirmButtonColor
+            } else if (targetedCancel) {
+              cancelButton.style.backgroundColor = params.cancelButtonColor
+            }
+          }
+          break
+        case 'mousedown':
+          if (params.buttonsStyling) {
+            if (targetedConfirm) {
+              confirmButton.style.backgroundColor = Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils_js__["a" /* colorLuminance */])(params.confirmButtonColor, -0.2)
+            } else if (targetedCancel) {
+              cancelButton.style.backgroundColor = Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils_js__["a" /* colorLuminance */])(params.cancelButtonColor, -0.2)
+            }
+          }
+          break
+        case 'click':
+          // Clicked 'confirm'
+          if (targetedConfirm && sweetAlert.isVisible()) {
+            sweetAlert.disableButtons()
+            if (params.input) {
+              const inputValue = getInputValue()
+
+              if (params.inputValidator) {
+                sweetAlert.disableInput()
+                params.inputValidator(inputValue, params.extraParams).then(
+                  () => {
+                    sweetAlert.enableButtons()
+                    sweetAlert.enableInput()
+                    confirm(inputValue)
+                  },
+                  (error) => {
+                    sweetAlert.enableButtons()
+                    sweetAlert.enableInput()
+                    if (error) {
+                      sweetAlert.showValidationError(error)
+                    }
+                  }
+                )
+              } else {
+                confirm(inputValue)
+              }
+            } else {
+              confirm(true)
+            }
+
+          // Clicked 'cancel'
+          } else if (targetedCancel && sweetAlert.isVisible()) {
+            sweetAlert.disableButtons()
+            sweetAlert.closeModal(params.onClose)
+            if (params.useRejections) {
+              reject('cancel')
+            } else {
+              resolve({dismiss: 'cancel'})
+            }
+          }
+          break
+        default:
+      }
+    }
+
+    const buttons = modal.querySelectorAll('button')
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].onclick = onButtonEvent
+      buttons[i].onmouseover = onButtonEvent
+      buttons[i].onmouseout = onButtonEvent
+      buttons[i].onmousedown = onButtonEvent
+    }
+
+    // Closing modal by close button
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["j" /* getCloseButton */]().onclick = () => {
+      sweetAlert.closeModal(params.onClose)
+      if (params.useRejections) {
+        reject('close')
+      } else {
+        resolve({dismiss: 'close'})
+      }
+    }
+
+    // Closing modal by overlay click
+    container.onclick = (e) => {
+      if (e.target !== container) {
+        return
+      }
+      if (params.allowOutsideClick) {
+        sweetAlert.closeModal(params.onClose)
+        if (params.useRejections) {
+          reject('overlay')
+        } else {
+          resolve({dismiss: 'overlay'})
+        }
+      }
+    }
+
+    const buttonsWrapper = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["g" /* getButtonsWrapper */]()
+    const confirmButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["k" /* getConfirmButton */]()
+    const cancelButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["h" /* getCancelButton */]()
+
+    // Reverse buttons (Confirm on the right side)
+    if (params.reverseButtons) {
+      confirmButton.parentNode.insertBefore(cancelButton, confirmButton)
+    } else {
+      confirmButton.parentNode.insertBefore(confirmButton, cancelButton)
+    }
+
+    // Focus handling
+    const setFocus = (index, increment) => {
+      const focusableElements = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["n" /* getFocusableElements */](params.focusCancel)
+      // search for visible elements and select the next possible match
+      for (let i = 0; i < focusableElements.length; i++) {
+        index = index + increment
+
+        // rollover to first item
+        if (index === focusableElements.length) {
+          index = 0
+
+        // go to last item
+        } else if (index === -1) {
+          index = focusableElements.length - 1
+        }
+
+        // determine if element is visible
+        const el = focusableElements[index]
+        if (__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["x" /* isVisible */](el)) {
+          return el.focus()
+        }
+      }
+    }
+
+    const handleKeyDown = (event) => {
+      const e = event || window.event
+      const keyCode = e.keyCode || e.which
+
+      if ([9, 13, 32, 27, 37, 38, 39, 40].indexOf(keyCode) === -1) {
+        // Don't do work on keys we don't care about.
+        return
+      }
+
+      const targetElement = e.target || e.srcElement
+
+      const focusableElements = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["n" /* getFocusableElements */](params.focusCancel)
+      let btnIndex = -1 // Find the button - note, this is a nodelist, not an array.
+      for (let i = 0; i < focusableElements.length; i++) {
+        if (targetElement === focusableElements[i]) {
+          btnIndex = i
+          break
+        }
+      }
+
+      // TAB
+      if (keyCode === 9) {
+        if (!e.shiftKey) {
+          // Cycle to the next button
+          setFocus(btnIndex, 1)
+        } else {
+          // Cycle to the prev button
+          setFocus(btnIndex, -1)
+        }
+        e.stopPropagation()
+        e.preventDefault()
+
+      // ARROWS - switch focus between buttons
+      } else if (keyCode === 37 || keyCode === 38 || keyCode === 39 || keyCode === 40) {
+        // focus Cancel button if Confirm button is currently focused
+        if (document.activeElement === confirmButton && __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["x" /* isVisible */](cancelButton)) {
+          cancelButton.focus()
+        // and vice versa
+        } else if (document.activeElement === cancelButton && __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["x" /* isVisible */](confirmButton)) {
+          confirmButton.focus()
+        }
+
+      // ENTER/SPACE
+      } else if (keyCode === 13 || keyCode === 32) {
+        if (btnIndex === -1 && params.allowEnterKey) {
+          // ENTER/SPACE clicked outside of a button.
+          if (params.focusCancel) {
+            __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["e" /* fireClick */](cancelButton, e)
+          } else {
+            __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["e" /* fireClick */](confirmButton, e)
+          }
+          e.stopPropagation()
+          e.preventDefault()
+        }
+
+      // ESC
+      } else if (keyCode === 27 && params.allowEscapeKey === true) {
+        sweetAlert.closeModal(params.onClose)
+        if (params.useRejections) {
+          reject('esc')
+        } else {
+          resolve({dismiss: 'esc'})
+        }
+      }
+    }
+
+    if (!window.onkeydown || window.onkeydown.toString() !== handleKeyDown.toString()) {
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["D" /* states */].previousWindowKeyDown = window.onkeydown
+      window.onkeydown = handleKeyDown
+    }
+
+    // Loading state
+    if (params.buttonsStyling) {
+      confirmButton.style.borderLeftColor = params.confirmButtonColor
+      confirmButton.style.borderRightColor = params.confirmButtonColor
+    }
+
+    /**
+     * Show spinner instead of Confirm button and disable Cancel button
+     */
+    sweetAlert.hideLoading = sweetAlert.disableLoading = () => {
+      if (!params.showConfirmButton) {
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](confirmButton)
+        if (!params.showCancelButton) {
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["g" /* getButtonsWrapper */]())
+        }
+      }
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](buttonsWrapper, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].loading)
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].loading)
+      confirmButton.disabled = false
+      cancelButton.disabled = false
+    }
+
+    sweetAlert.getTitle = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["s" /* getTitle */]()
+    sweetAlert.getContent = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["m" /* getContent */]()
+    sweetAlert.getInput = () => getInput()
+    sweetAlert.getImage = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["p" /* getImage */]()
+    sweetAlert.getButtonsWrapper = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["g" /* getButtonsWrapper */]()
+    sweetAlert.getConfirmButton = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["k" /* getConfirmButton */]()
+    sweetAlert.getCancelButton = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["h" /* getCancelButton */]()
+
+    sweetAlert.enableButtons = () => {
+      confirmButton.disabled = false
+      cancelButton.disabled = false
+    }
+
+    sweetAlert.disableButtons = () => {
+      confirmButton.disabled = true
+      cancelButton.disabled = true
+    }
+
+    sweetAlert.enableConfirmButton = () => {
+      confirmButton.disabled = false
+    }
+
+    sweetAlert.disableConfirmButton = () => {
+      confirmButton.disabled = true
+    }
+
+    sweetAlert.enableInput = () => {
+      const input = getInput()
+      if (!input) {
+        return false
+      }
+      if (input.type === 'radio') {
+        const radiosContainer = input.parentNode.parentNode
+        const radios = radiosContainer.querySelectorAll('input')
+        for (let i = 0; i < radios.length; i++) {
+          radios[i].disabled = false
+        }
+      } else {
+        input.disabled = false
+      }
+    }
+
+    sweetAlert.disableInput = () => {
+      const input = getInput()
+      if (!input) {
+        return false
+      }
+      if (input && input.type === 'radio') {
+        const radiosContainer = input.parentNode.parentNode
+        const radios = radiosContainer.querySelectorAll('input')
+        for (let i = 0; i < radios.length; i++) {
+          radios[i].disabled = true
+        }
+      } else {
+        input.disabled = true
+      }
+    }
+
+    // Set modal min-height to disable scrolling inside the modal
+    sweetAlert.recalculateHeight = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["c" /* debounce */](() => {
+      const modal = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["q" /* getModal */]()
+      if (!modal) {
+        return
+      }
+      const prevState = modal.style.display
+      modal.style.minHeight = ''
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](modal)
+      modal.style.minHeight = (modal.scrollHeight + 1) + 'px'
+      modal.style.display = prevState
+    }, 50)
+
+    // Show block with validation error
+    sweetAlert.showValidationError = (error) => {
+      const validationError = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["t" /* getValidationError */]()
+      validationError.innerHTML = error
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](validationError)
+
+      const input = getInput()
+      if (input) {
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["f" /* focusInput */](input)
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](input, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].inputerror)
+      }
+    }
+
+    // Hide block with validation error
+    sweetAlert.resetValidationError = () => {
+      const validationError = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["t" /* getValidationError */]()
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](validationError)
+      sweetAlert.recalculateHeight()
+
+      const input = getInput()
+      if (input) {
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](input, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].inputerror)
+      }
+    }
+
+    sweetAlert.getProgressSteps = () => {
+      return params.progressSteps
+    }
+
+    sweetAlert.setProgressSteps = (progressSteps) => {
+      params.progressSteps = progressSteps
+      setParameters(params)
+    }
+
+    sweetAlert.showProgressSteps = () => {
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["r" /* getProgressSteps */]())
+    }
+
+    sweetAlert.hideProgressSteps = () => {
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["r" /* getProgressSteps */]())
+    }
+
+    sweetAlert.enableButtons()
+    sweetAlert.hideLoading()
+    sweetAlert.resetValidationError()
+
+    // inputs
+    const inputTypes = ['input', 'file', 'range', 'select', 'radio', 'checkbox', 'textarea']
+    let input
+    for (let i = 0; i < inputTypes.length; i++) {
+      const inputClass = __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */][inputTypes[i]]
+      const inputContainer = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, inputClass)
+      input = getInput(inputTypes[i])
+
+      // set attributes
+      if (input) {
+        for (let j in input.attributes) {
+          if (input.attributes.hasOwnProperty(j)) {
+            const attrName = input.attributes[j].name
+            if (attrName !== 'type' && attrName !== 'value') {
+              input.removeAttribute(attrName)
+            }
+          }
+        }
+        for (let attr in params.inputAttributes) {
+          input.setAttribute(attr, params.inputAttributes[attr])
+        }
+      }
+
+      // set class
+      inputContainer.className = inputClass
+      if (params.inputClass) {
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](inputContainer, params.inputClass)
+      }
+
+      __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["v" /* hide */](inputContainer)
+    }
+
+    let populateInputOptions
+    switch (params.input) {
+      case 'text':
+      case 'email':
+      case 'password':
+      case 'number':
+      case 'tel':
+      case 'url':
+        input = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].input)
+        input.value = params.inputValue
+        input.placeholder = params.inputPlaceholder
+        input.type = params.input
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](input)
+        break
+      case 'file':
+        input = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].file)
+        input.placeholder = params.inputPlaceholder
+        input.type = params.input
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](input)
+        break
+      case 'range':
+        const range = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].range)
+        const rangeInput = range.querySelector('input')
+        const rangeOutput = range.querySelector('output')
+        rangeInput.value = params.inputValue
+        rangeInput.type = params.input
+        rangeOutput.value = params.inputValue
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](range)
+        break
+      case 'select':
+        const select = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].select)
+        select.innerHTML = ''
+        if (params.inputPlaceholder) {
+          const placeholder = document.createElement('option')
+          placeholder.innerHTML = params.inputPlaceholder
+          placeholder.value = ''
+          placeholder.disabled = true
+          placeholder.selected = true
+          select.appendChild(placeholder)
+        }
+        populateInputOptions = (inputOptions) => {
+          for (let optionValue in inputOptions) {
+            const option = document.createElement('option')
+            option.value = optionValue
+            option.innerHTML = inputOptions[optionValue]
+            if (params.inputValue === optionValue) {
+              option.selected = true
+            }
+            select.appendChild(option)
+          }
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](select)
+          select.focus()
+        }
+        break
+      case 'radio':
+        const radio = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].radio)
+        radio.innerHTML = ''
+        populateInputOptions = (inputOptions) => {
+          for (let radioValue in inputOptions) {
+            const radioInput = document.createElement('input')
+            const radioLabel = document.createElement('label')
+            const radioLabelSpan = document.createElement('span')
+            radioInput.type = 'radio'
+            radioInput.name = __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].radio
+            radioInput.value = radioValue
+            if (params.inputValue === radioValue) {
+              radioInput.checked = true
+            }
+            radioLabelSpan.innerHTML = inputOptions[radioValue]
+            radioLabel.appendChild(radioInput)
+            radioLabel.appendChild(radioLabelSpan)
+            radioLabel.for = radioInput.id
+            radio.appendChild(radioLabel)
+          }
+          __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](radio)
+          const radios = radio.querySelectorAll('input')
+          if (radios.length) {
+            radios[0].focus()
+          }
+        }
+        break
+      case 'checkbox':
+        const checkbox = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].checkbox)
+        const checkboxInput = getInput('checkbox')
+        checkboxInput.type = 'checkbox'
+        checkboxInput.value = 1
+        checkboxInput.id = __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].checkbox
+        checkboxInput.checked = Boolean(params.inputValue)
+        let label = checkbox.getElementsByTagName('span')
+        if (label.length) {
+          checkbox.removeChild(label[0])
+        }
+        label = document.createElement('span')
+        label.innerHTML = params.inputPlaceholder
+        checkbox.appendChild(label)
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](checkbox)
+        break
+      case 'textarea':
+        const textarea = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["i" /* getChildByClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].textarea)
+        textarea.value = params.inputValue
+        textarea.placeholder = params.inputPlaceholder
+        __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](textarea)
+        break
+      case null:
+        break
+      default:
+        console.error(`SweetAlert2: Unexpected type of input! Expected "text", "email", "password", "number", "tel", "select", "radio", "checkbox", "textarea", "file" or "url", got "${params.input}"`)
+        break
+    }
+
+    if (params.input === 'select' || params.input === 'radio') {
+      if (params.inputOptions instanceof Promise) {
+        sweetAlert.showLoading()
+        params.inputOptions.then((inputOptions) => {
+          sweetAlert.hideLoading()
+          populateInputOptions(inputOptions)
+        })
+      } else if (typeof params.inputOptions === 'object') {
+        populateInputOptions(params.inputOptions)
+      } else {
+        console.error('SweetAlert2: Unexpected type of inputOptions! Expected object or Promise, got ' + typeof params.inputOptions)
+      }
+    }
+
+    openModal(params.animation, params.onOpen)
+
+    // Focus the first element (input or button)
+    if (params.allowEnterKey) {
+      setFocus(-1, 1)
+    } else {
+      if (document.activeElement) {
+        document.activeElement.blur()
+      }
+    }
+
+    // fix scroll
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["l" /* getContainer */]().scrollTop = 0
+
+    // Observe changes inside the modal and adjust height
+    if (typeof MutationObserver !== 'undefined' && !swal2Observer) {
+      swal2Observer = new MutationObserver(sweetAlert.recalculateHeight)
+      swal2Observer.observe(modal, {childList: true, characterData: true, subtree: true})
+    }
+  })
+}
+
+/*
+ * Global function to determine if swal2 modal is shown
+ */
+sweetAlert.isVisible = () => {
+  return !!__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["q" /* getModal */]()
+}
+
+/*
+ * Global function for chaining sweetAlert modals
+ */
+sweetAlert.queue = (steps) => {
+  queue = steps
+  const resetQueue = () => {
+    queue = []
+    document.body.removeAttribute('data-swal2-queue-step')
+  }
+  let queueResult = []
+  return new Promise((resolve, reject) => {
+    (function step (i, callback) {
+      if (i < queue.length) {
+        document.body.setAttribute('data-swal2-queue-step', i)
+
+        sweetAlert(queue[i]).then(
+          (result) => {
+            queueResult.push(result)
+            step(i + 1, callback)
+          },
+          (dismiss) => {
+            resetQueue()
+            reject(dismiss)
+          }
+        )
+      } else {
+        resetQueue()
+        resolve(queueResult)
+      }
+    })(0)
+  })
+}
+
+/*
+ * Global function for getting the index of current modal in queue
+ */
+sweetAlert.getQueueStep = () => document.body.getAttribute('data-swal2-queue-step')
+
+/*
+ * Global function for inserting a modal to the queue
+ */
+sweetAlert.insertQueueStep = (step, index) => {
+  if (index && index < queue.length) {
+    return queue.splice(index, 0, step)
+  }
+  return queue.push(step)
+}
+
+/*
+ * Global function for deleting a modal from the queue
+ */
+sweetAlert.deleteQueueStep = (index) => {
+  if (typeof queue[index] !== 'undefined') {
+    queue.splice(index, 1)
+  }
+}
+
+/*
+ * Global function to close sweetAlert
+ */
+sweetAlert.close = sweetAlert.closeModal = (onComplete) => {
+  const container = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["l" /* getContainer */]()
+  const modal = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["q" /* getModal */]()
+  if (!modal) {
+    return
+  }
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].show)
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].hide)
+  clearTimeout(modal.timeout)
+
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["B" /* resetPrevState */]()
+
+  const removeModalAndResetState = () => {
+    if (container.parentNode) {
+      container.parentNode.removeChild(container)
+    }
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](document.documentElement, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].shown)
+    __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["z" /* removeClass */](document.body, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].shown)
+    undoScrollbar()
+    undoIOSfix()
+  }
+
+  // If animation is supported, animate
+  if (__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["b" /* animationEndEvent */] && !__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["u" /* hasClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].noanimation)) {
+    modal.addEventListener(__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["b" /* animationEndEvent */], function swalCloseEventFinished () {
+      modal.removeEventListener(__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["b" /* animationEndEvent */], swalCloseEventFinished)
+      if (__WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["u" /* hasClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].hide)) {
+        removeModalAndResetState()
+      }
+    })
+  } else {
+    // Otherwise, remove immediately
+    removeModalAndResetState()
+  }
+  if (onComplete !== null && typeof onComplete === 'function') {
+    setTimeout(function () {
+      onComplete(modal)
+    })
+  }
+}
+
+/*
+ * Global function to click 'Confirm' button
+ */
+sweetAlert.clickConfirm = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["k" /* getConfirmButton */]().click()
+
+/*
+ * Global function to click 'Cancel' button
+ */
+sweetAlert.clickCancel = () => __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["h" /* getCancelButton */]().click()
+
+/**
+ * Show spinner instead of Confirm button and disable Cancel button
+ */
+sweetAlert.showLoading = sweetAlert.enableLoading = () => {
+  const modal = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["q" /* getModal */]()
+  if (!modal) {
+    sweetAlert('')
+  }
+  const buttonsWrapper = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["g" /* getButtonsWrapper */]()
+  const confirmButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["k" /* getConfirmButton */]()
+  const cancelButton = __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["h" /* getCancelButton */]()
+
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](buttonsWrapper)
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["C" /* show */](confirmButton, 'inline-block')
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](buttonsWrapper, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].loading)
+  __WEBPACK_IMPORTED_MODULE_3__utils_dom_js__["a" /* addClass */](modal, __WEBPACK_IMPORTED_MODULE_1__utils_classes_js__["b" /* swalClasses */].loading)
+  confirmButton.disabled = true
+  cancelButton.disabled = true
+}
+
+/**
+ * Set default params for each popup
+ * @param {Object} userParams
+ */
+sweetAlert.setDefaults = (userParams) => {
+  if (!userParams || typeof userParams !== 'object') {
+    return console.error('SweetAlert2: the argument for setDefaults() is required and has to be a object')
+  }
+
+  for (let param in userParams) {
+    if (!__WEBPACK_IMPORTED_MODULE_0__utils_params_js__["a" /* default */].hasOwnProperty(param) && param !== 'extraParams') {
+      console.warn(`SweetAlert2: Unknown parameter "${param}"`)
+      delete userParams[param]
+    }
+  }
+
+  Object.assign(modalParams, userParams)
+}
+
+/**
+ * Reset default params for each popup
+ */
+sweetAlert.resetDefaults = () => {
+  modalParams = Object.assign({}, __WEBPACK_IMPORTED_MODULE_0__utils_params_js__["a" /* default */])
+}
+
+sweetAlert.noop = () => { }
+
+sweetAlert.version = ''
+
+sweetAlert.default = sweetAlert
+
+/* harmony default export */ __webpack_exports__["default"] = (sweetAlert);
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const swalPrefix = 'swal2-'
+/* unused harmony export swalPrefix */
+
+
+const prefix = (items) => {
+  const result = {}
+  for (const i in items) {
+    result[items[i]] = swalPrefix + items[i]
+  }
+  return result
+}
+/* unused harmony export prefix */
+
+
+const swalClasses = prefix([
+  'container',
+  'shown',
+  'iosfix',
+  'modal',
+  'overlay',
+  'fade',
+  'show',
+  'hide',
+  'noanimation',
+  'close',
+  'title',
+  'content',
+  'buttonswrapper',
+  'confirm',
+  'cancel',
+  'icon',
+  'image',
+  'input',
+  'file',
+  'range',
+  'select',
+  'radio',
+  'checkbox',
+  'textarea',
+  'inputerror',
+  'validationerror',
+  'progresssteps',
+  'activeprogressstep',
+  'progresscircle',
+  'progressline',
+  'loading',
+  'styled'
+])
+/* harmony export (immutable) */ __webpack_exports__["b"] = swalClasses;
+
+
+const iconTypes = prefix([
+  'success',
+  'warning',
+  'info',
+  'question',
+  'error'
+])
+/* harmony export (immutable) */ __webpack_exports__["a"] = iconTypes;
+
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/*
+ * Set hover, active and focus-states for buttons (source: http://www.sitepoint.com/javascript-generate-lighter-darker-color)
+ */
+const colorLuminance = (hex, lum) => {
+  // Validate hex string
+  hex = String(hex).replace(/[^0-9a-f]/gi, '')
+  if (hex.length < 6) {
+    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
+  }
+  lum = lum || 0
+
+  // Convert to decimal and change luminosity
+  let rgb = '#'
+  for (let i = 0; i < 3; i++) {
+    let c = parseInt(hex.substr(i * 2, 2), 16)
+    c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16)
+    rgb += ('00' + c).substr(c.length)
+  }
+
+  return rgb
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = colorLuminance;
+
+
+const uniqueArray = (arr) => {
+  const result = []
+  for (var i in arr) {
+    if (result.indexOf(arr[i]) === -1) {
+      result.push(arr[i])
+    }
+  }
+  return result
+}
+/* harmony export (immutable) */ __webpack_exports__["b"] = uniqueArray;
+
+
+
+/***/ }),
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(47);
+__webpack_require__(48);
+__webpack_require__(49);
+__webpack_require__(50);
+__webpack_require__(51);
+__webpack_require__(10);
+__webpack_require__(11);
+__webpack_require__(54);
+__webpack_require__(55);
+module.exports = __webpack_require__(56);
+
+
+/***/ }),
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_LOCAL_MODULE_1__, __WEBPACK_LOCAL_MODULE_1__factory, __WEBPACK_LOCAL_MODULE_1__module;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_2__;var __WEBPACK_LOCAL_MODULE_3__, __WEBPACK_LOCAL_MODULE_3__factory, __WEBPACK_LOCAL_MODULE_3__module;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_4__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_5__;var __WEBPACK_LOCAL_MODULE_6__, __WEBPACK_LOCAL_MODULE_6__factory, __WEBPACK_LOCAL_MODULE_6__module;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_7__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_8__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_9__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_10__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_11__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_12__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_13__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_14__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_15__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_16__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_17__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_LOCAL_MODULE_18__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_20__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -9957,8 +11648,7 @@ return s},r._getClosestResting=function(t,e,i){for(var n=this.selectedIndex,s=1/
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):"object"==typeof module&&module.exports?module.exports=e(t,require("flickity"),require("imagesloaded")):t.Flickity=e(t,t.Flickity,t.imagesLoaded)}(window,function(t,e,i){"use strict";e.createMethods.push("_createImagesLoaded");var n=e.prototype;return n._createImagesLoaded=function(){this.on("activate",this.imagesLoaded)},n.imagesLoaded=function(){function t(t,i){var n=e.getParentCell(i.img);e.cellSizeChange(n&&n.element),e.options.freeScroll||e.positionSliderAtSelected()}if(this.options.imagesLoaded){var e=this;i(this.slider).on("progress",t)}},e});
 
 /***/ }),
-
-/***/ 45:
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_LOCAL_MODULE_1__, __WEBPACK_LOCAL_MODULE_1__factory, __WEBPACK_LOCAL_MODULE_1__module;var __WEBPACK_LOCAL_MODULE_2__, __WEBPACK_LOCAL_MODULE_2__factory, __WEBPACK_LOCAL_MODULE_2__module;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_3__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_4__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_5__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_6__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_7__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_8__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_9__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -12143,8 +13833,7 @@ return ImagesLoaded;
 
 
 /***/ }),
-
-/***/ 46:
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -12161,8 +13850,24 @@ return ImagesLoaded;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/***/ 47:
+/*!
+ * 
+ *   typed.js - A JavaScript Typing Animation Library
+ *   Author: Matt Boldt <me@mattboldt.com>
+ *   Version: v2.0.4
+ *   Url: https://github.com/mattboldt/typed.js
+ *   License(s): MIT
+ * 
+ */
+(function(t,e){ true?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.Typed=e():t.Typed=e()})(this,function(){return function(t){function e(n){if(s[n])return s[n].exports;var i=s[n]={exports:{},id:n,loaded:!1};return t[n].call(i.exports,i,i.exports,e),i.loaded=!0,i.exports}var s={};return e.m=t,e.c=s,e.p="",e(0)}([function(t,e,s){"use strict";function n(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(e,"__esModule",{value:!0});var i=function(){function t(t,e){for(var s=0;s<e.length;s++){var n=e[s];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(e,s,n){return s&&t(e.prototype,s),n&&t(e,n),e}}(),r=s(1),o=s(3),a=function(){function t(e,s){n(this,t),r.initializer.load(this,s,e),this.begin()}return i(t,[{key:"toggle",value:function(){this.pause.status?this.start():this.stop()}},{key:"stop",value:function(){this.typingComplete||this.pause.status||(this.toggleBlinking(!0),this.pause.status=!0,this.options.onStop(this.arrayPos,this))}},{key:"start",value:function(){this.typingComplete||this.pause.status&&(this.pause.status=!1,this.pause.typewrite?this.typewrite(this.pause.curString,this.pause.curStrPos):this.backspace(this.pause.curString,this.pause.curStrPos),this.options.onStart(this.arrayPos,this))}},{key:"destroy",value:function(){this.reset(!1),this.options.onDestroy(this)}},{key:"reset",value:function(){var t=arguments.length<=0||void 0===arguments[0]||arguments[0];clearInterval(this.timeout),this.replaceText(""),this.cursor&&this.cursor.parentNode&&(this.cursor.parentNode.removeChild(this.cursor),this.cursor=null),this.strPos=0,this.arrayPos=0,this.curLoop=0,t&&(this.insertCursor(),this.options.onReset(this),this.begin())}},{key:"begin",value:function(){var t=this;this.typingComplete=!1,this.shuffleStringsIfNeeded(this),this.insertCursor(),this.bindInputFocusEvents&&this.bindFocusEvents(),this.timeout=setTimeout(function(){t.currentElContent&&0!==t.currentElContent.length?t.backspace(t.currentElContent,t.currentElContent.length):t.typewrite(t.strings[t.sequence[t.arrayPos]],t.strPos)},this.startDelay)}},{key:"typewrite",value:function(t,e){var s=this;this.fadeOut&&this.el.classList.contains(this.fadeOutClass)&&(this.el.classList.remove(this.fadeOutClass),this.cursor&&this.cursor.classList.remove(this.fadeOutClass));var n=this.humanizer(this.typeSpeed),i=1;return this.pause.status===!0?void this.setPauseStatus(t,e,!0):void(this.timeout=setTimeout(function(){e=o.htmlParser.typeHtmlChars(t,e,s);var n=0,r=t.substr(e);if("^"===r.charAt(0)&&/^\^\d+/.test(r)){var a=1;r=/\d+/.exec(r)[0],a+=r.length,n=parseInt(r),s.temporaryPause=!0,s.options.onTypingPaused(s.arrayPos,s),t=t.substring(0,e)+t.substring(e+a),s.toggleBlinking(!0)}if("`"===r.charAt(0)){for(;"`"!==t.substr(e+i).charAt(0)&&(i++,!(e+i>t.length)););var u=t.substring(0,e),l=t.substring(u.length+1,e+i),c=t.substring(e+i+1);t=u+l+c,i--}s.timeout=setTimeout(function(){s.toggleBlinking(!1),e===t.length?s.doneTyping(t,e):s.keepTyping(t,e,i),s.temporaryPause&&(s.temporaryPause=!1,s.options.onTypingResumed(s.arrayPos,s))},n)},n))}},{key:"keepTyping",value:function(t,e,s){0===e&&(this.toggleBlinking(!1),this.options.preStringTyped(this.arrayPos,this)),e+=s;var n=t.substr(0,e);this.replaceText(n),this.typewrite(t,e)}},{key:"doneTyping",value:function(t,e){var s=this;this.options.onStringTyped(this.arrayPos,this),this.toggleBlinking(!0),this.arrayPos===this.strings.length-1&&(this.complete(),this.loop===!1||this.curLoop===this.loopCount)||(this.timeout=setTimeout(function(){s.backspace(t,e)},this.backDelay))}},{key:"backspace",value:function(t,e){var s=this;if(this.pause.status===!0)return void this.setPauseStatus(t,e,!0);if(this.fadeOut)return this.initFadeOut();this.toggleBlinking(!1);var n=this.humanizer(this.backSpeed);this.timeout=setTimeout(function(){e=o.htmlParser.backSpaceHtmlChars(t,e,s);var n=t.substr(0,e);if(s.replaceText(n),s.smartBackspace){var i=s.strings[s.arrayPos+1];i&&n===i.substr(0,e)?s.stopNum=e:s.stopNum=0}e>s.stopNum?(e--,s.backspace(t,e)):e<=s.stopNum&&(s.arrayPos++,s.arrayPos===s.strings.length?(s.arrayPos=0,s.options.onLastStringBackspaced(),s.shuffleStringsIfNeeded(),s.begin()):s.typewrite(s.strings[s.sequence[s.arrayPos]],e))},n)}},{key:"complete",value:function(){this.options.onComplete(this),this.loop?this.curLoop++:this.typingComplete=!0}},{key:"setPauseStatus",value:function(t,e,s){this.pause.typewrite=s,this.pause.curString=t,this.pause.curStrPos=e}},{key:"toggleBlinking",value:function(t){if(this.cursor&&!this.pause.status&&this.cursorBlinking!==t){this.cursorBlinking=t;var e=t?"infinite":0;this.cursor.style.animationIterationCount=e}}},{key:"humanizer",value:function(t){return Math.round(Math.random()*t/2)+t}},{key:"shuffleStringsIfNeeded",value:function(){this.shuffle&&(this.sequence=this.sequence.sort(function(){return Math.random()-.5}))}},{key:"initFadeOut",value:function(){var t=this;return this.el.className+=" "+this.fadeOutClass,this.cursor&&(this.cursor.className+=" "+this.fadeOutClass),setTimeout(function(){t.arrayPos++,t.replaceText(""),t.strings.length>t.arrayPos?t.typewrite(t.strings[t.sequence[t.arrayPos]],0):(t.typewrite(t.strings[0],0),t.arrayPos=0)},this.fadeOutDelay)}},{key:"replaceText",value:function(t){this.attr?this.el.setAttribute(this.attr,t):this.isInput?this.el.value=t:"html"===this.contentType?this.el.innerHTML=t:this.el.textContent=t}},{key:"bindFocusEvents",value:function(){var t=this;this.isInput&&(this.el.addEventListener("focus",function(e){t.stop()}),this.el.addEventListener("blur",function(e){t.el.value&&0!==t.el.value.length||t.start()}))}},{key:"insertCursor",value:function(){this.showCursor&&(this.cursor||(this.cursor=document.createElement("span"),this.cursor.className="typed-cursor",this.cursor.innerHTML=this.cursorChar,this.el.parentNode&&this.el.parentNode.insertBefore(this.cursor,this.el.nextSibling)))}}]),t}();e["default"]=a,t.exports=e["default"]},function(t,e,s){"use strict";function n(t){return t&&t.__esModule?t:{"default":t}}function i(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(e,"__esModule",{value:!0});var r=Object.assign||function(t){for(var e=1;e<arguments.length;e++){var s=arguments[e];for(var n in s)Object.prototype.hasOwnProperty.call(s,n)&&(t[n]=s[n])}return t},o=function(){function t(t,e){for(var s=0;s<e.length;s++){var n=e[s];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(e,s,n){return s&&t(e.prototype,s),n&&t(e,n),e}}(),a=s(2),u=n(a),l=function(){function t(){i(this,t)}return o(t,[{key:"load",value:function(t,e,s){if("string"==typeof s?t.el=document.querySelector(s):t.el=s,t.options=r({},u["default"],e),t.isInput="input"===t.el.tagName.toLowerCase(),t.attr=t.options.attr,t.bindInputFocusEvents=t.options.bindInputFocusEvents,t.showCursor=!t.isInput&&t.options.showCursor,t.cursorChar=t.options.cursorChar,t.cursorBlinking=!0,t.elContent=t.attr?t.el.getAttribute(t.attr):t.el.textContent,t.contentType=t.options.contentType,t.typeSpeed=t.options.typeSpeed,t.startDelay=t.options.startDelay,t.backSpeed=t.options.backSpeed,t.smartBackspace=t.options.smartBackspace,t.backDelay=t.options.backDelay,t.fadeOut=t.options.fadeOut,t.fadeOutClass=t.options.fadeOutClass,t.fadeOutDelay=t.options.fadeOutDelay,t.isPaused=!1,t.strings=t.options.strings.map(function(t){return t.trim()}),"string"==typeof t.options.stringsElement?t.stringsElement=document.querySelector(t.options.stringsElement):t.stringsElement=t.options.stringsElement,t.stringsElement){t.strings=[],t.stringsElement.style.display="none";var n=Array.prototype.slice.apply(t.stringsElement.children),i=!0,o=!1,a=void 0;try{for(var l,c=n[Symbol.iterator]();!(i=(l=c.next()).done);i=!0){var p=l.value;t.strings.push(p.innerHTML.trim())}}catch(h){o=!0,a=h}finally{try{!i&&c["return"]&&c["return"]()}finally{if(o)throw a}}}t.strPos=0,t.arrayPos=0,t.stopNum=0,t.loop=t.options.loop,t.loopCount=t.options.loopCount,t.curLoop=0,t.shuffle=t.options.shuffle,t.sequence=[],t.pause={status:!1,typewrite:!0,curString:"",curStrPos:0},t.typingComplete=!1;for(var f in t.strings)t.sequence[f]=f;t.currentElContent=this.getCurrentElContent(t),t.autoInsertCss=t.options.autoInsertCss,this.appendAnimationCss(t)}},{key:"getCurrentElContent",value:function(t){var e="";return e=t.attr?t.el.getAttribute(t.attr):t.isInput?t.el.value:"html"===t.contentType?t.el.innerHTML:t.el.textContent}},{key:"appendAnimationCss",value:function(t){if(t.autoInsertCss&&t.showCursor&&t.fadeOut){var e=document.createElement("style");e.type="text/css";var s="";t.showCursor&&(s+="\n        .typed-cursor{\n          opacity: 1;\n          animation: typedjsBlink 0.7s infinite;\n          -webkit-animation: typedjsBlink 0.7s infinite;\n                  animation: typedjsBlink 0.7s infinite;\n        }\n        @keyframes typedjsBlink{\n          50% { opacity: 0.0; }\n        }\n        @-webkit-keyframes typedjsBlink{\n          0% { opacity: 1; }\n          50% { opacity: 0.0; }\n          100% { opacity: 1; }\n        }\n      "),t.fadeOut&&(s+="\n        .typed-fade-out{\n          opacity: 0;\n          transition: opacity .25s;\n          -webkit-animation: 0;\n                  animation: 0;\n        }\n      "),0!==e.length&&(e.innerHTML=s,document.head.appendChild(e))}}}]),t}();e["default"]=l;var c=new l;e.initializer=c},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var s={strings:["These are the default values...","You know what you should do?","Use your own!","Have a great day!"],stringsElement:null,typeSpeed:0,startDelay:0,backSpeed:0,smartBackspace:!0,shuffle:!1,backDelay:700,fadeOut:!1,fadeOutClass:"typed-fade-out",fadeOutDelay:500,loop:!1,loopCount:1/0,showCursor:!0,cursorChar:"|",autoInsertCss:!0,attr:null,bindInputFocusEvents:!1,contentType:"html",onComplete:function(t){},preStringTyped:function(t,e){},onStringTyped:function(t,e){},onLastStringBackspaced:function(t){},onTypingPaused:function(t,e){},onTypingResumed:function(t,e){},onReset:function(t){},onStop:function(t,e){},onStart:function(t,e){},onDestroy:function(t){}};e["default"]=s,t.exports=e["default"]},function(t,e){"use strict";function s(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(e,"__esModule",{value:!0});var n=function(){function t(t,e){for(var s=0;s<e.length;s++){var n=e[s];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(e,s,n){return s&&t(e.prototype,s),n&&t(e,n),e}}(),i=function(){function t(){s(this,t)}return n(t,[{key:"typeHtmlChars",value:function(t,e,s){if("html"!==s.contentType)return e;var n=t.substr(e).charAt(0);if("<"===n||"&"===n){var i="";for(i="<"===n?">":";";t.substr(e+1).charAt(0)!==i&&(e++,!(e+1>t.length)););e++}return e}},{key:"backSpaceHtmlChars",value:function(t,e,s){if("html"!==s.contentType)return e;var n=t.substr(e).charAt(0);if(">"===n||";"===n){var i="";for(i=">"===n?"<":"&";t.substr(e-1).charAt(0)!==i&&(e--,!(e<0)););e--}return e}}]),t}();e["default"]=i;var r=new i;e.htmlParser=r}])});
+//# sourceMappingURL=typed.min.js.map
+
+
+/***/ }),
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -12645,28 +14350,2230 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 });
 
 /***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/***/ 48:
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+  title: '',
+  titleText: '',
+  text: '',
+  html: '',
+  type: null,
+  customClass: '',
+  target: 'body',
+  animation: true,
+  allowOutsideClick: true,
+  allowEscapeKey: true,
+  allowEnterKey: true,
+  showConfirmButton: true,
+  showCancelButton: false,
+  preConfirm: null,
+  confirmButtonText: 'OK',
+  confirmButtonColor: '#3085d6',
+  confirmButtonClass: null,
+  cancelButtonText: 'Cancel',
+  cancelButtonColor: '#aaa',
+  cancelButtonClass: null,
+  buttonsStyling: true,
+  reverseButtons: false,
+  focusCancel: false,
+  showCloseButton: false,
+  showLoaderOnConfirm: false,
+  imageUrl: null,
+  imageWidth: null,
+  imageHeight: null,
+  imageClass: null,
+  timer: null,
+  width: 500,
+  padding: 20,
+  background: '#fff',
+  input: null,
+  inputPlaceholder: '',
+  inputValue: '',
+  inputOptions: {},
+  inputAutoTrim: true,
+  inputClass: null,
+  inputAttributes: {},
+  inputValidator: null,
+  progressSteps: [],
+  currentProgressStep: null,
+  progressStepsDistance: '40px',
+  onOpen: null,
+  onClose: null,
+  useRejections: true
+});
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__classes_js__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(13);
+/* global MouseEvent */
+
+
+
+
+
+// Remember state in cases where opening and handling a modal will fiddle with it.
+const states = {
+  previousWindowKeyDown: null,
+  previousActiveElement: null,
+  previousBodyPadding: null
+}
+/* harmony export (immutable) */ __webpack_exports__["D"] = states;
+
+
+/*
+ * Add modal + overlay to DOM
+ */
+const init = (params) => {
+  if (typeof document === 'undefined') {
+    console.error('SweetAlert2 requires document to initialize')
+    return
+  }
+
+  const container = document.createElement('div')
+  container.className = __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].container
+  container.innerHTML = sweetHTML
+
+  let targetElement = document.querySelector(params.target)
+  if (!targetElement) {
+    console.warn(`SweetAlert2: Can't find the target "${params.target}"`)
+    targetElement = document.body
+  }
+  targetElement.appendChild(container)
+
+  const modal = getModal()
+  const input = getChildByClass(modal, __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].input)
+  const file = getChildByClass(modal, __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].file)
+  const range = modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].range} input`)
+  const rangeOutput = modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].range} output`)
+  const select = getChildByClass(modal, __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].select)
+  const checkbox = modal.querySelector(`.${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].checkbox} input`)
+  const textarea = getChildByClass(modal, __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].textarea)
+
+  input.oninput = () => {
+    __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].resetValidationError()
+  }
+
+  input.onkeydown = (event) => {
+    setTimeout(() => {
+      if (event.keyCode === 13 && params.allowEnterKey) {
+        event.stopPropagation()
+        __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].clickConfirm()
+      }
+    }, 0)
+  }
+
+  file.onchange = () => {
+    __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].resetValidationError()
+  }
+
+  range.oninput = () => {
+    __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].resetValidationError()
+    rangeOutput.value = range.value
+  }
+
+  range.onchange = () => {
+    __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].resetValidationError()
+    range.previousSibling.value = range.value
+  }
+
+  select.onchange = () => {
+    __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].resetValidationError()
+  }
+
+  checkbox.onchange = () => {
+    __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].resetValidationError()
+  }
+
+  textarea.oninput = () => {
+    __WEBPACK_IMPORTED_MODULE_0__sweetalert2_js__["default"].resetValidationError()
+  }
+
+  return modal
+}
+/* harmony export (immutable) */ __webpack_exports__["w"] = init;
+
+
+/*
+ * Manipulate DOM
+ */
+
+const sweetHTML = `
+ <div role="dialog" aria-labelledby="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].title}" aria-describedby="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].content}" class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].modal}" tabindex="-1">
+   <ul class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].progresssteps}"></ul>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].icon} ${__WEBPACK_IMPORTED_MODULE_1__classes_js__["a" /* iconTypes */].error}">
+     <span class="swal2-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span>
+   </div>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].icon} ${__WEBPACK_IMPORTED_MODULE_1__classes_js__["a" /* iconTypes */].question}">?</div>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].icon} ${__WEBPACK_IMPORTED_MODULE_1__classes_js__["a" /* iconTypes */].warning}">!</div>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].icon} ${__WEBPACK_IMPORTED_MODULE_1__classes_js__["a" /* iconTypes */].info}">i</div>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].icon} ${__WEBPACK_IMPORTED_MODULE_1__classes_js__["a" /* iconTypes */].success}">
+     <div class="swal2-success-circular-line-left"></div>
+     <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+     <div class="swal2-success-ring"></div> <div class="swal2-success-fix"></div>
+     <div class="swal2-success-circular-line-right"></div>
+   </div>
+   <img class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].image}" />
+   <h2 class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].title}" id="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].title}"></h2>
+   <div id="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].content}" class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].content}"></div>
+   <input class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].input}" />
+   <input type="file" class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].file}" />
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].range}">
+     <output></output>
+     <input type="range" />
+   </div>
+   <select class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].select}"></select>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].radio}"></div>
+   <label for="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].checkbox}" class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].checkbox}">
+     <input type="checkbox" />
+   </label>
+   <textarea class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].textarea}"></textarea>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].validationerror}"></div>
+   <div class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].buttonswrapper}">
+     <button type="button" class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].confirm}">OK</button>
+     <button type="button" class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].cancel}">Cancel</button>
+   </div>
+   <button type="button" class="${__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].close}" aria-label="Close this dialog">×</button>
+ </div>
+`.replace(/(^|\n)\s*/g, '')
+
+const getContainer = () => document.body.querySelector('.' + __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].container)
+/* harmony export (immutable) */ __webpack_exports__["l"] = getContainer;
+
+
+const getModal = () => getContainer() ? getContainer().querySelector('.' + __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].modal) : null
+/* harmony export (immutable) */ __webpack_exports__["q"] = getModal;
+
+
+const getIcons = () => {
+  const modal = getModal()
+  return modal.querySelectorAll('.' + __WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].icon)
+}
+/* harmony export (immutable) */ __webpack_exports__["o"] = getIcons;
+
+
+const elementByClass = (className) => getContainer() ? getContainer().querySelector('.' + className) : null
+/* unused harmony export elementByClass */
+
+
+const getTitle = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].title)
+/* harmony export (immutable) */ __webpack_exports__["s"] = getTitle;
+
+
+const getContent = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].content)
+/* harmony export (immutable) */ __webpack_exports__["m"] = getContent;
+
+
+const getImage = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].image)
+/* harmony export (immutable) */ __webpack_exports__["p"] = getImage;
+
+
+const getButtonsWrapper = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].buttonswrapper)
+/* harmony export (immutable) */ __webpack_exports__["g"] = getButtonsWrapper;
+
+
+const getProgressSteps = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].progresssteps)
+/* harmony export (immutable) */ __webpack_exports__["r"] = getProgressSteps;
+
+
+const getValidationError = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].validationerror)
+/* harmony export (immutable) */ __webpack_exports__["t"] = getValidationError;
+
+
+const getConfirmButton = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].confirm)
+/* harmony export (immutable) */ __webpack_exports__["k"] = getConfirmButton;
+
+
+const getCancelButton = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].cancel)
+/* harmony export (immutable) */ __webpack_exports__["h"] = getCancelButton;
+
+
+const getCloseButton = () => elementByClass(__WEBPACK_IMPORTED_MODULE_1__classes_js__["b" /* swalClasses */].close)
+/* harmony export (immutable) */ __webpack_exports__["j"] = getCloseButton;
+
+
+const getFocusableElements = (focusCancel) => {
+  const buttons = [getConfirmButton(), getCancelButton()]
+  if (focusCancel) {
+    buttons.reverse()
+  }
+  const focusableElements = buttons.concat(Array.prototype.slice.call(
+    getModal().querySelectorAll('button, input:not([type=hidden]), textarea, select, a, *[tabindex]:not([tabindex="-1"])')
+  ))
+  return Object(__WEBPACK_IMPORTED_MODULE_2__utils_js__["b" /* uniqueArray */])(focusableElements)
+}
+/* harmony export (immutable) */ __webpack_exports__["n"] = getFocusableElements;
+
+
+const hasClass = (elem, className) => {
+  if (elem.classList) {
+    return elem.classList.contains(className)
+  }
+  return false
+}
+/* harmony export (immutable) */ __webpack_exports__["u"] = hasClass;
+
+
+const focusInput = (input) => {
+  input.focus()
+
+  // place cursor at end of text in text input
+  if (input.type !== 'file') {
+    // http://stackoverflow.com/a/2345915/1331425
+    const val = input.value
+    input.value = ''
+    input.value = val
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["f"] = focusInput;
+
+
+const addClass = (elem, className) => {
+  if (!elem || !className) {
+    return
+  }
+  const classes = className.split(/\s+/).filter(Boolean)
+  classes.forEach((className) => {
+    elem.classList.add(className)
+  })
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = addClass;
+
+
+const removeClass = (elem, className) => {
+  if (!elem || !className) {
+    return
+  }
+  const classes = className.split(/\s+/).filter(Boolean)
+  classes.forEach((className) => {
+    elem.classList.remove(className)
+  })
+}
+/* harmony export (immutable) */ __webpack_exports__["z"] = removeClass;
+
+
+const getChildByClass = (elem, className) => {
+  for (let i = 0; i < elem.childNodes.length; i++) {
+    if (hasClass(elem.childNodes[i], className)) {
+      return elem.childNodes[i]
+    }
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["i"] = getChildByClass;
+
+
+const show = (elem, display) => {
+  if (!display) {
+    display = 'block'
+  }
+  elem.style.opacity = ''
+  elem.style.display = display
+}
+/* harmony export (immutable) */ __webpack_exports__["C"] = show;
+
+
+const hide = (elem) => {
+  elem.style.opacity = ''
+  elem.style.display = 'none'
+}
+/* harmony export (immutable) */ __webpack_exports__["v"] = hide;
+
+
+const empty = (elem) => {
+  while (elem.firstChild) {
+    elem.removeChild(elem.firstChild)
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["d"] = empty;
+
+
+// borrowed from jqeury $(elem).is(':visible') implementation
+const isVisible = (elem) => elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length
+/* harmony export (immutable) */ __webpack_exports__["x"] = isVisible;
+
+
+const removeStyleProperty = (elem, property) => {
+  if (elem.style.removeProperty) {
+    elem.style.removeProperty(property)
+  } else {
+    elem.style.removeAttribute(property)
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["A"] = removeStyleProperty;
+
+
+const fireClick = (node) => {
+  if (!isVisible(node)) {
+    return false
+  }
+
+  // Taken from http://www.nonobtrusive.com/2011/11/29/programatically-fire-crossbrowser-click-event-with-javascript/
+  // Then fixed for today's Chrome browser.
+  if (typeof MouseEvent === 'function') {
+    // Up-to-date approach
+    const mevt = new MouseEvent('click', {
+      view: window,
+      bubbles: false,
+      cancelable: true
+    })
+    node.dispatchEvent(mevt)
+  } else if (document.createEvent) {
+    // Fallback
+    const evt = document.createEvent('MouseEvents')
+    evt.initEvent('click', false, false)
+    node.dispatchEvent(evt)
+  } else if (document.createEventObject) {
+    node.fireEvent('onclick')
+  } else if (typeof node.onclick === 'function') {
+    node.onclick()
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["e"] = fireClick;
+
+
+const animationEndEvent = (() => {
+  const testEl = document.createElement('div')
+  const transEndEventNames = {
+    'WebkitAnimation': 'webkitAnimationEnd',
+    'OAnimation': 'oAnimationEnd oanimationend',
+    'msAnimation': 'MSAnimationEnd',
+    'animation': 'animationend'
+  }
+  for (const i in transEndEventNames) {
+    if (transEndEventNames.hasOwnProperty(i) &&
+      testEl.style[i] !== undefined) {
+      return transEndEventNames[i]
+    }
+  }
+
+  return false
+})()
+/* harmony export (immutable) */ __webpack_exports__["b"] = animationEndEvent;
+
+
+// Reset previous window keydown handler and focued element
+const resetPrevState = () => {
+  window.onkeydown = states.previousWindowKeyDown
+  if (states.previousActiveElement && states.previousActiveElement.focus) {
+    let x = window.scrollX
+    let y = window.scrollY
+    states.previousActiveElement.focus()
+    if (x && y) { // IE has no scrollX/scrollY support
+      window.scrollTo(x, y)
+    }
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["B"] = resetPrevState;
+
+
+// Measure width of scrollbar
+// https://github.com/twbs/bootstrap/blob/master/js/modal.js#L279-L286
+const measureScrollbar = () => {
+  var supportsTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints
+  if (supportsTouch) {
+    return 0
+  }
+  const scrollDiv = document.createElement('div')
+  scrollDiv.style.width = '50px'
+  scrollDiv.style.height = '50px'
+  scrollDiv.style.overflow = 'scroll'
+  document.body.appendChild(scrollDiv)
+  const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
+  document.body.removeChild(scrollDiv)
+  return scrollbarWidth
+}
+/* harmony export (immutable) */ __webpack_exports__["y"] = measureScrollbar;
+
+
+// JavaScript Debounce Function
+// Simplivied version of https://davidwalsh.name/javascript-debounce-function
+const debounce = (func, wait) => {
+  let timeout
+  return () => {
+    const later = () => {
+      timeout = null
+      func()
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["c"] = debounce;
+
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery) {/**
+ * Bootstrap Multiselect (https://github.com/davidstutz/bootstrap-multiselect)
+ * 
+ * Apache License, Version 2.0:
+ * Copyright (c) 2012 - 2015 David Stutz
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a
+ * copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ * 
+ * BSD 3-Clause License:
+ * Copyright (c) 2012 - 2015 David Stutz
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *    - Redistributions of source code must retain the above copyright notice,
+ *      this list of conditions and the following disclaimer.
+ *    - Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
+ *      and/or other materials provided with the distribution.
+ *    - Neither the name of David Stutz nor the names of its contributors may be
+ *      used to endorse or promote products derived from this software without
+ *      specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+!function ($) {
+    "use strict";// jshint ;_;
+
+    if (typeof ko !== 'undefined' && ko.bindingHandlers && !ko.bindingHandlers.multiselect) {
+        ko.bindingHandlers.multiselect = {
+            after: ['options', 'value', 'selectedOptions'],
+
+            init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+                var $element = $(element);
+                var config = ko.toJS(valueAccessor());
+
+                $element.multiselect(config);
+
+                if (allBindings.has('options')) {
+                    var options = allBindings.get('options');
+                    if (ko.isObservable(options)) {
+                        ko.computed({
+                            read: function() {
+                                options();
+                                setTimeout(function() {
+                                    var ms = $element.data('multiselect');
+                                    if (ms)
+                                        ms.updateOriginalOptions();//Not sure how beneficial this is.
+                                    $element.multiselect('rebuild');
+                                }, 1);
+                            },
+                            disposeWhenNodeIsRemoved: element
+                        });
+                    }
+                }
+
+                //value and selectedOptions are two-way, so these will be triggered even by our own actions.
+                //It needs some way to tell if they are triggered because of us or because of outside change.
+                //It doesn't loop but it's a waste of processing.
+                if (allBindings.has('value')) {
+                    var value = allBindings.get('value');
+                    if (ko.isObservable(value)) {
+                        ko.computed({
+                            read: function() {
+                                value();
+                                setTimeout(function() {
+                                    $element.multiselect('refresh');
+                                }, 1);
+                            },
+                            disposeWhenNodeIsRemoved: element
+                        }).extend({ rateLimit: 100, notifyWhenChangesStop: true });
+                    }
+                }
+
+                //Switched from arrayChange subscription to general subscription using 'refresh'.
+                //Not sure performance is any better using 'select' and 'deselect'.
+                if (allBindings.has('selectedOptions')) {
+                    var selectedOptions = allBindings.get('selectedOptions');
+                    if (ko.isObservable(selectedOptions)) {
+                        ko.computed({
+                            read: function() {
+                                selectedOptions();
+                                setTimeout(function() {
+                                    $element.multiselect('refresh');
+                                }, 1);
+                            },
+                            disposeWhenNodeIsRemoved: element
+                        }).extend({ rateLimit: 100, notifyWhenChangesStop: true });
+                    }
+                }
+
+                ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
+                    $element.multiselect('destroy');
+                });
+            },
+
+            update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+                var $element = $(element);
+                var config = ko.toJS(valueAccessor());
+
+                $element.multiselect('setOptions', config);
+                $element.multiselect('rebuild');
+            }
+        };
+    }
+
+    function forEach(array, callback) {
+        for (var index = 0; index < array.length; ++index) {
+            callback(array[index], index);
+        }
+    }
+
+    /**
+     * Constructor to create a new multiselect using the given select.
+     *
+     * @param {jQuery} select
+     * @param {Object} options
+     * @returns {Multiselect}
+     */
+    function Multiselect(select, options) {
+
+        this.$select = $(select);
+        
+        // Placeholder via data attributes
+        if (this.$select.attr("data-placeholder")) {
+            options.nonSelectedText = this.$select.data("placeholder");
+        }
+        
+        this.options = this.mergeOptions($.extend({}, options, this.$select.data()));
+
+        // Initialization.
+        // We have to clone to create a new reference.
+        this.originalOptions = this.$select.clone()[0].options;
+        this.query = '';
+        this.searchTimeout = null;
+        this.lastToggledInput = null
+
+        this.options.multiple = this.$select.attr('multiple') === "multiple";
+        this.options.onChange = $.proxy(this.options.onChange, this);
+        this.options.onDropdownShow = $.proxy(this.options.onDropdownShow, this);
+        this.options.onDropdownHide = $.proxy(this.options.onDropdownHide, this);
+        this.options.onDropdownShown = $.proxy(this.options.onDropdownShown, this);
+        this.options.onDropdownHidden = $.proxy(this.options.onDropdownHidden, this);
+        
+        // Build select all if enabled.
+        this.buildContainer();
+        this.buildButton();
+        this.buildDropdown();
+        this.buildSelectAll();
+        this.buildDropdownOptions();
+        this.buildFilter();
+
+        this.updateButtonText();
+        this.updateSelectAll();
+
+        if (this.options.disableIfEmpty && $('option', this.$select).length <= 0) {
+            this.disable();
+        }
+        
+        this.$select.hide().after(this.$container);
+    };
+
+    Multiselect.prototype = {
+
+        defaults: {
+            /**
+             * Default text function will either print 'None selected' in case no
+             * option is selected or a list of the selected options up to a length
+             * of 3 selected options.
+             * 
+             * @param {jQuery} options
+             * @param {jQuery} select
+             * @returns {String}
+             */
+            buttonText: function(options, select) {
+                if (options.length === 0) {
+                    return this.nonSelectedText;
+                }
+                else if (this.allSelectedText 
+                            && options.length === $('option', $(select)).length 
+                            && $('option', $(select)).length !== 1 
+                            && this.multiple) {
+
+                    if (this.selectAllNumber) {
+                        return this.allSelectedText + ' (' + options.length + ')';
+                    }
+                    else {
+                        return this.allSelectedText;
+                    }
+                }
+                else if (options.length > this.numberDisplayed) {
+                    return options.length + ' ' + this.nSelectedText;
+                }
+                else {
+                    var selected = '';
+                    var delimiter = this.delimiterText;
+                    
+                    options.each(function() {
+                        var label = ($(this).attr('label') !== undefined) ? $(this).attr('label') : $(this).text();
+                        selected += label + delimiter;
+                    });
+                    
+                    return selected.substr(0, selected.length - 2);
+                }
+            },
+            /**
+             * Updates the title of the button similar to the buttonText function.
+             * 
+             * @param {jQuery} options
+             * @param {jQuery} select
+             * @returns {@exp;selected@call;substr}
+             */
+            buttonTitle: function(options, select) {
+                if (options.length === 0) {
+                    return this.nonSelectedText;
+                }
+                else {
+                    var selected = '';
+                    var delimiter = this.delimiterText;
+                    
+                    options.each(function () {
+                        var label = ($(this).attr('label') !== undefined) ? $(this).attr('label') : $(this).text();
+                        selected += label + delimiter;
+                    });
+                    return selected.substr(0, selected.length - 2);
+                }
+            },
+            /**
+             * Create a label.
+             *
+             * @param {jQuery} element
+             * @returns {String}
+             */
+            optionLabel: function(element){
+                return $(element).attr('label') || $(element).text();
+            },
+            /**
+             * Triggered on change of the multiselect.
+             * 
+             * Not triggered when selecting/deselecting options manually.
+             * 
+             * @param {jQuery} option
+             * @param {Boolean} checked
+             */
+            onChange : function(option, checked) {
+
+            },
+            /**
+             * Triggered when the dropdown is shown.
+             *
+             * @param {jQuery} event
+             */
+            onDropdownShow: function(event) {
+
+            },
+            /**
+             * Triggered when the dropdown is hidden.
+             *
+             * @param {jQuery} event
+             */
+            onDropdownHide: function(event) {
+
+            },
+            /**
+             * Triggered after the dropdown is shown.
+             * 
+             * @param {jQuery} event
+             */
+            onDropdownShown: function(event) {
+                
+            },
+            /**
+             * Triggered after the dropdown is hidden.
+             * 
+             * @param {jQuery} event
+             */
+            onDropdownHidden: function(event) {
+                
+            },
+            /**
+             * Triggered on select all.
+             */
+            onSelectAll: function() {
+                
+            },
+            enableHTML: false,
+            buttonClass: 'btn btn-default',
+            inheritClass: false,
+            buttonWidth: 'auto',
+            buttonContainer: '<div class="btn-group" />',
+            dropRight: false,
+            selectedClass: 'active',
+            // Maximum height of the dropdown menu.
+            // If maximum height is exceeded a scrollbar will be displayed.
+            maxHeight: false,
+            checkboxName: false,
+            includeSelectAllOption: false,
+            includeSelectAllIfMoreThan: 0,
+            selectAllText: 'انتخاب همه',
+            selectAllValue: 'multiselect-all',
+            selectAllName: false,
+            selectAllNumber: true,
+            enableFiltering: false,
+            enableCaseInsensitiveFiltering: false,
+            enableClickableOptGroups: false,
+            filterPlaceholder: 'Search',
+            // possible options: 'text', 'value', 'both'
+            filterBehavior: 'text',
+            includeFilterClearBtn: true,
+            preventInputChangeEvent: false,
+            nonSelectedText: 'None selected',
+            nSelectedText: 'selected',
+            allSelectedText: 'All selected',
+            numberDisplayed: 3,
+            disableIfEmpty: false,
+            delimiterText: ', ',
+            templates: {
+                button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> <b class="caret"></b></button>',
+                ul: '<ul class="multiselect-container dropdown-menu"></ul>',
+                filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
+                filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default multiselect-clear-filter" type="button"><i class="glyphicon glyphicon-remove-circle"></i></button></span>',
+                li: '<li><a tabindex="0"><label></label></a></li>',
+                divider: '<li class="multiselect-item divider"></li>',
+                liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
+            }
+        },
+
+        constructor: Multiselect,
+
+        /**
+         * Builds the container of the multiselect.
+         */
+        buildContainer: function() {
+            this.$container = $(this.options.buttonContainer);
+            this.$container.on('show.bs.dropdown', this.options.onDropdownShow);
+            this.$container.on('hide.bs.dropdown', this.options.onDropdownHide);
+            this.$container.on('shown.bs.dropdown', this.options.onDropdownShown);
+            this.$container.on('hidden.bs.dropdown', this.options.onDropdownHidden);
+        },
+
+        /**
+         * Builds the button of the multiselect.
+         */
+        buildButton: function() {
+            this.$button = $(this.options.templates.button).addClass(this.options.buttonClass);
+            if (this.$select.attr('class') && this.options.inheritClass) {
+                this.$button.addClass(this.$select.attr('class'));
+            }
+            // Adopt active state.
+            if (this.$select.prop('disabled')) {
+                this.disable();
+            }
+            else {
+                this.enable();
+            }
+
+            // Manually add button width if set.
+            if (this.options.buttonWidth && this.options.buttonWidth !== 'auto') {
+                this.$button.css({
+                    'width' : this.options.buttonWidth,
+                    'overflow' : 'hidden',
+                    'text-overflow' : 'ellipsis'
+                });
+                this.$container.css({
+                    'width': this.options.buttonWidth
+                });
+            }
+
+            // Keep the tab index from the select.
+            var tabindex = this.$select.attr('tabindex');
+            if (tabindex) {
+                this.$button.attr('tabindex', tabindex);
+            }
+
+            this.$container.prepend(this.$button);
+        },
+
+        /**
+         * Builds the ul representing the dropdown menu.
+         */
+        buildDropdown: function() {
+
+            // Build ul.
+            this.$ul = $(this.options.templates.ul);
+
+            if (this.options.dropRight) {
+                this.$ul.addClass('pull-right');
+            }
+
+            // Set max height of dropdown menu to activate auto scrollbar.
+            if (this.options.maxHeight) {
+                // TODO: Add a class for this option to move the css declarations.
+                this.$ul.css({
+                    'max-height': this.options.maxHeight + 'px',
+                    'overflow-y': 'auto',
+                    'overflow-x': 'hidden'
+                });
+            }
+
+            this.$container.append(this.$ul);
+        },
+
+        /**
+         * Build the dropdown options and binds all nessecary events.
+         * 
+         * Uses createDivider and createOptionValue to create the necessary options.
+         */
+        buildDropdownOptions: function() {
+
+            this.$select.children().each($.proxy(function(index, element) {
+
+                var $element = $(element);
+                // Support optgroups and options without a group simultaneously.
+                var tag = $element.prop('tagName')
+                    .toLowerCase();
+            
+                if ($element.prop('value') === this.options.selectAllValue) {
+                    return;
+                }
+
+                if (tag === 'optgroup') {
+                    this.createOptgroup(element);
+                }
+                else if (tag === 'option') {
+
+                    if ($element.data('role') === 'divider') {
+                        this.createDivider();
+                    }
+                    else {
+                        this.createOptionValue(element);
+                    }
+
+                }
+
+                // Other illegal tags will be ignored.
+            }, this));
+
+            // Bind the change event on the dropdown elements.
+            $('li input', this.$ul).on('change', $.proxy(function(event) {
+                var $target = $(event.target);
+
+                var checked = $target.prop('checked') || false;
+                var isSelectAllOption = $target.val() === this.options.selectAllValue;
+
+                // Apply or unapply the configured selected class.
+                if (this.options.selectedClass) {
+                    if (checked) {
+                        $target.closest('li')
+                            .addClass(this.options.selectedClass);
+                    }
+                    else {
+                        $target.closest('li')
+                            .removeClass(this.options.selectedClass);
+                    }
+                }
+
+                // Get the corresponding option.
+                var value = $target.val();
+                var $option = this.getOptionByValue(value);
+
+                var $optionsNotThis = $('option', this.$select).not($option);
+                var $checkboxesNotThis = $('input', this.$container).not($target);
+
+                if (isSelectAllOption) {
+                    if (checked) {
+                        this.selectAll();
+                    }
+                    else {
+                        this.deselectAll();
+                    }
+                }
+
+                if(!isSelectAllOption){
+                    if (checked) {
+                        $option.prop('selected', true);
+
+                        if (this.options.multiple) {
+                            // Simply select additional option.
+                            $option.prop('selected', true);
+                        }
+                        else {
+                            // Unselect all other options and corresponding checkboxes.
+                            if (this.options.selectedClass) {
+                                $($checkboxesNotThis).closest('li').removeClass(this.options.selectedClass);
+                            }
+
+                            $($checkboxesNotThis).prop('checked', false);
+                            $optionsNotThis.prop('selected', false);
+
+                            // It's a single selection, so close.
+                            this.$button.click();
+                        }
+
+                        if (this.options.selectedClass === "active") {
+                            $optionsNotThis.closest("a").css("outline", "");
+                        }
+                    }
+                    else {
+                        // Unselect option.
+                        $option.prop('selected', false);
+                    }
+                }
+
+                this.$select.change();
+
+                this.updateButtonText();
+                this.updateSelectAll();
+
+                this.options.onChange($option, checked);
+
+                if(this.options.preventInputChangeEvent) {
+                    return false;
+                }
+            }, this));
+
+            $('li a', this.$ul).on('mousedown', function(e) {
+                if (e.shiftKey) {
+                    // Prevent selecting text by Shift+click
+                    return false;
+                }
+            });
+        
+            $('li a', this.$ul).on('touchstart click', $.proxy(function(event) {
+                event.stopPropagation();
+
+                var $target = $(event.target);
+                
+                if (event.shiftKey && this.options.multiple) {
+                    if($target.is("label")){ // Handles checkbox selection manually (see https://github.com/davidstutz/bootstrap-multiselect/issues/431)
+                        event.preventDefault();
+                        $target = $target.find("input");
+                        $target.prop("checked", !$target.prop("checked"));
+                    }
+                    var checked = $target.prop('checked') || false;
+
+                    if (this.lastToggledInput !== null && this.lastToggledInput !== $target) { // Make sure we actually have a range
+                        var from = $target.closest("li").index();
+                        var to = this.lastToggledInput.closest("li").index();
+                        
+                        if (from > to) { // Swap the indices
+                            var tmp = to;
+                            to = from;
+                            from = tmp;
+                        }
+                        
+                        // Make sure we grab all elements since slice excludes the last index
+                        ++to;
+                        
+                        // Change the checkboxes and underlying options
+                        var range = this.$ul.find("li").slice(from, to).find("input");
+                        
+                        range.prop('checked', checked);
+                        
+                        if (this.options.selectedClass) {
+                            range.closest('li')
+                                .toggleClass(this.options.selectedClass, checked);
+                        }
+                        
+                        for (var i = 0, j = range.length; i < j; i++) {
+                            var $checkbox = $(range[i]);
+
+                            var $option = this.getOptionByValue($checkbox.val());
+
+                            $option.prop('selected', checked);
+                        }                   
+                    }
+                    
+                    // Trigger the select "change" event
+                    $target.trigger("change");
+                }
+                
+                // Remembers last clicked option
+                if($target.is("input") && !$target.closest("li").is(".multiselect-item")){
+                    this.lastToggledInput = $target;
+                }
+
+                $target.blur();
+            }, this));
+
+            // Keyboard support.
+            this.$container.off('keydown.multiselect').on('keydown.multiselect', $.proxy(function(event) {
+                if ($('input[type="text"]', this.$container).is(':focus')) {
+                    return;
+                }
+
+                if (event.keyCode === 9 && this.$container.hasClass('open')) {
+                    this.$button.click();
+                }
+                else {
+                    var $items = $(this.$container).find("li:not(.divider):not(.disabled) a").filter(":visible");
+
+                    if (!$items.length) {
+                        return;
+                    }
+
+                    var index = $items.index($items.filter(':focus'));
+
+                    // Navigation up.
+                    if (event.keyCode === 38 && index > 0) {
+                        index--;
+                    }
+                    // Navigate down.
+                    else if (event.keyCode === 40 && index < $items.length - 1) {
+                        index++;
+                    }
+                    else if (!~index) {
+                        index = 0;
+                    }
+
+                    var $current = $items.eq(index);
+                    $current.focus();
+
+                    if (event.keyCode === 32 || event.keyCode === 13) {
+                        var $checkbox = $current.find('input');
+
+                        $checkbox.prop("checked", !$checkbox.prop("checked"));
+                        $checkbox.change();
+                    }
+
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            }, this));
+
+            if(this.options.enableClickableOptGroups && this.options.multiple) {
+                $('li.multiselect-group', this.$ul).on('click', $.proxy(function(event) {
+                    event.stopPropagation();
+
+                    var group = $(event.target).parent();
+
+                    // Search all option in optgroup
+                    var $options = group.nextUntil('li.multiselect-group');
+                    var $visibleOptions = $options.filter(":visible:not(.disabled)");
+
+                    // check or uncheck items
+                    var allChecked = true;
+                    var optionInputs = $visibleOptions.find('input');
+                    optionInputs.each(function() {
+                        allChecked = allChecked && $(this).prop('checked');
+                    });
+
+                    optionInputs.prop('checked', !allChecked).trigger('change');
+               }, this));
+            }
+        },
+
+        /**
+         * Create an option using the given select option.
+         *
+         * @param {jQuery} element
+         */
+        createOptionValue: function(element) {
+            var $element = $(element);
+            if ($element.is(':selected')) {
+                $element.prop('selected', true);
+            }
+
+            // Support the label attribute on options.
+            var label = this.options.optionLabel(element);
+            var value = $element.val();
+            var inputType = this.options.multiple ? "checkbox" : "radio";
+
+            var $li = $(this.options.templates.li);
+            var $label = $('label', $li);
+            $label.addClass(inputType);
+
+            if (this.options.enableHTML) {
+                $label.html(" " + label);
+            }
+            else {
+                $label.text(" " + label);
+            }
+        
+            var $checkbox = $('<input/>').attr('type', inputType);
+
+            if (this.options.checkboxName) {
+                $checkbox.attr('name', this.options.checkboxName);
+            }
+            $label.prepend($checkbox);
+
+            var selected = $element.prop('selected') || false;
+            $checkbox.val(value);
+
+            if (value === this.options.selectAllValue) {
+                $li.addClass("multiselect-item multiselect-all");
+                $checkbox.parent().parent()
+                    .addClass('multiselect-all');
+            }
+
+            $label.attr('title', $element.attr('title'));
+
+            this.$ul.append($li);
+
+            if ($element.is(':disabled')) {
+                $checkbox.attr('disabled', 'disabled')
+                    .prop('disabled', true)
+                    .closest('a')
+                    .attr("tabindex", "-1")
+                    .closest('li')
+                    .addClass('disabled');
+            }
+
+            $checkbox.prop('checked', selected);
+
+            if (selected && this.options.selectedClass) {
+                $checkbox.closest('li')
+                    .addClass(this.options.selectedClass);
+            }
+        },
+
+        /**
+         * Creates a divider using the given select option.
+         *
+         * @param {jQuery} element
+         */
+        createDivider: function(element) {
+            var $divider = $(this.options.templates.divider);
+            this.$ul.append($divider);
+        },
+
+        /**
+         * Creates an optgroup.
+         *
+         * @param {jQuery} group
+         */
+        createOptgroup: function(group) {
+            var groupName = $(group).prop('label');
+
+            // Add a header for the group.
+            var $li = $(this.options.templates.liGroup);
+            
+            if (this.options.enableHTML) {
+                $('label', $li).html(groupName);
+            }
+            else {
+                $('label', $li).text(groupName);
+            }
+            
+            if (this.options.enableClickableOptGroups) {
+                $li.addClass('multiselect-group-clickable');
+            }
+
+            this.$ul.append($li);
+
+            if ($(group).is(':disabled')) {
+                $li.addClass('disabled');
+            }
+
+            // Add the options of the group.
+            $('option', group).each($.proxy(function(index, element) {
+                this.createOptionValue(element);
+            }, this));
+        },
+
+        /**
+         * Build the selct all.
+         * 
+         * Checks if a select all has already been created.
+         */
+        buildSelectAll: function() {
+            if (typeof this.options.selectAllValue === 'number') {
+                this.options.selectAllValue = this.options.selectAllValue.toString();
+            }
+            
+            var alreadyHasSelectAll = this.hasSelectAll();
+
+            if (!alreadyHasSelectAll && this.options.includeSelectAllOption && this.options.multiple
+                    && $('option', this.$select).length > this.options.includeSelectAllIfMoreThan) {
+
+                // Check whether to add a divider after the select all.
+                if (this.options.includeSelectAllDivider) {
+                    this.$ul.prepend($(this.options.templates.divider));
+                }
+
+                var $li = $(this.options.templates.li);
+                $('label', $li).addClass("checkbox");
+                
+                if (this.options.enableHTML) {
+                    $('label', $li).html(" " + this.options.selectAllText);
+                }
+                else {
+                    $('label', $li).text(" " + this.options.selectAllText);
+                }
+                
+                if (this.options.selectAllName) {
+                    $('label', $li).prepend('<input type="checkbox" name="' + this.options.selectAllName + '" />');
+                }
+                else {
+                    $('label', $li).prepend('<input type="checkbox" />');
+                }
+                
+                var $checkbox = $('input', $li);
+                $checkbox.val(this.options.selectAllValue);
+
+                $li.addClass("multiselect-item multiselect-all");
+                $checkbox.parent().parent()
+                    .addClass('multiselect-all');
+
+                this.$ul.prepend($li);
+
+                $checkbox.prop('checked', false);
+            }
+        },
+
+        /**
+         * Builds the filter.
+         */
+        buildFilter: function() {
+
+            // Build filter if filtering OR case insensitive filtering is enabled and the number of options exceeds (or equals) enableFilterLength.
+            if (this.options.enableFiltering || this.options.enableCaseInsensitiveFiltering) {
+                var enableFilterLength = Math.max(this.options.enableFiltering, this.options.enableCaseInsensitiveFiltering);
+
+                if (this.$select.find('option').length >= enableFilterLength) {
+
+                    this.$filter = $(this.options.templates.filter);
+                    $('input', this.$filter).attr('placeholder', this.options.filterPlaceholder);
+                    
+                    // Adds optional filter clear button
+                    if(this.options.includeFilterClearBtn){
+                        var clearBtn = $(this.options.templates.filterClearBtn);
+                        clearBtn.on('click', $.proxy(function(event){
+                            clearTimeout(this.searchTimeout);
+                            this.$filter.find('.multiselect-search').val('');
+                            $('li', this.$ul).show().removeClass("filter-hidden");
+                            this.updateSelectAll();
+                        }, this));
+                        this.$filter.find('.input-group').append(clearBtn);
+                    }
+                    
+                    this.$ul.prepend(this.$filter);
+
+                    this.$filter.val(this.query).on('click', function(event) {
+                        event.stopPropagation();
+                    }).on('input keydown', $.proxy(function(event) {
+                        // Cancel enter key default behaviour
+                        if (event.which === 13) {
+                          event.preventDefault();
+                        }
+                        
+                        // This is useful to catch "keydown" events after the browser has updated the control.
+                        clearTimeout(this.searchTimeout);
+
+                        this.searchTimeout = this.asyncFunction($.proxy(function() {
+
+                            if (this.query !== event.target.value) {
+                                this.query = event.target.value;
+
+                                var currentGroup, currentGroupVisible;
+                                $.each($('li', this.$ul), $.proxy(function(index, element) {
+                                    var value = $('input', element).length > 0 ? $('input', element).val() : "";
+                                    var text = $('label', element).text();
+
+                                    var filterCandidate = '';
+                                    if ((this.options.filterBehavior === 'text')) {
+                                        filterCandidate = text;
+                                    }
+                                    else if ((this.options.filterBehavior === 'value')) {
+                                        filterCandidate = value;
+                                    }
+                                    else if (this.options.filterBehavior === 'both') {
+                                        filterCandidate = text + '\n' + value;
+                                    }
+
+                                    if (value !== this.options.selectAllValue && text) {
+                                        // By default lets assume that element is not
+                                        // interesting for this search.
+                                        var showElement = false;
+
+                                        if (this.options.enableCaseInsensitiveFiltering && filterCandidate.toLowerCase().indexOf(this.query.toLowerCase()) > -1) {
+                                            showElement = true;
+                                        }
+                                        else if (filterCandidate.indexOf(this.query) > -1) {
+                                            showElement = true;
+                                        }
+
+                                        // Toggle current element (group or group item) according to showElement boolean.
+                                        $(element).toggle(showElement).toggleClass('filter-hidden', !showElement);
+                                        
+                                        // Differentiate groups and group items.
+                                        if ($(element).hasClass('multiselect-group')) {
+                                            // Remember group status.
+                                            currentGroup = element;
+                                            currentGroupVisible = showElement;
+                                        }
+                                        else {
+                                            // Show group name when at least one of its items is visible.
+                                            if (showElement) {
+                                                $(currentGroup).show().removeClass('filter-hidden');
+                                            }
+                                            
+                                            // Show all group items when group name satisfies filter.
+                                            if (!showElement && currentGroupVisible) {
+                                                $(element).show().removeClass('filter-hidden');
+                                            }
+                                        }
+                                    }
+                                }, this));
+                            }
+
+                            this.updateSelectAll();
+                        }, this), 300, this);
+                    }, this));
+                }
+            }
+        },
+
+        /**
+         * Unbinds the whole plugin.
+         */
+        destroy: function() {
+            this.$container.remove();
+            this.$select.show();
+            this.$select.data('multiselect', null);
+        },
+
+        /**
+         * Refreshs the multiselect based on the selected options of the select.
+         */
+        refresh: function() {
+            $('option', this.$select).each($.proxy(function(index, element) {
+                var $input = $('li input', this.$ul).filter(function() {
+                    return $(this).val() === $(element).val();
+                });
+
+                if ($(element).is(':selected')) {
+                    $input.prop('checked', true);
+
+                    if (this.options.selectedClass) {
+                        $input.closest('li')
+                            .addClass(this.options.selectedClass);
+                    }
+                }
+                else {
+                    $input.prop('checked', false);
+
+                    if (this.options.selectedClass) {
+                        $input.closest('li')
+                            .removeClass(this.options.selectedClass);
+                    }
+                }
+
+                if ($(element).is(":disabled")) {
+                    $input.attr('disabled', 'disabled')
+                        .prop('disabled', true)
+                        .closest('li')
+                        .addClass('disabled');
+                }
+                else {
+                    $input.prop('disabled', false)
+                        .closest('li')
+                        .removeClass('disabled');
+                }
+            }, this));
+
+            this.updateButtonText();
+            this.updateSelectAll();
+        },
+
+        /**
+         * Select all options of the given values.
+         * 
+         * If triggerOnChange is set to true, the on change event is triggered if
+         * and only if one value is passed.
+         * 
+         * @param {Array} selectValues
+         * @param {Boolean} triggerOnChange
+         */
+        select: function(selectValues, triggerOnChange) {
+            if(!$.isArray(selectValues)) {
+                selectValues = [selectValues];
+            }
+
+            for (var i = 0; i < selectValues.length; i++) {
+                var value = selectValues[i];
+
+                if (value === null || value === undefined) {
+                    continue;
+                }
+
+                var $option = this.getOptionByValue(value);
+                var $checkbox = this.getInputByValue(value);
+
+                if($option === undefined || $checkbox === undefined) {
+                    continue;
+                }
+                
+                if (!this.options.multiple) {
+                    this.deselectAll(false);
+                }
+                
+                if (this.options.selectedClass) {
+                    $checkbox.closest('li')
+                        .addClass(this.options.selectedClass);
+                }
+
+                $checkbox.prop('checked', true);
+                $option.prop('selected', true);
+                
+                if (triggerOnChange) {
+                    this.options.onChange($option, true);
+                }
+            }
+
+            this.updateButtonText();
+            this.updateSelectAll();
+        },
+
+        /**
+         * Clears all selected items.
+         */
+        clearSelection: function () {
+            this.deselectAll(false);
+            this.updateButtonText();
+            this.updateSelectAll();
+        },
+
+        /**
+         * Deselects all options of the given values.
+         * 
+         * If triggerOnChange is set to true, the on change event is triggered, if
+         * and only if one value is passed.
+         * 
+         * @param {Array} deselectValues
+         * @param {Boolean} triggerOnChange
+         */
+        deselect: function(deselectValues, triggerOnChange) {
+            if(!$.isArray(deselectValues)) {
+                deselectValues = [deselectValues];
+            }
+
+            for (var i = 0; i < deselectValues.length; i++) {
+                var value = deselectValues[i];
+
+                if (value === null || value === undefined) {
+                    continue;
+                }
+
+                var $option = this.getOptionByValue(value);
+                var $checkbox = this.getInputByValue(value);
+
+                if($option === undefined || $checkbox === undefined) {
+                    continue;
+                }
+
+                if (this.options.selectedClass) {
+                    $checkbox.closest('li')
+                        .removeClass(this.options.selectedClass);
+                }
+
+                $checkbox.prop('checked', false);
+                $option.prop('selected', false);
+                
+                if (triggerOnChange) {
+                    this.options.onChange($option, false);
+                }
+            }
+
+            this.updateButtonText();
+            this.updateSelectAll();
+        },
+        
+        /**
+         * Selects all enabled & visible options.
+         *
+         * If justVisible is true or not specified, only visible options are selected.
+         *
+         * @param {Boolean} justVisible
+         * @param {Boolean} triggerOnSelectAll
+         */
+        selectAll: function (justVisible, triggerOnSelectAll) {
+            var justVisible = typeof justVisible === 'undefined' ? true : justVisible;
+            var allCheckboxes = $("li input[type='checkbox']:enabled", this.$ul);
+            var visibleCheckboxes = allCheckboxes.filter(":visible");
+            var allCheckboxesCount = allCheckboxes.length;
+            var visibleCheckboxesCount = visibleCheckboxes.length;
+            
+            if(justVisible) {
+                visibleCheckboxes.prop('checked', true);
+                $("li:not(.divider):not(.disabled)", this.$ul).filter(":visible").addClass(this.options.selectedClass);
+            }
+            else {
+                allCheckboxes.prop('checked', true);
+                $("li:not(.divider):not(.disabled)", this.$ul).addClass(this.options.selectedClass);
+            }
+                
+            if (allCheckboxesCount === visibleCheckboxesCount || justVisible === false) {
+                $("option:enabled", this.$select).prop('selected', true);
+            }
+            else {
+                var values = visibleCheckboxes.map(function() {
+                    return $(this).val();
+                }).get();
+                
+                $("option:enabled", this.$select).filter(function(index) {
+                    return $.inArray($(this).val(), values) !== -1;
+                }).prop('selected', true);
+            }
+            
+            if (triggerOnSelectAll) {
+                this.options.onSelectAll();
+            }
+        },
+
+        /**
+         * Deselects all options.
+         * 
+         * If justVisible is true or not specified, only visible options are deselected.
+         * 
+         * @param {Boolean} justVisible
+         */
+        deselectAll: function (justVisible) {
+            var justVisible = typeof justVisible === 'undefined' ? true : justVisible;
+            
+            if(justVisible) {              
+                var visibleCheckboxes = $("li input[type='checkbox']:not(:disabled)", this.$ul).filter(":visible");
+                visibleCheckboxes.prop('checked', false);
+                
+                var values = visibleCheckboxes.map(function() {
+                    return $(this).val();
+                }).get();
+                
+                $("option:enabled", this.$select).filter(function(index) {
+                    return $.inArray($(this).val(), values) !== -1;
+                }).prop('selected', false);
+                
+                if (this.options.selectedClass) {
+                    $("li:not(.divider):not(.disabled)", this.$ul).filter(":visible").removeClass(this.options.selectedClass);
+                }
+            }
+            else {
+                $("li input[type='checkbox']:enabled", this.$ul).prop('checked', false);
+                $("option:enabled", this.$select).prop('selected', false);
+                
+                if (this.options.selectedClass) {
+                    $("li:not(.divider):not(.disabled)", this.$ul).removeClass(this.options.selectedClass);
+                }
+            }
+        },
+
+        /**
+         * Rebuild the plugin.
+         * 
+         * Rebuilds the dropdown, the filter and the select all option.
+         */
+        rebuild: function() {
+            this.$ul.html('');
+
+            // Important to distinguish between radios and checkboxes.
+            this.options.multiple = this.$select.attr('multiple') === "multiple";
+
+            this.buildSelectAll();
+            this.buildDropdownOptions();
+            this.buildFilter();
+
+            this.updateButtonText();
+            this.updateSelectAll();
+            
+            if (this.options.disableIfEmpty && $('option', this.$select).length <= 0) {
+                this.disable();
+            }
+            else {
+                this.enable();
+            }
+            
+            if (this.options.dropRight) {
+                this.$ul.addClass('pull-right');
+            }
+        },
+
+        /**
+         * The provided data will be used to build the dropdown.
+         */
+        dataprovider: function(dataprovider) {
+            
+            var groupCounter = 0;
+            var $select = this.$select.empty();
+            
+            $.each(dataprovider, function (index, option) {
+                var $tag;
+                
+                if ($.isArray(option.children)) { // create optiongroup tag
+                    groupCounter++;
+                    
+                    $tag = $('<optgroup/>').attr({
+                        label: option.label || 'Group ' + groupCounter,
+                        disabled: !!option.disabled
+                    });
+                    
+                    forEach(option.children, function(subOption) { // add children option tags
+                        $tag.append($('<option/>').attr({
+                            value: subOption.value,
+                            label: subOption.label || subOption.value,
+                            title: subOption.title,
+                            selected: !!subOption.selected,
+                            disabled: !!subOption.disabled
+                        }));
+                    });
+                }
+                else {
+                    $tag = $('<option/>').attr({
+                        value: option.value,
+                        label: option.label || option.value,
+                        title: option.title,
+                        selected: !!option.selected,
+                        disabled: !!option.disabled
+                    });
+                }
+                
+                $select.append($tag);
+            });
+            
+            this.rebuild();
+        },
+
+        /**
+         * Enable the multiselect.
+         */
+        enable: function() {
+            this.$select.prop('disabled', false);
+            this.$button.prop('disabled', false)
+                .removeClass('disabled');
+        },
+
+        /**
+         * Disable the multiselect.
+         */
+        disable: function() {
+            this.$select.prop('disabled', true);
+            this.$button.prop('disabled', true)
+                .addClass('disabled');
+        },
+
+        /**
+         * Set the options.
+         *
+         * @param {Array} options
+         */
+        setOptions: function(options) {
+            this.options = this.mergeOptions(options);
+        },
+
+        /**
+         * Merges the given options with the default options.
+         *
+         * @param {Array} options
+         * @returns {Array}
+         */
+        mergeOptions: function(options) {
+            return $.extend(true, {}, this.defaults, this.options, options);
+        },
+
+        /**
+         * Checks whether a select all checkbox is present.
+         *
+         * @returns {Boolean}
+         */
+        hasSelectAll: function() {
+            return $('li.multiselect-all', this.$ul).length > 0;
+        },
+
+        /**
+         * Updates the select all checkbox based on the currently displayed and selected checkboxes.
+         */
+        updateSelectAll: function() {
+            if (this.hasSelectAll()) {
+                var allBoxes = $("li:not(.multiselect-item):not(.filter-hidden) input:enabled", this.$ul);
+                var allBoxesLength = allBoxes.length;
+                var checkedBoxesLength = allBoxes.filter(":checked").length;
+                var selectAllLi  = $("li.multiselect-all", this.$ul);
+                var selectAllInput = selectAllLi.find("input");
+                
+                if (checkedBoxesLength > 0 && checkedBoxesLength === allBoxesLength) {
+                    selectAllInput.prop("checked", true);
+                    selectAllLi.addClass(this.options.selectedClass);
+                    this.options.onSelectAll();
+                }
+                else {
+                    selectAllInput.prop("checked", false);
+                    selectAllLi.removeClass(this.options.selectedClass);
+                }
+            }
+        },
+
+        /**
+         * Update the button text and its title based on the currently selected options.
+         */
+        updateButtonText: function() {
+            var options = this.getSelected();
+            
+            // First update the displayed button text.
+            if (this.options.enableHTML) {
+                $('.multiselect .multiselect-selected-text', this.$container).html(this.options.buttonText(options, this.$select));
+            }
+            else {
+                $('.multiselect .multiselect-selected-text', this.$container).text(this.options.buttonText(options, this.$select));
+            }
+            
+            // Now update the title attribute of the button.
+            $('.multiselect', this.$container).attr('title', this.options.buttonTitle(options, this.$select));
+        },
+
+        /**
+         * Get all selected options.
+         *
+         * @returns {jQUery}
+         */
+        getSelected: function() {
+            return $('option', this.$select).filter(":selected");
+        },
+
+        /**
+         * Gets a select option by its value.
+         *
+         * @param {String} value
+         * @returns {jQuery}
+         */
+        getOptionByValue: function (value) {
+
+            var options = $('option', this.$select);
+            var valueToCompare = value.toString();
+
+            for (var i = 0; i < options.length; i = i + 1) {
+                var option = options[i];
+                if (option.value === valueToCompare) {
+                    return $(option);
+                }
+            }
+        },
+
+        /**
+         * Get the input (radio/checkbox) by its value.
+         *
+         * @param {String} value
+         * @returns {jQuery}
+         */
+        getInputByValue: function (value) {
+
+            var checkboxes = $('li input', this.$ul);
+            var valueToCompare = value.toString();
+
+            for (var i = 0; i < checkboxes.length; i = i + 1) {
+                var checkbox = checkboxes[i];
+                if (checkbox.value === valueToCompare) {
+                    return $(checkbox);
+                }
+            }
+        },
+
+        /**
+         * Used for knockout integration.
+         */
+        updateOriginalOptions: function() {
+            this.originalOptions = this.$select.clone()[0].options;
+        },
+
+        asyncFunction: function(callback, timeout, self) {
+            var args = Array.prototype.slice.call(arguments, 3);
+            return setTimeout(function() {
+                callback.apply(self || window, args);
+            }, timeout);
+        },
+
+        setAllSelectedText: function(allSelectedText) {
+            this.options.allSelectedText = allSelectedText;
+            this.updateButtonText();
+        }
+    };
+
+    $.fn.multiselect = function(option, parameter, extraOptions) {
+        return this.each(function() {
+            var data = $(this).data('multiselect');
+            var options = typeof option === 'object' && option;
+
+            // Initialize the multiselect.
+            if (!data) {
+                data = new Multiselect(this, options);
+                $(this).data('multiselect', data);
+            }
+
+            // Call multiselect method.
+            if (typeof option === 'string') {
+                data[option](parameter, extraOptions);
+                
+                if (option === 'destroy') {
+                    $(this).data('multiselect', false);
+                }
+            }
+        });
+    };
+
+    $.fn.multiselect.Constructor = Multiselect;
+
+    $(function() {
+        $("select[data-role=multiselect]").multiselect();
+    });
+
+}(__webpack_provided_window_dot_jQuery);
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(jQuery, $) {var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/*!
+ * Bez v1.0.10-g5ae0136
+ * http://github.com/rdallasgray/bez
+ * 
+ * A plugin to convert CSS3 cubic-bezier co-ordinates to jQuery-compatible easing functions
+ * 
+ * With thanks to Nikolay Nemshilov for clarification on the cubic-bezier maths
+ * See http://st-on-it.blogspot.com/2011/05/calculating-cubic-bezier-function.html
+ * 
+ * Copyright 2011 Robert Dallas Gray. All rights reserved.
+ * Provided under the FreeBSD license: https://github.com/rdallasgray/bez/blob/master/LICENSE.txt
+*/jQuery.extend({ bez: function bez(a) {
+    var b = "bez_" + $.makeArray(arguments).join("_").replace(".", "p");if (typeof jQuery.easing[b] != "function") {
+      var c = function c(a, b) {
+        var c = [null, null],
+            d = [null, null],
+            e = [null, null],
+            f = function f(_f, g) {
+          return e[g] = 3 * a[g], d[g] = 3 * (b[g] - a[g]) - e[g], c[g] = 1 - e[g] - d[g], _f * (e[g] + _f * (d[g] + _f * c[g]));
+        },
+            g = function g(a) {
+          return e[0] + a * (2 * d[0] + 3 * c[0] * a);
+        },
+            h = function h(a) {
+          var b = a,
+              c = 0,
+              d;while (++c < 14) {
+            d = f(b, 0) - a;if (Math.abs(d) < .001) break;b -= d / g(b);
+          }return b;
+        };return function (a) {
+          return f(h(a), 1);
+        };
+      };jQuery.easing[b] = function (b, d, e, f, g) {
+        return f * c([a[0], a[1]], [a[2], a[3]])(d / g) + e;
+      };
+    }return b;
+  } });
+/*!
+ * Roto v1.5.5-gfe1c278
+ * http://github.com/rdallasgray/roto
+ * 
+ * A simple, flexible, touch-capable scrolling plugin for jQuery
+ * 
+ * Copyright 2012 Robert Dallas Gray. All rights reserved.
+ * Provided under the FreeBSD license: https://github.com/rdallasgray/roto/blob/master/LICENSE.txt
+ */(function (e, t, n, r) {
+  e.fn.roto = function (i) {
+    var s = { rotoSelector: ".rotoFrame", btnPrev: ".prev", btnNext: ".next", btnAction: "shift", direction: "h", shift_duration: 200, shift_bezier: [0, 0, 0, 1], drift_duration: 1800, drift_factor: 500, drift_bezier: [0, 0, .3, 1], bounce_duration: 400, bounce_bezier: [0, .5, .5, 1], pull_divisor: 1.7, timer_interval: 50, disable_transitions: !1, startOffset: 0, endOffset: 0, snap: !0, clickables: "a, img", auto_disable: !0 },
+        i = e.extend(s, i || {}),
+        o = 1e3,
+        u = "client",
+        a = function () {
+      try {
+        return n.createEvent("TouchEvent"), !0;
+      } catch (e) {
+        return !1;
+      }
+    }(),
+        f = a ? { start: "touchstart", move: "touchmove", end: "touchend" } : { start: "mousedown", move: "mousemove", end: "mouseup" },
+        l = function l(e) {
+      return a && typeof e.originalEvent.touches != "undefined" ? e.originalEvent.touches[0] : e;
+    },
+        c = { h: { measure: "Width", offsetName: "left", coOrd: "X", opp: "v" }, v: { measure: "Height", offsetName: "top", coOrd: "Y", opp: "h" } },
+        h = c[i.direction],
+        p = null,
+        d = null,
+        v = null,
+        m = null;if (!i.disable_transitions) {
+      var g = n.body || n.documentElement,
+          y = { transform: "transform", MozTransform: "-moz-transform", WebkitTransform: "-webkit-transform" },
+          b = { transition: { prop: "transition", event: "transitionend" }, MozTransition: { prop: "-moz-transition", event: "transitionend" }, WebkitTransition: { prop: "-webkit-transition", event: "webkitTransitionEnd" } };for (var w in y) {
+        if (typeof g.style[w] != "undefined") {
+          p = y[w];break;
+        }
+      }for (var w in b) {
+        if (typeof g.style[w] != "undefined") {
+          d = b[w].prop, v = b[w].event;break;
+        }
+      }
+    }var E = d !== null;return this.each(function () {
+      var m = e(this),
+          g = m.children(i.rotoSelector).length > 0 ? m.children(i.rotoSelector).first() : m.children("ul").length > 0 ? m.children("ul").first() : m.children().first(),
+          y = g.children(),
+          b = 0,
+          w = 0,
+          S = 0,
+          x = 0,
+          T = -1,
+          N = 0,
+          C = 0,
+          k = _typeof(m.attr("id")) !== r ? m.attr("id") : "roto" + new Date().getTime(),
+          L = null,
+          A = null,
+          O = { ready: "ready", tracking: "tracking", drifting: "drifting", shifting: "shifting", bouncing: "bouncing" },
+          M = O.ready,
+          _ = !1,
+          D = m.find(i.btnPrev),
+          P = m.find(i.btnNext),
+          H = null,
+          B = !0,
+          j = function j(t, n, s, u) {
+        var a = u,
+            f = i[s + "_duration"];if (!_ || !E) a = function a() {
+          G(), u();
+        }, _ = !0;if (E) {
+          var l = I();l.timingFunction[s] === r && (l.timingFunction[s] = ["cubic-bezier(", i[s + "_bezier"].join(","), ")"].join(""));var c = {};c[l.durationProp] = f / o + "s", c[l.timingFunctionProp] = A.timingFunction[s], t.css(c), t.data("animationCallback", a), t.unbind(v), t.one(v, function () {
+            t.data("animationCallback", null), a();
+          }), t.css(n);
+        } else t.animate(n, f, e.bez(i[s + "_bezier"]), a);
+      },
+          F = function F(e) {
+        if (E) {
+          var t = R();e.unbind(v), e.css(q(t)), typeof e.data("animationCallback") == "function" && (e.data("animationCallback")(), e.data("animationCallback", null));
+        } else e.stop();
+      },
+          I = function I() {
+        return A === null && (A = { durationProp: d + "-duration", timingFunctionProp: d + "-timing-function", timingFunction: {} }), A;
+      },
+          q = function q(e) {
+        var t = {};if (E) {
+          if (L === null) {
+            var n = a ? "3d" : "",
+                r = n === "3d" ? "(Xpx,Ypx,0px)" : "(Xpx,Ypx)",
+                i = c[h.opp].coOrd;L = ["translate", n, r.replace(i, "0")].join("");
+          }t[p] = L.replace(h.coOrd, e);
+        } else t[h.offsetName] = e + "px";return t;
+      },
+          R = function R() {
+        var e;if (!E) e = g.position()[h.offsetName] - b;else {
+          var t = g.css(p);if (t === "none") return 0;var n = t.match(/\-?[0-9]+/g),
+              r = h.coOrd === "X" ? n[4] : n[5];e = parseInt(r);
+        }return e - i.startOffset;
+      },
+          U = function U(t, n) {
+        var r = 0,
+            i,
+            s,
+            o = n > 0 ? y.get().reverse() : y,
+            u,
+            a,
+            f = "outer" + h.measure;return e.each(o, function (o, l) {
+          a = e(l), r = -1 * Math.round(a.position()[h.offsetName]), u = l;if (r * n >= t * n) return !1;n < 0 ? (i = -1 * r + a[f](!0), s = -1 * t) : (i = a.prev().length > 0 ? r + a.prev()[f](!0) : r, s = t);if (i > s) return !1;
+        }), [u, r];
+      },
+          z = function z(t, n) {
+        var r = n < 0 ? "next" : "prev",
+            i = e(U(t, n)[0]),
+            s = i;while (s[r]().length > 0 && s.position()[h.offsetName] === i.position()[h.offsetName]) {
+          s = s[r]();
+        }return s;
+      },
+          W = function W(e, t, n) {
+        var t = t === 0 ? T : t;return n ? -1 * Math.round(z(e, t).position()[h.offsetName]) : U(e, t)[1];
+      },
+          X = function X() {
+        var e = R();return e === W(e, T, !1);
+      },
+          V = function V() {
+        C = 0, y = g.children(), y.css({ display: "block", "float": "left" });if (i.direction === "h") y.each(function (t, n) {
+          C += Math.round(e(n)["outer" + h.measure](!0));
+        }), g[h.measure.toLowerCase()](C);else {
+          var t = e(y.last());C = Math.round(t.position()[h.offsetName] + t["outer" + h.measure](!0));
+        }N = Math.round(m[h.measure.toLowerCase()]()), S = -1 * Math.round(Math.max(0, C - N) + b + i.endOffset);if (i.snap) {
+          var n = W(S, -1, !1);S = n > S ? W(S, -1, !0) : n;
+        }i.auto_disable && J(S !== w);
+      },
+          J = function J(e) {
+        e || nt(w), B = !!e;
+      },
+          K = function K() {
+        return H === null && (H = (typeof D === "undefined" ? "undefined" : _typeof(D)) == "object" && typeof D.click == "function" && (typeof P === "undefined" ? "undefined" : _typeof(P)) == "object" && typeof P.click == "function"), H;
+      },
+          Q = function Q() {
+        if (!K()) return;var e = R();e > S ? P.removeAttr("disabled") : P.attr("disabled", "disabled"), e < w ? D.removeAttr("disabled") : D.attr("disabled", "disabled");
+      },
+          G = function G() {
+        m.trigger("rotoChange", [U(R(), 1)[0]]), _ = !1;
+      },
+          Y = function Y(e) {
+        var t = typeof e === "undefined" ? "undefined" : _typeof(e),
+            n;switch (t) {case "number":
+            Z(e);break;case "object":
+            et(e);break;case "string":
+            (n = e.match(/(-?[0-9]+)(px$)/)) ? nt(parseInt(n[1])) : (n = e.match(/prev|next/)) && tt(e);}
+      },
+          Z = function Z(t) {
+        if (t < 0 || t >= y.length) return;var n = e(y.get(t));et(n);
+      },
+          et = function et(t) {
+        var n = e(t);if (!n.parent() === g) return;nt(-1 * n.position()[h.offsetName]);
+      },
+          tt = function tt(e) {
+        var t = e === "prev" ? 1 : -1;et(z(R(), t));
+      },
+          nt = function nt(e, t) {
+        t = t || "shift", e > w ? e = w : e < S && (e = S), e += i.startOffset, j(g, q(e), t, function () {
+          Q(), M = O.ready;
+        });
+      },
+          rt = function rt(e) {
+        if (M === O.shifting) return;var t = 0;M = O.shifting, T = e, e < 0 ? t = Math.max(W(R() - (N - i.startOffset), e, !1), S) : t = Math.min(W(R() + (N - i.startOffset), e, !1), w), nt(t);
+      },
+          it = function it(e) {
+        var t = e < 0 ? "next" : "prev";tt(t);
+      },
+          st = function st(e) {
+        var t = Math.round(e + x),
+            n;if (t < w && t > S) n = t;else var r = t >= w ? t - w : t - S,
+            n = t - r / i.pull_divisor;if (M !== O.tracking) {
+          var s = {},
+              o = I();s[o.durationProp] = "0s", s[o.timingFunctionProp] = "none", g.css(s);
+        }M = O.tracking, g.css(q(n));
+      },
+          ot = function ot() {
+        var e = ft.getPointerSpeed(),
+            t = e[0],
+            n = e[1],
+            r = R(),
+            s = t * i.drift_factor * n,
+            o = s + r;o > w ? o = w : o < S ? o = S : i.snap && !X() && (o = W(o, n, !0));if (o === r) {
+          G();return;
+        }M = O.drifting, nt(o, "drift");
+      },
+          ut = function ut(e) {
+        var t = e < 0 ? S : w;M = O.bouncing, nt(t, "bounce");
+      },
+          at = i.btnAction === "shift" ? rt : it,
+          ft = function () {
+        var e = 0,
+            n = 0,
+            r = 0,
+            s = null,
+            o = { startCoOrd: 0, endCoOrd: 0 };return { start: function start() {
+            r = e = n, s = t.setInterval(function () {
+              o.startCoOrd = e, o.endCoOrd = n, e = n;
+            }, i.timer_interval);
+          }, stop: function stop() {
+            clearInterval(s), o.endCoOrd = n;
+          }, getPointerSpeed: function getPointerSpeed() {
+            var e = o.endCoOrd - o.startCoOrd,
+                t = Math.abs(e),
+                n = t / i.timer_interval,
+                s = e === 0 ? o.endCoOrd - r : e,
+                u = s <= 0 ? s === 0 ? 0 : -1 : 1;return u !== 0 && (T = u), [n, u];
+          }, setCurrentCoOrd: function setCurrentCoOrd(e) {
+            n = e;
+          } };
+      }(),
+          lt = function lt() {
+        V(), Q(), i.setTestVars && setTestVars();
+      };g.bind(f.start + ".roto-" + k, function (s) {
+        var o = M;x = R(), F(g);var c = g.find("a"),
+            p = {},
+            d = u + h.coOrd,
+            v = !1;o !== O.drifting && g.undelegate(i.clickables, "click.roto-trackclick-" + k), M = O.ready, a || (s.target.draggable && s.preventDefault(), n.ondragstart !== r && g.find(i.clickables).one("dragstart.roto-" + k, function (e) {
+          e.preventDefault();
+        }), c.length > 0 && e(n).one(f.move + ".roto-" + k, function (t) {
+          c.data("events") !== r && (e.each(c.data("events"), function (t, n) {
+            p[t] = [], e.each(n, function (e, n) {
+              n.namespace !== "roto-" + k && p[t].push(n);
+            });
+          }), c.unbind(), v = !0), g.delegate(i.clickables, "click.roto-trackclick-" + k, function (e) {
+            e.preventDefault();
+          });
+        })), s = l(s);var m = s[d];ft.setCurrentCoOrd(m), e(n).bind(f.move + ".roto-" + k, function (e) {
+          if (!B) return;e.preventDefault(), e = l(e), ft.setCurrentCoOrd(e[d]), st(e[d] - m);
+        }), e(n).bind(f.end + ".roto-" + k, function () {
+          ft.stop();var r = R();r > w || r < S ? ut(R() - w) : ot(), e(n).unbind(f.move + ".roto-" + k), t.setTimeout(function () {
+            v && e.each(p, function (t, n) {
+              e.each(n, function (e, t) {
+                var n = t.type;t.namespace !== "" && (n = [n, ".", t.namespace].join("")), c.bind(n, t.data, t.handler);
+              });
+            });
+          }, 250), e(this).unbind();
+        }), ft.start();
+      }), D.length === 0 && i.btnPrev === s.btnPrev && m.attr("id") && (D = e("#" + m.attr("id") + "-prev"), P = e("#" + m.attr("id") + "-next")), K() && (D.click(function () {
+        return at(1);
+      }), P.click(function () {
+        return at(-1);
+      })), e(t).resize(function () {
+        lt();
+      }), d === "-webkit-transition" && g.css("-webkit-backface-visibility", "hidden"), m.css({ display: "block", overflow: "hidden", position: "relative" }), g.css({ position: "relative", padding: 0, margin: 0 }), m.bind("rotoGoto", function (e, t) {
+        Y(t);
+      }), m.bind("rotoShift", function (e, t) {
+        rt(t);
+      }), m.bind("rotoContentChange", function () {
+        lt();
+      }), m.bind("rotoDisable", function () {
+        J(!1);
+      }), m.bind("rotoEnable", function () {
+        J(!0);
+      }), lt(), i.startOffset !== 0 && (g.css(q(i.startOffset)), Q()), b = Math.round(g.position()[h.offsetName]), b !== i.startOffset && V();
+    });
+  };
+})(jQuery, window, document);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(1)))
+
+/***/ }),
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-throw new Error("Cannot find module \"typed.js\"");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_node_waves__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_typed_js__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_typed_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_typed_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_node_waves__ = __webpack_require__(58);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_node_waves___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_node_waves__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
-throw new Error("Cannot find module \"nouislider\"");
-throw new Error("Cannot find module \"wnumb\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nouislider__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nouislider___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_nouislider__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_wnumb__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_wnumb___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_wnumb__);
 
 
 
 
 
 
-__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-btn', ['waves-float', 'waves-light']);
-__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-btn-gradientOutline', ['waves-float', 'waves-light']);
+__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-btn', ['waves-light']);
+__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-btn-gradientOutline', ['waves-light']);
+__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.filter-search-btn', ['waves-light']);
+__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-filters-btn', ['waves-block']);
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.init();
+
+// ============[ Translate English digits to farsi ]===========
+var translate = function translate(englishNumber) {
+    var chars = englishNumber.split('');
+    var arabicNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    for (var i = 0; i < chars.length; i++) {
+        if (/\d/.test(chars[i])) {
+            chars[i] = arabicNumbers[chars[i]];
+        }
+    }
+    return chars.join('');
+};
 
 //****************** Ads Card Hover Effect ********************
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").mouseenter(function () {
@@ -12683,7 +16590,7 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").mouseleave(
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".home-cost").css('font-weight', 'normal');
 });
 
-//****************** Cost Slider ********************
+// ****************** Cost Slider ********************
 var stepSlider = document.getElementById('slider-step');
 
 __WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(stepSlider, {
@@ -12702,12 +16609,1345 @@ __WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(stepSlider, {
         postfix: ' تومان'
     })
 });
+// ****************** Metraj Slider ********************
+var metrajSlider = document.getElementById('metraj-slider');
 
-stepSlider.noUiSlider.on('update', function () {});
+__WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(metrajSlider, {
+    start: [10, 50000],
+    step: 10,
+    connect: true,
+    direction: 'rtl',
+    tooltips: true,
+    range: {
+        'min': 10,
+        'max': 50000
+    },
+    format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
+        decimals: 0,
+        thousand: ',',
+        postfix: 'متر'
+    })
+});
+
+metrajSlider.noUiSlider.on('update', function (values, handle) {
+    // snapValues[handle].innerHTML = values[handle];
+    var translatedMin = values[0].replace("متر", "");
+    var translatedMax = values[1].replace("متر", "");
+
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-place").text('\u0627\u0632 ' + translate(translatedMin) + ' \u062A\u0627 ' + translate(translatedMax));
+});
+
+// <!-- Initialize the plugin: -->
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()(document).ready(function () {
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()('#example-getting-started').multiselect({
+        nonSelectedText: 'انتخاب کنید',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+});
+
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filters").hide();
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemoamele-filters").hide();
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filters").hide();
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#costs-tray-row").hide();
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-tray-row").hide();
+//****************** Filters Tray ********************
+var isTrayOpen = false;
+var openedTray = "";
+var selectedBtn = void 0;
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-cost-btn").click(function () {
+    selectedBtn = this;
+    if (isTrayOpen) {
+        closeTray("gheimat");
+    } else {
+        isTrayOpen = true;
+        openTray("gheimat");
+    }
+});
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-metr-btn").click(function () {
+    selectedBtn = this;
+    if (isTrayOpen) {
+        closeTray("metraj");
+    } else {
+        isTrayOpen = true;
+        openTray("metraj");
+    }
+});
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-room-btn").click(function () {
+    selectedBtn = this;
+    if (isTrayOpen) {
+        closeTray("tedadekhab");
+    } else {
+        isTrayOpen = true;
+        openTray("tedadekhab");
+    }
+});
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-noemelk-btn").click(function () {
+    selectedBtn = this;
+    if (isTrayOpen) {
+        closeTray("noemelk");
+    } else {
+        isTrayOpen = true;
+        openTray("noemelk");
+    }
+});
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-moamele-btn").click(function () {
+    selectedBtn = this;
+    if (isTrayOpen) {
+        closeTray("noemoamele");
+    } else {
+        isTrayOpen = true;
+        openTray("noemoamele");
+    }
+});
+
+function closeTray(filterToShow) {
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".m-filters-btn i").removeClass('gradient-text');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()('.filter-selected').css('color', '#949494');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray").animate({
+        "margin-top": -124
+    }, 530, __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.bez([0.45, -0.41, 0.52, 1.04]), function () {
+        if (openedTray !== filterToShow) {
+            switch (filterToShow) {
+                case "noemoamele":
+                    openTray("noemoamele");
+                    break;
+                case "noemelk":
+                    openTray("noemelk");
+                    break;
+                case "tedadekhab":
+                    openTray("tedadekhab");
+                    break;
+                case "gheimat":
+                    openTray("gheimat");
+                    break;
+                case "metraj":
+                    openTray("metraj");
+                    break;
+            }
+        } else {
+            openedTray = "";
+            showOrHideFilters("");
+        }
+    });
+}
+function openTray(filter) {
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(selectedBtn).find('i').addClass('gradient-text');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(selectedBtn).find('.filter-selected').css('color', 'black');
+    openedTray = filter;
+    showOrHideFilters(filter);
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray").animate({
+        "margin-top": 0
+    }, 430, __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.bez([0.86, 0, 0.07, 1]));
+}
+
+function showOrHideFilters(filter) {
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filters").hide();
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemoamele-filters").hide();
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filters").hide();
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#costs-tray-row").hide();
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-tray-row").hide();
+    switch (filter) {
+        case "noemoamele":
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray-row").show();
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemoamele-filters").show();
+            break;
+        case "noemelk":
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray-row").show();
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filters").show();
+            break;
+        case "tedadekhab":
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray-row").show();
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filters").show();
+            break;
+        case "gheimat":
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray-row").hide();
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#costs-tray-row").show();
+            break;
+        case "metraj":
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#filters-tray-row").hide();
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-tray-row").show();
+            break;
+    }
+}
+
+//****************** Set kardane title Filter Noe Moamele ********************
+var dictionaryOfSelectedMoameleFilters = {
+    "خرید و پیش خرید": true,
+    "رهن و اجاره": false
+};
+var moamelefiltersSelectedCount = 1;
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#kharidVaPishkharid,#rahnVaEjare").click(function () {
+    var labelText = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).siblings('label').text();
+
+    // tedade checkbox haie entekhab shode ra negah midarad
+    if (this.checked) {
+        moamelefiltersSelectedCount++;
+        // dar dictrionary filterha filtere entekhabi ra true mikonad
+        dictionaryOfSelectedMoameleFilters[labelText] = true;
+    } else {
+        moamelefiltersSelectedCount--;
+        // dar dictrionary filterha filtere entekhabi ra false mikonad
+        dictionaryOfSelectedMoameleFilters[labelText] = false;
+    }
+
+    // dar dictionary iterate mikonad va avvalin filteri ke true shode ra be onvane title set mikonad
+    for (var key in dictionaryOfSelectedMoameleFilters) {
+        var value = dictionaryOfSelectedMoameleFilters[key];
+        if (value) {
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemoamele-filter-text").text(key);
+            break;
+        }
+    }
+    // dar soorati ke tedade filterhaie entekhabi bish az 1 bashad و ... ra ezafe mikonad
+    if (moamelefiltersSelectedCount > 1) {
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemoamele-filter-text").text(__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemoamele-filter-text").text() + " و ...");
+    } else if (moamelefiltersSelectedCount === 0) {
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemoamele-filter-text").text("انتخاب کنید");
+    }
+});
+
+//****************** Set kardane title Filter Noe Melk ********************
+var dictionaryOfSelectedMelkFilters = {
+    "آپارتمان مسکونی": true,
+    "آپارتمان اداری": false,
+    "ویلا": false,
+    "کلنگی": false,
+    "مستغلات": false,
+    "زمین": false,
+    "تجاری": false,
+    "پنت هاوس": false
+};
+var melkfiltersSelectedCount = 1;
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filters input").click(function () {
+    var labelText = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).siblings('label').text();
+
+    // tedade checkbox haie entekhab shode ra negah midarad
+    if (this.checked) {
+        melkfiltersSelectedCount++;
+        // dar dictrionary filterha filtere entekhabi ra true mikonad
+        dictionaryOfSelectedMelkFilters[labelText] = true;
+    } else {
+        melkfiltersSelectedCount--;
+        // dar dictrionary filterha filtere entekhabi ra false mikonad
+        dictionaryOfSelectedMelkFilters[labelText] = false;
+    }
+
+    // dar dictionary iterate mikonad va avvalin filteri ke true shode ra be onvane title set mikonad
+    for (var key in dictionaryOfSelectedMelkFilters) {
+        var value = dictionaryOfSelectedMelkFilters[key];
+        if (value) {
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filter-text").text(key);
+            break;
+        }
+    }
+    // dar soorati ke tedade filterhaie entekhabi bish az 1 bashad و ... ra ezafe mikonad
+    if (melkfiltersSelectedCount > 1) {
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filter-text").text(__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filter-text").text() + " و ...");
+    } else if (melkfiltersSelectedCount === 0) {
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filter-text").text("انتخاب کنید");
+    }
+});
+
+//****************** Set kardane title Filter Tedade Khab ********************
+var dictionaryOfSelectedRoomsFilters = {
+    "۱ خوابه": true,
+    "۲ خوابه": false,
+    "۳ خوابه": false,
+    "۴ خوابه": false,
+    "۵ خوابه": false,
+    "بیشتر از ۵ خواب": false
+};
+var tedadeKhabfiltersSelectedCount = 1;
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filters input").click(function () {
+    var labelText = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).siblings('label').text();
+
+    // tedade checkbox haie entekhab shode ra negah midarad
+    if (this.checked) {
+        tedadeKhabfiltersSelectedCount++;
+        // dar dictrionary filterha filtere entekhabi ra true mikonad
+        dictionaryOfSelectedRoomsFilters[labelText] = true;
+    } else {
+        tedadeKhabfiltersSelectedCount--;
+        // dar dictrionary filterha filtere entekhabi ra false mikonad
+        dictionaryOfSelectedRoomsFilters[labelText] = false;
+    }
+
+    // dar dictionary iterate mikonad va avvalin filteri ke true shode ra be onvane title set mikonad
+    for (var key in dictionaryOfSelectedRoomsFilters) {
+        var value = dictionaryOfSelectedRoomsFilters[key];
+        if (value) {
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filter-text").text(key);
+            break;
+        }
+    }
+    // dar soorati ke tedade filterhaie entekhabi bish az 1 bashad و ... ra ezafe mikonad
+    if (tedadeKhabfiltersSelectedCount > 1) {
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filter-text").text(__WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filter-text").text() + " و ...");
+    } else if (tedadeKhabfiltersSelectedCount === 0) {
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filter-text").text("انتخاب کنید");
+    }
+});
 
 /***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/***/ 49:
+/*!
+ * 
+ *   typed.js - A JavaScript Typing Animation Library
+ *   Author: Matt Boldt <me@mattboldt.com>
+ *   Version: v2.0.4
+ *   Url: https://github.com/mattboldt/typed.js
+ *   License(s): MIT
+ * 
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(true)
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["Typed"] = factory();
+	else
+		root["Typed"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+/******/
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var _initializerJs = __webpack_require__(1);
+	
+	var _htmlParserJs = __webpack_require__(3);
+	
+	/**
+	 * Welcome to Typed.js!
+	 * @param {string} elementId HTML element ID _OR_ HTML element
+	 * @param {object} options options object
+	 * @returns {object} a new Typed object
+	 */
+	
+	var Typed = (function () {
+	  function Typed(elementId, options) {
+	    _classCallCheck(this, Typed);
+	
+	    // Initialize it up
+	    _initializerJs.initializer.load(this, options, elementId);
+	    // All systems go!
+	    this.begin();
+	  }
+	
+	  /**
+	   * Toggle start() and stop() of the Typed instance
+	   * @public
+	   */
+	
+	  _createClass(Typed, [{
+	    key: 'toggle',
+	    value: function toggle() {
+	      this.pause.status ? this.start() : this.stop();
+	    }
+	
+	    /**
+	     * Stop typing / backspacing and enable cursor blinking
+	     * @public
+	     */
+	  }, {
+	    key: 'stop',
+	    value: function stop() {
+	      if (this.typingComplete) return;
+	      if (this.pause.status) return;
+	      this.toggleBlinking(true);
+	      this.pause.status = true;
+	      this.options.onStop(this.arrayPos, this);
+	    }
+	
+	    /**
+	     * Start typing / backspacing after being stopped
+	     * @public
+	     */
+	  }, {
+	    key: 'start',
+	    value: function start() {
+	      if (this.typingComplete) return;
+	      if (!this.pause.status) return;
+	      this.pause.status = false;
+	      if (this.pause.typewrite) {
+	        this.typewrite(this.pause.curString, this.pause.curStrPos);
+	      } else {
+	        this.backspace(this.pause.curString, this.pause.curStrPos);
+	      }
+	      this.options.onStart(this.arrayPos, this);
+	    }
+	
+	    /**
+	     * Destroy this instance of Typed
+	     * @public
+	     */
+	  }, {
+	    key: 'destroy',
+	    value: function destroy() {
+	      this.reset(false);
+	      this.options.onDestroy(this);
+	    }
+	
+	    /**
+	     * Reset Typed and optionally restarts
+	     * @param {boolean} restart
+	     * @public
+	     */
+	  }, {
+	    key: 'reset',
+	    value: function reset() {
+	      var restart = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
+	
+	      clearInterval(this.timeout);
+	      this.replaceText('');
+	      if (this.cursor && this.cursor.parentNode) {
+	        this.cursor.parentNode.removeChild(this.cursor);
+	        this.cursor = null;
+	      }
+	      this.strPos = 0;
+	      this.arrayPos = 0;
+	      this.curLoop = 0;
+	      if (restart) {
+	        this.insertCursor();
+	        this.options.onReset(this);
+	        this.begin();
+	      }
+	    }
+	
+	    /**
+	     * Begins the typing animation
+	     * @private
+	     */
+	  }, {
+	    key: 'begin',
+	    value: function begin() {
+	      var _this = this;
+	
+	      this.typingComplete = false;
+	      this.shuffleStringsIfNeeded(this);
+	      this.insertCursor();
+	      if (this.bindInputFocusEvents) this.bindFocusEvents();
+	      this.timeout = setTimeout(function () {
+	        // Check if there is some text in the element, if yes start by backspacing the default message
+	        if (!_this.currentElContent || _this.currentElContent.length === 0) {
+	          _this.typewrite(_this.strings[_this.sequence[_this.arrayPos]], _this.strPos);
+	        } else {
+	          // Start typing
+	          _this.backspace(_this.currentElContent, _this.currentElContent.length);
+	        }
+	      }, this.startDelay);
+	    }
+	
+	    /**
+	     * Called for each character typed
+	     * @param {string} curString the current string in the strings array
+	     * @param {number} curStrPos the current position in the curString
+	     * @private
+	     */
+	  }, {
+	    key: 'typewrite',
+	    value: function typewrite(curString, curStrPos) {
+	      var _this2 = this;
+	
+	      if (this.fadeOut && this.el.classList.contains(this.fadeOutClass)) {
+	        this.el.classList.remove(this.fadeOutClass);
+	        if (this.cursor) this.cursor.classList.remove(this.fadeOutClass);
+	      }
+	
+	      var humanize = this.humanizer(this.typeSpeed);
+	      var numChars = 1;
+	
+	      if (this.pause.status === true) {
+	        this.setPauseStatus(curString, curStrPos, true);
+	        return;
+	      }
+	
+	      // contain typing function in a timeout humanize'd delay
+	      this.timeout = setTimeout(function () {
+	        // skip over any HTML chars
+	        curStrPos = _htmlParserJs.htmlParser.typeHtmlChars(curString, curStrPos, _this2);
+	
+	        var pauseTime = 0;
+	        var substr = curString.substr(curStrPos);
+	        // check for an escape character before a pause value
+	        // format: \^\d+ .. eg: ^1000 .. should be able to print the ^ too using ^^
+	        // single ^ are removed from string
+	        if (substr.charAt(0) === '^') {
+	          if (/^\^\d+/.test(substr)) {
+	            var skip = 1; // skip at least 1
+	            substr = /\d+/.exec(substr)[0];
+	            skip += substr.length;
+	            pauseTime = parseInt(substr);
+	            _this2.temporaryPause = true;
+	            _this2.options.onTypingPaused(_this2.arrayPos, _this2);
+	            // strip out the escape character and pause value so they're not printed
+	            curString = curString.substring(0, curStrPos) + curString.substring(curStrPos + skip);
+	            _this2.toggleBlinking(true);
+	          }
+	        }
+	
+	        // check for skip characters formatted as
+	        // "this is a `string to print NOW` ..."
+	        if (substr.charAt(0) === '`') {
+	          while (curString.substr(curStrPos + numChars).charAt(0) !== '`') {
+	            numChars++;
+	            if (curStrPos + numChars > curString.length) break;
+	          }
+	          // strip out the escape characters and append all the string in between
+	          var stringBeforeSkip = curString.substring(0, curStrPos);
+	          var stringSkipped = curString.substring(stringBeforeSkip.length + 1, curStrPos + numChars);
+	          var stringAfterSkip = curString.substring(curStrPos + numChars + 1);
+	          curString = stringBeforeSkip + stringSkipped + stringAfterSkip;
+	          numChars--;
+	        }
+	
+	        // timeout for any pause after a character
+	        _this2.timeout = setTimeout(function () {
+	          // Accounts for blinking while paused
+	          _this2.toggleBlinking(false);
+	
+	          // We're done with this sentence!
+	          if (curStrPos === curString.length) {
+	            _this2.doneTyping(curString, curStrPos);
+	          } else {
+	            _this2.keepTyping(curString, curStrPos, numChars);
+	          }
+	          // end of character pause
+	          if (_this2.temporaryPause) {
+	            _this2.temporaryPause = false;
+	            _this2.options.onTypingResumed(_this2.arrayPos, _this2);
+	          }
+	        }, pauseTime);
+	
+	        // humanized value for typing
+	      }, humanize);
+	    }
+	
+	    /**
+	     * Continue to the next string & begin typing
+	     * @param {string} curString the current string in the strings array
+	     * @param {number} curStrPos the current position in the curString
+	     * @private
+	     */
+	  }, {
+	    key: 'keepTyping',
+	    value: function keepTyping(curString, curStrPos, numChars) {
+	      // call before functions if applicable
+	      if (curStrPos === 0) {
+	        this.toggleBlinking(false);
+	        this.options.preStringTyped(this.arrayPos, this);
+	      }
+	      // start typing each new char into existing string
+	      // curString: arg, this.el.html: original text inside element
+	      curStrPos += numChars;
+	      var nextString = curString.substr(0, curStrPos);
+	      this.replaceText(nextString);
+	      // loop the function
+	      this.typewrite(curString, curStrPos);
+	    }
+	
+	    /**
+	     * We're done typing all strings
+	     * @param {string} curString the current string in the strings array
+	     * @param {number} curStrPos the current position in the curString
+	     * @private
+	     */
+	  }, {
+	    key: 'doneTyping',
+	    value: function doneTyping(curString, curStrPos) {
+	      var _this3 = this;
+	
+	      // fires callback function
+	      this.options.onStringTyped(this.arrayPos, this);
+	      this.toggleBlinking(true);
+	      // is this the final string
+	      if (this.arrayPos === this.strings.length - 1) {
+	        // callback that occurs on the last typed string
+	        this.complete();
+	        // quit if we wont loop back
+	        if (this.loop === false || this.curLoop === this.loopCount) {
+	          return;
+	        }
+	      }
+	      this.timeout = setTimeout(function () {
+	        _this3.backspace(curString, curStrPos);
+	      }, this.backDelay);
+	    }
+	
+	    /**
+	     * Backspaces 1 character at a time
+	     * @param {string} curString the current string in the strings array
+	     * @param {number} curStrPos the current position in the curString
+	     * @private
+	     */
+	  }, {
+	    key: 'backspace',
+	    value: function backspace(curString, curStrPos) {
+	      var _this4 = this;
+	
+	      if (this.pause.status === true) {
+	        this.setPauseStatus(curString, curStrPos, true);
+	        return;
+	      }
+	      if (this.fadeOut) return this.initFadeOut();
+	
+	      this.toggleBlinking(false);
+	      var humanize = this.humanizer(this.backSpeed);
+	
+	      this.timeout = setTimeout(function () {
+	        curStrPos = _htmlParserJs.htmlParser.backSpaceHtmlChars(curString, curStrPos, _this4);
+	        // replace text with base text + typed characters
+	        var curStringAtPosition = curString.substr(0, curStrPos);
+	        _this4.replaceText(curStringAtPosition);
+	
+	        // if smartBack is enabled
+	        if (_this4.smartBackspace) {
+	          // the remaining part of the current string is equal of the same part of the new string
+	          var nextString = _this4.strings[_this4.arrayPos + 1];
+	          if (nextString && curStringAtPosition === nextString.substr(0, curStrPos)) {
+	            _this4.stopNum = curStrPos;
+	          } else {
+	            _this4.stopNum = 0;
+	          }
+	        }
+	
+	        // if the number (id of character in current string) is
+	        // less than the stop number, keep going
+	        if (curStrPos > _this4.stopNum) {
+	          // subtract characters one by one
+	          curStrPos--;
+	          // loop the function
+	          _this4.backspace(curString, curStrPos);
+	        } else if (curStrPos <= _this4.stopNum) {
+	          // if the stop number has been reached, increase
+	          // array position to next string
+	          _this4.arrayPos++;
+	          // When looping, begin at the beginning after backspace complete
+	          if (_this4.arrayPos === _this4.strings.length) {
+	            _this4.arrayPos = 0;
+	            _this4.options.onLastStringBackspaced();
+	            _this4.shuffleStringsIfNeeded();
+	            _this4.begin();
+	          } else {
+	            _this4.typewrite(_this4.strings[_this4.sequence[_this4.arrayPos]], curStrPos);
+	          }
+	        }
+	        // humanized value for typing
+	      }, humanize);
+	    }
+	
+	    /**
+	     * Full animation is complete
+	     * @private
+	     */
+	  }, {
+	    key: 'complete',
+	    value: function complete() {
+	      this.options.onComplete(this);
+	      if (this.loop) {
+	        this.curLoop++;
+	      } else {
+	        this.typingComplete = true;
+	      }
+	    }
+	
+	    /**
+	     * Has the typing been stopped
+	     * @param {string} curString the current string in the strings array
+	     * @param {number} curStrPos the current position in the curString
+	     * @param {boolean} isTyping
+	     * @private
+	     */
+	  }, {
+	    key: 'setPauseStatus',
+	    value: function setPauseStatus(curString, curStrPos, isTyping) {
+	      this.pause.typewrite = isTyping;
+	      this.pause.curString = curString;
+	      this.pause.curStrPos = curStrPos;
+	    }
+	
+	    /**
+	     * Toggle the blinking cursor
+	     * @param {boolean} isBlinking
+	     * @private
+	     */
+	  }, {
+	    key: 'toggleBlinking',
+	    value: function toggleBlinking(isBlinking) {
+	      if (!this.cursor) return;
+	      // if in paused state, don't toggle blinking a 2nd time
+	      if (this.pause.status) return;
+	      if (this.cursorBlinking === isBlinking) return;
+	      this.cursorBlinking = isBlinking;
+	      var status = isBlinking ? 'infinite' : 0;
+	      this.cursor.style.animationIterationCount = status;
+	    }
+	
+	    /**
+	     * Speed in MS to type
+	     * @param {number} speed
+	     * @private
+	     */
+	  }, {
+	    key: 'humanizer',
+	    value: function humanizer(speed) {
+	      return Math.round(Math.random() * speed / 2) + speed;
+	    }
+	
+	    /**
+	     * Shuffle the sequence of the strings array
+	     * @private
+	     */
+	  }, {
+	    key: 'shuffleStringsIfNeeded',
+	    value: function shuffleStringsIfNeeded() {
+	      if (!this.shuffle) return;
+	      this.sequence = this.sequence.sort(function () {
+	        return Math.random() - 0.5;
+	      });
+	    }
+	
+	    /**
+	     * Adds a CSS class to fade out current string
+	     * @private
+	     */
+	  }, {
+	    key: 'initFadeOut',
+	    value: function initFadeOut() {
+	      var _this5 = this;
+	
+	      this.el.className += ' ' + this.fadeOutClass;
+	      if (this.cursor) this.cursor.className += ' ' + this.fadeOutClass;
+	      return setTimeout(function () {
+	        _this5.arrayPos++;
+	        _this5.replaceText('');
+	
+	        // Resets current string if end of loop reached
+	        if (_this5.strings.length > _this5.arrayPos) {
+	          _this5.typewrite(_this5.strings[_this5.sequence[_this5.arrayPos]], 0);
+	        } else {
+	          _this5.typewrite(_this5.strings[0], 0);
+	          _this5.arrayPos = 0;
+	        }
+	      }, this.fadeOutDelay);
+	    }
+	
+	    /**
+	     * Replaces current text in the HTML element
+	     * depending on element type
+	     * @param {string} str
+	     * @private
+	     */
+	  }, {
+	    key: 'replaceText',
+	    value: function replaceText(str) {
+	      if (this.attr) {
+	        this.el.setAttribute(this.attr, str);
+	      } else {
+	        if (this.isInput) {
+	          this.el.value = str;
+	        } else if (this.contentType === 'html') {
+	          this.el.innerHTML = str;
+	        } else {
+	          this.el.textContent = str;
+	        }
+	      }
+	    }
+	
+	    /**
+	     * If using input elements, bind focus in order to
+	     * start and stop the animation
+	     * @private
+	     */
+	  }, {
+	    key: 'bindFocusEvents',
+	    value: function bindFocusEvents() {
+	      var _this6 = this;
+	
+	      if (!this.isInput) return;
+	      this.el.addEventListener('focus', function (e) {
+	        _this6.stop();
+	      });
+	      this.el.addEventListener('blur', function (e) {
+	        if (_this6.el.value && _this6.el.value.length !== 0) {
+	          return;
+	        }
+	        _this6.start();
+	      });
+	    }
+	
+	    /**
+	     * On init, insert the cursor element
+	     * @private
+	     */
+	  }, {
+	    key: 'insertCursor',
+	    value: function insertCursor() {
+	      if (!this.showCursor) return;
+	      if (this.cursor) return;
+	      this.cursor = document.createElement('span');
+	      this.cursor.className = 'typed-cursor';
+	      this.cursor.innerHTML = this.cursorChar;
+	      this.el.parentNode && this.el.parentNode.insertBefore(this.cursor, this.el.nextSibling);
+	    }
+	  }]);
+	
+	  return Typed;
+	})();
+	
+	exports['default'] = Typed;
+	module.exports = exports['default'];
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var _defaultsJs = __webpack_require__(2);
+	
+	var _defaultsJs2 = _interopRequireDefault(_defaultsJs);
+	
+	/**
+	 * Initialize the Typed object
+	 */
+	
+	var Initializer = (function () {
+	  function Initializer() {
+	    _classCallCheck(this, Initializer);
+	  }
+	
+	  _createClass(Initializer, [{
+	    key: 'load',
+	
+	    /**
+	     * Load up defaults & options on the Typed instance
+	     * @param {Typed} self instance of Typed
+	     * @param {object} options options object
+	     * @param {string} elementId HTML element ID _OR_ instance of HTML element
+	     * @private
+	     */
+	
+	    value: function load(self, options, elementId) {
+	      // chosen element to manipulate text
+	      if (typeof elementId === 'string') {
+	        self.el = document.querySelector(elementId);
+	      } else {
+	        self.el = elementId;
+	      }
+	
+	      self.options = _extends({}, _defaultsJs2['default'], options);
+	
+	      // attribute to type into
+	      self.isInput = self.el.tagName.toLowerCase() === 'input';
+	      self.attr = self.options.attr;
+	      self.bindInputFocusEvents = self.options.bindInputFocusEvents;
+	
+	      // show cursor
+	      self.showCursor = self.isInput ? false : self.options.showCursor;
+	
+	      // custom cursor
+	      self.cursorChar = self.options.cursorChar;
+	
+	      // Is the cursor blinking
+	      self.cursorBlinking = true;
+	
+	      // text content of element
+	      self.elContent = self.attr ? self.el.getAttribute(self.attr) : self.el.textContent;
+	
+	      // html or plain text
+	      self.contentType = self.options.contentType;
+	
+	      // typing speed
+	      self.typeSpeed = self.options.typeSpeed;
+	
+	      // add a delay before typing starts
+	      self.startDelay = self.options.startDelay;
+	
+	      // backspacing speed
+	      self.backSpeed = self.options.backSpeed;
+	
+	      // only backspace what doesn't match the previous string
+	      self.smartBackspace = self.options.smartBackspace;
+	
+	      // amount of time to wait before backspacing
+	      self.backDelay = self.options.backDelay;
+	
+	      // Fade out instead of backspace
+	      self.fadeOut = self.options.fadeOut;
+	      self.fadeOutClass = self.options.fadeOutClass;
+	      self.fadeOutDelay = self.options.fadeOutDelay;
+	
+	      // variable to check whether typing is currently paused
+	      self.isPaused = false;
+	
+	      // input strings of text
+	      self.strings = self.options.strings.map(function (s) {
+	        return s.trim();
+	      });
+	
+	      // div containing strings
+	      if (typeof self.options.stringsElement === 'string') {
+	        self.stringsElement = document.querySelector(self.options.stringsElement);
+	      } else {
+	        self.stringsElement = self.options.stringsElement;
+	      }
+	
+	      if (self.stringsElement) {
+	        self.strings = [];
+	        self.stringsElement.style.display = 'none';
+	        var strings = Array.prototype.slice.apply(self.stringsElement.children);
+	        var _iteratorNormalCompletion = true;
+	        var _didIteratorError = false;
+	        var _iteratorError = undefined;
+	
+	        try {
+	          for (var _iterator = strings[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	            var s = _step.value;
+	
+	            self.strings.push(s.innerHTML.trim());
+	          }
+	        } catch (err) {
+	          _didIteratorError = true;
+	          _iteratorError = err;
+	        } finally {
+	          try {
+	            if (!_iteratorNormalCompletion && _iterator['return']) {
+	              _iterator['return']();
+	            }
+	          } finally {
+	            if (_didIteratorError) {
+	              throw _iteratorError;
+	            }
+	          }
+	        }
+	      }
+	
+	      // character number position of current string
+	      self.strPos = 0;
+	
+	      // current array position
+	      self.arrayPos = 0;
+	
+	      // index of string to stop backspacing on
+	      self.stopNum = 0;
+	
+	      // Looping logic
+	      self.loop = self.options.loop;
+	      self.loopCount = self.options.loopCount;
+	      self.curLoop = 0;
+	
+	      // shuffle the strings
+	      self.shuffle = self.options.shuffle;
+	      // the order of strings
+	      self.sequence = [];
+	
+	      self.pause = {
+	        status: false,
+	        typewrite: true,
+	        curString: '',
+	        curStrPos: 0
+	      };
+	
+	      // When the typing is complete (when not looped)
+	      self.typingComplete = false;
+	
+	      // Set the order in which the strings are typed
+	      for (var i in self.strings) {
+	        self.sequence[i] = i;
+	      }
+	
+	      // If there is some text in the element
+	      self.currentElContent = this.getCurrentElContent(self);
+	
+	      self.autoInsertCss = self.options.autoInsertCss;
+	
+	      this.appendAnimationCss(self);
+	    }
+	  }, {
+	    key: 'getCurrentElContent',
+	    value: function getCurrentElContent(self) {
+	      var elContent = '';
+	      if (self.attr) {
+	        elContent = self.el.getAttribute(self.attr);
+	      } else if (self.isInput) {
+	        elContent = self.el.value;
+	      } else if (self.contentType === 'html') {
+	        elContent = self.el.innerHTML;
+	      } else {
+	        elContent = self.el.textContent;
+	      }
+	      return elContent;
+	    }
+	  }, {
+	    key: 'appendAnimationCss',
+	    value: function appendAnimationCss(self) {
+	      if (!self.autoInsertCss) {
+	        return;
+	      }
+	      if (!self.showCursor || !self.fadeOut) {
+	        return;
+	      }
+	
+	      var css = document.createElement('style');
+	      css.type = 'text/css';
+	      var innerCss = '';
+	      if (self.showCursor) {
+	        innerCss += '\n        .typed-cursor{\n          opacity: 1;\n          animation: typedjsBlink 0.7s infinite;\n          -webkit-animation: typedjsBlink 0.7s infinite;\n                  animation: typedjsBlink 0.7s infinite;\n        }\n        @keyframes typedjsBlink{\n          50% { opacity: 0.0; }\n        }\n        @-webkit-keyframes typedjsBlink{\n          0% { opacity: 1; }\n          50% { opacity: 0.0; }\n          100% { opacity: 1; }\n        }\n      ';
+	      }
+	      if (self.fadeOut) {
+	        innerCss += '\n        .typed-fade-out{\n          opacity: 0;\n          transition: opacity .25s;\n          -webkit-animation: 0;\n                  animation: 0;\n        }\n      ';
+	      }
+	      if (css.length === 0) {
+	        return;
+	      }
+	      css.innerHTML = innerCss;
+	      document.head.appendChild(css);
+	    }
+	  }]);
+	
+	  return Initializer;
+	})();
+	
+	exports['default'] = Initializer;
+	var initializer = new Initializer();
+	exports.initializer = initializer;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+	/**
+	 * Defaults & options
+	 * @returns {object} Typed defaults & options
+	 * @public
+	 */
+	
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	var defaults = {
+	  /**
+	   * @property {array} strings strings to be typed
+	   * @property {string} stringsElement ID of element containing string children
+	   */
+	  strings: ['These are the default values...', 'You know what you should do?', 'Use your own!', 'Have a great day!'],
+	  stringsElement: null,
+	
+	  /**
+	   * @property {number} typeSpeed type speed in milliseconds
+	   */
+	  typeSpeed: 0,
+	
+	  /**
+	   * @property {number} startDelay time before typing starts in milliseconds
+	   */
+	  startDelay: 0,
+	
+	  /**
+	   * @property {number} backSpeed backspacing speed in milliseconds
+	   */
+	  backSpeed: 0,
+	
+	  /**
+	   * @property {boolean} smartBackspace only backspace what doesn't match the previous string
+	   */
+	  smartBackspace: true,
+	
+	  /**
+	   * @property {boolean} shuffle shuffle the strings
+	   */
+	  shuffle: false,
+	
+	  /**
+	   * @property {number} backDelay time before backspacing in milliseconds
+	   */
+	  backDelay: 700,
+	
+	  /**
+	   * @property {boolean} fadeOut Fade out instead of backspace
+	   * @property {string} fadeOutClass css class for fade animation
+	   * @property {boolean} fadeOutDelay Fade out delay in milliseconds
+	   */
+	  fadeOut: false,
+	  fadeOutClass: 'typed-fade-out',
+	  fadeOutDelay: 500,
+	
+	  /**
+	   * @property {boolean} loop loop strings
+	   * @property {number} loopCount amount of loops
+	   */
+	  loop: false,
+	  loopCount: Infinity,
+	
+	  /**
+	   * @property {boolean} showCursor show cursor
+	   * @property {string} cursorChar character for cursor
+	   * @property {boolean} autoInsertCss insert CSS for cursor and fadeOut into HTML <head>
+	   */
+	  showCursor: true,
+	  cursorChar: '|',
+	  autoInsertCss: true,
+	
+	  /**
+	   * @property {string} attr attribute for typing
+	   * Ex: input placeholder, value, or just HTML text
+	   */
+	  attr: null,
+	
+	  /**
+	   * @property {boolean} bindInputFocusEvents bind to focus and blur if el is text input
+	   */
+	  bindInputFocusEvents: false,
+	
+	  /**
+	   * @property {string} contentType 'html' or 'null' for plaintext
+	   */
+	  contentType: 'html',
+	
+	  /**
+	   * All typing is complete
+	   * @param {Typed} self
+	   */
+	  onComplete: function onComplete(self) {},
+	
+	  /**
+	   * Before each string is typed
+	   * @param {number} arrayPos
+	   * @param {Typed} self
+	   */
+	  preStringTyped: function preStringTyped(arrayPos, self) {},
+	
+	  /**
+	   * After each string is typed
+	   * @param {number} arrayPos
+	   * @param {Typed} self
+	   */
+	  onStringTyped: function onStringTyped(arrayPos, self) {},
+	
+	  /**
+	   * During looping, after last string is typed
+	   * @param {Typed} self
+	   */
+	  onLastStringBackspaced: function onLastStringBackspaced(self) {},
+	
+	  /**
+	   * Typing has been stopped
+	   * @param {number} arrayPos
+	   * @param {Typed} self
+	   */
+	  onTypingPaused: function onTypingPaused(arrayPos, self) {},
+	
+	  /**
+	   * Typing has been started after being stopped
+	   * @param {number} arrayPos
+	   * @param {Typed} self
+	   */
+	  onTypingResumed: function onTypingResumed(arrayPos, self) {},
+	
+	  /**
+	   * After reset
+	   * @param {Typed} self
+	   */
+	  onReset: function onReset(self) {},
+	
+	  /**
+	   * After stop
+	   * @param {number} arrayPos
+	   * @param {Typed} self
+	   */
+	  onStop: function onStop(arrayPos, self) {},
+	
+	  /**
+	   * After start
+	   * @param {number} arrayPos
+	   * @param {Typed} self
+	   */
+	  onStart: function onStart(arrayPos, self) {},
+	
+	  /**
+	   * After destroy
+	   * @param {Typed} self
+	   */
+	  onDestroy: function onDestroy(self) {}
+	};
+	
+	exports['default'] = defaults;
+	module.exports = exports['default'];
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+	
+	/**
+	 * TODO: These methods can probably be combined somehow
+	 * Parse HTML tags & HTML Characters
+	 */
+	
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var HTMLParser = (function () {
+	  function HTMLParser() {
+	    _classCallCheck(this, HTMLParser);
+	  }
+	
+	  _createClass(HTMLParser, [{
+	    key: 'typeHtmlChars',
+	
+	    /**
+	     * Type HTML tags & HTML Characters
+	     * @param {string} curString Current string
+	     * @param {number} curStrPos Position in current string
+	     * @param {Typed} self instance of Typed
+	     * @returns {number} a new string position
+	     * @private
+	     */
+	
+	    value: function typeHtmlChars(curString, curStrPos, self) {
+	      if (self.contentType !== 'html') return curStrPos;
+	      var curChar = curString.substr(curStrPos).charAt(0);
+	      if (curChar === '<' || curChar === '&') {
+	        var endTag = '';
+	        if (curChar === '<') {
+	          endTag = '>';
+	        } else {
+	          endTag = ';';
+	        }
+	        while (curString.substr(curStrPos + 1).charAt(0) !== endTag) {
+	          curStrPos++;
+	          if (curStrPos + 1 > curString.length) {
+	            break;
+	          }
+	        }
+	        curStrPos++;
+	      }
+	      return curStrPos;
+	    }
+	
+	    /**
+	     * Backspace HTML tags and HTML Characters
+	     * @param {string} curString Current string
+	     * @param {number} curStrPos Position in current string
+	     * @param {Typed} self instance of Typed
+	     * @returns {number} a new string position
+	     * @private
+	     */
+	  }, {
+	    key: 'backSpaceHtmlChars',
+	    value: function backSpaceHtmlChars(curString, curStrPos, self) {
+	      if (self.contentType !== 'html') return curStrPos;
+	      var curChar = curString.substr(curStrPos).charAt(0);
+	      if (curChar === '>' || curChar === ';') {
+	        var endTag = '';
+	        if (curChar === '>') {
+	          endTag = '<';
+	        } else {
+	          endTag = '&';
+	        }
+	        while (curString.substr(curStrPos - 1).charAt(0) !== endTag) {
+	          curStrPos--;
+	          if (curStrPos < 0) {
+	            break;
+	          }
+	        }
+	        curStrPos--;
+	      }
+	      return curStrPos;
+	    }
+	  }]);
+	
+	  return HTMLParser;
+	})();
+	
+	exports['default'] = HTMLParser;
+	var htmlParser = new HTMLParser();
+	exports.htmlParser = htmlParser;
+
+/***/ })
+/******/ ])
+});
+;
+
+/***/ }),
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -13297,26 +18537,2324 @@ stepSlider.noUiSlider.on('update', function () {});
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/***/ 50:
-/***/ (function(module, exports) {
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! nouislider - 10.1.0 - 2017-07-28 17:11:18 */
 
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\Peykhoone-Front\\resources\\assets\\js\\classie.js'");
+(function (factory) {
 
-/***/ }),
+    if ( true ) {
 
-/***/ 51:
-/***/ (function(module, exports) {
+        // AMD. Register as an anonymous module.
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\Peykhoone-Front\\resources\\assets\\js\\mlpushmenu.js'");
+    } else if ( typeof exports === 'object' ) {
 
-/***/ }),
+        // Node/CommonJS
+        module.exports = factory();
 
-/***/ 52:
-/***/ (function(module, exports) {
+    } else {
 
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'C:\\xampp\\htdocs\\Peykhoone-Front\\resources\\assets\\js\\modernizr.custom.js'");
+        // Browser globals
+        window.noUiSlider = factory();
+    }
+
+}(function( ){
+
+	'use strict';
+
+	var VERSION = '10.1.0';
+
+
+	function isValidFormatter ( entry ) {
+		return typeof entry === 'object' && typeof entry.to === 'function' && typeof entry.from === 'function';
+	}
+
+	function removeElement ( el ) {
+		el.parentElement.removeChild(el);
+	}
+
+	// Bindable version
+	function preventDefault ( e ) {
+		e.preventDefault();
+	}
+
+	// Removes duplicates from an array.
+	function unique ( array ) {
+		return array.filter(function(a){
+			return !this[a] ? this[a] = true : false;
+		}, {});
+	}
+
+	// Round a value to the closest 'to'.
+	function closest ( value, to ) {
+		return Math.round(value / to) * to;
+	}
+
+	// Current position of an element relative to the document.
+	function offset ( elem, orientation ) {
+
+		var rect = elem.getBoundingClientRect();
+		var doc = elem.ownerDocument;
+		var docElem = doc.documentElement;
+		var pageOffset = getPageOffset(doc);
+
+		// getBoundingClientRect contains left scroll in Chrome on Android.
+		// I haven't found a feature detection that proves this. Worst case
+		// scenario on mis-match: the 'tap' feature on horizontal sliders breaks.
+		if ( /webkit.*Chrome.*Mobile/i.test(navigator.userAgent) ) {
+			pageOffset.x = 0;
+		}
+
+		return orientation ? (rect.top + pageOffset.y - docElem.clientTop) : (rect.left + pageOffset.x - docElem.clientLeft);
+	}
+
+	// Checks whether a value is numerical.
+	function isNumeric ( a ) {
+		return typeof a === 'number' && !isNaN( a ) && isFinite( a );
+	}
+
+	// Sets a class and removes it after [duration] ms.
+	function addClassFor ( element, className, duration ) {
+		if (duration > 0) {
+		addClass(element, className);
+			setTimeout(function(){
+				removeClass(element, className);
+			}, duration);
+		}
+	}
+
+	// Limits a value to 0 - 100
+	function limit ( a ) {
+		return Math.max(Math.min(a, 100), 0);
+	}
+
+	// Wraps a variable as an array, if it isn't one yet.
+	// Note that an input array is returned by reference!
+	function asArray ( a ) {
+		return Array.isArray(a) ? a : [a];
+	}
+
+	// Counts decimals
+	function countDecimals ( numStr ) {
+		numStr = String(numStr);
+		var pieces = numStr.split(".");
+		return pieces.length > 1 ? pieces[1].length : 0;
+	}
+
+	// http://youmightnotneedjquery.com/#add_class
+	function addClass ( el, className ) {
+		if ( el.classList ) {
+			el.classList.add(className);
+		} else {
+			el.className += ' ' + className;
+		}
+	}
+
+	// http://youmightnotneedjquery.com/#remove_class
+	function removeClass ( el, className ) {
+		if ( el.classList ) {
+			el.classList.remove(className);
+		} else {
+			el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+		}
+	}
+
+	// https://plainjs.com/javascript/attributes/adding-removing-and-testing-for-classes-9/
+	function hasClass ( el, className ) {
+		return el.classList ? el.classList.contains(className) : new RegExp('\\b' + className + '\\b').test(el.className);
+	}
+
+	// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY#Notes
+	function getPageOffset ( doc ) {
+
+		var supportPageOffset = window.pageXOffset !== undefined;
+		var isCSS1Compat = ((doc.compatMode || "") === "CSS1Compat");
+		var x = supportPageOffset ? window.pageXOffset : isCSS1Compat ? doc.documentElement.scrollLeft : doc.body.scrollLeft;
+		var y = supportPageOffset ? window.pageYOffset : isCSS1Compat ? doc.documentElement.scrollTop : doc.body.scrollTop;
+
+		return {
+			x: x,
+			y: y
+		};
+	}
+
+	// we provide a function to compute constants instead
+	// of accessing window.* as soon as the module needs it
+	// so that we do not compute anything if not needed
+	function getActions ( ) {
+
+		// Determine the events to bind. IE11 implements pointerEvents without
+		// a prefix, which breaks compatibility with the IE10 implementation.
+		return window.navigator.pointerEnabled ? {
+			start: 'pointerdown',
+			move: 'pointermove',
+			end: 'pointerup'
+		} : window.navigator.msPointerEnabled ? {
+			start: 'MSPointerDown',
+			move: 'MSPointerMove',
+			end: 'MSPointerUp'
+		} : {
+			start: 'mousedown touchstart',
+			move: 'mousemove touchmove',
+			end: 'mouseup touchend'
+		};
+	}
+
+	// https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+	// Issue #785
+	function getSupportsPassive ( ) {
+
+		var supportsPassive = false;
+
+		try {
+
+			var opts = Object.defineProperty({}, 'passive', {
+				get: function() {
+					supportsPassive = true;
+				}
+			});
+
+			window.addEventListener('test', null, opts);
+
+		} catch (e) {}
+
+		return supportsPassive;
+	}
+
+	function getSupportsTouchActionNone ( ) {
+		return window.CSS && CSS.supports && CSS.supports('touch-action', 'none');
+	}
+
+
+// Value calculation
+
+	// Determine the size of a sub-range in relation to a full range.
+	function subRangeRatio ( pa, pb ) {
+		return (100 / (pb - pa));
+	}
+
+	// (percentage) How many percent is this value of this range?
+	function fromPercentage ( range, value ) {
+		return (value * 100) / ( range[1] - range[0] );
+	}
+
+	// (percentage) Where is this value on this range?
+	function toPercentage ( range, value ) {
+		return fromPercentage( range, range[0] < 0 ?
+			value + Math.abs(range[0]) :
+				value - range[0] );
+	}
+
+	// (value) How much is this percentage on this range?
+	function isPercentage ( range, value ) {
+		return ((value * ( range[1] - range[0] )) / 100) + range[0];
+	}
+
+
+// Range conversion
+
+	function getJ ( value, arr ) {
+
+		var j = 1;
+
+		while ( value >= arr[j] ){
+			j += 1;
+		}
+
+		return j;
+	}
+
+	// (percentage) Input a value, find where, on a scale of 0-100, it applies.
+	function toStepping ( xVal, xPct, value ) {
+
+		if ( value >= xVal.slice(-1)[0] ){
+			return 100;
+		}
+
+		var j = getJ( value, xVal ), va, vb, pa, pb;
+
+		va = xVal[j-1];
+		vb = xVal[j];
+		pa = xPct[j-1];
+		pb = xPct[j];
+
+		return pa + (toPercentage([va, vb], value) / subRangeRatio (pa, pb));
+	}
+
+	// (value) Input a percentage, find where it is on the specified range.
+	function fromStepping ( xVal, xPct, value ) {
+
+		// There is no range group that fits 100
+		if ( value >= 100 ){
+			return xVal.slice(-1)[0];
+		}
+
+		var j = getJ( value, xPct ), va, vb, pa, pb;
+
+		va = xVal[j-1];
+		vb = xVal[j];
+		pa = xPct[j-1];
+		pb = xPct[j];
+
+		return isPercentage([va, vb], (value - pa) * subRangeRatio (pa, pb));
+	}
+
+	// (percentage) Get the step that applies at a certain value.
+	function getStep ( xPct, xSteps, snap, value ) {
+
+		if ( value === 100 ) {
+			return value;
+		}
+
+		var j = getJ( value, xPct ), a, b;
+
+		// If 'snap' is set, steps are used as fixed points on the slider.
+		if ( snap ) {
+
+			a = xPct[j-1];
+			b = xPct[j];
+
+			// Find the closest position, a or b.
+			if ((value - a) > ((b-a)/2)){
+				return b;
+			}
+
+			return a;
+		}
+
+		if ( !xSteps[j-1] ){
+			return value;
+		}
+
+		return xPct[j-1] + closest(
+			value - xPct[j-1],
+			xSteps[j-1]
+		);
+	}
+
+
+// Entry parsing
+
+	function handleEntryPoint ( index, value, that ) {
+
+		var percentage;
+
+		// Wrap numerical input in an array.
+		if ( typeof value === "number" ) {
+			value = [value];
+		}
+
+		// Reject any invalid input, by testing whether value is an array.
+		if ( Object.prototype.toString.call( value ) !== '[object Array]' ){
+			throw new Error("noUiSlider (" + VERSION + "): 'range' contains invalid value.");
+		}
+
+		// Covert min/max syntax to 0 and 100.
+		if ( index === 'min' ) {
+			percentage = 0;
+		} else if ( index === 'max' ) {
+			percentage = 100;
+		} else {
+			percentage = parseFloat( index );
+		}
+
+		// Check for correct input.
+		if ( !isNumeric( percentage ) || !isNumeric( value[0] ) ) {
+			throw new Error("noUiSlider (" + VERSION + "): 'range' value isn't numeric.");
+		}
+
+		// Store values.
+		that.xPct.push( percentage );
+		that.xVal.push( value[0] );
+
+		// NaN will evaluate to false too, but to keep
+		// logging clear, set step explicitly. Make sure
+		// not to override the 'step' setting with false.
+		if ( !percentage ) {
+			if ( !isNaN( value[1] ) ) {
+				that.xSteps[0] = value[1];
+			}
+		} else {
+			that.xSteps.push( isNaN(value[1]) ? false : value[1] );
+		}
+
+		that.xHighestCompleteStep.push(0);
+	}
+
+	function handleStepPoint ( i, n, that ) {
+
+		// Ignore 'false' stepping.
+		if ( !n ) {
+			return true;
+		}
+
+		// Factor to range ratio
+		that.xSteps[i] = fromPercentage([
+			 that.xVal[i]
+			,that.xVal[i+1]
+		], n) / subRangeRatio (
+			that.xPct[i],
+			that.xPct[i+1] );
+
+		var totalSteps = (that.xVal[i+1] - that.xVal[i]) / that.xNumSteps[i];
+		var highestStep = Math.ceil(Number(totalSteps.toFixed(3)) - 1);
+		var step = that.xVal[i] + (that.xNumSteps[i] * highestStep);
+
+		that.xHighestCompleteStep[i] = step;
+	}
+
+
+// Interface
+
+	function Spectrum ( entry, snap, singleStep ) {
+
+		this.xPct = [];
+		this.xVal = [];
+		this.xSteps = [ singleStep || false ];
+		this.xNumSteps = [ false ];
+		this.xHighestCompleteStep = [];
+
+		this.snap = snap;
+
+		var index, ordered = [ /* [0, 'min'], [1, '50%'], [2, 'max'] */ ];
+
+		// Map the object keys to an array.
+		for ( index in entry ) {
+			if ( entry.hasOwnProperty(index) ) {
+				ordered.push([entry[index], index]);
+			}
+		}
+
+		// Sort all entries by value (numeric sort).
+		if ( ordered.length && typeof ordered[0][0] === "object" ) {
+			ordered.sort(function(a, b) { return a[0][0] - b[0][0]; });
+		} else {
+			ordered.sort(function(a, b) { return a[0] - b[0]; });
+		}
+
+
+		// Convert all entries to subranges.
+		for ( index = 0; index < ordered.length; index++ ) {
+			handleEntryPoint(ordered[index][1], ordered[index][0], this);
+		}
+
+		// Store the actual step values.
+		// xSteps is sorted in the same order as xPct and xVal.
+		this.xNumSteps = this.xSteps.slice(0);
+
+		// Convert all numeric steps to the percentage of the subrange they represent.
+		for ( index = 0; index < this.xNumSteps.length; index++ ) {
+			handleStepPoint(index, this.xNumSteps[index], this);
+		}
+	}
+
+	Spectrum.prototype.getMargin = function ( value ) {
+
+		var step = this.xNumSteps[0];
+
+		if ( step && ((value / step) % 1) !== 0 ) {
+			throw new Error("noUiSlider (" + VERSION + "): 'limit', 'margin' and 'padding' must be divisible by step.");
+		}
+
+		return this.xPct.length === 2 ? fromPercentage(this.xVal, value) : false;
+	};
+
+	Spectrum.prototype.toStepping = function ( value ) {
+
+		value = toStepping( this.xVal, this.xPct, value );
+
+		return value;
+	};
+
+	Spectrum.prototype.fromStepping = function ( value ) {
+
+		return fromStepping( this.xVal, this.xPct, value );
+	};
+
+	Spectrum.prototype.getStep = function ( value ) {
+
+		value = getStep(this.xPct, this.xSteps, this.snap, value );
+
+		return value;
+	};
+
+	Spectrum.prototype.getNearbySteps = function ( value ) {
+
+		var j = getJ(value, this.xPct);
+
+		return {
+			stepBefore: { startValue: this.xVal[j-2], step: this.xNumSteps[j-2], highestStep: this.xHighestCompleteStep[j-2] },
+			thisStep: { startValue: this.xVal[j-1], step: this.xNumSteps[j-1], highestStep: this.xHighestCompleteStep[j-1] },
+			stepAfter: { startValue: this.xVal[j-0], step: this.xNumSteps[j-0], highestStep: this.xHighestCompleteStep[j-0] }
+		};
+	};
+
+	Spectrum.prototype.countStepDecimals = function () {
+		var stepDecimals = this.xNumSteps.map(countDecimals);
+		return Math.max.apply(null, stepDecimals);
+ 	};
+
+	// Outside testing
+	Spectrum.prototype.convert = function ( value ) {
+		return this.getStep(this.toStepping(value));
+	};
+
+/*	Every input option is tested and parsed. This'll prevent
+	endless validation in internal methods. These tests are
+	structured with an item for every option available. An
+	option can be marked as required by setting the 'r' flag.
+	The testing function is provided with three arguments:
+		- The provided value for the option;
+		- A reference to the options object;
+		- The name for the option;
+
+	The testing function returns false when an error is detected,
+	or true when everything is OK. It can also modify the option
+	object, to make sure all values can be correctly looped elsewhere. */
+
+	var defaultFormatter = { 'to': function( value ){
+		return value !== undefined && value.toFixed(2);
+	}, 'from': Number };
+
+	function validateFormat ( entry ) {
+
+		// Any object with a to and from method is supported.
+		if ( isValidFormatter(entry) ) {
+			return true;
+		}
+
+		throw new Error("noUiSlider (" + VERSION + "): 'format' requires 'to' and 'from' methods.");
+	}
+
+	function testStep ( parsed, entry ) {
+
+		if ( !isNumeric( entry ) ) {
+			throw new Error("noUiSlider (" + VERSION + "): 'step' is not numeric.");
+		}
+
+		// The step option can still be used to set stepping
+		// for linear sliders. Overwritten if set in 'range'.
+		parsed.singleStep = entry;
+	}
+
+	function testRange ( parsed, entry ) {
+
+		// Filter incorrect input.
+		if ( typeof entry !== 'object' || Array.isArray(entry) ) {
+			throw new Error("noUiSlider (" + VERSION + "): 'range' is not an object.");
+		}
+
+		// Catch missing start or end.
+		if ( entry.min === undefined || entry.max === undefined ) {
+			throw new Error("noUiSlider (" + VERSION + "): Missing 'min' or 'max' in 'range'.");
+		}
+
+		// Catch equal start or end.
+		if ( entry.min === entry.max ) {
+			throw new Error("noUiSlider (" + VERSION + "): 'range' 'min' and 'max' cannot be equal.");
+		}
+
+		parsed.spectrum = new Spectrum(entry, parsed.snap, parsed.singleStep);
+	}
+
+	function testStart ( parsed, entry ) {
+
+		entry = asArray(entry);
+
+		// Validate input. Values aren't tested, as the public .val method
+		// will always provide a valid location.
+		if ( !Array.isArray( entry ) || !entry.length ) {
+			throw new Error("noUiSlider (" + VERSION + "): 'start' option is incorrect.");
+		}
+
+		// Store the number of handles.
+		parsed.handles = entry.length;
+
+		// When the slider is initialized, the .val method will
+		// be called with the start options.
+		parsed.start = entry;
+	}
+
+	function testSnap ( parsed, entry ) {
+
+		// Enforce 100% stepping within subranges.
+		parsed.snap = entry;
+
+		if ( typeof entry !== 'boolean' ){
+			throw new Error("noUiSlider (" + VERSION + "): 'snap' option must be a boolean.");
+		}
+	}
+
+	function testAnimate ( parsed, entry ) {
+
+		// Enforce 100% stepping within subranges.
+		parsed.animate = entry;
+
+		if ( typeof entry !== 'boolean' ){
+			throw new Error("noUiSlider (" + VERSION + "): 'animate' option must be a boolean.");
+		}
+	}
+
+	function testAnimationDuration ( parsed, entry ) {
+
+		parsed.animationDuration = entry;
+
+		if ( typeof entry !== 'number' ){
+			throw new Error("noUiSlider (" + VERSION + "): 'animationDuration' option must be a number.");
+		}
+	}
+
+	function testConnect ( parsed, entry ) {
+
+		var connect = [false];
+		var i;
+
+		// Map legacy options
+		if ( entry === 'lower' ) {
+			entry = [true, false];
+		}
+
+		else if ( entry === 'upper' ) {
+			entry = [false, true];
+		}
+
+		// Handle boolean options
+		if ( entry === true || entry === false ) {
+
+			for ( i = 1; i < parsed.handles; i++ ) {
+				connect.push(entry);
+			}
+
+			connect.push(false);
+		}
+
+		// Reject invalid input
+		else if ( !Array.isArray( entry ) || !entry.length || entry.length !== parsed.handles + 1 ) {
+			throw new Error("noUiSlider (" + VERSION + "): 'connect' option doesn't match handle count.");
+		}
+
+		else {
+			connect = entry;
+		}
+
+		parsed.connect = connect;
+	}
+
+	function testOrientation ( parsed, entry ) {
+
+		// Set orientation to an a numerical value for easy
+		// array selection.
+		switch ( entry ){
+		  case 'horizontal':
+			parsed.ort = 0;
+			break;
+		  case 'vertical':
+			parsed.ort = 1;
+			break;
+		  default:
+			throw new Error("noUiSlider (" + VERSION + "): 'orientation' option is invalid.");
+		}
+	}
+
+	function testMargin ( parsed, entry ) {
+
+		if ( !isNumeric(entry) ){
+			throw new Error("noUiSlider (" + VERSION + "): 'margin' option must be numeric.");
+		}
+
+		// Issue #582
+		if ( entry === 0 ) {
+			return;
+		}
+
+		parsed.margin = parsed.spectrum.getMargin(entry);
+
+		if ( !parsed.margin ) {
+			throw new Error("noUiSlider (" + VERSION + "): 'margin' option is only supported on linear sliders.");
+		}
+	}
+
+	function testLimit ( parsed, entry ) {
+
+		if ( !isNumeric(entry) ){
+			throw new Error("noUiSlider (" + VERSION + "): 'limit' option must be numeric.");
+		}
+
+		parsed.limit = parsed.spectrum.getMargin(entry);
+
+		if ( !parsed.limit || parsed.handles < 2 ) {
+			throw new Error("noUiSlider (" + VERSION + "): 'limit' option is only supported on linear sliders with 2 or more handles.");
+		}
+	}
+
+	function testPadding ( parsed, entry ) {
+
+		if ( !isNumeric(entry) ){
+			throw new Error("noUiSlider (" + VERSION + "): 'padding' option must be numeric.");
+		}
+
+		if ( entry === 0 ) {
+			return;
+		}
+
+		parsed.padding = parsed.spectrum.getMargin(entry);
+
+		if ( !parsed.padding ) {
+			throw new Error("noUiSlider (" + VERSION + "): 'padding' option is only supported on linear sliders.");
+		}
+
+		if ( parsed.padding < 0 ) {
+			throw new Error("noUiSlider (" + VERSION + "): 'padding' option must be a positive number.");
+		}
+
+		if ( parsed.padding >= 50 ) {
+			throw new Error("noUiSlider (" + VERSION + "): 'padding' option must be less than half the range.");
+		}
+	}
+
+	function testDirection ( parsed, entry ) {
+
+		// Set direction as a numerical value for easy parsing.
+		// Invert connection for RTL sliders, so that the proper
+		// handles get the connect/background classes.
+		switch ( entry ) {
+		  case 'ltr':
+			parsed.dir = 0;
+			break;
+		  case 'rtl':
+			parsed.dir = 1;
+			break;
+		  default:
+			throw new Error("noUiSlider (" + VERSION + "): 'direction' option was not recognized.");
+		}
+	}
+
+	function testBehaviour ( parsed, entry ) {
+
+		// Make sure the input is a string.
+		if ( typeof entry !== 'string' ) {
+			throw new Error("noUiSlider (" + VERSION + "): 'behaviour' must be a string containing options.");
+		}
+
+		// Check if the string contains any keywords.
+		// None are required.
+		var tap = entry.indexOf('tap') >= 0;
+		var drag = entry.indexOf('drag') >= 0;
+		var fixed = entry.indexOf('fixed') >= 0;
+		var snap = entry.indexOf('snap') >= 0;
+		var hover = entry.indexOf('hover') >= 0;
+
+		if ( fixed ) {
+
+			if ( parsed.handles !== 2 ) {
+				throw new Error("noUiSlider (" + VERSION + "): 'fixed' behaviour must be used with 2 handles");
+			}
+
+			// Use margin to enforce fixed state
+			testMargin(parsed, parsed.start[1] - parsed.start[0]);
+		}
+
+		parsed.events = {
+			tap: tap || snap,
+			drag: drag,
+			fixed: fixed,
+			snap: snap,
+			hover: hover
+		};
+	}
+
+	function testMultitouch ( parsed, entry ) {
+		parsed.multitouch = entry;
+
+		if ( typeof entry !== 'boolean' ){
+			throw new Error("noUiSlider (" + VERSION + "): 'multitouch' option must be a boolean.");
+		}
+	}
+
+	function testTooltips ( parsed, entry ) {
+
+		if ( entry === false ) {
+			return;
+		}
+
+		else if ( entry === true ) {
+
+			parsed.tooltips = [];
+
+			for ( var i = 0; i < parsed.handles; i++ ) {
+				parsed.tooltips.push(true);
+			}
+		}
+
+		else {
+
+			parsed.tooltips = asArray(entry);
+
+			if ( parsed.tooltips.length !== parsed.handles ) {
+				throw new Error("noUiSlider (" + VERSION + "): must pass a formatter for all handles.");
+			}
+
+			parsed.tooltips.forEach(function(formatter){
+				if ( typeof formatter !== 'boolean' && (typeof formatter !== 'object' || typeof formatter.to !== 'function') ) {
+					throw new Error("noUiSlider (" + VERSION + "): 'tooltips' must be passed a formatter or 'false'.");
+				}
+			});
+		}
+	}
+
+	function testAriaFormat ( parsed, entry ) {
+		parsed.ariaFormat = entry;
+		validateFormat(entry);
+	}
+
+	function testFormat ( parsed, entry ) {
+		parsed.format = entry;
+		validateFormat(entry);
+	}
+
+	function testCssPrefix ( parsed, entry ) {
+
+		if ( entry !== undefined && typeof entry !== 'string' && entry !== false ) {
+			throw new Error("noUiSlider (" + VERSION + "): 'cssPrefix' must be a string or `false`.");
+		}
+
+		parsed.cssPrefix = entry;
+	}
+
+	function testCssClasses ( parsed, entry ) {
+
+		if ( entry !== undefined && typeof entry !== 'object' ) {
+			throw new Error("noUiSlider (" + VERSION + "): 'cssClasses' must be an object.");
+		}
+
+		if ( typeof parsed.cssPrefix === 'string' ) {
+			parsed.cssClasses = {};
+
+			for ( var key in entry ) {
+				if ( !entry.hasOwnProperty(key) ) { continue; }
+
+				parsed.cssClasses[key] = parsed.cssPrefix + entry[key];
+			}
+		} else {
+			parsed.cssClasses = entry;
+		}
+	}
+
+	function testUseRaf ( parsed, entry ) {
+		if ( entry === true || entry === false ) {
+			parsed.useRequestAnimationFrame = entry;
+		} else {
+			throw new Error("noUiSlider (" + VERSION + "): 'useRequestAnimationFrame' option should be true (default) or false.");
+		}
+	}
+
+	// Test all developer settings and parse to assumption-safe values.
+	function testOptions ( options ) {
+
+		// To prove a fix for #537, freeze options here.
+		// If the object is modified, an error will be thrown.
+		// Object.freeze(options);
+
+		var parsed = {
+			margin: 0,
+			limit: 0,
+			padding: 0,
+			animate: true,
+			animationDuration: 300,
+			ariaFormat: defaultFormatter,
+			format: defaultFormatter
+		};
+
+		// Tests are executed in the order they are presented here.
+		var tests = {
+			'step': { r: false, t: testStep },
+			'start': { r: true, t: testStart },
+			'connect': { r: true, t: testConnect },
+			'direction': { r: true, t: testDirection },
+			'snap': { r: false, t: testSnap },
+			'animate': { r: false, t: testAnimate },
+			'animationDuration': { r: false, t: testAnimationDuration },
+			'range': { r: true, t: testRange },
+			'orientation': { r: false, t: testOrientation },
+			'margin': { r: false, t: testMargin },
+			'limit': { r: false, t: testLimit },
+			'padding': { r: false, t: testPadding },
+			'behaviour': { r: true, t: testBehaviour },
+			'multitouch': { r: true, t: testMultitouch },
+			'ariaFormat': { r: false, t: testAriaFormat },
+			'format': { r: false, t: testFormat },
+			'tooltips': { r: false, t: testTooltips },
+			'cssPrefix': { r: false, t: testCssPrefix },
+			'cssClasses': { r: false, t: testCssClasses },
+			'useRequestAnimationFrame': { r: false, t: testUseRaf }
+		};
+
+		var defaults = {
+			'connect': false,
+			'direction': 'ltr',
+			'behaviour': 'tap',
+			'multitouch': false,
+			'orientation': 'horizontal',
+			'cssPrefix' : 'noUi-',
+			'cssClasses': {
+				target: 'target',
+				base: 'base',
+				origin: 'origin',
+				handle: 'handle',
+				handleLower: 'handle-lower',
+				handleUpper: 'handle-upper',
+				horizontal: 'horizontal',
+				vertical: 'vertical',
+				background: 'background',
+				connect: 'connect',
+				ltr: 'ltr',
+				rtl: 'rtl',
+				draggable: 'draggable',
+				drag: 'state-drag',
+				tap: 'state-tap',
+				active: 'active',
+				tooltip: 'tooltip',
+				pips: 'pips',
+				pipsHorizontal: 'pips-horizontal',
+				pipsVertical: 'pips-vertical',
+				marker: 'marker',
+				markerHorizontal: 'marker-horizontal',
+				markerVertical: 'marker-vertical',
+				markerNormal: 'marker-normal',
+				markerLarge: 'marker-large',
+				markerSub: 'marker-sub',
+				value: 'value',
+				valueHorizontal: 'value-horizontal',
+				valueVertical: 'value-vertical',
+				valueNormal: 'value-normal',
+				valueLarge: 'value-large',
+				valueSub: 'value-sub'
+			},
+			'useRequestAnimationFrame': true
+		};
+
+		// AriaFormat defaults to regular format, if any.
+		if ( options.format && !options.ariaFormat ) {
+			options.ariaFormat = options.format;
+		}
+
+		// Run all options through a testing mechanism to ensure correct
+		// input. It should be noted that options might get modified to
+		// be handled properly. E.g. wrapping integers in arrays.
+		Object.keys(tests).forEach(function( name ){
+
+			// If the option isn't set, but it is required, throw an error.
+			if ( options[name] === undefined && defaults[name] === undefined ) {
+
+				if ( tests[name].r ) {
+					throw new Error("noUiSlider (" + VERSION + "): '" + name + "' is required.");
+				}
+
+				return true;
+			}
+
+			tests[name].t( parsed, options[name] === undefined ? defaults[name] : options[name] );
+		});
+
+		// Forward pips options
+		parsed.pips = options.pips;
+
+		var styles = [['left', 'top'], ['right', 'bottom']];
+
+		// Pre-define the styles.
+		parsed.style = styles[parsed.dir][parsed.ort];
+		parsed.styleOposite = styles[parsed.dir?0:1][parsed.ort];
+
+		return parsed;
+	}
+
+
+function closure ( target, options, originalOptions ){
+
+	var actions = getActions();
+	var supportsTouchActionNone = getSupportsTouchActionNone();
+	var supportsPassive = supportsTouchActionNone && getSupportsPassive();
+
+	// All variables local to 'closure' are prefixed with 'scope_'
+	var scope_Target = target;
+	var scope_Locations = [];
+	var scope_Base;
+	var scope_Handles;
+	var scope_HandleNumbers = [];
+	var scope_ActiveHandlesCount = 0;
+	var scope_Connects;
+	var scope_Spectrum = options.spectrum;
+	var scope_Values = [];
+	var scope_Events = {};
+	var scope_Self;
+	var scope_Pips;
+	var scope_Document = target.ownerDocument;
+	var scope_DocumentElement = scope_Document.documentElement;
+	var scope_Body = scope_Document.body;
+
+
+	// Creates a node, adds it to target, returns the new node.
+	function addNodeTo ( target, className ) {
+
+		var div = scope_Document.createElement('div');
+
+		if ( className ) {
+			addClass(div, className);
+		}
+
+		target.appendChild(div);
+
+		return div;
+	}
+
+	// Append a origin to the base
+	function addOrigin ( base, handleNumber ) {
+
+		var origin = addNodeTo(base, options.cssClasses.origin);
+		var handle = addNodeTo(origin, options.cssClasses.handle);
+
+		handle.setAttribute('data-handle', handleNumber);
+
+		// https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
+		// 0 = focusable and reachable
+		handle.setAttribute('tabindex', '0');
+		handle.setAttribute('role', 'slider');
+		handle.setAttribute('aria-orientation', options.ort ? 'vertical' : 'horizontal');
+
+		if ( handleNumber === 0 ) {
+			addClass(handle, options.cssClasses.handleLower);
+		}
+
+		else if ( handleNumber === options.handles - 1 ) {
+			addClass(handle, options.cssClasses.handleUpper);
+		}
+
+		return origin;
+	}
+
+	// Insert nodes for connect elements
+	function addConnect ( base, add ) {
+
+		if ( !add ) {
+			return false;
+		}
+
+		return addNodeTo(base, options.cssClasses.connect);
+	}
+
+	// Add handles to the slider base.
+	function addElements ( connectOptions, base ) {
+
+		scope_Handles = [];
+		scope_Connects = [];
+
+		scope_Connects.push(addConnect(base, connectOptions[0]));
+
+		// [::::O====O====O====]
+		// connectOptions = [0, 1, 1, 1]
+
+		for ( var i = 0; i < options.handles; i++ ) {
+			// Keep a list of all added handles.
+			scope_Handles.push(addOrigin(base, i));
+			scope_HandleNumbers[i] = i;
+			scope_Connects.push(addConnect(base, connectOptions[i + 1]));
+		}
+	}
+
+	// Initialize a single slider.
+	function addSlider ( target ) {
+
+		// Apply classes and data to the target.
+		addClass(target, options.cssClasses.target);
+
+		if ( options.dir === 0 ) {
+			addClass(target, options.cssClasses.ltr);
+		} else {
+			addClass(target, options.cssClasses.rtl);
+		}
+
+		if ( options.ort === 0 ) {
+			addClass(target, options.cssClasses.horizontal);
+		} else {
+			addClass(target, options.cssClasses.vertical);
+		}
+
+		scope_Base = addNodeTo(target, options.cssClasses.base);
+	}
+
+
+	function addTooltip ( handle, handleNumber ) {
+
+		if ( !options.tooltips[handleNumber] ) {
+			return false;
+		}
+
+		return addNodeTo(handle.firstChild, options.cssClasses.tooltip);
+	}
+
+	// The tooltips option is a shorthand for using the 'update' event.
+	function tooltips ( ) {
+
+		// Tooltips are added with options.tooltips in original order.
+		var tips = scope_Handles.map(addTooltip);
+
+		bindEvent('update', function(values, handleNumber, unencoded) {
+
+			if ( !tips[handleNumber] ) {
+				return;
+			}
+
+			var formattedValue = values[handleNumber];
+
+			if ( options.tooltips[handleNumber] !== true ) {
+				formattedValue = options.tooltips[handleNumber].to(unencoded[handleNumber]);
+			}
+
+			tips[handleNumber].innerHTML = formattedValue;
+		});
+	}
+
+
+	function aria ( ) {
+
+		bindEvent('update', function ( values, handleNumber, unencoded, tap, positions ) {
+
+			// Update Aria Values for all handles, as a change in one changes min and max values for the next.
+			scope_HandleNumbers.forEach(function( handleNumber ){
+
+				var handle = scope_Handles[handleNumber];
+
+				var min = checkHandlePosition(scope_Locations, handleNumber, 0, true, true, true);
+				var max = checkHandlePosition(scope_Locations, handleNumber, 100, true, true, true);
+
+				var now = positions[handleNumber];
+				var text = options.ariaFormat.to(unencoded[handleNumber]);
+
+				handle.children[0].setAttribute('aria-valuemin', min.toFixed(1));
+				handle.children[0].setAttribute('aria-valuemax', max.toFixed(1));
+				handle.children[0].setAttribute('aria-valuenow', now.toFixed(1));
+				handle.children[0].setAttribute('aria-valuetext', text);
+			});
+		});
+	}
+
+
+	function getGroup ( mode, values, stepped ) {
+
+		// Use the range.
+		if ( mode === 'range' || mode === 'steps' ) {
+			return scope_Spectrum.xVal;
+		}
+
+		if ( mode === 'count' ) {
+
+			if ( !values ) {
+				throw new Error("noUiSlider (" + VERSION + "): 'values' required for mode 'count'.");
+			}
+
+			// Divide 0 - 100 in 'count' parts.
+			var spread = ( 100 / (values - 1) );
+			var v;
+			var i = 0;
+
+			values = [];
+
+			// List these parts and have them handled as 'positions'.
+			while ( (v = i++ * spread) <= 100 ) {
+				values.push(v);
+			}
+
+			mode = 'positions';
+		}
+
+		if ( mode === 'positions' ) {
+
+			// Map all percentages to on-range values.
+			return values.map(function( value ){
+				return scope_Spectrum.fromStepping( stepped ? scope_Spectrum.getStep( value ) : value );
+			});
+		}
+
+		if ( mode === 'values' ) {
+
+			// If the value must be stepped, it needs to be converted to a percentage first.
+			if ( stepped ) {
+
+				return values.map(function( value ){
+
+					// Convert to percentage, apply step, return to value.
+					return scope_Spectrum.fromStepping( scope_Spectrum.getStep( scope_Spectrum.toStepping( value ) ) );
+				});
+
+			}
+
+			// Otherwise, we can simply use the values.
+			return values;
+		}
+	}
+
+	function generateSpread ( density, mode, group ) {
+
+		function safeIncrement(value, increment) {
+			// Avoid floating point variance by dropping the smallest decimal places.
+			return (value + increment).toFixed(7) / 1;
+		}
+
+		var indexes = {};
+		var firstInRange = scope_Spectrum.xVal[0];
+		var lastInRange = scope_Spectrum.xVal[scope_Spectrum.xVal.length-1];
+		var ignoreFirst = false;
+		var ignoreLast = false;
+		var prevPct = 0;
+
+		// Create a copy of the group, sort it and filter away all duplicates.
+		group = unique(group.slice().sort(function(a, b){ return a - b; }));
+
+		// Make sure the range starts with the first element.
+		if ( group[0] !== firstInRange ) {
+			group.unshift(firstInRange);
+			ignoreFirst = true;
+		}
+
+		// Likewise for the last one.
+		if ( group[group.length - 1] !== lastInRange ) {
+			group.push(lastInRange);
+			ignoreLast = true;
+		}
+
+		group.forEach(function ( current, index ) {
+
+			// Get the current step and the lower + upper positions.
+			var step;
+			var i;
+			var q;
+			var low = current;
+			var high = group[index+1];
+			var newPct;
+			var pctDifference;
+			var pctPos;
+			var type;
+			var steps;
+			var realSteps;
+			var stepsize;
+
+			// When using 'steps' mode, use the provided steps.
+			// Otherwise, we'll step on to the next subrange.
+			if ( mode === 'steps' ) {
+				step = scope_Spectrum.xNumSteps[ index ];
+			}
+
+			// Default to a 'full' step.
+			if ( !step ) {
+				step = high-low;
+			}
+
+			// Low can be 0, so test for false. If high is undefined,
+			// we are at the last subrange. Index 0 is already handled.
+			if ( low === false || high === undefined ) {
+				return;
+			}
+
+			// Make sure step isn't 0, which would cause an infinite loop (#654)
+			step = Math.max(step, 0.0000001);
+
+			// Find all steps in the subrange.
+			for ( i = low; i <= high; i = safeIncrement(i, step) ) {
+
+				// Get the percentage value for the current step,
+				// calculate the size for the subrange.
+				newPct = scope_Spectrum.toStepping( i );
+				pctDifference = newPct - prevPct;
+
+				steps = pctDifference / density;
+				realSteps = Math.round(steps);
+
+				// This ratio represents the ammount of percentage-space a point indicates.
+				// For a density 1 the points/percentage = 1. For density 2, that percentage needs to be re-devided.
+				// Round the percentage offset to an even number, then divide by two
+				// to spread the offset on both sides of the range.
+				stepsize = pctDifference/realSteps;
+
+				// Divide all points evenly, adding the correct number to this subrange.
+				// Run up to <= so that 100% gets a point, event if ignoreLast is set.
+				for ( q = 1; q <= realSteps; q += 1 ) {
+
+					// The ratio between the rounded value and the actual size might be ~1% off.
+					// Correct the percentage offset by the number of points
+					// per subrange. density = 1 will result in 100 points on the
+					// full range, 2 for 50, 4 for 25, etc.
+					pctPos = prevPct + ( q * stepsize );
+					indexes[pctPos.toFixed(5)] = ['x', 0];
+				}
+
+				// Determine the point type.
+				type = (group.indexOf(i) > -1) ? 1 : ( mode === 'steps' ? 2 : 0 );
+
+				// Enforce the 'ignoreFirst' option by overwriting the type for 0.
+				if ( !index && ignoreFirst ) {
+					type = 0;
+				}
+
+				if ( !(i === high && ignoreLast)) {
+					// Mark the 'type' of this point. 0 = plain, 1 = real value, 2 = step value.
+					indexes[newPct.toFixed(5)] = [i, type];
+				}
+
+				// Update the percentage count.
+				prevPct = newPct;
+			}
+		});
+
+		return indexes;
+	}
+
+	function addMarking ( spread, filterFunc, formatter ) {
+
+		var element = scope_Document.createElement('div');
+
+		var valueSizeClasses = [
+			options.cssClasses.valueNormal,
+			options.cssClasses.valueLarge,
+			options.cssClasses.valueSub
+		];
+		var markerSizeClasses = [
+			options.cssClasses.markerNormal,
+			options.cssClasses.markerLarge,
+			options.cssClasses.markerSub
+		];
+		var valueOrientationClasses = [
+			options.cssClasses.valueHorizontal,
+			options.cssClasses.valueVertical
+		];
+		var markerOrientationClasses = [
+			options.cssClasses.markerHorizontal,
+			options.cssClasses.markerVertical
+		];
+
+		addClass(element, options.cssClasses.pips);
+		addClass(element, options.ort === 0 ? options.cssClasses.pipsHorizontal : options.cssClasses.pipsVertical);
+
+		function getClasses( type, source ){
+			var a = source === options.cssClasses.value;
+			var orientationClasses = a ? valueOrientationClasses : markerOrientationClasses;
+			var sizeClasses = a ? valueSizeClasses : markerSizeClasses;
+
+			return source + ' ' + orientationClasses[options.ort] + ' ' + sizeClasses[type];
+		}
+
+		function addSpread ( offset, values ){
+
+			// Apply the filter function, if it is set.
+			values[1] = (values[1] && filterFunc) ? filterFunc(values[0], values[1]) : values[1];
+
+			// Add a marker for every point
+			var node = addNodeTo(element, false);
+				node.className = getClasses(values[1], options.cssClasses.marker);
+				node.style[options.style] = offset + '%';
+
+			// Values are only appended for points marked '1' or '2'.
+			if ( values[1] ) {
+				node = addNodeTo(element, false);
+				node.className = getClasses(values[1], options.cssClasses.value);
+				node.style[options.style] = offset + '%';
+				node.innerText = formatter.to(values[0]);
+			}
+		}
+
+		// Append all points.
+		Object.keys(spread).forEach(function(a){
+			addSpread(a, spread[a]);
+		});
+
+		return element;
+	}
+
+	function removePips ( ) {
+		if ( scope_Pips ) {
+			removeElement(scope_Pips);
+			scope_Pips = null;
+		}
+	}
+
+	function pips ( grid ) {
+
+		// Fix #669
+		removePips();
+
+		var mode = grid.mode;
+		var density = grid.density || 1;
+		var filter = grid.filter || false;
+		var values = grid.values || false;
+		var stepped = grid.stepped || false;
+		var group = getGroup( mode, values, stepped );
+		var spread = generateSpread( density, mode, group );
+		var format = grid.format || {
+			to: Math.round
+		};
+
+		scope_Pips = scope_Target.appendChild(addMarking(
+			spread,
+			filter,
+			format
+		));
+
+		return scope_Pips;
+	}
+
+
+	// Shorthand for base dimensions.
+	function baseSize ( ) {
+		var rect = scope_Base.getBoundingClientRect(), alt = 'offset' + ['Width', 'Height'][options.ort];
+		return options.ort === 0 ? (rect.width||scope_Base[alt]) : (rect.height||scope_Base[alt]);
+	}
+
+	// Handler for attaching events trough a proxy.
+	function attachEvent ( events, element, callback, data ) {
+
+		// This function can be used to 'filter' events to the slider.
+		// element is a node, not a nodeList
+
+		var method = function ( e ){
+
+			if ( scope_Target.hasAttribute('disabled') ) {
+				return false;
+			}
+
+			// Stop if an active 'tap' transition is taking place.
+			if ( hasClass(scope_Target, options.cssClasses.tap) ) {
+				return false;
+			}
+
+			e = fixEvent(e, data.pageOffset, data.target || element);
+
+			// Handle reject of multitouch
+			if ( !e ) {
+				return false;
+			}
+
+			// Ignore right or middle clicks on start #454
+			if ( events === actions.start && e.buttons !== undefined && e.buttons > 1 ) {
+				return false;
+			}
+
+			// Ignore right or middle clicks on start #454
+			if ( data.hover && e.buttons ) {
+				return false;
+			}
+
+			// 'supportsPassive' is only true if a browser also supports touch-action: none in CSS.
+			// iOS safari does not, so it doesn't get to benefit from passive scrolling. iOS does support
+			// touch-action: manipulation, but that allows panning, which breaks
+			// sliders after zooming/on non-responsive pages.
+			// See: https://bugs.webkit.org/show_bug.cgi?id=133112
+			if ( !supportsPassive ) {
+				e.preventDefault();
+			}
+
+			e.calcPoint = e.points[ options.ort ];
+
+			// Call the event handler with the event [ and additional data ].
+			callback ( e, data );
+		};
+
+		var methods = [];
+
+		// Bind a closure on the target for every event type.
+		events.split(' ').forEach(function( eventName ){
+			element.addEventListener(eventName, method, supportsPassive ? { passive: true } : false);
+			methods.push([eventName, method]);
+		});
+
+		return methods;
+	}
+
+	// Provide a clean event with standardized offset values.
+	function fixEvent ( e, pageOffset, target ) {
+
+		// Filter the event to register the type, which can be
+		// touch, mouse or pointer. Offset changes need to be
+		// made on an event specific basis.
+		var touch = e.type.indexOf('touch') === 0;
+		var mouse = e.type.indexOf('mouse') === 0;
+		var pointer = e.type.indexOf('pointer') === 0;
+
+		var x;
+		var y;
+
+		// IE10 implemented pointer events with a prefix;
+		if ( e.type.indexOf('MSPointer') === 0 ) {
+			pointer = true;
+		}
+
+
+		// In the event that multitouch is activated, the only thing one handle should be concerned
+		// about is the touches that originated on top of it.
+		if ( touch && options.multitouch ) {
+			// Returns true if a touch originated on the target.
+			var isTouchOnTarget = function (touch) {
+				return touch.target === target || target.contains(touch.target);
+			};
+			// In the case of touchstart events, we need to make sure there is still no more than one
+			// touch on the target so we look amongst all touches.
+			if (e.type === 'touchstart') {
+				var targetTouches = Array.prototype.filter.call(e.touches, isTouchOnTarget);
+				// Do not support more than one touch per handle.
+				if ( targetTouches.length > 1 ) {
+					return false;
+				}
+				x = targetTouches[0].pageX;
+				y = targetTouches[0].pageY;
+			} else {
+			// In the other cases, find on changedTouches is enough.
+				var targetTouch = Array.prototype.find.call(e.changedTouches, isTouchOnTarget);
+				// Cancel if the target touch has not moved.
+				if ( !targetTouch ) {
+					return false;
+				}
+				x = targetTouch.pageX;
+				y = targetTouch.pageY;
+			}
+		} else if ( touch ) {
+			// Fix bug when user touches with two or more fingers on mobile devices.
+			// It's useful when you have two or more sliders on one page,
+			// that can be touched simultaneously.
+			// #649, #663, #668
+			if ( e.touches.length > 1 ) {
+				return false;
+			}
+
+			// noUiSlider supports one movement at a time,
+			// so we can select the first 'changedTouch'.
+			x = e.changedTouches[0].pageX;
+			y = e.changedTouches[0].pageY;
+		}
+
+		pageOffset = pageOffset || getPageOffset(scope_Document);
+
+		if ( mouse || pointer ) {
+			x = e.clientX + pageOffset.x;
+			y = e.clientY + pageOffset.y;
+		}
+
+		e.pageOffset = pageOffset;
+		e.points = [x, y];
+		e.cursor = mouse || pointer; // Fix #435
+
+		return e;
+	}
+
+	// Translate a coordinate in the document to a percentage on the slider
+	function calcPointToPercentage ( calcPoint ) {
+		var location = calcPoint - offset(scope_Base, options.ort);
+		var proposal = ( location * 100 ) / baseSize();
+		return options.dir ? 100 - proposal : proposal;
+	}
+
+	// Find handle closest to a certain percentage on the slider
+	function getClosestHandle ( proposal ) {
+
+		var closest = 100;
+		var handleNumber = false;
+
+		scope_Handles.forEach(function(handle, index){
+
+			// Disabled handles are ignored
+			if ( handle.hasAttribute('disabled') ) {
+				return;
+			}
+
+			var pos = Math.abs(scope_Locations[index] - proposal);
+
+			if ( pos < closest ) {
+				handleNumber = index;
+				closest = pos;
+			}
+		});
+
+		return handleNumber;
+	}
+
+	// Moves handle(s) by a percentage
+	// (bool, % to move, [% where handle started, ...], [index in scope_Handles, ...])
+	function moveHandles ( upward, proposal, locations, handleNumbers ) {
+
+		var proposals = locations.slice();
+
+		var b = [!upward, upward];
+		var f = [upward, !upward];
+
+		// Copy handleNumbers so we don't change the dataset
+		handleNumbers = handleNumbers.slice();
+
+		// Check to see which handle is 'leading'.
+		// If that one can't move the second can't either.
+		if ( upward ) {
+			handleNumbers.reverse();
+		}
+
+		// Step 1: get the maximum percentage that any of the handles can move
+		if ( handleNumbers.length > 1 ) {
+
+			handleNumbers.forEach(function(handleNumber, o) {
+
+				var to = checkHandlePosition(proposals, handleNumber, proposals[handleNumber] + proposal, b[o], f[o], false);
+
+				// Stop if one of the handles can't move.
+				if ( to === false ) {
+					proposal = 0;
+				} else {
+					proposal = to - proposals[handleNumber];
+					proposals[handleNumber] = to;
+				}
+			});
+		}
+
+		// If using one handle, check backward AND forward
+		else {
+			b = f = [true];
+		}
+
+		var state = false;
+
+		// Step 2: Try to set the handles with the found percentage
+		handleNumbers.forEach(function(handleNumber, o) {
+			state = setHandle(handleNumber, locations[handleNumber] + proposal, b[o], f[o]) || state;
+		});
+
+		// Step 3: If a handle moved, fire events
+		if ( state ) {
+			handleNumbers.forEach(function(handleNumber){
+				fireEvent('update', handleNumber);
+				fireEvent('slide', handleNumber);
+			});
+		}
+	}
+
+	// External event handling
+	function fireEvent ( eventName, handleNumber, tap ) {
+
+		Object.keys(scope_Events).forEach(function( targetEvent ) {
+
+			var eventType = targetEvent.split('.')[0];
+
+			if ( eventName === eventType ) {
+				scope_Events[targetEvent].forEach(function( callback ) {
+
+					callback.call(
+						// Use the slider public API as the scope ('this')
+						scope_Self,
+						// Return values as array, so arg_1[arg_2] is always valid.
+						scope_Values.map(options.format.to),
+						// Handle index, 0 or 1
+						handleNumber,
+						// Unformatted slider values
+						scope_Values.slice(),
+						// Event is fired by tap, true or false
+						tap || false,
+						// Left offset of the handle, in relation to the slider
+						scope_Locations.slice()
+					);
+				});
+			}
+		});
+	}
+
+
+	// Fire 'end' when a mouse or pen leaves the document.
+	function documentLeave ( event, data ) {
+		if ( event.type === "mouseout" && event.target.nodeName === "HTML" && event.relatedTarget === null ){
+			eventEnd (event, data);
+		}
+	}
+
+	// Handle movement on document for handle and range drag.
+	function eventMove ( event, data ) {
+
+		// Fix #498
+		// Check value of .buttons in 'start' to work around a bug in IE10 mobile (data.buttonsProperty).
+		// https://connect.microsoft.com/IE/feedback/details/927005/mobile-ie10-windows-phone-buttons-property-of-pointermove-event-always-zero
+		// IE9 has .buttons and .which zero on mousemove.
+		// Firefox breaks the spec MDN defines.
+		if ( navigator.appVersion.indexOf("MSIE 9") === -1 && event.buttons === 0 && data.buttonsProperty !== 0 ) {
+			return eventEnd(event, data);
+		}
+
+		// Check if we are moving up or down
+		var movement = (options.dir ? -1 : 1) * (event.calcPoint - data.startCalcPoint);
+
+		// Convert the movement into a percentage of the slider width/height
+		var proposal = (movement * 100) / data.baseSize;
+
+		moveHandles(movement > 0, proposal, data.locations, data.handleNumbers);
+	}
+
+	// Unbind move events on document, call callbacks.
+	function eventEnd ( event, data ) {
+
+		// The handle is no longer active, so remove the class.
+		if ( data.handle ) {
+			removeClass(data.handle, options.cssClasses.active);
+			scope_ActiveHandlesCount -= 1;
+		}
+
+		// Unbind the move and end events, which are added on 'start'.
+		data.listeners.forEach(function( c ) {
+			scope_DocumentElement.removeEventListener(c[0], c[1]);
+		});
+
+		if ( scope_ActiveHandlesCount === 0 ) {
+			// Remove dragging class.
+			removeClass(scope_Target, options.cssClasses.drag);
+			setZindex();
+
+			// Remove cursor styles and text-selection events bound to the body.
+			if ( event.cursor ) {
+				scope_Body.style.cursor = '';
+				scope_Body.removeEventListener('selectstart', preventDefault);
+			}
+		}
+
+		data.handleNumbers.forEach(function(handleNumber){
+			fireEvent('change', handleNumber);
+			fireEvent('set', handleNumber);
+			fireEvent('end', handleNumber);
+		});
+	}
+
+	// Bind move events on document.
+	function eventStart ( event, data ) {
+
+		var handle;
+		if ( data.handleNumbers.length === 1 ) {
+
+			var handleOrigin = scope_Handles[data.handleNumbers[0]];
+
+			// Ignore 'disabled' handles
+			if ( handleOrigin.hasAttribute('disabled') ) {
+				return false;
+			}
+
+			handle = handleOrigin.children[0];
+			scope_ActiveHandlesCount += 1;
+
+			// Mark the handle as 'active' so it can be styled.
+			addClass(handle, options.cssClasses.active);
+		}
+
+		// A drag should never propagate up to the 'tap' event.
+		event.stopPropagation();
+
+		// Record the event listeners.
+		var listeners = [];
+
+		// Attach the move and end events.
+		var moveEvent = attachEvent(actions.move, scope_DocumentElement, eventMove, {
+			// The event target has changed so we need to propagate the original one so that we keep
+			// relying on it to extract target touches.
+			target: event.target,
+			handle: handle,
+			listeners: listeners,
+			startCalcPoint: event.calcPoint,
+			baseSize: baseSize(),
+			pageOffset: event.pageOffset,
+			handleNumbers: data.handleNumbers,
+			buttonsProperty: event.buttons,
+			locations: scope_Locations.slice()
+		});
+
+		var endEvent = attachEvent(actions.end, scope_DocumentElement, eventEnd, {
+			target: event.target,
+			handle: handle,
+			listeners: listeners,
+			handleNumbers: data.handleNumbers
+		});
+
+		var outEvent = attachEvent("mouseout", scope_DocumentElement, documentLeave, {
+			target: event.target,
+			handle: handle,
+			listeners: listeners,
+			handleNumbers: data.handleNumbers
+		});
+
+		// We want to make sure we pushed the listeners in the listener list rather than creating
+		// a new one as it has already been passed to the event handlers.
+		listeners.push.apply(listeners, moveEvent.concat(endEvent, outEvent));
+
+		// Text selection isn't an issue on touch devices,
+		// so adding cursor styles can be skipped.
+		if ( event.cursor ) {
+
+			// Prevent the 'I' cursor and extend the range-drag cursor.
+			scope_Body.style.cursor = getComputedStyle(event.target).cursor;
+
+			// Mark the target with a dragging state.
+			if ( scope_Handles.length > 1 ) {
+				addClass(scope_Target, options.cssClasses.drag);
+			}
+
+			// Prevent text selection when dragging the handles.
+			// In noUiSlider <= 9.2.0, this was handled by calling preventDefault on mouse/touch start/move,
+			// which is scroll blocking. The selectstart event is supported by FireFox starting from version 52,
+			// meaning the only holdout is iOS Safari. This doesn't matter: text selection isn't triggered there.
+			// The 'cursor' flag is false.
+			// See: http://caniuse.com/#search=selectstart
+			scope_Body.addEventListener('selectstart', preventDefault, false);
+		}
+
+		data.handleNumbers.forEach(function(handleNumber){
+			fireEvent('start', handleNumber);
+		});
+	}
+
+	// Move closest handle to tapped location.
+	function eventTap ( event ) {
+
+		// The tap event shouldn't propagate up
+		event.stopPropagation();
+
+		var proposal = calcPointToPercentage(event.calcPoint);
+		var handleNumber = getClosestHandle(proposal);
+
+		// Tackle the case that all handles are 'disabled'.
+		if ( handleNumber === false ) {
+			return false;
+		}
+
+		// Flag the slider as it is now in a transitional state.
+		// Transition takes a configurable amount of ms (default 300). Re-enable the slider after that.
+		if ( !options.events.snap ) {
+			addClassFor(scope_Target, options.cssClasses.tap, options.animationDuration);
+		}
+
+		setHandle(handleNumber, proposal, true, true);
+
+		setZindex();
+
+		fireEvent('slide', handleNumber, true);
+		fireEvent('update', handleNumber, true);
+		fireEvent('change', handleNumber, true);
+		fireEvent('set', handleNumber, true);
+
+		if ( options.events.snap ) {
+			eventStart(event, { handleNumbers: [handleNumber] });
+		}
+	}
+
+	// Fires a 'hover' event for a hovered mouse/pen position.
+	function eventHover ( event ) {
+
+		var proposal = calcPointToPercentage(event.calcPoint);
+
+		var to = scope_Spectrum.getStep(proposal);
+		var value = scope_Spectrum.fromStepping(to);
+
+		Object.keys(scope_Events).forEach(function( targetEvent ) {
+			if ( 'hover' === targetEvent.split('.')[0] ) {
+				scope_Events[targetEvent].forEach(function( callback ) {
+					callback.call( scope_Self, value );
+				});
+			}
+		});
+	}
+
+	// Attach events to several slider parts.
+	function bindSliderEvents ( behaviour ) {
+
+		// Attach the standard drag event to the handles.
+		if ( !behaviour.fixed ) {
+
+			scope_Handles.forEach(function( handle, index ){
+
+				// These events are only bound to the visual handle
+				// element, not the 'real' origin element.
+				attachEvent ( actions.start, handle.children[0], eventStart, {
+					handleNumbers: [index]
+				});
+			});
+		}
+
+		// Attach the tap event to the slider base.
+		if ( behaviour.tap ) {
+			attachEvent (actions.start, scope_Base, eventTap, {});
+		}
+
+		// Fire hover events
+		if ( behaviour.hover ) {
+			attachEvent (actions.move, scope_Base, eventHover, { hover: true });
+		}
+
+		// Make the range draggable.
+		if ( behaviour.drag ){
+
+			scope_Connects.forEach(function( connect, index ){
+
+				if ( connect === false || index === 0 || index === scope_Connects.length - 1 ) {
+					return;
+				}
+
+				var handleBefore = scope_Handles[index - 1];
+				var handleAfter = scope_Handles[index];
+				var eventHolders = [connect];
+
+				addClass(connect, options.cssClasses.draggable);
+
+				// When the range is fixed, the entire range can
+				// be dragged by the handles. The handle in the first
+				// origin will propagate the start event upward,
+				// but it needs to be bound manually on the other.
+				if ( behaviour.fixed ) {
+					eventHolders.push(handleBefore.children[0]);
+					eventHolders.push(handleAfter.children[0]);
+				}
+
+				eventHolders.forEach(function( eventHolder ) {
+					attachEvent ( actions.start, eventHolder, eventStart, {
+						handles: [handleBefore, handleAfter],
+						handleNumbers: [index - 1, index]
+					});
+				});
+			});
+		}
+	}
+
+
+	// Split out the handle positioning logic so the Move event can use it, too
+	function checkHandlePosition ( reference, handleNumber, to, lookBackward, lookForward, getValue ) {
+
+		// For sliders with multiple handles, limit movement to the other handle.
+		// Apply the margin option by adding it to the handle positions.
+		if ( scope_Handles.length > 1 ) {
+
+			if ( lookBackward && handleNumber > 0 ) {
+				to = Math.max(to, reference[handleNumber - 1] + options.margin);
+			}
+
+			if ( lookForward && handleNumber < scope_Handles.length - 1 ) {
+				to = Math.min(to, reference[handleNumber + 1] - options.margin);
+			}
+		}
+
+		// The limit option has the opposite effect, limiting handles to a
+		// maximum distance from another. Limit must be > 0, as otherwise
+		// handles would be unmoveable.
+		if ( scope_Handles.length > 1 && options.limit ) {
+
+			if ( lookBackward && handleNumber > 0 ) {
+				to = Math.min(to, reference[handleNumber - 1] + options.limit);
+			}
+
+			if ( lookForward && handleNumber < scope_Handles.length - 1 ) {
+				to = Math.max(to, reference[handleNumber + 1] - options.limit);
+			}
+		}
+
+		// The padding option keeps the handles a certain distance from the
+		// edges of the slider. Padding must be > 0.
+		if ( options.padding ) {
+
+			if ( handleNumber === 0 ) {
+				to = Math.max(to, options.padding);
+			}
+
+			if ( handleNumber === scope_Handles.length - 1 ) {
+				to = Math.min(to, 100 - options.padding);
+			}
+		}
+
+		to = scope_Spectrum.getStep(to);
+
+		// Limit percentage to the 0 - 100 range
+		to = limit(to);
+
+		// Return false if handle can't move
+		if ( to === reference[handleNumber] && !getValue ) {
+			return false;
+		}
+
+		return to;
+	}
+
+	function toPct ( pct ) {
+		return pct + '%';
+	}
+
+	// Updates scope_Locations and scope_Values, updates visual state
+	function updateHandlePosition ( handleNumber, to ) {
+
+		// Update locations.
+		scope_Locations[handleNumber] = to;
+
+		// Convert the value to the slider stepping/range.
+		scope_Values[handleNumber] = scope_Spectrum.fromStepping(to);
+
+		// Called synchronously or on the next animationFrame
+		var stateUpdate = function() {
+			scope_Handles[handleNumber].style[options.style] = toPct(to);
+			updateConnect(handleNumber);
+			updateConnect(handleNumber + 1);
+		};
+
+		// Set the handle to the new position.
+		// Use requestAnimationFrame for efficient painting.
+		// No significant effect in Chrome, Edge sees dramatic performace improvements.
+		// Option to disable is useful for unit tests, and single-step debugging.
+		if ( window.requestAnimationFrame && options.useRequestAnimationFrame ) {
+			window.requestAnimationFrame(stateUpdate);
+		} else {
+			stateUpdate();
+		}
+	}
+
+	function setZindex ( ) {
+
+		scope_HandleNumbers.forEach(function(handleNumber){
+			// Handles before the slider middle are stacked later = higher,
+			// Handles after the middle later is lower
+			// [[7] [8] .......... | .......... [5] [4]
+			var dir = (scope_Locations[handleNumber] > 50 ? -1 : 1);
+			var zIndex = 3 + (scope_Handles.length + (dir * handleNumber));
+			scope_Handles[handleNumber].childNodes[0].style.zIndex = zIndex;
+		});
+	}
+
+	// Test suggested values and apply margin, step.
+	function setHandle ( handleNumber, to, lookBackward, lookForward ) {
+
+		to = checkHandlePosition(scope_Locations, handleNumber, to, lookBackward, lookForward, false);
+
+		if ( to === false ) {
+			return false;
+		}
+
+		updateHandlePosition(handleNumber, to);
+
+		return true;
+	}
+
+	// Updates style attribute for connect nodes
+	function updateConnect ( index ) {
+
+		// Skip connects set to false
+		if ( !scope_Connects[index] ) {
+			return;
+		}
+
+		var l = 0;
+		var h = 100;
+
+		if ( index !== 0 ) {
+			l = scope_Locations[index - 1];
+		}
+
+		if ( index !== scope_Connects.length - 1 ) {
+			h = scope_Locations[index];
+		}
+
+		scope_Connects[index].style[options.style] = toPct(l);
+		scope_Connects[index].style[options.styleOposite] = toPct(100 - h);
+	}
+
+	// ...
+	function setValue ( to, handleNumber ) {
+
+		// Setting with null indicates an 'ignore'.
+		// Inputting 'false' is invalid.
+		if ( to === null || to === false ) {
+			return;
+		}
+
+		// If a formatted number was passed, attemt to decode it.
+		if ( typeof to === 'number' ) {
+			to = String(to);
+		}
+
+		to = options.format.from(to);
+
+		// Request an update for all links if the value was invalid.
+		// Do so too if setting the handle fails.
+		if ( to !== false && !isNaN(to) ) {
+			setHandle(handleNumber, scope_Spectrum.toStepping(to), false, false);
+		}
+	}
+
+	// Set the slider value.
+	function valueSet ( input, fireSetEvent ) {
+
+		var values = asArray(input);
+		var isInit = scope_Locations[0] === undefined;
+
+		// Event fires by default
+		fireSetEvent = (fireSetEvent === undefined ? true : !!fireSetEvent);
+
+		values.forEach(setValue);
+
+		// Animation is optional.
+		// Make sure the initial values were set before using animated placement.
+		if ( options.animate && !isInit ) {
+			addClassFor(scope_Target, options.cssClasses.tap, options.animationDuration);
+		}
+
+		// Now that all base values are set, apply constraints
+		scope_HandleNumbers.forEach(function(handleNumber){
+			setHandle(handleNumber, scope_Locations[handleNumber], true, false);
+		});
+
+		setZindex();
+
+		scope_HandleNumbers.forEach(function(handleNumber){
+
+			fireEvent('update', handleNumber);
+
+			// Fire the event only for handles that received a new value, as per #579
+			if ( values[handleNumber] !== null && fireSetEvent ) {
+				fireEvent('set', handleNumber);
+			}
+		});
+	}
+
+	// Reset slider to initial values
+	function valueReset ( fireSetEvent ) {
+		valueSet(options.start, fireSetEvent);
+	}
+
+	// Get the slider value.
+	function valueGet ( ) {
+
+		var values = scope_Values.map(options.format.to);
+
+		// If only one handle is used, return a single value.
+		if ( values.length === 1 ){
+			return values[0];
+		}
+
+		return values;
+	}
+
+	// Removes classes from the root and empties it.
+	function destroy ( ) {
+
+		for ( var key in options.cssClasses ) {
+			if ( !options.cssClasses.hasOwnProperty(key) ) { continue; }
+			removeClass(scope_Target, options.cssClasses[key]);
+		}
+
+		while (scope_Target.firstChild) {
+			scope_Target.removeChild(scope_Target.firstChild);
+		}
+
+		delete scope_Target.noUiSlider;
+	}
+
+	// Get the current step size for the slider.
+	function getCurrentStep ( ) {
+
+		// Check all locations, map them to their stepping point.
+		// Get the step point, then find it in the input list.
+		return scope_Locations.map(function( location, index ){
+
+			var nearbySteps = scope_Spectrum.getNearbySteps( location );
+			var value = scope_Values[index];
+			var increment = nearbySteps.thisStep.step;
+			var decrement = null;
+
+			// If the next value in this step moves into the next step,
+			// the increment is the start of the next step - the current value
+			if ( increment !== false ) {
+				if ( value + increment > nearbySteps.stepAfter.startValue ) {
+					increment = nearbySteps.stepAfter.startValue - value;
+				}
+			}
+
+
+			// If the value is beyond the starting point
+			if ( value > nearbySteps.thisStep.startValue ) {
+				decrement = nearbySteps.thisStep.step;
+			}
+
+			else if ( nearbySteps.stepBefore.step === false ) {
+				decrement = false;
+			}
+
+			// If a handle is at the start of a step, it always steps back into the previous step first
+			else {
+				decrement = value - nearbySteps.stepBefore.highestStep;
+			}
+
+
+			// Now, if at the slider edges, there is not in/decrement
+			if ( location === 100 ) {
+				increment = null;
+			}
+
+			else if ( location === 0 ) {
+				decrement = null;
+			}
+
+			// As per #391, the comparison for the decrement step can have some rounding issues.
+			var stepDecimals = scope_Spectrum.countStepDecimals();
+
+			// Round per #391
+			if ( increment !== null && increment !== false ) {
+				increment = Number(increment.toFixed(stepDecimals));
+			}
+
+			if ( decrement !== null && decrement !== false ) {
+				decrement = Number(decrement.toFixed(stepDecimals));
+			}
+
+			return [decrement, increment];
+		});
+	}
+
+	// Attach an event to this slider, possibly including a namespace
+	function bindEvent ( namespacedEvent, callback ) {
+		scope_Events[namespacedEvent] = scope_Events[namespacedEvent] || [];
+		scope_Events[namespacedEvent].push(callback);
+
+		// If the event bound is 'update,' fire it immediately for all handles.
+		if ( namespacedEvent.split('.')[0] === 'update' ) {
+			scope_Handles.forEach(function(a, index){
+				fireEvent('update', index);
+			});
+		}
+	}
+
+	// Undo attachment of event
+	function removeEvent ( namespacedEvent ) {
+
+		var event = namespacedEvent && namespacedEvent.split('.')[0];
+		var namespace = event && namespacedEvent.substring(event.length);
+
+		Object.keys(scope_Events).forEach(function( bind ){
+
+			var tEvent = bind.split('.')[0],
+				tNamespace = bind.substring(tEvent.length);
+
+			if ( (!event || event === tEvent) && (!namespace || namespace === tNamespace) ) {
+				delete scope_Events[bind];
+			}
+		});
+	}
+
+	// Updateable: margin, limit, padding, step, range, animate, snap
+	function updateOptions ( optionsToUpdate, fireSetEvent ) {
+
+		// Spectrum is created using the range, snap, direction and step options.
+		// 'snap' and 'step' can be updated.
+		// If 'snap' and 'step' are not passed, they should remain unchanged.
+		var v = valueGet();
+
+		var updateAble = ['margin', 'limit', 'padding', 'range', 'animate', 'snap', 'step', 'format'];
+
+		// Only change options that we're actually passed to update.
+		updateAble.forEach(function(name){
+			if ( optionsToUpdate[name] !== undefined ) {
+				originalOptions[name] = optionsToUpdate[name];
+			}
+		});
+
+		var newOptions = testOptions(originalOptions);
+
+		// Load new options into the slider state
+		updateAble.forEach(function(name){
+			if ( optionsToUpdate[name] !== undefined ) {
+				options[name] = newOptions[name];
+			}
+		});
+
+		scope_Spectrum = newOptions.spectrum;
+
+		// Limit, margin and padding depend on the spectrum but are stored outside of it. (#677)
+		options.margin = newOptions.margin;
+		options.limit = newOptions.limit;
+		options.padding = newOptions.padding;
+
+		// Update pips, removes existing.
+		if ( options.pips ) {
+			pips(options.pips);
+		}
+
+		// Invalidate the current positioning so valueSet forces an update.
+		scope_Locations = [];
+		valueSet(optionsToUpdate.start || v, fireSetEvent);
+	}
+
+	// Throw an error if the slider was already initialized.
+	if ( scope_Target.noUiSlider ) {
+		throw new Error("noUiSlider (" + VERSION + "): Slider was already initialized.");
+	}
+
+	// Create the base element, initialise HTML and set classes.
+	// Add handles and connect elements.
+	addSlider(scope_Target);
+	addElements(options.connect, scope_Base);
+
+	scope_Self = {
+		destroy: destroy,
+		steps: getCurrentStep,
+		on: bindEvent,
+		off: removeEvent,
+		get: valueGet,
+		set: valueSet,
+		reset: valueReset,
+		// Exposed for unit testing, don't use this in your application.
+		__moveHandles: function(a, b, c) { moveHandles(a, b, scope_Locations, c); },
+		options: originalOptions, // Issue #600, #678
+		updateOptions: updateOptions,
+		target: scope_Target, // Issue #597
+		removePips: removePips,
+		pips: pips // Issue #594
+	};
+
+	// Attach user events.
+	bindSliderEvents(options.events);
+
+	// Use the public value method to set the start values.
+	valueSet(options.start);
+
+	if ( options.pips ) {
+		pips(options.pips);
+	}
+
+	if ( options.tooltips ) {
+		tooltips();
+	}
+
+	aria();
+
+	return scope_Self;
+
+}
+
+
+	// Run the standard initializer
+	function initialize ( target, originalOptions ) {
+
+		if ( !target || !target.nodeName ) {
+			throw new Error("noUiSlider (" + VERSION + "): create requires a single element, got: " + target);
+		}
+
+		// Test the options and create the slider environment;
+		var options = testOptions( originalOptions, target );
+		var api = closure( target, options, originalOptions );
+
+		target.noUiSlider = api;
+
+		return api;
+	}
+
+	// Use an object instead of a function for future expansibility;
+	return {
+		version: VERSION,
+		create: initialize
+	};
+
+}));
 
 /***/ })
-
-/******/ });
+/******/ ]);

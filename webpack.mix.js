@@ -19,7 +19,7 @@ mix.autoload({
 mix.js([
     // 'node_modules/jquery/dist/jquery.min.js',
     'node_modules/tether/dist/js/tether.min.js',
-    'node_modules/bootstrap/dist/js/bootstrap.min.js',
+    'node_modules/bootstrap/dist/js/bootstrap.js',
     'resources/assets/js/app.js',
 ], 'public/js/app.js')
     .sass('resources/assets/sass/app.scss', 'public/css/app.css');
@@ -31,6 +31,9 @@ mix.js([
     'node_modules/typed.js/lib/typed.min.js',
     'public/Hi_Framework/components/Slider/Other Libraries/noUI/nouislider.min.js',
     'node_modules/wnumb/wNumb.js',
+    'node_modules/sweetalert2/src/sweetalert2.js',
+    'node_modules/bootstrap-multiselect/dist/js/bootstrap-multiselect.js',
+    'public/Hi_Framework/javascript/other/jquery.roto.min.js',
     'resources/assets/js/public.js',
 ], 'public/js/libraries.js');
 

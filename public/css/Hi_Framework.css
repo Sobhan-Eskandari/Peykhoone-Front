@@ -419,7 +419,7 @@ select.selectpicker {
 .pure-radiobutton input[type="checkbox"]:hover + label:before,
 .pure-checkbox input[type="radio"]:hover + label:before,
 .pure-radiobutton input[type="radio"]:hover + label:before {
-  border-color: #42b574;
+  border-color: #007991;
   background-color: #f2f2f2;
 }
 
@@ -436,12 +436,13 @@ select.selectpicker {
 .pure-checkbox input[type="radio"] + label,
 .pure-radiobutton input[type="radio"] + label {
   position: relative;
-  padding-left: 2em;
+  padding-right: 2em;
   vertical-align: middle;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  direction: rtl;
   cursor: pointer;
 }
 
@@ -452,14 +453,15 @@ select.selectpicker {
   -webkit-box-sizing: content-box;
           box-sizing: content-box;
   content: '';
-  color: #42b574;
+  color: #007991;
   position: absolute;
-  top: 50%;
-  left: 0;
+  border-radius: 5px;
+  top: 10px;
+  right: 0;
   width: 14px;
   height: 14px;
   margin-top: -9px;
-  border: 2px solid #42b574;
+  border: 2px solid #007991;
   text-align: center;
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
@@ -472,10 +474,10 @@ select.selectpicker {
   -webkit-box-sizing: content-box;
           box-sizing: content-box;
   content: '';
-  background-color: #42b574;
+  background-color: #007991;
   position: absolute;
-  top: 50%;
-  left: 4px;
+  top: 10px;
+  right: 4px;
   width: 10px;
   height: 10px;
   margin-top: -5px;
@@ -517,8 +519,8 @@ select.selectpicker {
 .pure-checkbox input[type="checkbox"] + label:after,
 .pure-radiobutton input[type="checkbox"] + label:after {
   background-color: transparent;
-  top: 50%;
-  left: 4px;
+  top: 10px;
+  left: 13px;
   width: 8px;
   height: 3px;
   margin-top: -4px;
@@ -566,7 +568,12 @@ select.selectpicker {
 .pure-radiobutton input[type="checkbox"]:checked + label:before {
   -webkit-animation: borderscale 200ms ease-in;
           animation: borderscale 200ms ease-in;
-  background: #7acb9d;
+  background: #007991;
+}
+
+.pure-checkbox input[type="checkbox"]:checked + label,
+.pure-radiobutton input[type="checkbox"]:checked + label {
+  color: black;
 }
 
 .pure-checkbox input[type="checkbox"]:checked + label:after,
@@ -577,15 +584,15 @@ select.selectpicker {
 
 @-webkit-keyframes borderscale {
   50% {
-    -webkit-box-shadow: 0 0 0 2px #7acb9d;
-            box-shadow: 0 0 0 2px #7acb9d;
+    -webkit-box-shadow: 0 0 0 2px #007991;
+            box-shadow: 0 0 0 2px #007991;
   }
 }
 
 @keyframes borderscale {
   50% {
-    -webkit-box-shadow: 0 0 0 2px #7acb9d;
-            box-shadow: 0 0 0 2px #7acb9d;
+    -webkit-box-shadow: 0 0 0 2px #007991;
+            box-shadow: 0 0 0 2px #007991;
   }
 }
 
