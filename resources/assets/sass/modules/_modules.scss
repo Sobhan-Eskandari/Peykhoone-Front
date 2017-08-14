@@ -59,6 +59,7 @@
   padding: 8px 10px;
   border: transparent;
   font-weight: 200;
+  transition: all 0.3s ease;
 
   &:hover {
     -webkit-filter: brightness(120%);
@@ -88,6 +89,10 @@
 .m-btn-appdl {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
   border-radius: 60px;
+  width: 100%;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  font-size: 15px;
 }
 
 .m-btn-gradientOutline {
@@ -648,6 +653,29 @@
 
 }
 
+/* ============[ Hamkaran Style ]=========== */
+.m-carousel-cell {
+  width: 100%;
+  height: auto;
+  margin-right: 10px;
+  counter-increment: gallery-cell;
+  img{
+    width: 120px;
+  }
+}
+.flickity-page-dots .dot {
+  width: 17px;
+  height: 17px;
+  background: #CBCBCB;
+  transition: all 0.3s ease;
+}
+.flickity-page-dots .dot.is-selected{
+  opacity: 1;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24) !important;
+  transform: scale(1.3);
+  background-color: #73F9D4 !important;
+}
+
 /* ============[ Digital Painting Style ]=========== */
 
 .digitalPainting-title{
@@ -842,4 +870,5 @@
 @media (min-width: 1200px) {
 
 }
+
 

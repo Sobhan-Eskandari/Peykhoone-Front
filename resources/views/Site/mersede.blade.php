@@ -62,6 +62,7 @@
 </div>
 
 <hr>
+
 {{--about us--}}
 <div class="container-fluid l-rtl">
     <div class="row px-lg-5 m-aboutUs justify-content-around">
@@ -75,10 +76,8 @@
                 &nbsp;&nbsp;&nbsp;(۰۱۳) ۵۸۰ ۱۸۹۹
             </h6>
         </div>
-
     </div>
 </div>
-
 <hr>
 {{--real state instance--}}
 <div class="container">
