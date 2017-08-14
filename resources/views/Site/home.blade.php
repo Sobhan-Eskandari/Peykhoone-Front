@@ -6,7 +6,7 @@
     <Header class="container-fluid">
         <div class="row">
             <div class="col-12 p-0" id="Header">
-                <img class="img-fluid" src="{{asset('images/header.jpg')}}" alt="عکسی از رشت">
+                <img class="img-fluid l-fullWidth" src="{{asset('images/header.jpg')}}" alt="عکسی از رشت">
                 <h1 class="header-mainTitle l-absolute">محلی برای مشاهده املاک و مستغلات</h1>
                 <h2 class="header-subTitle l-absolute mt-sm-3 mt-md-3 mt-lg-0">جامع ترین وبسایت املاک رشت و دیگر شهرهای گیلان</h2>
                 <p class="header-arrow text-center l-absolute hi-fontSize-13 mt-md-3"><i class="fa fa-chevron-down fa-3x white-text"></i></p>
@@ -307,6 +307,7 @@
                     </div>
                 </div>
             </div>
+            {{------------- [ Show more home ] ------------}}
             <div class="row justify-content-center mt-4">
                 <div class="col-auto">
                     <button class="m-btn m-btn-gradient">مشاهده بیشتر</button>
@@ -314,5 +315,88 @@
             </div>
         </div>
     </section>
+
+    {{------------- [ Download Peykhoone App Section ] ------------}}
+    <section class="l-appDownload">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-xl-5 col-md-8">
+                    {{------------- [  Peykhoone App Image ] ------------}}
+                    <img class="img-fluid" src="{{asset('images/mobile.png')}}">
+                </div>
+                <div class="col-lg-7 col-xl-7 col-md-11">
+                    {{------------- [ About Peykhoone App ] ------------}}
+                    <h2 class="text-right mt-5 hi-lineHeight-45">همین حالا اپلیکیشن پی خونه را دانلود کنید</h2>
+                    <p class="hi-lineHeight-40 medium-title text-right hi-fontSize-22 mt-5">به سادگی می توانید اپلیکیشن پی خونه را روی تلفن همراه خود تجربه نمایید. برای این کار می توانید اپلیکیشن پی خونه را از مارکت‌های معتبر ایرانی و بین المللی ( گوگل پلی استور - اپل اپ استور - کافه بازار ) دریافت نمایید. خوشحال می‌شویم با نظرات و پیشنهادات خود و اعطای امتیاز به اپلیکیشن پی خونه در مارکت‌ها، ما را در بهبود و توسعه پی خونه همراهی نمایید.</p>
+                    {{------------- [ Download Peykhoone App Links ] ------------}}
+                    <div class="row justify-content-end">
+                        <div class="col-md-6 col-md-5 col-xl-4">
+                            <button class="m-btn m-btn-appdl warm-grey mb-3 mb-md-0"><i class="fa fa-apple hi-fontSize-22 mr-2"></i> دریافت از اپل استور </button>
+                        </div>
+                        <div class="col-md-6 col-md-5 col-xl-4">
+                            <button class="m-btn m-btn-appdl green lighten-2"><i class="fa hi-fontSize-22 fa-android mr-2"></i> دریافت با لینک مستقیم </button>
+                        </div>
+                    </div>
+                    <div class="row justify-content-end mt-4">
+                        <div class="col-md-6 col-md-5 col-xl-4">
+                            <button class="m-btn m-btn-appdl purple darken-1 mb-3 mb-md-0"><i class="fa fa-apple"></i>  دریافت از گوگل پلی </button>
+                        </div>
+                        <div class="col-md-6 col-md-5 col-xl-4">
+                            <button class="m-btn m-btn-appdl blue lighten-2"><i class="fa fa-apple"></i> دریافت از بازار </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{------------- [ Azhanshaie Hamkar Section ] ------------}}
+    <section class="l-azhanseHamkar my-3">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-10 col-sm-12 text-right">
+                    <h2 class="gradient-borderBottom hi-fontSize-25 pb-3">آژانس های همکار ما</h2>
+
+                    {{------------- [ Carousel Azhansaie Hamkar ] ------------}}
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-lg-10">
+                            <!-- Flickity HTML init -->
+                            <div class="carousel mt-5" data-flickity>
+                                @for($j = 0; $j < 3; $j++)
+                                    <div class="m-carousel-cell">
+                                        @for($i = 0; $i < 3; $i++)
+                                            <div class="row mb-3">
+                                            <div class="col-4 col-md-2 mb-4">
+                                                <img alt="مشاوراملاک ۱" src="{{asset('images/partners/partner1.png')}}">
+                                            </div>
+                                            <div class="col-4 col-md-2">
+                                                <img alt="مشاوراملاک ۲" src="{{asset('images/partners/partner2.png')}}">
+                                            </div>
+                                            <div class="col-4 col-md-2 mb-4">
+                                                <img alt="مشاوراملاک ۳" src="{{asset('images/partners/partner3.png')}}">
+                                            </div>
+                                            <div class="col-4 col-md-2">
+                                                <img alt="مشاوراملاک ۴" src="{{asset('images/partners/partner4.png')}}">
+                                            </div>
+                                            <div class="col-4 col-md-2 mb-4">
+                                                <img alt="مشاوراملاک ۵" src="{{asset('images/partners/partner5.png')}}">
+                                            </div>
+                                            <div class="col-4 col-md-2">
+                                                <img alt="مشاوراملاک ۶" src="{{asset('images/partners/partner6.png')}}">
+                                            </div>
+                                        </div>
+                                        @endfor
+                                    </div>
+                                @endfor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{------------- [ Contactus Banner Section ] ------------}}
+    @include('includes.contact-banner')
 
 @endsection

@@ -13737,83 +13737,279 @@ button[data-balloon] {
 /* ============[ For loop to create font size css ]=========== */
 
 .hi-fontSize-10 {
-  font-size: 10px;
+  font-size: 10px !important;
 }
 
 .hi-fontSize-11 {
-  font-size: 11px;
+  font-size: 11px !important;
 }
 
 .hi-fontSize-12 {
-  font-size: 12px;
+  font-size: 12px !important;
 }
 
 .hi-fontSize-13 {
-  font-size: 13px;
+  font-size: 13px !important;
 }
 
 .hi-fontSize-14 {
-  font-size: 14px;
+  font-size: 14px !important;
 }
 
 .hi-fontSize-15 {
-  font-size: 15px;
+  font-size: 15px !important;
 }
 
 .hi-fontSize-16 {
-  font-size: 16px;
+  font-size: 16px !important;
 }
 
 .hi-fontSize-17 {
-  font-size: 17px;
+  font-size: 17px !important;
 }
 
 .hi-fontSize-18 {
-  font-size: 18px;
+  font-size: 18px !important;
 }
 
 .hi-fontSize-19 {
-  font-size: 19px;
+  font-size: 19px !important;
 }
 
 .hi-fontSize-20 {
-  font-size: 20px;
+  font-size: 20px !important;
 }
 
 .hi-fontSize-21 {
-  font-size: 21px;
+  font-size: 21px !important;
 }
 
 .hi-fontSize-22 {
-  font-size: 22px;
+  font-size: 22px !important;
 }
 
 .hi-fontSize-23 {
-  font-size: 23px;
+  font-size: 23px !important;
 }
 
 .hi-fontSize-24 {
-  font-size: 24px;
+  font-size: 24px !important;
 }
 
 .hi-fontSize-25 {
-  font-size: 25px;
+  font-size: 25px !important;
 }
 
 .hi-fontSize-26 {
-  font-size: 26px;
+  font-size: 26px !important;
 }
 
 .hi-fontSize-27 {
-  font-size: 27px;
+  font-size: 27px !important;
 }
 
 .hi-fontSize-28 {
-  font-size: 28px;
+  font-size: 28px !important;
 }
 
 .hi-fontSize-29 {
-  font-size: 29px;
+  font-size: 29px !important;
+}
+
+.hi-lineHeight-1 {
+  line-height: 1px;
+}
+
+.hi-lineHeight-2 {
+  line-height: 2px;
+}
+
+.hi-lineHeight-3 {
+  line-height: 3px;
+}
+
+.hi-lineHeight-4 {
+  line-height: 4px;
+}
+
+.hi-lineHeight-5 {
+  line-height: 5px;
+}
+
+.hi-lineHeight-6 {
+  line-height: 6px;
+}
+
+.hi-lineHeight-7 {
+  line-height: 7px;
+}
+
+.hi-lineHeight-8 {
+  line-height: 8px;
+}
+
+.hi-lineHeight-9 {
+  line-height: 9px;
+}
+
+.hi-lineHeight-10 {
+  line-height: 10px;
+}
+
+.hi-lineHeight-11 {
+  line-height: 11px;
+}
+
+.hi-lineHeight-12 {
+  line-height: 12px;
+}
+
+.hi-lineHeight-13 {
+  line-height: 13px;
+}
+
+.hi-lineHeight-14 {
+  line-height: 14px;
+}
+
+.hi-lineHeight-15 {
+  line-height: 15px;
+}
+
+.hi-lineHeight-16 {
+  line-height: 16px;
+}
+
+.hi-lineHeight-17 {
+  line-height: 17px;
+}
+
+.hi-lineHeight-18 {
+  line-height: 18px;
+}
+
+.hi-lineHeight-19 {
+  line-height: 19px;
+}
+
+.hi-lineHeight-20 {
+  line-height: 20px;
+}
+
+.hi-lineHeight-21 {
+  line-height: 21px;
+}
+
+.hi-lineHeight-22 {
+  line-height: 22px;
+}
+
+.hi-lineHeight-23 {
+  line-height: 23px;
+}
+
+.hi-lineHeight-24 {
+  line-height: 24px;
+}
+
+.hi-lineHeight-25 {
+  line-height: 25px;
+}
+
+.hi-lineHeight-26 {
+  line-height: 26px;
+}
+
+.hi-lineHeight-27 {
+  line-height: 27px;
+}
+
+.hi-lineHeight-28 {
+  line-height: 28px;
+}
+
+.hi-lineHeight-29 {
+  line-height: 29px;
+}
+
+.hi-lineHeight-30 {
+  line-height: 30px;
+}
+
+.hi-lineHeight-31 {
+  line-height: 31px;
+}
+
+.hi-lineHeight-32 {
+  line-height: 32px;
+}
+
+.hi-lineHeight-33 {
+  line-height: 33px;
+}
+
+.hi-lineHeight-34 {
+  line-height: 34px;
+}
+
+.hi-lineHeight-35 {
+  line-height: 35px;
+}
+
+.hi-lineHeight-36 {
+  line-height: 36px;
+}
+
+.hi-lineHeight-37 {
+  line-height: 37px;
+}
+
+.hi-lineHeight-38 {
+  line-height: 38px;
+}
+
+.hi-lineHeight-39 {
+  line-height: 39px;
+}
+
+.hi-lineHeight-40 {
+  line-height: 40px;
+}
+
+.hi-lineHeight-41 {
+  line-height: 41px;
+}
+
+.hi-lineHeight-42 {
+  line-height: 42px;
+}
+
+.hi-lineHeight-43 {
+  line-height: 43px;
+}
+
+.hi-lineHeight-44 {
+  line-height: 44px;
+}
+
+.hi-lineHeight-45 {
+  line-height: 45px;
+}
+
+.hi-lineHeight-46 {
+  line-height: 46px;
+}
+
+.hi-lineHeight-47 {
+  line-height: 47px;
+}
+
+.hi-lineHeight-48 {
+  line-height: 48px;
+}
+
+.hi-lineHeight-49 {
+  line-height: 49px;
 }
 
 /* ============[ javascript import ]=========== */
