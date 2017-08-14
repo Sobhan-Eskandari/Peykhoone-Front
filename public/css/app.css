@@ -10356,8 +10356,13 @@ button:focus {
   border-top-right-radius: 6px;
 }
 
+.l-lastAds-Secton {
+  background-color: #f7f7f7;
+  margin-top: 50px;
+}
+
 .l-digital-painting-section {
-  margin-top: -40px;
+  margin-top: 30px;
 }
 
 #Header {
@@ -10372,6 +10377,9 @@ button:focus {
 
 .main-filter {
   margin-top: -60px;
+  position: absolute;
+  width: 100%;
+  z-index: 10000000;
 }
 
 #l-footer {
@@ -10428,6 +10436,10 @@ button:focus {
 
   #Header .header-arrow {
     margin-top: 20px;
+  }
+
+  .l-digital-painting-section {
+    margin-top: 530px;
   }
 }
 
@@ -10492,6 +10504,8 @@ button:focus {
   padding: 8px 10px;
   border: transparent;
   font-weight: 200;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .m-btn:hover {
@@ -11738,18 +11752,6 @@ button:focus {
 .no-js .mp-menu > .mp-level {
 	display: block;
 }*/
-
-a {
-  text-decoration: none;
-  color: #f7f7f7;
-  outline: none;
-}
-
-a:hover,
-a:focus {
-  color: #fff;
-  outline: none;
-}
 
 /* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
 

@@ -25,9 +25,15 @@
   border-top-right-radius: 6px;
 }
 
+//----------- [ Last Ads Style ] -----------
+.l-lastAds-Secton{
+  background-color: #f7f7f7;
+  margin-top: 50px;
+}
+
 //----------- [ Digital Painting Style ] -----------
 .l-digital-painting-section{
-  margin-top: -40px;
+  margin-top: 30px;
 }
 
 //----------- [ Header Style ] -----------
@@ -41,6 +47,9 @@
 }
 .main-filter{
   margin-top: -60px;
+  position: absolute;
+  width: 100%;
+  z-index: 10000000;
 }
 
 //----------- [ Footer Style ] -----------
@@ -87,5 +96,8 @@
     .header-arrow{
       margin-top: 20px;
     }
+  }
+  .l-digital-painting-section{
+    margin-top: 530px;
   }
 }

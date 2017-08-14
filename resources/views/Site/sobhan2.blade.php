@@ -111,33 +111,33 @@
     {{--</div>--}}
 
     {{--<!-- Tab panes -->--}}
-    {{--<div class="tab-content">--}}
-        {{--<div class="tab-pane fade show active" id="home" role="tabpanel">--}}
-            {{--<div class="row">--}}
-                {{--<div class="col-12 col-md-6 col-lg-3 my-3">--}}
-                    {{--<a href="#" class="is-hovered-adCard">--}}
-                        {{--<div class="m-card">--}}
-                             {{--Card Infos--}}
-                            {{--<img class="img-fluid l-topCornered m-card-image" src="{{asset('images/home-image.jpg')}}">--}}
-                            {{--<p class="text-center mt-2 mb-2"><strong>یوسف آباد</strong></p>--}}
-                            {{--<p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>--}}
-                            {{--<p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>--}}
-                            {{--cart azhans name and bishtar bedanid--}}
-                            {{--<div class="container-fluid">--}}
-                                {{--<div class="row pt-2 pb-1 align-items-center">--}}
-                                    {{--<div class="col-4 pl-0">--}}
-                                        {{--<div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="col-7 text-right pr-0">--}}
-                                        {{--<span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</a>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="home" role="tabpanel">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-3 my-3">
+                    <a href="#" class="is-hovered-adCard">
+                        <div class="m-card">
+                             Card Infos
+                            <img class="img-fluid l-topCornered m-card-image" src="{{asset('images/home-image.jpg')}}">
+                            <p class="text-center mt-2 mb-2"><strong>یوسف آباد</strong></p>
+                            <p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>
+                            <p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>
+                            cart azhans name and bishtar bedanid
+                            <div class="container-fluid">
+                                <div class="row pt-2 pb-1 align-items-center">
+                                    <div class="col-4 pl-0">
+                                        <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>
+                                    </div>
+                                    <div class="col-7 text-right pr-0">
+                                        <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
         {{--<div class="tab-pane fade" id="profile" role="tabpanel">--}}
             {{--<div class="row">--}}
                 {{--<div class="col-12 col-md-6 col-lg-3 my-3">--}}
