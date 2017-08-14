@@ -15,18 +15,21 @@
 </head>
 <body style="background-color:#f7f7f7;">
 <div class="container-fluid px-0 l-rtl">
-
     <nav class="navbar navbar-toggleable-md navbar-light py-0 m-navBar">
         <button class="navbar-toggler navbar-toggler-left mt-4 m-navBar-toggler" type="button" data-toggle="collapse"
                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+           <!-- <span class="navbar-toggler-icon"></span> -->
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar top-bar"></span>
+            <span class="icon-bar middle-bar"></span>
+            <span class="icon-bar bottom-bar"></span>
         </button>
         <a class="navbar-brand pr-lg-5 mr-lg-5 m-navBar-brand" href="#">
             <img src="{{ asset('images/logo-mersede.png') }}" alt="در حال بارگذاری" height="77px"
                  width="120px"></a>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link  m-navBar-link px-3 gradient-borderBottom m-navBar-activeLink" href="#">صفحه اصلی<span
@@ -295,13 +298,5 @@
 <img src="{{ asset('images/end.png') }}" alt="در حال بارگذاری" height="100%" width="100%">
 <hr>
 <script src="{{asset('js/app.js')}}"></script>
-<script>
-    $(document).ready(function () {
-        $('ul li a.m-navBar-link').click(function () {
-            $('li a.m-navBar-link').removeClass("m-navBar-activeLink gradient-borderBottom");
-            $(this).addClass("m-navBar-activeLink gradient-borderBottom");
-        });
-    });
-</script>
 </body>
 </html>

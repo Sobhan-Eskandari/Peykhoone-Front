@@ -38,51 +38,51 @@ $( ".is-hovered-adCard" ).mouseleave(function() {
 });
 
 // ****************** Cost Slider ********************
-var stepSlider = document.getElementById('slider-step');
+//var stepSlider = document.getElementById('slider-step');
 
-noUiSlider.create(stepSlider, {
-    start: [50000, 5000000],
-    step: 50000,
-    connect: true,
-    direction: 'rtl',
-    tooltips: true,
-    range: {
-        'min': 50000,
-        'max': 5000000
-    },
-    format: wNumb({
-        decimals: 0,
-        thousand: ',',
-        postfix: ' تومان',
-    })
-});
+// noUiSlider.create(stepSlider, {
+//     start: [50000, 5000000],
+//     step: 50000,
+//     connect: true,
+//     direction: 'rtl',
+//     tooltips: true,
+//     range: {
+//         'min': 50000,
+//         'max': 5000000
+//     },
+//     format: wNumb({
+//         decimals: 0,
+//         thousand: ',',
+//         postfix: ' تومان',
+//     })
+// });
 // ****************** Metraj Slider ********************
-var metrajSlider = document.getElementById('metraj-slider');
+//var metrajSlider = document.getElementById('metraj-slider');
 
-noUiSlider.create(metrajSlider, {
-    start: [10, 50000],
-    step: 10,
-    connect: true,
-    direction: 'rtl',
-    tooltips: true,
-    range: {
-        'min': 10,
-        'max': 50000
-    },
-    format: wNumb({
-        decimals: 0,
-        thousand: ',',
-        postfix: 'متر',
-    })
-});
-
-metrajSlider.noUiSlider.on('update', function( values, handle ) {
-    // snapValues[handle].innerHTML = values[handle];
-    let translatedMin = values[0].replace("متر","");
-    let translatedMax = values[1].replace("متر","");
-
-    $("#metraj-place").text( `از ${translate(translatedMin)} تا ${translate(translatedMax)}`);
-});
+// noUiSlider.create(metrajSlider, {
+//     start: [10, 50000],
+//     step: 10,
+//     connect: true,
+//     direction: 'rtl',
+//     tooltips: true,
+//     range: {
+//         'min': 10,
+//         'max': 50000
+//     },
+//     format: wNumb({
+//         decimals: 0,
+//         thousand: ',',
+//         postfix: 'متر',
+//     })
+// });
+//
+// metrajSlider.noUiSlider.on('update', function( values, handle ) {
+//     // snapValues[handle].innerHTML = values[handle];
+//     let translatedMin = values[0].replace("متر","");
+//     let translatedMax = values[1].replace("متر","");
+//
+//     $("#metraj-place").text( `از ${translate(translatedMin)} تا ${translate(translatedMax)}`);
+// });
 
 
 // <!-- Initialize the plugin: -->
@@ -336,3 +336,5 @@ $("#tedadekhab-filters input").click(function () {
         $("#tedadekhab-filter-text").text("انتخاب کنید");
     }
 });
+
+
