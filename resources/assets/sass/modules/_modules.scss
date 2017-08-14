@@ -91,25 +91,22 @@
 }
 
 .m-btn-gradientOutline {
-  border-radius: $br-five;
-  background: $gradient;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  padding: 8px 15px;
   cursor: pointer;
-  border: 2px solid white;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.50);
-  i {
-    -webkit-text-fill-color: white;
+  padding-top: 0.1px;
+  padding-bottom: 0.1px;
+  button{
+    width: 98%;
+    margin: 2px;
+    height: 95%;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
   }
 }
 
 //----------- [ Lists Style ] -----------
 
 .m-horizental-list {
-  list-style-type: none;
-  color: white;
-  line-height: 45px;
   padding-right: 30px;
   border-right: 1px solid lightgray;
 
@@ -130,24 +127,15 @@
 .m-horizental-category {
   padding-right: 30px;
   li {
-    .m-horizental-category {
-      list-style-type: none;
-      color: white;
-      line-height: 45px;
-      padding-right: 30px;
-    }
-    li {
-      transition: all 0.3s ease;
-      -webkit-font-smoothing: antialiased;
-      font-weight: bold;
-      &:hover {
-        cursor: pointer;
-        filter: brightness(.7);
-        -webkit-filter: brightness(.7);
-      }
+    transition: all 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    font-weight: bold;
+    &:hover {
+      cursor: pointer;
+      filter: brightness(.7);
+      -webkit-filter: brightness(.7);
     }
   }
-
   &:first-of-type {
     border-left: 1px solid dimgray;
   }
@@ -660,6 +648,20 @@
 
 }
 
+/* ============[ Digital Painting Style ]=========== */
+
+.digitalPainting-title{
+  margin-top: -90px;
+}
+.painting-comma{
+  width: 50px;
+}
+.painting-comma.secondComma{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
 /* ============[ Main Filter Style ]=========== */
 .m-curved-bg{
   width: 100%;
@@ -673,6 +675,7 @@
   margin: 0 auto 0 0;
   height: 124px;
   background-color: white;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.22);
 }
 .m-filters-placeholder{
   width: 100%;
@@ -687,12 +690,27 @@
   }
 }
 
+@-webkit-keyframes gradientAnime {
+  0%{background-position:0 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0 50%}
+}
+@-moz-keyframes gradientAnime {
+  0%{background-position:0 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0 50%}
+}
+@keyframes gradientAnime {
+  0%{background-position:0 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0 50%}
+}
 
 .filter-search-btn{
   height: 100%;
   border-radius: 15px 0 0 15px;
-  background: -webkit-gradient(linear, left top, left bottom, from(#007991), to(#63E7CA));
-  background: linear-gradient(-180deg, #007991 0%, #63E7CA 100%);
+  //background: -webkit-gradient(linear, left top, left bottom, from(#007991), to(#63E7CA));
+  //background: linear-gradient(-180deg, #007991 0%, #63E7CA 100%);
   border: none;
   color: white;
   cursor: pointer;
@@ -700,6 +718,12 @@
   width: 100%;
   font-size: 17px;
   padding-top: 15px;
+
+  background: linear-gradient(83deg, #007991, #63e7ca);
+  background-size: 400% 400%;
+  -webkit-animation: gradientAnime 12s ease infinite;
+  -moz-animation: gradientAnime 12s ease infinite;
+  animation: gradientAnime 12s ease infinite;
 
   i{
     font-size: 40px;
@@ -726,6 +750,7 @@
     direction: rtl;
   }
 }
+
 #filters-moamele-btn{
   border-radius: 0 15px 15px 0;
   border-right: transparent;
@@ -811,7 +836,6 @@
       padding-bottom: 7px;
     }
   }
-
 }
 
 // Extra large devices (large desktops, 1200px and up)

@@ -16561,9 +16561,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-btn', ['waves-light']);
-__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-btn-gradientOutline', ['waves-light']);
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.filter-search-btn', ['waves-light']);
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-filters-btn', ['waves-block']);
+__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('#hi', ['waves-block']);
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.init();
 
 // ============[ Translate English digits to farsi ]===========

@@ -16,11 +16,34 @@
 .l-fullWidth{
   width: 100%;
 }
+.l-absolute{
+  position: absolute;
+  width: 100%;
+}
 .l-topCornered{
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 }
 
+//----------- [ Digital Painting Style ] -----------
+.l-digital-painting-section{
+  margin-top: -40px;
+}
+
+//----------- [ Header Style ] -----------
+#Header{
+  position: relative;
+  width: 100%; /* for IE 6 */
+
+  .header-arrow{
+    top:60%;
+  }
+}
+.main-filter{
+  margin-top: -60px;
+}
+
+//----------- [ Footer Style ] -----------
 #l-footer{
   background-color: $black;
   direction: rtl;
@@ -28,9 +51,41 @@
     height: 100%;
   }
 }
-
 .l-horizental-list{
   list-style-type: none;
   color: white;
   line-height: 45px;
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 767px) {
+  #Header{
+    position: relative;
+    width: 100%; /* for IE 6 */
+    overflow-x: hidden;
+    height: 400px;
+    img{
+      transform: scale(3.5);
+    }
+    .header-arrow{
+      margin-top: 20px;
+    }
+  }
+}
+@media (max-width: 575px) {
+  .main-filter{
+    margin-top: -110px;
+  }
+  #Header{
+    position: relative;
+    width: 100%; /* for IE 6 */
+    overflow-x: hidden;
+    height: 500px;
+    img{
+      transform: scale(5.5);
+    }
+    .header-arrow{
+      margin-top: 20px;
+    }
+  }
 }

@@ -5,9 +5,9 @@ import noUiSlider from 'nouislider'
 import wNumb from 'wnumb'
 
 Waves.attach('.m-btn',['waves-light']);
-Waves.attach('.m-btn-gradientOutline',['waves-light']);
 Waves.attach('.filter-search-btn',['waves-light']);
 Waves.attach('.m-filters-btn',['waves-block']);
+Waves.attach('#hi',['waves-block']);
 Waves.init();
 
 // ============[ Translate English digits to farsi ]===========

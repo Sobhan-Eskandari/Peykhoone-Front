@@ -19,6 +19,10 @@ Route::get('/home', function () {
     return view('Site.home');
 });
 
+Route::get('/layout', function () {
+    return view('layout.site');
+});
+
 Route::get('/sobhan', function () {
     return view('Site.sobhan2');
 });
