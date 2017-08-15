@@ -19,6 +19,41 @@
   background-repeat-x: no-repeat !important;
 }
 
+.home-cost{
+  transition: all 0.2s ease;
+}
+
+.card-location-icon{
+  width: 30px;
+  height: 30px;
+  background-size: 40px 600px !important;
+  background-repeat-x: no-repeat !important;
+  background: url(/images/home-icon.png) -5px 475px;
+  margin-bottom: 0;
+}
+.googleplay-icon{
+  width: 30px;
+  height: 30px;
+  background-size: 60px 800px !important;
+  background-repeat-x: no-repeat !important;
+  background: url(/images/home-icon.png) -15px 505px;
+  margin-bottom: 0;
+}
+.bazar-icon{
+  width: 30px;
+  height: 30px;
+  background-size: 50px 700px !important;
+  background-repeat-x: no-repeat !important;
+  background: url(/images/home-icon.png) -5px 295px;
+  margin-bottom: 0;
+}
+
+.m-card-location{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .m-card-moreInfo{
   font-size: 11px;
   margin-bottom: 0;
@@ -103,7 +138,7 @@
     width: 98%;
     margin: 2px;
     height: 95%;
-    padding: 5px;
+    padding: 7px 14px;
     border: none;
     cursor: pointer;
   }

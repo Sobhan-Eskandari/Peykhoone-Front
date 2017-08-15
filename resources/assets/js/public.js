@@ -3,24 +3,14 @@ import Waves from 'node-waves';
 import $ from 'jquery'
 import noUiSlider from 'nouislider'
 import wNumb from 'wnumb'
+import SmoothScroll from 'smooth-scroll'
 
 Waves.attach('.m-btn',['waves-light']);
 Waves.attach('.filter-search-btn',['waves-light']);
 Waves.attach('.m-filters-btn',['waves-block']);
-Waves.attach('#hi',['waves-block']);
+Waves.attach('.is-wave-animated',['waves-light']);
+Waves.attach('#tajrobePeykhoone',['waves-block']);
 Waves.init();
-
-// ============[ Translate English digits to farsi ]===========
-let translate = function (englishNumber) {
-    let chars = englishNumber.split('');
-    let arabicNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    for (let i = 0; i < chars.length; i++) {
-        if (/\d/.test(chars[i])) {
-            chars[i] = arabicNumbers[chars[i]];
-        }
-    }
-    return chars.join('');
-};
 
 //****************** Ads Card Hover Effect ********************
 $( ".is-hovered-adCard" ).mouseenter(function() {
@@ -37,53 +27,19 @@ $( ".is-hovered-adCard" ).mouseleave(function() {
     $( this ).find(".home-cost").css('font-weight','normal');
 });
 
-// ****************** Cost Slider ********************
-//var stepSlider = document.getElementById('slider-step');
-
-// noUiSlider.create(stepSlider, {
-//     start: [50000, 5000000],
-//     step: 50000,
-//     connect: true,
-//     direction: 'rtl',
-//     tooltips: true,
-//     range: {
-//         'min': 50000,
-//         'max': 5000000
-//     },
-//     format: wNumb({
-//         decimals: 0,
-//         thousand: ',',
-//         postfix: ' تومان',
-//     })
-// });
-// ****************** Metraj Slider ********************
-//var metrajSlider = document.getElementById('metraj-slider');
-
-// noUiSlider.create(metrajSlider, {
-//     start: [10, 50000],
-//     step: 10,
-//     connect: true,
-//     direction: 'rtl',
-//     tooltips: true,
-//     range: {
-//         'min': 10,
-//         'max': 50000
-//     },
-//     format: wNumb({
-//         decimals: 0,
-//         thousand: ',',
-//         postfix: 'متر',
-//     })
-// });
-//
-// metrajSlider.noUiSlider.on('update', function( values, handle ) {
-//     // snapValues[handle].innerHTML = values[handle];
-//     let translatedMin = values[0].replace("متر","");
-//     let translatedMax = values[1].replace("متر","");
-//
-//     $("#metraj-place").text( `از ${translate(translatedMin)} تا ${translate(translatedMax)}`);
-// });
-
+if ($(window).width() <= 768) {
+    // do something for medium screens
+    $( ".is-hovered-adCard" ).find(".m-card-moreInfo").addClass('show');
+    $( ".is-hovered-adCard" ).find(".m-card-azhansName").addClass('showTooltip');
+    $( ".is-hovered-adCard" ).find(".m-card-moreInfo").css('color','white');
+    $( ".is-hovered-adCard" ).find(".home-cost").css('font-weight','bold');
+}else{
+    $( ".is-hovered-adCard" ).find(".m-card-moreInfo").removeClass('show');
+    $( ".is-hovered-adCard" ).find(".m-card-azhansName").removeClass('showTooltip');
+    $( ".is-hovered-adCard" ).find(".m-card-moreInfo").css('color','white');
+    $( ".is-hovered-adCard" ).find(".m-card-moreInfo").css('color','black');
+    $( ".is-hovered-adCard" ).find(".home-cost").css('font-weight','normal');
+}
 
 // <!-- Initialize the plugin: -->
 $(document).ready(function() {
@@ -93,6 +49,67 @@ $(document).ready(function() {
         allSelectedText: 'همه‌‌ی موارد'
     });
 });
+
+
+
+// ============[ Translate English digits to farsi ]===========
+let translate = function (englishNumber) {
+    let chars = englishNumber.split('');
+    let arabicNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    for (let i = 0; i < chars.length; i++) {
+        if (/\d/.test(chars[i])) {
+            chars[i] = arabicNumbers[chars[i]];
+        }
+    }
+    return chars.join('');
+};
+// ****************** Cost Slider ********************
+var stepSlider = document.getElementById('slider-step');
+
+noUiSlider.create(stepSlider, {
+    start: [50000, 5000000],
+    step: 50000,
+    connect: true,
+    direction: 'rtl',
+    tooltips: true,
+    range: {
+        'min': 50000,
+        'max': 5000000
+    },
+    format: wNumb({
+        decimals: 0,
+        thousand: ',',
+        postfix: ' تومان',
+    })
+});
+// ****************** Metraj Slider ********************
+var metrajSlider = document.getElementById('metraj-slider');
+
+noUiSlider.create(metrajSlider, {
+    start: [10, 50000],
+    step: 10,
+    connect: true,
+    direction: 'rtl',
+    tooltips: true,
+    range: {
+        'min': 10,
+        'max': 50000
+    },
+    format: wNumb({
+        decimals: 0,
+        thousand: ',',
+        postfix: 'متر',
+    })
+});
+
+metrajSlider.noUiSlider.on('update', function( values, handle ) {
+    // snapValues[handle].innerHTML = values[handle];
+    let translatedMin = values[0].replace("متر","");
+    let translatedMax = values[1].replace("متر","");
+
+    $("#metraj-place").text( `از ${translate(translatedMin)} تا ${translate(translatedMax)}`);
+});
+
 
 $("#noemelk-filters").hide();
 $("#noemoamele-filters").hide();
@@ -337,4 +354,6 @@ $("#tedadekhab-filters input").click(function () {
     }
 });
 
-
+//************ Smooth Scroll ***************
+var scrollApp = new SmoothScroll('#tajrobePeykhoone a');
+var scrollUp = new SmoothScroll('#goUpBtn');
