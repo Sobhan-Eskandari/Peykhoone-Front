@@ -25,6 +25,12 @@
   border-top-right-radius: 6px;
 }
 
+.l-flex-center{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
 //----------- [ Last Ads Style ] -----------
 .l-lastAds-Secton{
   background-color: #f7f7f7;
@@ -110,7 +116,7 @@
     overflow-x: hidden;
     height: 500px;
     img{
-      transform: scale(5.5);
+      //transform: scale(5.5);
     }
     .header-arrow{
       margin-top: 20px;

@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="{{asset('css/Hi_Framework.css')}}">
     <!-- App Css -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
+
+    @yield('css_resources')
+
 </head>
 <body>
 
@@ -58,7 +61,7 @@
 
         {{------------ [ About Pey khoone Section ] ------------}}
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 align-self-center">
-            <p class="gradient-borderBottom white-text pb-2">درباره پی خونه</p>
+            <p class="gradient-borderBottom white-text pb-2 mt-3">درباره پی خونه</p>
             <p class="m-footer-about p-0"> پی خونه سامانه ای برای خرید، اجاره خانه و ارائه اطلاعات ملکی در رشت است که با هدف افزایش اعتماد در خرید و اجاره ملک در رشت، بستر ارتباطی ایمن متقاضیان ملک و مشاوران املاک قابل اعتماد و حرفه ای در تمامی محله های رشت را توسعه داده است.</p>
         </div>
     </div>
@@ -69,11 +72,12 @@
             <p class="white-text hi-fontSize-12 mb-0">C) 2017  <a href="#"><span class="teal-text">Horoofnegar Team Design</span></a>. All  Right Reserved)</p>
         </div>
         {{------------ [ Up to top Button ] ------------}}
-        <div class="col-1 align-self-center">
-            <button class="hi-button-btn1 white-text hi-fontSize-25"><i class="fa fa-chevron-up"></i> </button>
+        <div class="col-1 align-self-center p-0">
+            <a data-scroll href="#topOfSite" id="goUpBtn"><button class="hi-button-btn1 white-text hi-fontSize-25"><i class="fa fa-chevron-up"></i> </button></a>
         </div>
     </div>
 </footer>
+
 
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/libraries.js')}}"></script>

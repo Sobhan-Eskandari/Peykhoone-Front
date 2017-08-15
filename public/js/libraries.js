@@ -20287,6 +20287,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nouislider___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_nouislider__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_wnumb__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_wnumb___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_wnumb__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_smooth_scroll__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_smooth_scroll__);
+
 
 
 
@@ -20296,20 +20299,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-btn', ['waves-light']);
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.filter-search-btn', ['waves-light']);
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-filters-btn', ['waves-block']);
-__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('#hi', ['waves-block']);
+__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.is-wave-animated', ['waves-light']);
+__WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('#tajrobePeykhoone', ['waves-block']);
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.init();
-
-// ============[ Translate English digits to farsi ]===========
-var translate = function translate(englishNumber) {
-    var chars = englishNumber.split('');
-    var arabicNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    for (var i = 0; i < chars.length; i++) {
-        if (/\d/.test(chars[i])) {
-            chars[i] = arabicNumbers[chars[i]];
-        }
-    }
-    return chars.join('');
-};
 
 //****************** Ads Card Hover Effect ********************
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").mouseenter(function () {
@@ -20326,53 +20318,19 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").mouseleave(
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".home-cost").css('font-weight', 'normal');
 });
 
-// ****************** Cost Slider ********************
-//var stepSlider = document.getElementById('slider-step');
-
-// noUiSlider.create(stepSlider, {
-//     start: [50000, 5000000],
-//     step: 50000,
-//     connect: true,
-//     direction: 'rtl',
-//     tooltips: true,
-//     range: {
-//         'min': 50000,
-//         'max': 5000000
-//     },
-//     format: wNumb({
-//         decimals: 0,
-//         thousand: ',',
-//         postfix: ' تومان',
-//     })
-// });
-// ****************** Metraj Slider ********************
-//var metrajSlider = document.getElementById('metraj-slider');
-
-// noUiSlider.create(metrajSlider, {
-//     start: [10, 50000],
-//     step: 10,
-//     connect: true,
-//     direction: 'rtl',
-//     tooltips: true,
-//     range: {
-//         'min': 10,
-//         'max': 50000
-//     },
-//     format: wNumb({
-//         decimals: 0,
-//         thousand: ',',
-//         postfix: 'متر',
-//     })
-// });
-//
-// metrajSlider.noUiSlider.on('update', function( values, handle ) {
-//     // snapValues[handle].innerHTML = values[handle];
-//     let translatedMin = values[0].replace("متر","");
-//     let translatedMax = values[1].replace("متر","");
-//
-//     $("#metraj-place").text( `از ${translate(translatedMin)} تا ${translate(translatedMax)}`);
-// });
-
+if (__WEBPACK_IMPORTED_MODULE_2_jquery___default()(window).width() <= 768) {
+    // do something for medium screens
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").find(".m-card-moreInfo").addClass('show');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").find(".m-card-azhansName").addClass('showTooltip');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").find(".m-card-moreInfo").css('color', 'white');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").find(".home-cost").css('font-weight', 'bold');
+} else {
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").find(".m-card-moreInfo").removeClass('show');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").find(".m-card-azhansName").removeClass('showTooltip');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").find(".m-card-moreInfo").css('color', 'white');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").find(".m-card-moreInfo").css('color', 'black');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").find(".home-cost").css('font-weight', 'normal');
+}
 
 // <!-- Initialize the plugin: -->
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()(document).ready(function () {
@@ -20381,6 +20339,64 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()(document).ready(function () {
         includeSelectAllOption: true,
         allSelectedText: 'همه‌‌ی موارد'
     });
+});
+
+// ============[ Translate English digits to farsi ]===========
+var translate = function translate(englishNumber) {
+    var chars = englishNumber.split('');
+    var arabicNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    for (var i = 0; i < chars.length; i++) {
+        if (/\d/.test(chars[i])) {
+            chars[i] = arabicNumbers[chars[i]];
+        }
+    }
+    return chars.join('');
+};
+// ****************** Cost Slider ********************
+var stepSlider = document.getElementById('slider-step');
+
+__WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(stepSlider, {
+    start: [50000, 5000000],
+    step: 50000,
+    connect: true,
+    direction: 'rtl',
+    tooltips: true,
+    range: {
+        'min': 50000,
+        'max': 5000000
+    },
+    format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
+        decimals: 0,
+        thousand: ',',
+        postfix: ' تومان'
+    })
+});
+// ****************** Metraj Slider ********************
+var metrajSlider = document.getElementById('metraj-slider');
+
+__WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(metrajSlider, {
+    start: [10, 50000],
+    step: 10,
+    connect: true,
+    direction: 'rtl',
+    tooltips: true,
+    range: {
+        'min': 10,
+        'max': 50000
+    },
+    format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
+        decimals: 0,
+        thousand: ',',
+        postfix: 'متر'
+    })
+});
+
+metrajSlider.noUiSlider.on('update', function (values, handle) {
+    // snapValues[handle].innerHTML = values[handle];
+    var translatedMin = values[0].replace("متر", "");
+    var translatedMax = values[1].replace("متر", "");
+
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-place").text('\u0627\u0632 ' + translate(translatedMin) + ' \u062A\u0627 ' + translate(translatedMax));
 });
 
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filters").hide();
@@ -20625,6 +20641,10 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filters input").clic
         __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filter-text").text("انتخاب کنید");
     }
 });
+
+//************ Smooth Scroll ***************
+var scrollApp = new __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default.a('#tajrobePeykhoone a');
+var scrollUp = new __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default.a('#goUpBtn');
 
 /***/ }),
 /* 53 */
@@ -24594,7 +24614,15 @@ function closure ( target, options, originalOptions ){
 }));
 
 /***/ }),
-/* 56 */,
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! smooth-scroll v12.1.4 | (c) 2017 Chris Ferdinandi | MIT License | http://github.com/cferdinandi/smooth-scroll */
+!(function(e,t){ true?!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function(){return t(e)}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):"object"==typeof exports?module.exports=t(e):e.SmoothScroll=t(e)})("undefined"!=typeof global?global:"undefined"!=typeof window?window:this,(function(e){"use strict";var t="querySelector"in document&&"addEventListener"in e&&"requestAnimationFrame"in e&&"closest"in e.Element.prototype,n={ignore:"[data-scroll-ignore]",header:null,speed:500,offset:0,easing:"easeInOutCubic",customEasing:null,before:function(){},after:function(){}},o=function(){for(var e={},t=0,n=arguments.length;t<n;t++){var o=arguments[t];!(function(t){for(var n in t)t.hasOwnProperty(n)&&(e[n]=t[n])})(o)}return e},a=function(t){return parseInt(e.getComputedStyle(t).height,10)},r=function(e){"#"===e.charAt(0)&&(e=e.substr(1));for(var t,n=String(e),o=n.length,a=-1,r="",i=n.charCodeAt(0);++a<o;){if(0===(t=n.charCodeAt(a)))throw new InvalidCharacterError("Invalid character: the input contains U+0000.");t>=1&&t<=31||127==t||0===a&&t>=48&&t<=57||1===a&&t>=48&&t<=57&&45===i?r+="\\"+t.toString(16)+" ":r+=t>=128||45===t||95===t||t>=48&&t<=57||t>=65&&t<=90||t>=97&&t<=122?n.charAt(a):"\\"+n.charAt(a)}return"#"+r},i=function(e,t){var n;return"easeInQuad"===e.easing&&(n=t*t),"easeOutQuad"===e.easing&&(n=t*(2-t)),"easeInOutQuad"===e.easing&&(n=t<.5?2*t*t:(4-2*t)*t-1),"easeInCubic"===e.easing&&(n=t*t*t),"easeOutCubic"===e.easing&&(n=--t*t*t+1),"easeInOutCubic"===e.easing&&(n=t<.5?4*t*t*t:(t-1)*(2*t-2)*(2*t-2)+1),"easeInQuart"===e.easing&&(n=t*t*t*t),"easeOutQuart"===e.easing&&(n=1- --t*t*t*t),"easeInOutQuart"===e.easing&&(n=t<.5?8*t*t*t*t:1-8*--t*t*t*t),"easeInQuint"===e.easing&&(n=t*t*t*t*t),"easeOutQuint"===e.easing&&(n=1+--t*t*t*t*t),"easeInOutQuint"===e.easing&&(n=t<.5?16*t*t*t*t*t:1+16*--t*t*t*t*t),e.customEasing&&(n=e.customEasing(t)),n||t},u=function(){return parseInt(e.getComputedStyle(document.documentElement).height,10)},c=function(e,t,n){var o=0;if(e.offsetParent)do{o+=e.offsetTop,e=e.offsetParent}while(e);return o=Math.max(o-t-n,0)},s=function(e){return e?a(e)+e.offsetTop:0},l=function(t,n,o){o||(t.focus(),document.activeElement.id!==t.id&&(t.setAttribute("tabindex","-1"),t.focus(),t.style.outline="none"),e.scrollTo(0,n))},f=function(t){return!!("matchMedia"in e&&e.matchMedia("(prefers-reduced-motion)").matches)};return function(a,d){var h,m,g,p,v,b,y,S={};S.cancelScroll=function(){cancelAnimationFrame(y)},S.animateScroll=function(t,a,r){var f=o(h||n,r||{}),d="[object Number]"===Object.prototype.toString.call(t),m=d||!t.tagName?null:t;if(d||m){var g=e.pageYOffset;f.header&&!p&&(p=document.querySelector(f.header)),v||(v=s(p));var b,y,I,O=d?t:c(m,v,parseInt("function"==typeof f.offset?f.offset():f.offset,10)),A=O-g,E=u(),C=0,w=function(n,o){var r=e.pageYOffset;if(n==o||r==o||(g<o&&e.innerHeight+r)>=E)return S.cancelScroll(),l(t,o,d),f.after(t,a),b=null,!0},Q=function(t){b||(b=t),C+=t-b,y=C/parseInt(f.speed,10),y=y>1?1:y,I=g+A*i(f,y),e.scrollTo(0,Math.floor(I)),w(I,O)||(e.requestAnimationFrame(Q),b=t)};0===e.pageYOffset&&e.scrollTo(0,0),f.before(t,a),S.cancelScroll(),e.requestAnimationFrame(Q)}};var I=function(e){m&&(m.id=m.getAttribute("data-scroll-id"),S.animateScroll(m,g),m=null,g=null)},O=function(t){if(!f()&&0===t.button&&!t.metaKey&&!t.ctrlKey&&(g=t.target.closest(a))&&"a"===g.tagName.toLowerCase()&&!t.target.closest(h.ignore)&&g.hostname===e.location.hostname&&g.pathname===e.location.pathname&&/#/.test(g.href)){var n;try{n=r(decodeURIComponent(g.hash))}catch(e){n=r(g.hash)}if("#"===n){t.preventDefault(),m=document.body;var o=m.id?m.id:"smooth-scroll-top";return m.setAttribute("data-scroll-id",o),m.id="",void(e.location.hash.substring(1)===o?I():e.location.hash=o)}m=document.querySelector(n),m&&(m.setAttribute("data-scroll-id",m.id),m.id="",g.hash===e.location.hash&&(t.preventDefault(),I()))}},A=function(e){b||(b=setTimeout((function(){b=null,v=s(p)}),66))};return S.destroy=function(){h&&(document.removeEventListener("click",O,!1),e.removeEventListener("resize",A,!1),S.cancelScroll(),h=null,m=null,g=null,p=null,v=null,b=null,y=null)},S.init=function(a){t&&(S.destroy(),h=o(n,a||{}),p=h.header?document.querySelector(h.header):null,v=s(p),document.addEventListener("click",O,!1),e.addEventListener("hashchange",I,!1),p&&e.addEventListener("resize",A,!1))},S.init(d),S}}));
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
 /* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
