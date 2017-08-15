@@ -214,19 +214,19 @@
 }
 
 .m-telegram-icon {
-  background: url('/images/home-icon.png') 0 240px;
+  background: url('/images/home-icon.png') no-repeat repeat 0 240px;
 }
 
 .m-instagram-icon {
-  background: url('/images/home-icon.png') 0 50px;
+  background: url('/images/home-icon.png') no-repeat repeat 0 50px;
 }
 
 .m-twitter-icon {
-  background: url('/images/home-icon.png') 0 175px;
+  background: url('/images/home-icon.png') no-repeat repeat 0 175px;
 }
 
 .m-facebook-icon {
-  background: url('/images/home-icon.png') 0 113px;
+  background: url('/images/home-icon.png') no-repeat repeat 0 113px;
 }
 
 //----------- [ navBar ] -----------
@@ -356,7 +356,7 @@
 
 //----------- [ Icons Style ] -----------
 .m-telegram-icon {
-  background: url('/images/home-icon.png') 0 240px;
+  background: url('/images/home-icon.png') no-repeat repeat 0 240px;
 }
 .m-list-home {
   background-color: white;
@@ -763,6 +763,12 @@
     font-size: 40px;
   }
 }
+// baraie rafe moshkele safari
+.filter-search-btn:not(:root:root){
+  height: 125px;
+}
+
+
 .m-filters-btn{
   height: 100%;
   text-align: center;
@@ -787,7 +793,7 @@
 
 #filters-moamele-btn{
   border-radius: 0 15px 15px 0;
-  border-right: transparent;
+  border-right: 0;
 }
 
 #filters-row{
