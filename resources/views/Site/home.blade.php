@@ -225,13 +225,13 @@
             {{----------------- [ About Peykhoone TExt ] ----------------}}
             <div class="row justify-content-center">
                 <div class="col-2 col-sm-1">
-                    <img class="painting-comma turnUpsideDown secondComma" src="{{asset('images/comma.png')}}">
+                    <img  class="painting-comma turnUpsideDown secondComma" src="{{asset('images/comma.png')}}">
                 </div>
                 <div class="col-8 col-sm-10 col-lg-7 col-xl-6">
                     <h4 class="paragraph-lineHeight medium-title hi-fontSize-15 text-center mt-3">پی خونه سامانه ای برای خرید، اجاره خانه و ارائه اطلاعات ملکی در رشت است که با هدف افزایش اعتماد در خرید و اجاره ملک در رشت، بستر ارتباطی ایمن متقاضیان ملک و مشاوران املاک قابل اعتماد و حرفه ای در تمامی محله های رشت را توسعه داده است.</h4>
                 </div>
                 <div class="col-2 col-sm-1">
-                    <img class="painting-comma" src="{{asset('images/comma.png')}}">
+                    <img alt="درباره پی خونه" class="painting-comma" src="{{asset('images/comma.png')}}">
                 </div>
             </div>
             {{----------------- [ Move to App download section ] ----------------}}

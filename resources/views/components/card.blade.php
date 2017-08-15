@@ -1,7 +1,7 @@
 <a href="#" class="is-hovered-adCard">
     <div class="m-card">
         {{--Card Infos--}}
-        <img class="img-fluid l-topCornered m-card-image" src="{{asset('images/home-image.jpg')}}">
+        <img class="img-fluid l-topCornered m-card-image" alt="تصویر آگهی" src="{{asset('images/home-image.jpg')}}">
         <div class="text-center mt-2 mb-2 m-card-location">
             <div class="row justify-content-center">
                 <div class="col-auto">
