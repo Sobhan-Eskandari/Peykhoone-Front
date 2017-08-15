@@ -1,5 +1,13 @@
 @extends('layout.site')
 
+@section('title')
+    پی خونه | سامانه آگهی خرید و فروش خونه , ملک , آپارتمان , زمین و مستغلات در گیلان
+@endsection
+
+@section('meta')
+    <meta name="description" content="A page's description, usually one or two sentences."/>
+@endsection
+
 @section('content')
 
     {{----------------- [ Header of Website ] ----------------}}
@@ -373,3 +381,36 @@
 
 @endsection
 
+@section('js_resources')
+    <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Organization",
+          "name": "پی خونه",
+          "url": "http://www.peykhoone.ir",
+          "logo": "http://www.example.com/images/logo.png",
+          "sameAs": [
+            "http://www.facebook.com/your-profile",
+            "http://instagram.com/yourProfile",
+            "http://www.linkedin.com/in/yourprofile",
+            "http://plus.google.com/your_profile"
+          ],
+          "contactPoint": [{
+            "@type": "ContactPoint",
+            "telephone": "+989334440677",
+            "contactType": "ارتباط با مشتریان"
+          },{
+            "@type": "ContactPoint",
+            "telephone": "+989334440677",
+            "contactType": "ارتباط با مشتریان"
+          }]
+        },
+        {
+          "@type": "WebSite",
+          "name": "پی خونه",
+          "alternateName": "Peykhoone",
+          "url": "http://www.peykhoone.com"
+        }
+
+</script>
+@endsection
