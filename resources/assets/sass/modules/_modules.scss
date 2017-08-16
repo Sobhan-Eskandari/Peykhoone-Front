@@ -1,3 +1,10 @@
+.m-small-header{
+  height: 255px;
+  background: url("/images/header3.jpg");
+  background-size: cover;
+  background-position-y: -250px;
+}
+
 .m-card {
   background: #FFFFFF;
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.21);
@@ -346,7 +353,7 @@
 .m-breadcrumb-item {
   float: right;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 //----------- [ list item information  ] -----------
@@ -454,9 +461,11 @@
 }
 .noUi-handle{
   border-radius: 50% !important;
-  box-shadow: none !important;
   background-color: $ocean !important;
   border: none !important;
+  cursor: pointer;
+  /* Oval Copy: */
+  box-shadow: 0 0 1px 0 rgba(0,0,0,0.34);
 }
 .noUi-handle:before{
   display: none !important;
@@ -486,10 +495,12 @@
   background-color: transparent !important;
   bottom: -120% !important;
   color: black !important;
+  direction: rtl !important;
 }
 
 .m-pagination-angle, .m-pagination-num {
   color: #3c3d41;
+  font-weight: 100;
 }
 
 .m-pagination-num:focus {
@@ -583,6 +594,7 @@
   }
   .dropdown-toggle.btn{
     margin-top: auto;
+    text-align: right;
     margin-bottom: auto;
     font-weight: normal;
     color: black;
@@ -591,18 +603,21 @@
     -webkit-box-shadow: none !important;
     box-shadow:none !important;
     font-size: 14px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border-radius: 6px !important;
 
     &:hover{
       cursor: pointer;
     }
     &:focus{
-      border-top: 3px solid teal;
+      border-top: 2px solid teal;
     }
   }
   .dropdown-toggle{
     background-color: $white !important;
     border: transparent;
-    border-top: 3px solid #dbdbdb;
+    border-top: 2px solid #dbdbdb;
     color: black !important;
     outline: none;
   }
