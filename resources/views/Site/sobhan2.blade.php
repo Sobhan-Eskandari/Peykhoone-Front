@@ -117,12 +117,12 @@
                 <div class="col-12 col-md-6 col-lg-3 my-3">
                     <a href="#" class="is-hovered-adCard">
                         <div class="m-card">
-                             Card Infos
+                             {{--Card Infos--}}
                             <img class="img-fluid l-topCornered m-card-image" src="{{asset('images/home-image.jpg')}}">
                             <p class="text-center mt-2 mb-2"><strong>یوسف آباد</strong></p>
                             <p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>
                             <p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>
-                            cart azhans name and bishtar bedanid
+                            {{--cart azhans name and bishtar bedanid--}}
                             <div class="container-fluid">
                                 <div class="row pt-2 pb-1 align-items-center">
                                     <div class="col-4 pl-0">
@@ -363,15 +363,15 @@
 <div class="container">
 
     {{--************ [ Fields ] **************--}}
-    {{--<div class="row">--}}
-        {{--<div class="col-auto l-rtl">--}}
-            {{--<div class="form-group has-danger">--}}
-                {{--<label class="hi-fontSize-13 form-control-label" for="name">نام و نام خانوادگی</label>--}}
-                {{--<input class="m-field form-control" id="name" aria-describedby="name" placeholder="نام و نام خانوادگی خود را به فارسی وارد کنید">--}}
-                {{--<div class="form-control-feedback hi-fontSize-12">لطفا نام را به فارسی بنویسید</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
+    <div class="row">
+        <div class="col-auto l-rtl">
+            <div class="form-group">
+                <label class="hi-fontSize-13 form-control-label" for="name">نام و نام خانوادگی</label>
+                <input class="m-field form-control" id="name" aria-describedby="name" placeholder="نام و نام خانوادگی خود را به فارسی وارد کنید">
+                <div class="form-control-feedback hi-fontSize-12">لطفا نام را به فارسی بنویسید</div>
+            </div>
+        </div>
+    </div>
 
     {{--************ [ Dropdown ] **************--}}
     {{--<div class="row">--}}
@@ -388,13 +388,21 @@
         {{--</div>--}}
     {{--</div>--}}
     {{--************ [ Dropdown ] **************--}}
-    {{--<div class="row mt-5">--}}
-        {{--<div class="col-3 Topbar_dropdown l-rtl">--}}
-            {{--<select id="example-getting-started" multiple="multiple">--}}
-                {{--<option value="cheese">پیش فروش</option>--}}
-                {{--<option value="tomatoes">اجاره</option>--}}
-            {{--</select>--}}
-        {{--</div>--}}
+    <div class="row mt-5">
+        <div class="col-3 Topbar_dropdown l-rtl">
+            <select class="example-getting-started" multiple="multiple">
+                <option value="cheese">پیش فروش</option>
+                <option value="tomatoes">اجاره</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-3 Topbar_dropdown l-rtl">
+            <select class="example-getting-started" multiple="multiple">
+                <option value="cheese">پیش فروش</option>
+                <option value="tomatoes">اجاره</option>
+            </select>
+        </div>
     </div>
 </div>
 
