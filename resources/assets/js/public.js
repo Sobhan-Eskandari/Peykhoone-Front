@@ -5,6 +5,13 @@ import noUiSlider from 'nouislider'
 import wNumb from 'wnumb'
 import SmoothScroll from 'smooth-scroll'
 
+//****************** Site Loading ********************
+
+$(window).load(function () {
+    $("#loading").remove();
+    $("#content").show();
+});
+
 Waves.attach('.m-btn',['waves-light']);
 Waves.attach('.filter-search-btn',['waves-light']);
 Waves.attach('.m-filters-btn',['waves-block']);

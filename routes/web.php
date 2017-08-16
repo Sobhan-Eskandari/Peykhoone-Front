@@ -23,6 +23,11 @@ Route::get('/home', function () {
     return view('Site.home');
 });
 
+Route::get('/ads', function () {
+    return view('Site.all-ads');
+});
+
+
 Route::get('/layout', function () {
     return view('layout.site');
 });

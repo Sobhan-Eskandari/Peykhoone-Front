@@ -20296,6 +20296,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+//****************** Site Loading ********************
+
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()(window).load(function () {
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#loading").remove();
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#content").show();
+});
+
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-btn', ['waves-light']);
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.filter-search-btn', ['waves-light']);
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-filters-btn', ['waves-block']);
