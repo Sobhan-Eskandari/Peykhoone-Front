@@ -32,6 +32,7 @@
   padding: 5px 20px;
   text-align: center;
   font-weight: 200;
+  cursor: pointer;
 }
 
 .hi-button-simple:focus {

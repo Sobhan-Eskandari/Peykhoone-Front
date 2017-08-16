@@ -15692,7 +15692,7 @@ __webpack_require__(49);
 __webpack_require__(50);
 __webpack_require__(51);
 __webpack_require__(52);
-module.exports = __webpack_require__(57);
+module.exports = __webpack_require__(53);
 
 
 /***/ }),
@@ -20277,17 +20277,275 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_typed_js__ = __webpack_require__(53);
+/* WEBPACK VAR INJECTION */(function(jQuery) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+
+__webpack_require__(3);
+
+//border bottom gradient
+
+__WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).ready(function () {
+    __WEBPACK_IMPORTED_MODULE_0_jquery___default()('ul li a.m-navBar-link').click(function () {
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('li a.m-navBar-link').removeClass("m-navBar-activeLink gradient-borderBottom");
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).addClass("m-navBar-activeLink gradient-borderBottom");
+    });
+});
+
+var $window = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(window);
+
+__WEBPACK_IMPORTED_MODULE_0_jquery___default()(window).on('resize', function () {
+    if ($window.width() > 900) {
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('header').removeClass('push');
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('footer').removeClass('push');
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('div#container').removeAttr('id');
+    } else {
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('header').addClass('push');
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('footer').addClass('push');
+        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('div#container').attr('id');
+    };
+});
+/*! Pushy - v1.1.0 - 2017-1-30
+ * Pushy is a responsive off-canvas navigation menu using CSS transforms & transitions.
+ * https://github.com/christophery/pushy/
+ * by Christopher Yee */
+(function ($) {
+    var pushy = $('.pushy'),
+        //menu css class
+    body = $('body'),
+        container = $('#container'),
+        //container css class
+    push = $('.push'),
+        //css class to add pushy capability
+    pushyLeft = 'pushy-left',
+        //css class for left menu position
+    pushyOpenLeft = 'pushy-open-left',
+        //css class when menu is open (left position)
+    pushyOpenRight = 'pushy-open-right',
+        //css class when menu is open (right position)
+    siteOverlay = $('.site-overlay'),
+        //site overlay
+    menuBtn = $('.menu-btn, .pushy-link'),
+        //css classes to toggle the menu
+    menuBtnFocus = $('.menu-btn'),
+        //css class to focus when menu is closed w/ esc key
+    menuLinkFocus = $(pushy.data('focus')),
+        //focus on link when menu is open
+    menuSpeed = 200,
+        //jQuery fallback menu speed
+    menuWidth = pushy.width() + 'px',
+        //jQuery fallback menu width
+    submenuClass = '.pushy-submenu',
+        submenuOpenClass = 'pushy-submenu-open',
+        submenuClosedClass = 'pushy-submenu-closed',
+        submenu = $(submenuClass);
+
+    //close menu w/ esc key
+    $(document).keyup(function (e) {
+        //check if esc key is pressed
+        if (e.keyCode == 27) {
+
+            //check if menu is open
+            if (body.hasClass(pushyOpenLeft) || body.hasClass(pushyOpenRight)) {
+                if (cssTransforms3d) {
+                    closePushy(); //close pushy
+                } else {
+                    closePushyFallback();
+                    opened = false; //set menu state
+                }
+
+                //focus on menu button after menu is closed
+                if (menuBtnFocus) {
+                    menuBtnFocus.focus();
+                }
+            }
+        }
+    });
+
+    function togglePushy() {
+        //add class to body based on menu position
+        if (pushy.hasClass(pushyLeft)) {
+            body.toggleClass(pushyOpenLeft);
+        } else {
+            body.toggleClass(pushyOpenRight);
+        }
+
+        //focus on link in menu after css transition ends
+        if (menuLinkFocus) {
+            pushy.one('transitionend', function () {
+                menuLinkFocus.focus();
+            });
+        }
+    }
+
+    function closePushy() {
+        if (pushy.hasClass(pushyLeft)) {
+            body.removeClass(pushyOpenLeft);
+        } else {
+            body.removeClass(pushyOpenRight);
+        }
+    }
+
+    function openPushyFallback() {
+        //animate menu position based on CSS class
+        if (pushy.hasClass(pushyLeft)) {
+            body.addClass(pushyOpenLeft);
+            pushy.animate({ left: "0px" }, menuSpeed);
+            container.animate({ left: menuWidth }, menuSpeed);
+            //css class to add pushy capability
+            push.animate({ left: menuWidth }, menuSpeed);
+        } else {
+            body.addClass(pushyOpenRight);
+            pushy.animate({ right: '0px' }, menuSpeed);
+            container.animate({ right: menuWidth }, menuSpeed);
+            push.animate({ right: menuWidth }, menuSpeed);
+        }
+
+        //focus on link in menu
+        if (menuLinkFocus) {
+            menuLinkFocus.focus();
+        }
+    }
+
+    function closePushyFallback() {
+        //animate menu position based on CSS class
+        if (pushy.hasClass(pushyLeft)) {
+            body.removeClass(pushyOpenLeft);
+            pushy.animate({ left: "-" + menuWidth }, menuSpeed);
+            container.animate({ left: "0px" }, menuSpeed);
+            //css class to add pushy capability
+            push.animate({ left: "0px" }, menuSpeed);
+        } else {
+            body.removeClass(pushyOpenRight);
+            pushy.animate({ right: "-" + menuWidth }, menuSpeed);
+            container.animate({ right: "0px" }, menuSpeed);
+            push.animate({ right: "0px" }, menuSpeed);
+        }
+    }
+
+    function toggleSubmenu() {
+        //hide submenu by default
+        $(submenuClass).addClass(submenuClosedClass);
+
+        $(submenuClass).on('click', function () {
+            var selected = $(this);
+
+            if (selected.hasClass(submenuClosedClass)) {
+                //hide opened submenus
+                $(submenuClass).addClass(submenuClosedClass).removeClass(submenuOpenClass);
+                //show submenu
+                selected.removeClass(submenuClosedClass).addClass(submenuOpenClass);
+            } else {
+                //hide submenu
+                selected.addClass(submenuClosedClass).removeClass(submenuOpenClass);
+            }
+        });
+    }
+
+    //checks if 3d transforms are supported removing the modernizr dependency
+    var cssTransforms3d = function csstransforms3d() {
+        var el = document.createElement('p'),
+            supported = false,
+            transforms = {
+            'webkitTransform': '-webkit-transform',
+            'OTransform': '-o-transform',
+            'msTransform': '-ms-transform',
+            'MozTransform': '-moz-transform',
+            'transform': 'transform'
+        };
+
+        if (document.body !== null) {
+            // Add it to the body to get the computed style
+            document.body.insertBefore(el, null);
+
+            for (var t in transforms) {
+                if (el.style[t] !== undefined) {
+                    el.style[t] = 'translate3d(1px,1px,1px)';
+                    supported = window.getComputedStyle(el).getPropertyValue(transforms[t]);
+                }
+            }
+
+            document.body.removeChild(el);
+
+            return supported !== undefined && supported.length > 0 && supported !== "none";
+        } else {
+            return false;
+        }
+    }();
+
+    if (cssTransforms3d) {
+        //toggle submenu
+        toggleSubmenu();
+
+        //toggle menu
+        menuBtn.on('click', function () {
+            togglePushy();
+        });
+        //close menu when clicking site overlay
+        siteOverlay.on('click', function () {
+            togglePushy();
+        });
+    } else {
+        //add css class to body
+        body.addClass('no-csstransforms3d');
+
+        //hide menu by default
+        if (pushy.hasClass(pushyLeft)) {
+            pushy.css({ left: "-" + menuWidth });
+        } else {
+            pushy.css({ right: "-" + menuWidth });
+        }
+
+        //fixes IE scrollbar issue
+        container.css({ "overflow-x": "hidden" });
+
+        //keep track of menu state (open/close)
+        var opened = false;
+
+        //toggle submenu
+        toggleSubmenu();
+
+        //toggle menu
+        menuBtn.on('click', function () {
+            if (opened) {
+                closePushyFallback();
+                opened = false;
+            } else {
+                openPushyFallback();
+                opened = true;
+            }
+        });
+
+        //close menu when clicking site overlay
+        siteOverlay.on('click', function () {
+            if (opened) {
+                closePushyFallback();
+                opened = false;
+            } else {
+                openPushyFallback();
+                opened = true;
+            }
+        });
+    }
+})(jQuery);
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+
+/***/ }),
+/* 53 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_typed_js__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_typed_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_typed_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_node_waves__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_node_waves__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_node_waves___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_node_waves__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nouislider__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nouislider__ = __webpack_require__(56);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nouislider___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_nouislider__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_wnumb__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_wnumb___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_wnumb__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_smooth_scroll__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_smooth_scroll__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_smooth_scroll__);
 
 
@@ -20296,6 +20554,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+// <!-- Initialize the plugin: -->
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()(document).ready(function () {
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()('.example-getting-started').multiselect({
+        nonSelectedText: 'انتخاب کنید',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+});
+
 //****************** Site Loading ********************
 
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()(window).load(function () {
@@ -20303,6 +20570,7 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()(window).load(function () {
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#content").show();
 });
 
+//****************** Wave Js ********************
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-btn', ['waves-light']);
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.filter-search-btn', ['waves-light']);
 __WEBPACK_IMPORTED_MODULE_1_node_waves___default.a.attach('.m-filters-btn', ['waves-block']);
@@ -20339,15 +20607,6 @@ if (__WEBPACK_IMPORTED_MODULE_2_jquery___default()(window).width() <= 768) {
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").find(".home-cost").css('font-weight', 'normal');
 }
 
-// <!-- Initialize the plugin: -->
-__WEBPACK_IMPORTED_MODULE_2_jquery___default()(document).ready(function () {
-    __WEBPACK_IMPORTED_MODULE_2_jquery___default()('#example-getting-started').multiselect({
-        nonSelectedText: 'انتخاب کنید',
-        includeSelectAllOption: true,
-        allSelectedText: 'همه‌‌ی موارد'
-    });
-});
-
 // ============[ Translate English digits to farsi ]===========
 var translate = function translate(englishNumber) {
     var chars = englishNumber.split('');
@@ -20359,52 +20618,6 @@ var translate = function translate(englishNumber) {
     }
     return chars.join('');
 };
-// ****************** Cost Slider ********************
-var stepSlider = document.getElementById('slider-step');
-
-__WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(stepSlider, {
-    start: [50000, 5000000],
-    step: 50000,
-    connect: true,
-    direction: 'rtl',
-    tooltips: true,
-    range: {
-        'min': 50000,
-        'max': 5000000
-    },
-    format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
-        decimals: 0,
-        thousand: ',',
-        postfix: ' تومان'
-    })
-});
-// ****************** Metraj Slider ********************
-var metrajSlider = document.getElementById('metraj-slider');
-
-__WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(metrajSlider, {
-    start: [10, 50000],
-    step: 10,
-    connect: true,
-    direction: 'rtl',
-    tooltips: true,
-    range: {
-        'min': 10,
-        'max': 50000
-    },
-    format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
-        decimals: 0,
-        thousand: ',',
-        postfix: 'متر'
-    })
-});
-
-metrajSlider.noUiSlider.on('update', function (values, handle) {
-    // snapValues[handle].innerHTML = values[handle];
-    var translatedMin = values[0].replace("متر", "");
-    var translatedMax = values[1].replace("متر", "");
-
-    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-place").text('\u0627\u0632 ' + translate(translatedMin) + ' \u062A\u0627 ' + translate(translatedMax));
-});
 
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemelk-filters").hide();
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#noemoamele-filters").hide();
@@ -20653,8 +20866,102 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filters input").clic
 var scrollApp = new __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default.a('#tajrobePeykhoone a');
 var scrollUp = new __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default.a('#goUpBtn');
 
+// ****************** Cost Slider ********************
+var costSlider = document.getElementById('slider-step');
+
+__WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(costSlider, {
+    start: [50000, 5000000],
+    step: 50000,
+    connect: true,
+    direction: 'rtl',
+    tooltips: true,
+    range: {
+        'min': 50000,
+        'max': 5000000
+    },
+    format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
+        decimals: 0,
+        thousand: ',',
+        postfix: ' تومان'
+    })
+});
+
+costSlider.noUiSlider.on('update', function (values, handle) {
+    // snapValues[handle].innerHTML = values[handle];
+    var translatedMin = values[0].replace("تومان", "");
+    var translatedMax = values[1].replace("تومان", "");
+
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#slider-step .noUi-handle-lower .noUi-tooltip").text(' ' + translate(translatedMin) + ' \u062A\u0648\u0645\u0627\u0646 ');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#slider-step .noUi-handle-upper .noUi-tooltip").text(' ' + translate(translatedMax) + ' \u062A\u0648\u0645\u0627\u0646 ');
+});
+
+// ****************** Metraj Slider ********************
+var metrajSlider = document.querySelector('.metraj-slider');
+
+__WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(metrajSlider, {
+    start: [10, 50000],
+    step: 10,
+    connect: true,
+    direction: 'rtl',
+    tooltips: true,
+    range: {
+        'min': 10,
+        'max': 50000
+    },
+    format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
+        decimals: 0,
+        thousand: ',',
+        postfix: 'متر'
+    })
+});
+
+metrajSlider.noUiSlider.on('update', function (values, handle) {
+    // snapValues[handle].innerHTML = values[handle];
+    var translatedMin = values[0].replace("متر", "");
+    var translatedMax = values[1].replace("متر", "");
+
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-place").text('\u0627\u0632 ' + translate(translatedMin) + ' \u062A\u0627 ' + translate(translatedMax));
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-slider .noUi-handle-lower .noUi-tooltip").text(' ' + translate(translatedMin) + ' \u0645\u062A\u0631 ');
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-slider .noUi-handle-upper .noUi-tooltip").text(' ' + translate(translatedMax) + ' \u0645\u062A\u0631 ');
+});
+
+// ****************** Sene Bana Slider ********************
+var seneBanaSlider = document.getElementById('senebana-slider');
+
+__WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(seneBanaSlider, {
+    start: [0, 35],
+    step: 2,
+    connect: true,
+    direction: 'rtl',
+    tooltips: true,
+    range: {
+        'min': 0,
+        'max': 35
+    },
+    format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
+        decimals: 0,
+        thousand: ',',
+        postfix: 'سال'
+    })
+});
+
+seneBanaSlider.noUiSlider.on('update', function (values, handle) {
+
+    var translatedMin = values[0].replace("سال", "");
+    var translatedMax = values[1].replace("سال", "");
+
+    if (translatedMin == 0) {
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#senebana-slider .noUi-handle-lower .noUi-tooltip").text(' \u0646\u0648\u0633\u0627\u0632 ');
+    } else {
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#senebana-slider .noUi-handle-lower .noUi-tooltip").text(' ' + translate(translatedMin) + ' \u0633\u0627\u0644 ');
+        // $("#senebana-slider .noUi-handle-lower .noUi-tooltip").text($("#senebana-slider .noUi-handle-lower .noUi-tooltip").text() + 'سال');
+    }
+
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#senebana-slider .noUi-handle-upper .noUi-tooltip").text(' ' + translate(translatedMax) + ' \u0633\u0627\u0644 ');
+});
+
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -21711,7 +22018,7 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -22301,7 +22608,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! nouislider - 10.1.0 - 2017-07-28 17:11:18 */
@@ -24621,271 +24928,13 @@ function closure ( target, options, originalOptions ){
 }));
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! smooth-scroll v12.1.4 | (c) 2017 Chris Ferdinandi | MIT License | http://github.com/cferdinandi/smooth-scroll */
 !(function(e,t){ true?!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function(){return t(e)}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):"object"==typeof exports?module.exports=t(e):e.SmoothScroll=t(e)})("undefined"!=typeof global?global:"undefined"!=typeof window?window:this,(function(e){"use strict";var t="querySelector"in document&&"addEventListener"in e&&"requestAnimationFrame"in e&&"closest"in e.Element.prototype,n={ignore:"[data-scroll-ignore]",header:null,speed:500,offset:0,easing:"easeInOutCubic",customEasing:null,before:function(){},after:function(){}},o=function(){for(var e={},t=0,n=arguments.length;t<n;t++){var o=arguments[t];!(function(t){for(var n in t)t.hasOwnProperty(n)&&(e[n]=t[n])})(o)}return e},a=function(t){return parseInt(e.getComputedStyle(t).height,10)},r=function(e){"#"===e.charAt(0)&&(e=e.substr(1));for(var t,n=String(e),o=n.length,a=-1,r="",i=n.charCodeAt(0);++a<o;){if(0===(t=n.charCodeAt(a)))throw new InvalidCharacterError("Invalid character: the input contains U+0000.");t>=1&&t<=31||127==t||0===a&&t>=48&&t<=57||1===a&&t>=48&&t<=57&&45===i?r+="\\"+t.toString(16)+" ":r+=t>=128||45===t||95===t||t>=48&&t<=57||t>=65&&t<=90||t>=97&&t<=122?n.charAt(a):"\\"+n.charAt(a)}return"#"+r},i=function(e,t){var n;return"easeInQuad"===e.easing&&(n=t*t),"easeOutQuad"===e.easing&&(n=t*(2-t)),"easeInOutQuad"===e.easing&&(n=t<.5?2*t*t:(4-2*t)*t-1),"easeInCubic"===e.easing&&(n=t*t*t),"easeOutCubic"===e.easing&&(n=--t*t*t+1),"easeInOutCubic"===e.easing&&(n=t<.5?4*t*t*t:(t-1)*(2*t-2)*(2*t-2)+1),"easeInQuart"===e.easing&&(n=t*t*t*t),"easeOutQuart"===e.easing&&(n=1- --t*t*t*t),"easeInOutQuart"===e.easing&&(n=t<.5?8*t*t*t*t:1-8*--t*t*t*t),"easeInQuint"===e.easing&&(n=t*t*t*t*t),"easeOutQuint"===e.easing&&(n=1+--t*t*t*t*t),"easeInOutQuint"===e.easing&&(n=t<.5?16*t*t*t*t*t:1+16*--t*t*t*t*t),e.customEasing&&(n=e.customEasing(t)),n||t},u=function(){return parseInt(e.getComputedStyle(document.documentElement).height,10)},c=function(e,t,n){var o=0;if(e.offsetParent)do{o+=e.offsetTop,e=e.offsetParent}while(e);return o=Math.max(o-t-n,0)},s=function(e){return e?a(e)+e.offsetTop:0},l=function(t,n,o){o||(t.focus(),document.activeElement.id!==t.id&&(t.setAttribute("tabindex","-1"),t.focus(),t.style.outline="none"),e.scrollTo(0,n))},f=function(t){return!!("matchMedia"in e&&e.matchMedia("(prefers-reduced-motion)").matches)};return function(a,d){var h,m,g,p,v,b,y,S={};S.cancelScroll=function(){cancelAnimationFrame(y)},S.animateScroll=function(t,a,r){var f=o(h||n,r||{}),d="[object Number]"===Object.prototype.toString.call(t),m=d||!t.tagName?null:t;if(d||m){var g=e.pageYOffset;f.header&&!p&&(p=document.querySelector(f.header)),v||(v=s(p));var b,y,I,O=d?t:c(m,v,parseInt("function"==typeof f.offset?f.offset():f.offset,10)),A=O-g,E=u(),C=0,w=function(n,o){var r=e.pageYOffset;if(n==o||r==o||(g<o&&e.innerHeight+r)>=E)return S.cancelScroll(),l(t,o,d),f.after(t,a),b=null,!0},Q=function(t){b||(b=t),C+=t-b,y=C/parseInt(f.speed,10),y=y>1?1:y,I=g+A*i(f,y),e.scrollTo(0,Math.floor(I)),w(I,O)||(e.requestAnimationFrame(Q),b=t)};0===e.pageYOffset&&e.scrollTo(0,0),f.before(t,a),S.cancelScroll(),e.requestAnimationFrame(Q)}};var I=function(e){m&&(m.id=m.getAttribute("data-scroll-id"),S.animateScroll(m,g),m=null,g=null)},O=function(t){if(!f()&&0===t.button&&!t.metaKey&&!t.ctrlKey&&(g=t.target.closest(a))&&"a"===g.tagName.toLowerCase()&&!t.target.closest(h.ignore)&&g.hostname===e.location.hostname&&g.pathname===e.location.pathname&&/#/.test(g.href)){var n;try{n=r(decodeURIComponent(g.hash))}catch(e){n=r(g.hash)}if("#"===n){t.preventDefault(),m=document.body;var o=m.id?m.id:"smooth-scroll-top";return m.setAttribute("data-scroll-id",o),m.id="",void(e.location.hash.substring(1)===o?I():e.location.hash=o)}m=document.querySelector(n),m&&(m.setAttribute("data-scroll-id",m.id),m.id="",g.hash===e.location.hash&&(t.preventDefault(),I()))}},A=function(e){b||(b=setTimeout((function(){b=null,v=s(p)}),66))};return S.destroy=function(){h&&(document.removeEventListener("click",O,!1),e.removeEventListener("resize",A,!1),S.cancelScroll(),h=null,m=null,g=null,p=null,v=null,b=null,y=null)},S.init=function(a){t&&(S.destroy(),h=o(n,a||{}),p=h.header?document.querySelector(h.header):null,v=s(p),document.addEventListener("click",O,!1),e.addEventListener("hashchange",I,!1),p&&e.addEventListener("resize",A,!1))},S.init(d),S}}));
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
-
-/***/ }),
-/* 57 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function(jQuery) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-
-__webpack_require__(3);
-
-//border bottom gradient
-
-__WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).ready(function () {
-    __WEBPACK_IMPORTED_MODULE_0_jquery___default()('ul li a.m-navBar-link').click(function () {
-        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('li a.m-navBar-link').removeClass("m-navBar-activeLink gradient-borderBottom");
-        __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).addClass("m-navBar-activeLink gradient-borderBottom");
-    });
-});
-
-var $window = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(window);
-
-__WEBPACK_IMPORTED_MODULE_0_jquery___default()(window).on('resize', function () {
-    if ($window.width() > 900) {
-        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('header').removeClass('push');
-        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('footer').removeClass('push');
-        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('div#container').removeAttr('id');
-    } else {
-        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('header').addClass('push');
-        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('footer').addClass('push');
-        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('div#container').attr('id');
-    };
-});
-/*! Pushy - v1.1.0 - 2017-1-30
- * Pushy is a responsive off-canvas navigation menu using CSS transforms & transitions.
- * https://github.com/christophery/pushy/
- * by Christopher Yee */
-(function ($) {
-    var pushy = $('.pushy'),
-        //menu css class
-    body = $('body'),
-        container = $('#container'),
-        //container css class
-    push = $('.push'),
-        //css class to add pushy capability
-    pushyLeft = 'pushy-left',
-        //css class for left menu position
-    pushyOpenLeft = 'pushy-open-left',
-        //css class when menu is open (left position)
-    pushyOpenRight = 'pushy-open-right',
-        //css class when menu is open (right position)
-    siteOverlay = $('.site-overlay'),
-        //site overlay
-    menuBtn = $('.menu-btn, .pushy-link'),
-        //css classes to toggle the menu
-    menuBtnFocus = $('.menu-btn'),
-        //css class to focus when menu is closed w/ esc key
-    menuLinkFocus = $(pushy.data('focus')),
-        //focus on link when menu is open
-    menuSpeed = 200,
-        //jQuery fallback menu speed
-    menuWidth = pushy.width() + 'px',
-        //jQuery fallback menu width
-    submenuClass = '.pushy-submenu',
-        submenuOpenClass = 'pushy-submenu-open',
-        submenuClosedClass = 'pushy-submenu-closed',
-        submenu = $(submenuClass);
-
-    //close menu w/ esc key
-    $(document).keyup(function (e) {
-        //check if esc key is pressed
-        if (e.keyCode == 27) {
-
-            //check if menu is open
-            if (body.hasClass(pushyOpenLeft) || body.hasClass(pushyOpenRight)) {
-                if (cssTransforms3d) {
-                    closePushy(); //close pushy
-                } else {
-                    closePushyFallback();
-                    opened = false; //set menu state
-                }
-
-                //focus on menu button after menu is closed
-                if (menuBtnFocus) {
-                    menuBtnFocus.focus();
-                }
-            }
-        }
-    });
-
-    function togglePushy() {
-        //add class to body based on menu position
-        if (pushy.hasClass(pushyLeft)) {
-            body.toggleClass(pushyOpenLeft);
-        } else {
-            body.toggleClass(pushyOpenRight);
-        }
-
-        //focus on link in menu after css transition ends
-        if (menuLinkFocus) {
-            pushy.one('transitionend', function () {
-                menuLinkFocus.focus();
-            });
-        }
-    }
-
-    function closePushy() {
-        if (pushy.hasClass(pushyLeft)) {
-            body.removeClass(pushyOpenLeft);
-        } else {
-            body.removeClass(pushyOpenRight);
-        }
-    }
-
-    function openPushyFallback() {
-        //animate menu position based on CSS class
-        if (pushy.hasClass(pushyLeft)) {
-            body.addClass(pushyOpenLeft);
-            pushy.animate({ left: "0px" }, menuSpeed);
-            container.animate({ left: menuWidth }, menuSpeed);
-            //css class to add pushy capability
-            push.animate({ left: menuWidth }, menuSpeed);
-        } else {
-            body.addClass(pushyOpenRight);
-            pushy.animate({ right: '0px' }, menuSpeed);
-            container.animate({ right: menuWidth }, menuSpeed);
-            push.animate({ right: menuWidth }, menuSpeed);
-        }
-
-        //focus on link in menu
-        if (menuLinkFocus) {
-            menuLinkFocus.focus();
-        }
-    }
-
-    function closePushyFallback() {
-        //animate menu position based on CSS class
-        if (pushy.hasClass(pushyLeft)) {
-            body.removeClass(pushyOpenLeft);
-            pushy.animate({ left: "-" + menuWidth }, menuSpeed);
-            container.animate({ left: "0px" }, menuSpeed);
-            //css class to add pushy capability
-            push.animate({ left: "0px" }, menuSpeed);
-        } else {
-            body.removeClass(pushyOpenRight);
-            pushy.animate({ right: "-" + menuWidth }, menuSpeed);
-            container.animate({ right: "0px" }, menuSpeed);
-            push.animate({ right: "0px" }, menuSpeed);
-        }
-    }
-
-    function toggleSubmenu() {
-        //hide submenu by default
-        $(submenuClass).addClass(submenuClosedClass);
-
-        $(submenuClass).on('click', function () {
-            var selected = $(this);
-
-            if (selected.hasClass(submenuClosedClass)) {
-                //hide opened submenus
-                $(submenuClass).addClass(submenuClosedClass).removeClass(submenuOpenClass);
-                //show submenu
-                selected.removeClass(submenuClosedClass).addClass(submenuOpenClass);
-            } else {
-                //hide submenu
-                selected.addClass(submenuClosedClass).removeClass(submenuOpenClass);
-            }
-        });
-    }
-
-    //checks if 3d transforms are supported removing the modernizr dependency
-    var cssTransforms3d = function csstransforms3d() {
-        var el = document.createElement('p'),
-            supported = false,
-            transforms = {
-            'webkitTransform': '-webkit-transform',
-            'OTransform': '-o-transform',
-            'msTransform': '-ms-transform',
-            'MozTransform': '-moz-transform',
-            'transform': 'transform'
-        };
-
-        if (document.body !== null) {
-            // Add it to the body to get the computed style
-            document.body.insertBefore(el, null);
-
-            for (var t in transforms) {
-                if (el.style[t] !== undefined) {
-                    el.style[t] = 'translate3d(1px,1px,1px)';
-                    supported = window.getComputedStyle(el).getPropertyValue(transforms[t]);
-                }
-            }
-
-            document.body.removeChild(el);
-
-            return supported !== undefined && supported.length > 0 && supported !== "none";
-        } else {
-            return false;
-        }
-    }();
-
-    if (cssTransforms3d) {
-        //toggle submenu
-        toggleSubmenu();
-
-        //toggle menu
-        menuBtn.on('click', function () {
-            togglePushy();
-        });
-        //close menu when clicking site overlay
-        siteOverlay.on('click', function () {
-            togglePushy();
-        });
-    } else {
-        //add css class to body
-        body.addClass('no-csstransforms3d');
-
-        //hide menu by default
-        if (pushy.hasClass(pushyLeft)) {
-            pushy.css({ left: "-" + menuWidth });
-        } else {
-            pushy.css({ right: "-" + menuWidth });
-        }
-
-        //fixes IE scrollbar issue
-        container.css({ "overflow-x": "hidden" });
-
-        //keep track of menu state (open/close)
-        var opened = false;
-
-        //toggle submenu
-        toggleSubmenu();
-
-        //toggle menu
-        menuBtn.on('click', function () {
-            if (opened) {
-                closePushyFallback();
-                opened = false;
-            } else {
-                openPushyFallback();
-                opened = true;
-            }
-        });
-
-        //close menu when clicking site overlay
-        siteOverlay.on('click', function () {
-            if (opened) {
-                closePushyFallback();
-                opened = false;
-            } else {
-                openPushyFallback();
-                opened = true;
-            }
-        });
-    }
-})(jQuery);
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ })
 /******/ ]);

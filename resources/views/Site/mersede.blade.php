@@ -301,6 +301,75 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
     </div>
 </div>
 
+<div class="row mt-5">
+    <div class="col-3 Topbar_dropdown l-rtl">
+        <select class="example-getting-started" multiple="multiple">
+            <option value="cheese">پیش فروش</option>
+            <option value="tomatoes">اجاره</option>
+        </select>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-11 Topbar_dropdown l-rtl">
+            <p class="hi-fontSize-13 teal-text mb-1 mt-1"><strong>نوع معامله</strong></p>
+            <select class="example-getting-started" multiple="multiple">
+                <option value="cheese">پیش فروش</option>
+                <option value="tomatoes">اجاره</option>
+            </select>
+
+            <p class="hi-fontSize-13 teal-text mb-1 mt-4"><strong>نوع ملک</strong></p>
+            <select class="example-getting-started" multiple="multiple">
+                <option value="cheese">پیش فروش</option>
+                <option value="tomatoes">اجاره</option>
+            </select>
+
+            <p class="hi-fontSize-13 teal-text mb-1 mt-4"><strong>تعداد اتاق خواب</strong></p>
+            <select class="example-getting-started" multiple="multiple">
+                <option value="cheese">پیش فروش</option>
+                <option value="tomatoes">اجاره</option>
+            </select>
+
+            <p class="hi-fontSize-13 teal-text mb-1 mt-4"><strong>امکانات</strong></p>
+            <select class="example-getting-started" multiple="multiple">
+                <option value="cheese">پیش فروش</option>
+                <option value="tomatoes">اجاره</option>
+            </select>
+
+            <hr>
+            <p class="hi-fontSize-13 teal-text mb-1 mt-4"><strong>قیمت</strong></p>
+            <div class="m-slider-place pt-4 pb-5">
+                <div id="slider-step" class="noUi-target noUi-ltr noUi-horizontal"></div>
+            </div>
+
+            <hr>
+            <p class="hi-fontSize-13 teal-text mb-1 mt-4"><strong>سن بنا</strong></p>
+            <div class="m-slider-place pt-4 pb-5 px-4">
+                <div id="senebana-slider" class="noUi-target noUi-ltr noUi-horizontal"></div>
+            </div>
+
+            <hr>
+            <p class="hi-fontSize-13 teal-text mb-1 mt-4"><strong>متراژ</strong></p>
+            <div class="m-slider-place pt-4 pb-5 px-4">
+                {{--<div id="metraj-slider" class="noUi-target noUi-ltr noUi-horizontal"></div>--}}
+            </div>
+
+            <hr>
+            <div class="container-fluid">
+                <div class="row justify-content-around">
+                    <div class="col-12 col-md-6 p-0">
+                        <button class="m-btn m-btn-gradient white-text hi-fontSize-12 px-3 m-0">اعمال فیلتر <i class="fa fa-filter"></i> </button>
+                    </div>
+                    <div class="col-12 col-md-6 p-0">
+                        <button class="hi-button-simple grey-text hi-fontSize-12 px-2 py-2">پاک کردن فیلتر ها</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <hr>
 <div class="container">
     <div class="row justify-content-center">
@@ -452,5 +521,6 @@ c0 268 -3 292 -35 292 -6 0 -16 -5 -23 -12z"/>
 <img src="{{ asset('images/end.png') }}" alt="در حال بارگذاری" height="100%" width="100%">
 <hr>
 <script src="{{asset('js/app.js')}}"></script>
+<script src="{{asset('js/libraries.js')}}"></script>
 </body>
 </html>

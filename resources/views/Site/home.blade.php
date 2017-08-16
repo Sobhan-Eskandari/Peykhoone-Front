@@ -28,7 +28,7 @@
             <div class="row justify-content-center">
                 {{----------------- [ Filters Section ] ----------------}}
                 <div class="col-lg-10 col-xl-8 col-md-11 col-sm-12 col-10 m-curved-bg gradient-background px-0" id="filters-row">
-                    <div class="m-gradient-placeholder">
+                    <div class="m-gradient-placeholder l">
                         <div class="container-fluid l-fullHeight">
                             <div class="row l-fullHeight">
                                 <div class="col-12 col-sm-2 p-0">
