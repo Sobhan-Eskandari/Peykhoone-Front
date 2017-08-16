@@ -59,29 +59,58 @@
     </div>
 </header>
 <!-- Pushy Menu -->
-<nav class="pushy pushy-left hidden-lg-up" data-focus="#first-link">
+<nav class="pushy pushy-right hidden-lg-up" data-focus="#first-link">
     <div class="pushy-content">
         <ul>
-            <li class="pushy-link text-center"><a href="#">صفحه اصلی</a></li>
-            <li class="pushy-link text-center"><a href="#">املاک</a></li>
-            <li class="pushy-link text-center"><a href="#">آژانس های املاک</a></li>
-            <li class="pushy-link text-center"><a href="#">درباره ما</a></li>
-            <li class="pushy-link text-center"><a href="#">تماس با ما</a></li>
-            <li class="pushy-link text-center">
-                <form class="form-inline pl-0 pl-lg-5 ml-0 ml-lg-2 pushy-button">
-                    <div class="row mx-auto text-center">
-                        <button class="btn btn-primary m-btn m-btn-gradient my-2 my-sm-0 mx-2 m-navBar-btn text-center"
-                                type="submit">ثبت آگهی
-                            +
-                        </button>
-                        <button class="btn btn-outline-primary m-btn m-btn-outline hvr-shutter-out-horizontal my-2 my-sm-0 mx-2 m-navBar-btn text-center"
-                                type="submit">ثبت
-                            نام | ورود
-                        </button>
-                    </div>
-                </form>
+            <li class="pushy-link text-right"><a href="#">
+                    <img src="{{ asset('images/Close.png') }}" alt="در حال بارگذاری" height="20px"
+                         width="20px" class="my-4 mr-1">
+                </a></li>
+            <li class="pushy-link text-right">
+                <button class="btn btn-primary m-btn m-btn-gradient my-2 my-sm-0 m-navBar-btn text-center mr-5"
+                        type="submit">ثبت آگهی
+                    +
+                </button>
             </li>
+            <li class="pushy-link text-right mb-4 mt-3">
+                <button class="btn m-btn m-btn-outline hvr-shutter-out-horizontal my-2 my-sm-0 m-navBar-btn text-center mr-5"
+                        type="submit">ثبت
+                    نام | ورود
+                </button>
+            </li>
+            <li class="pushy-link text-right"><a href="#" class="pushy-a">صفحه اصلی</a>
+                <hr class="pushy-link-home my-0 mr-5">
+            </li>
+            <li class="pushy-link text-right"><a href="#" class="pushy-a">املاک</a></li>
+            <li class="pushy-link text-right"><a href="#" class="pushy-a">آژانس های املاک</a></li>
+            <li class="pushy-link text-right"><a href="#" class="pushy-a">درباره ما</a></li>
+            <li class="pushy-link text-right"><a href="#" class="pushy-a">تماس با ما</a></li>
+            <li class="my-5"></li>
+            <li class="pushy-link text-right">
+                <hr class="pushy-seprate mb-0 mx-5">
+                <a href="#" class="pushy-a">...در تماس باشید</a></li>
+            <li class="pushy-link text-right"><a href="#" class="pushy-a">013 478 84 84</a></li>
         </ul>
+        <div class="row l-rtl mx-0 justify-content-start">
+            <div class="col-1 px-0"><a href="#" class="social-icon"><img src="{{ asset('images/Telegram.png') }}"
+                                                                         alt="در حال بارگذاری" height="25px"
+                                                                         width="25px"></a></div>
+            <div class="col-1 pl-3 pr-2"><a href="#" class="social-icon"><img src="{{ asset('images/Facebook.png') }}"
+                                                                              alt="در حال بارگذاری" height="25px"
+                                                                              width="25px"></a></div>
+            <div class="col-1 px-3">
+                <a href="#" class="social-icon"><img src="{{ asset('images/Twitter.png') }}"
+                                                     alt="در حال بارگذاری" height="25px"
+                                                     width="25px"></a>
+            </div>
+            <div class="col-1 px-3">
+                <a href="#" class="social-icon"><img src="{{ asset('images/Instagram.png') }}"
+                                                     alt="در حال بارگذاری" height="25px"
+                                                     width="25px"></a>
+            </div>
+        </div>
+
+
     </div>
 </nav>
 
@@ -90,15 +119,22 @@
 </div>
 
 <!-- Your Content -->
-<div id="container">
+<div id="container" class="container-fluid">
     <!-- Menu Button -->
-    <div class="container-fluid hidden-lg-up">
+    <div class="row hidden-lg-up l-rtl">
         <button class="menu-btn">
             <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
         </button>
     </div>
-    <p class="text-right">hello</p>
-    <p class="text-left">hello</p>
+    <hr>
+    <div class="row">
+        <div class="col-6">
+            <h4 class="text-right">hello</h4>
+        </div>
+        <div class="col-6">
+            <h4 class="text-left">hello</h4>
+        </div>
+    </div>
 </div>
 
 <footer class="site-footer push text-center">This is a footer</footer>
