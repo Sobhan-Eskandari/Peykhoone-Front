@@ -7,12 +7,10 @@ import SmoothScroll from 'smooth-scroll'
 
 
 // <!-- Initialize the plugin: -->
-$(document).ready(function() {
-    $('.example-getting-started').multiselect({
-        nonSelectedText: 'انتخاب کنید',
-        includeSelectAllOption: true,
-        allSelectedText: 'همه‌‌ی موارد'
-    });
+$('.example-getting-started').multiselect({
+    nonSelectedText: 'انتخاب کنید',
+    includeSelectAllOption: true,
+    allSelectedText: 'همه‌‌ی موارد'
 });
 
 //****************** Site Loading ********************
@@ -349,7 +347,7 @@ costSlider.noUiSlider.on('update', function( values, handle ) {
 });
 
 // ****************** Metraj Slider ********************
-var metrajSlider = document.querySelector('.metraj-slider');
+var metrajSlider = document.getElementById('metraj-slider');
 
 noUiSlider.create(metrajSlider, {
     start: [10, 50000],

@@ -11169,6 +11169,14 @@ button:focus {
   margin-left: 5px;
 }
 
+.m-narrow-dropDown .dropdown-toggle {
+  padding: 8px 20px !important;
+}
+
+.m-narrow-dropDown .multiselect-selected-text {
+  margin-left: 40px !important;
+}
+
 /* ============[ Hamkaran Style ]=========== */
 
 .m-carousel-cell {
