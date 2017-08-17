@@ -24,7 +24,7 @@
     <div class="container mb-5 mt-3">
         <div class="row l-rtl">
             <div class="col-12 p-0">
-                <div class="container-fluid p-0">
+                <div class="container-fluid">
                     <div class="row justify-content-center">
                         {{------------- [ Filters Column ] ------------}}
                         <div class="col-lg-3 col-md-4 mb-4 px-4">
