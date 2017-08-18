@@ -1,11 +1,11 @@
 @extends('layout.site')
 
 @section('title')
-    پی خونه | سامانه آگهی خرید و فروش خونه , ملک , آپارتمان , زمین و مستغلات در گیلان
+    آگهی خرید و فروش و رهن و اجاره خانه , ملک , آپارتمان , زمین و مستغلات | پی خونه
 @endsection
 
 @section('meta')
-    <meta name="description" content="A page's description, usually one or two sentences."/>
+    <meta name="description" content=""/>
 @endsection
 
 @section('content')
