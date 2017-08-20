@@ -17,7 +17,7 @@
     @yield('css_resources')
 
 </head>
-<body>
+<body class="@yield('bg-color')">
 
 {{--****************** Site Loading ********************--}}
 <div class="container-fluid full-height-loading black-color" id="loading">
@@ -101,7 +101,6 @@
 
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/libraries.js')}}"></script>
-{{--<script src="https://use.fontawesome.com/7cd1915430.js"></script>--}}
 
 @yield('js_resources')
 

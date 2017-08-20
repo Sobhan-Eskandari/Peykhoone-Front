@@ -59,8 +59,8 @@
                                                     </select>
 
                                                     <hr>
-                                                    <p class="hi-fontSize-13 teal-text mb-1 mt-4"><strong>قیمت</strong></p>
-                                                    <div class="m-slider-place pt-4 pb-5">
+                                                    <p class="hi-fontSize-13 teal-text mb-1 mt-4"><strong>قیمت (میلیون تومان)</strong></p>
+                                                    <div class="m-slider-place pt-4 pb-5 px-4">
                                                         <div id="slider-step" class="noUi-target noUi-ltr noUi-horizontal"></div>
                                                     </div>
 

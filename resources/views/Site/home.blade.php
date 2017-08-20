@@ -330,6 +330,7 @@
         </div>
     </section>
 
+
     {{------------- [ Azhanshaie Hamkar Section ] ------------}}
     <section class="l-azhanseHamkar my-3">
         <div class="container py-5">
@@ -346,25 +347,25 @@
                                     <div class="m-carousel-cell">
                                         @for($i = 0; $i < 3; $i++)
                                             <div class="row mb-3">
-                                            <div class="col-4 col-md-2 mb-4">
-                                                <img alt="مشاوراملاک ۱" src="{{asset('images/partners/partner1.png')}}">
+                                                <div class="col-4 col-md-2 mb-4">
+                                                    <img alt="مشاوراملاک ۱" src="{{asset('images/partners/partner1.png')}}">
+                                                </div>
+                                                <div class="col-4 col-md-2">
+                                                    <img alt="مشاوراملاک ۲" src="{{asset('images/partners/partner2.png')}}">
+                                                </div>
+                                                <div class="col-4 col-md-2 mb-4">
+                                                    <img alt="مشاوراملاک ۳" src="{{asset('images/partners/partner3.png')}}">
+                                                </div>
+                                                <div class="col-4 col-md-2">
+                                                    <img alt="مشاوراملاک ۴" src="{{asset('images/partners/partner4.png')}}">
+                                                </div>
+                                                <div class="col-4 col-md-2 mb-4">
+                                                    <img alt="مشاوراملاک ۵" src="{{asset('images/partners/partner5.png')}}">
+                                                </div>
+                                                <div class="col-4 col-md-2">
+                                                    <img alt="مشاوراملاک ۶" src="{{asset('images/partners/partner6.png')}}">
+                                                </div>
                                             </div>
-                                            <div class="col-4 col-md-2">
-                                                <img alt="مشاوراملاک ۲" src="{{asset('images/partners/partner2.png')}}">
-                                            </div>
-                                            <div class="col-4 col-md-2 mb-4">
-                                                <img alt="مشاوراملاک ۳" src="{{asset('images/partners/partner3.png')}}">
-                                            </div>
-                                            <div class="col-4 col-md-2">
-                                                <img alt="مشاوراملاک ۴" src="{{asset('images/partners/partner4.png')}}">
-                                            </div>
-                                            <div class="col-4 col-md-2 mb-4">
-                                                <img alt="مشاوراملاک ۵" src="{{asset('images/partners/partner5.png')}}">
-                                            </div>
-                                            <div class="col-4 col-md-2">
-                                                <img alt="مشاوراملاک ۶" src="{{asset('images/partners/partner6.png')}}">
-                                            </div>
-                                        </div>
                                         @endfor
                                     </div>
                                 @endfor
@@ -382,35 +383,11 @@
 @endsection
 
 @section('js_resources')
-    <script type="application/ld+json">
-        {
-          "@context": "http://schema.org",
-          "@type": "Organization",
-          "name": "پی خونه",
-          "url": "http://www.peykhoone.ir",
-          "logo": "http://www.example.com/images/logo.png",
-          "sameAs": [
-            "http://www.facebook.com/your-profile",
-            "http://instagram.com/yourProfile",
-            "http://www.linkedin.com/in/yourprofile",
-            "http://plus.google.com/your_profile"
-          ],
-          "contactPoint": [{
-            "@type": "ContactPoint",
-            "telephone": "+989334440677",
-            "contactType": "ارتباط با مشتریان"
-          },{
-            "@type": "ContactPoint",
-            "telephone": "+989334440677",
-            "contactType": "ارتباط با مشتریان"
-          }]
-        },
-        {
-          "@type": "WebSite",
-          "name": "پی خونه",
-          "alternateName": "Peykhoone",
-          "url": "http://www.peykhoone.com"
-        }
-
-</script>
+    <script
+            src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.css">
+    {{--<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.js"></script>--}}
+    <script src="/Hi_Framework/javascript/Carousel/Other Libraries/Flicklity/flickity.pkgd.min.js"></script>
 @endsection

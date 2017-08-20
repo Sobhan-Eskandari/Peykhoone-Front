@@ -13,11 +13,34 @@ $('.example-getting-started').multiselect({
     allSelectedText: 'همه‌‌ی موارد'
 });
 
+$(document).ready(function() {
+    // The slider being synced must be initialized first
+    $('#carousel').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: true,
+        slideshow: false,
+        itemWidth: 100,
+        itemMargin: 5,
+        asNavFor: '#slider'
+    });
+
+    $('#slider').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: false,
+        slideshow: false,
+        sync: "#carousel"
+    });
+});
+
+
 //****************** Site Loading ********************
 
 $(window).load(function () {
     $("#loading").remove();
     $("#content").show();
+
 });
 
 //****************** Wave Js ********************
@@ -25,6 +48,7 @@ Waves.attach('.m-btn',['waves-light']);
 Waves.attach('.filter-search-btn',['waves-light']);
 Waves.attach('.m-filters-btn',['waves-block']);
 Waves.attach('.is-wave-animated',['waves-light']);
+Waves.attach('.is-wave-animated-dark',['waves-block']);
 Waves.attach('#tajrobePeykhoone',['waves-block']);
 Waves.init();
 
@@ -333,7 +357,7 @@ noUiSlider.create(costSlider, {
     format: wNumb({
         decimals: 0,
         thousand: ',',
-        postfix: ' تومان',
+        postfix: '',
     })
 });
 
@@ -342,8 +366,8 @@ costSlider.noUiSlider.on('update', function( values, handle ) {
     let translatedMin = values[0].replace("تومان","");
     let translatedMax = values[1].replace("تومان","");
 
-    $("#slider-step .noUi-handle-lower .noUi-tooltip").text(` ${translate(translatedMin)} تومان `);
-    $("#slider-step .noUi-handle-upper .noUi-tooltip").text(` ${translate(translatedMax)} تومان `);
+    $("#slider-step .noUi-handle-lower .noUi-tooltip").text(` ${translate(translatedMin)}  `);
+    $("#slider-step .noUi-handle-upper .noUi-tooltip").text(` ${translate(translatedMax)}  `);
 });
 
 // ****************** Metraj Slider ********************
@@ -411,3 +435,4 @@ seneBanaSlider.noUiSlider.on('update', function( values, handle ) {
     $("#senebana-slider .noUi-handle-upper .noUi-tooltip").text(` ${translate(translatedMax)} سال `);
 
 });
+
