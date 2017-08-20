@@ -25,13 +25,14 @@ ul {
 /* Menu Button */
 .menu-btn {
   width: 100px;
-  padding: 10px;
-  margin-bottom: 30px;
+  padding: 15px;
   background: transparent;
   color: black;
   text-align: center;
   cursor: pointer;
-  border: 0px;
+  border: 0;
+  margin-bottom: -87px;
+  z-index: 1;
 }
 
 .menu-btn:hover {

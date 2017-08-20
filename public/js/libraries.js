@@ -20553,6 +20553,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+__webpack_require__(3);
+
+// active category item in real state page
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()(document).ready(function () {
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()('ul li a.estate-category-link').click(function () {
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()('ul li a.estate-category-link').removeClass("categoryItem-is-active");
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).addClass("categoryItem-is-active");
+    });
+});
 
 // <!-- Initialize the plugin: -->
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()(document).ready(function () {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Pushy - Off-Canvas Navigation Menu</title>
+    <title>پی خونه</title>
     <meta name="description" content="Pushy is an off-canvas navigation menu for your website.">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!-- Pushy CSS -->
@@ -16,7 +16,7 @@
 
 <header class="push">
     <div class="container-fluid px-0 l-rtl hidden-md-down">
-        <nav class="navbar navbar-toggleable-md navbar-light py-1 m-navBar ">
+        <nav class="navbar navbar-toggleable-md navbar-light py-1 m-navBar fixed-top">
             <a class="navbar-brand pr-lg-5 mr-lg-4 m-navBar-brand pl-lg-4 " href="#">
                 <img src="{{ asset('images/peyLogo.png') }}" alt="در حال بارگذاری" height="70px"
                      width="60px"></a>
@@ -126,18 +126,13 @@
             <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
         </button>
     </div>
-    <hr>
-    <div class="row">
-        <div class="col-6">
-            <h4 class="text-right">hello</h4>
-        </div>
-        <div class="col-6">
-            <h4 class="text-left">hello</h4>
-        </div>
-    </div>
-</div>
+    <!--your main content-->
+    @yield('content')
 
-<footer class="site-footer push text-center">This is a footer</footer>
+</div>
+@yield('contact')
+<!--<footer class="site-footer push text-center">This is a footer</footer>-->
+@yield('footer')
 
 <!-- Pushy JS -->
 <script src="{{asset('js/app.js')}}"></script>

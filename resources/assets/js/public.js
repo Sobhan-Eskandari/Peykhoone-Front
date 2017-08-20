@@ -4,7 +4,15 @@ import $ from 'jquery'
 import noUiSlider from 'nouislider'
 import wNumb from 'wnumb'
 import SmoothScroll from 'smooth-scroll'
+require('bootstrap');
 
+// active category item in real state page
+$(document).ready(function () {
+    $('ul li a.estate-category-link').click(function () {
+        $('ul li a.estate-category-link').removeClass("categoryItem-is-active");
+        $(this).addClass("categoryItem-is-active");
+    });
+});
 
 // <!-- Initialize the plugin: -->
 $(document).ready(function() {
@@ -413,3 +421,4 @@ seneBanaSlider.noUiSlider.on('update', function( values, handle ) {
     $("#senebana-slider .noUi-handle-upper .noUi-tooltip").text(` ${translate(translatedMax)} سال `);
 
 });
+

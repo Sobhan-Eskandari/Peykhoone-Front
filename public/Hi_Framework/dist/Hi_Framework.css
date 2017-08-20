@@ -21,7 +21,8 @@
   border-radius: 5px;
   padding: 5px 20px;
   text-align: center;
-  font-weight: 200; }
+  font-weight: 200;
+  cursor: pointer; }
   .hi-button-simple:focus {
     outline: none !important; }
 

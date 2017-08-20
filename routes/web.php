@@ -40,7 +40,19 @@ Route::get('/mersede', function () {
     return view('Site.mersede');
 });
 
-Route::get('/navside', function () {
-    return view('Site.navside');
+Route::get('/menu', function () {
+    return view('layout.nav-menu');
+});
+Route::get('/estatePro', function () {
+    return view('site.estateConsultant-pro');
+});
+Route::get('/contact', function () {
+    return view('site.contactUs');
+});
+Route::get('/about', function () {
+    return view('site.aboutUs');
+});
+Route::get('/single', function () {
+    return view('site.singlePage');
 });
 
