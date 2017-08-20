@@ -60,6 +60,16 @@
   margin-top: 30px;
 }
 
+.l-home-gallery{
+  width: 576px;
+  height: 400px;
+}
+.l-moreHome{
+  /* Rectangle 25: */
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.18);
+}
+
 //----------- [ Header Style ] -----------
 #Header{
   position: relative;
@@ -74,6 +84,12 @@
   position: absolute;
   width: 100%;
   z-index: 10000000;
+}
+
+//----------- [ Open Post Style ] -----------
+#l-navigator{
+  padding-right: 35px;
+  padding-left: 35px;
 }
 
 //----------- [ Footer Style ] -----------

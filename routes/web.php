@@ -27,6 +27,9 @@ Route::get('/ads', function () {
     return view('Site.all-ads');
 });
 
+Route::get('/ad', function () {
+    return view('Site.adpage');
+});
 
 Route::get('/layout', function () {
     return view('layout.site');

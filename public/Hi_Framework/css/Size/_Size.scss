@@ -12,7 +12,7 @@
 }
 
 /* ============[ For loop to create font size css ]=========== */
-@for $i from 10 to 30 {
+@for $i from 10 to 40 {
   .hi-fontSize-#{$i} {
     font-size: #{$i}px !important;
   }

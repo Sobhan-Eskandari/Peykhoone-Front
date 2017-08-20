@@ -11,11 +11,13 @@
     <link rel="stylesheet" href="{{asset('css/Hi_Framework.css')}}">
     <!-- App Css -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <!-- Fontawesome Css -->
+    <link rel="stylesheet" href="https://lib.arvancloud.com/ar/font-awesome/4.7.0/css/font-awesome.min.css">
 
     @yield('css_resources')
 
 </head>
-<body>
+<body class="@yield('bg-color')">
 
 {{--****************** Site Loading ********************--}}
 <div class="container-fluid full-height-loading black-color" id="loading">
@@ -41,7 +43,7 @@
         <div class="row py-4">
             {{------------ [ pey khoone logo place ] ------------}}
             <div class="col-12 col-sm-10 col-md-6 col-lg-2 align-self-center text-center p-3">
-                <img class="m-footer-logo" alt="لوگوی پی‌ خونه" src="{{asset('images/logo.png')}}">
+                <img class="m-footer-logo p-2" alt="لوگوی پی‌ خونه" src="{{asset('images/peyLogo.png')}}">
             </div>
 
             {{------------ [ Contactus List ] ------------}}
@@ -99,7 +101,6 @@
 
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/libraries.js')}}"></script>
-<script src="https://use.fontawesome.com/7cd1915430.js"></script>
 
 @yield('js_resources')
 
