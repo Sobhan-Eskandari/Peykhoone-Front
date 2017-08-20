@@ -731,9 +731,25 @@ body {
   }
 }
 
-.carousel {
-  height: 360px !important;
-  width: 100%;
+//.carousel {
+//  height: 360px !important;
+//  width: 100%;
+//}
+
+.carousel-cell {
+  height: 400px;
+  margin-right: 10px;
+  background: #333;
+}
+
+.carousel-cell-image {
+  display: block !important;
+  max-height: 100%;
+  margin: 0 auto;
+  max-width: 100%;
+  opacity: 1;
+  -webkit-transition: opacity 0.4s;
+  transition: opacity 0.4s;
 }
 
 .l-azhanseHamkar{

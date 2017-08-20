@@ -52,42 +52,34 @@
                                 {{---------- [ Gallery of images ] ---------}}
                                 <div class="row mt-3">
                                     <div class="col-12 l-ltr p-0">
-                                        <div class="flexslider" id="slider">
-                                            <ul class="slides">
-                                                <li>
-                                                    <img id="hi" src="https://placeimg.com/400/400/nature" />
-                                                </li>
-                                                <li>
-                                                    <img src="https://placeimg.com/1280/720/nature" />
-                                                </li>
-                                                <li>
-                                                    <img src="https://placeimg.com/1920/1080/nature" />
-                                                </li>
-                                                <li>
-                                                    <img src="https://placeimg.com/720/1080/nature" />
-                                                </li>
-                                                <li>
-                                                    <img src="https://placeimg.com/1280/1000/nature" />
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        {{---------- [ Thumb Gallery of images ] ---------}}
-                                        <div id="carousel" class="flexslider">
-                                            <ul class="slides">
-                                                <li>
-                                                    <img src="https://placeimg.com/640/480/nature" />
-                                                </li>
-                                                <li>
-                                                    <img src="https://placeimg.com/640/480/nature" />
-                                                </li>
-                                                <li>
-                                                    <img src="https://placeimg.com/640/480/nature" />
-                                                </li>
-                                                <li>
-                                                    <img src="https://placeimg.com/640/480/nature" />
-                                                </li>
-                                                <!-- items mirrored twice, total of 12 -->
-                                            </ul>
+                                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                            <ol class="carousel-indicators">
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                                            </ol>
+                                            <div class="carousel-inner" role="listbox">
+                                                <div class="carousel-item carousel-cell active">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="First slide">
+                                                </div>
+                                                <div class="carousel-item carousel-cell">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="Second slide">
+                                                </div>
+                                                <div class="carousel-item carousel-cell">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="Third slide">
+                                                </div>
+                                                <div class="carousel-item carousel-cell">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/touch-screen.jpg" alt="Third slide">
+                                                </div>
+                                            </div>
+                                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -312,7 +304,7 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
                             </div>
                         </div>
                         <hr class="my-2 m-facilities-hr">
-                        <div class="row mt-4 justify-content-center">
+                        <div class="row mt-4 justify-content-center l-ltr">
                             @for($i = 0; $i < 4; $i++)
                                 <div class="col-10 col-md-6 col-lg-3">
                                     @component('components.card')@endcomponent
@@ -325,13 +317,20 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
         </div>
     </section>
 
+
+    <div class="container my-5" id="gall">
+        <div class="row">
+            <div class="col-6">
+
+
+
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('js_resources')
-    {{------------- [ Resources For Gallery ] ------------}}
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
-            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-            crossorigin="anonymous"></script>
     <script>
         function initMap() {
             var uluru = {lat: 48.8583739, lng: 2.2924872};
@@ -349,6 +348,7 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
                 google.maps.event.trigger(map, 'resize');
 
             });
+            google.maps.event.trigger(map, 'resize');
         }
 
     </script>
@@ -356,5 +356,6 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaKuMOTrKgymjzEvHe_Rz7SDzUIZnvNrQ&callback=initMap">
     </script>
+
 @endsection
 
