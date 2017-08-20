@@ -345,8 +345,7 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
                 map: map
             });
 
-            google.maps.event.addListenerOnce(map, 'idle', function () {
-
+            google.maps.event.addListener(map, 'idle', function () {
                 google.maps.event.trigger(map, 'resize');
 
             });

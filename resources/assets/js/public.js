@@ -14,6 +14,13 @@ $(document).ready(function () {
     });
 });
 
+// var options = {
+//     strings: ["<i>محلی برای مشاهده املاک و مستغلات</i> sentence.", "  پی خونه | سامانه آگهی خرید و فروش و رهن و اجاره خانه , ملک , آپارتمان , زمین و مستغلات در گیلان"],
+//     typeSpeed: 80
+// }
+
+// var typed = new Typed(".header-mainTitle", options);
+
 // <!-- Initialize the plugin: -->
 $('.example-getting-started').multiselect({
     nonSelectedText: 'انتخاب کنید',
@@ -48,7 +55,6 @@ $(document).ready(function() {
 $(window).load(function () {
     $("#loading").remove();
     $("#content").show();
-
 });
 
 //****************** Wave Js ********************
@@ -356,7 +362,7 @@ noUiSlider.create(costSlider, {
     start: [50000, 5000000],
     step: 50000,
     connect: true,
-    direction: 'rtl',
+    direction: 'ltr',
     tooltips: true,
     range: {
         'min': 50000,
@@ -385,7 +391,7 @@ noUiSlider.create(metrajSlider, {
     start: [10, 50000],
     step: 10,
     connect: true,
-    direction: 'rtl',
+    direction: 'ltr',
     tooltips: true,
     range: {
         'min': 10,
@@ -415,7 +421,7 @@ noUiSlider.create(seneBanaSlider, {
     start: [0, 35],
     step: 2,
     connect: true,
-    direction: 'rtl',
+    direction: 'ltr',
     tooltips: true,
     range: {
         'min': 0,

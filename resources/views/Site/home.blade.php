@@ -282,7 +282,7 @@
             {{------------- [ Show more home ] ------------}}
             <div class="row justify-content-center mt-4">
                 <div class="col-auto">
-                    <a href="#"><button class="m-btn m-btn-gradient">مشاهده بیشتر</button></a>
+                    <a href="#"><button class="m-btn m-btn-gradient px-3">مشاهده بیشتر</button></a>
                 </div>
             </div>
         </div>
@@ -390,4 +390,14 @@
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.css">
     {{--<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.js"></script>--}}
     <script src="/Hi_Framework/javascript/Carousel/Other Libraries/Flicklity/flickity.pkgd.min.js"></script>
+
+    <script>
+//        function initMap() {
+//            google.maps.event.addListener(map, 'idle', function () {
+//                google.maps.event.trigger(map, 'resize');
+//
+//            });
+//        }
+    </script>
+
 @endsection

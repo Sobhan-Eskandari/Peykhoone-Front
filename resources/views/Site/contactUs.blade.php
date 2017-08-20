@@ -1,4 +1,4 @@
-@extends('layout.nav-menu')
+@extends('layout.site')
 @section('content')
     <!--header img-->
     <div class="row mt-0 header-text-box">

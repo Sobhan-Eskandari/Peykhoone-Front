@@ -15,17 +15,17 @@
 </head>
 <body>
 
-{{--<button class="m-btn m-btn-outline hvr-shutter-out-horizontal">ثبت نام | ورود</button>--}}
+<button class="m-btn m-btn-outline hvr-shutter-out-horizontal">ثبت نام | ورود</button>
 
-{{--<button class="m-btn m-btn-gradient"> + ثبت آگهی </button>--}}
+<button class="m-btn m-btn-gradient"> + ثبت آگهی </button>
 
-{{--<button class="m-btn ocean"> تماس با پی خونه </button>--}}
+<button class="m-btn ocean"> تماس با پی خونه </button>
 
-{{--<button class="m-btn ocean rounded hvr-icon-back pl-4 pr-3"> مشاهده همه </button>--}}
+<button class="m-btn ocean rounded hvr-icon-back pl-4 pr-3"> مشاهده همه </button>
 
-{{--<button class="m-btn m-btn-appdl warm-grey"><i class="fa fa-apple"></i> دریافت از اپل استور </button>--}}
+<button class="m-btn m-btn-appdl warm-grey"><i class="fa fa-apple"></i> دریافت از اپل استور </button>
 
-{{--<p class="m-btn-gradientOutline rounded"><i class="fa fa-chevron-down"></i> پی خونه رو تجربه کنید  </p>--}}
+<p class="m-btn-gradientOutline rounded"><i class="fa fa-chevron-down"></i> پی خونه رو تجربه کنید  </p>
 
 <footer class="container-fluid" id="l-footer">
     {{--<div class="row py-4">--}}

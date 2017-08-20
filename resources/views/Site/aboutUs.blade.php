@@ -1,4 +1,4 @@
-@extends('layout.nav-menu')
+@extends('layout.site')
 @section('content')
     <div class="row mt-0 header-text-box">
         <img src="{{ asset('images/aboutUs.jpg') }}"
