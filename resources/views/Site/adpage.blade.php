@@ -5,7 +5,6 @@
 @endsection
 
 @section('meta')
-    <link rel="canonical" href="https://www.hidashboard.ir/ads/ملک-مسکونی-یوسف-آباد/">
     <meta name="description" content="پی خونه دارای ۹ عکس از این آگهی با ارزش ۱۲۵ میلیون تومان و به مساحت ۱۲۰ متر واقع در خیابان لاکانی میباشد">
     <meta name="referrer" content="always">
 @endsection

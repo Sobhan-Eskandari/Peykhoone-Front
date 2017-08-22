@@ -1,11 +1,11 @@
 @extends('layout.site')
 
 @section('title')
-    آگهی خرید و فروش و رهن و اجاره خانه , ملک , آپارتمان , زمین و مستغلات | پی خونه
+آگهی خرید,فروش,رهن و اجاره خانه,ملک,آپارتمان,زمین و مستغلات|پی خونه
 @endsection
 
 @section('meta')
-    <meta name="description" content=""/>
+    <meta name="description" content="در پی خونه شما میتوانید آگهی‌های متوعی از املاک زمین آپارتمان و مستغلات را مشاهده و آگهی مورد نظرتون را به راحتی پیدا کنید.">
 @endsection
 
 @section('content')
