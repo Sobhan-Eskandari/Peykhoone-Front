@@ -16,7 +16,7 @@
 //});
 
 Route::get('/', function () {
-    return view('Site.adpage');
+    return view('Site.all-ads');
 });
 
 Route::get('/home', function () {
