@@ -39,7 +39,7 @@
 
     <header class="push">
         <div class="container-fluid px-0 l-rtl hidden-md-down">
-            <nav class="navbar navbar-toggleable-md navbar-light py-1 m-navBar fixed-top">
+            <nav class="navbar navbar-toggleable-md navbar-light py-1 m-navBar fixed-top m-navBar-black">
                 <a class="navbar-brand pr-lg-5 mr-lg-4 m-navBar-brand pl-lg-4 " href="#">
                     <img src="{{ asset('images/peyLogo.png') }}" alt="در حال بارگذاری" height="70px" width="60px">
                 </a>
@@ -140,11 +140,11 @@
     <div class="site-overlay hidden-lg-up"></div>
 
     <!-- Your Content -->
-    <div class="container-fluid px-0" id="content">
+    <div class="container-fluid" id="content">
         <!-- Menu Button -->
         <div class="row hidden-lg-up l-rtl">
             <button class="menu-btn">
-                <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+                <i class="fa fa-bars fa-2x menu-btn-iconFont" aria-hidden="true"></i>
             </button>
         </div>
 
