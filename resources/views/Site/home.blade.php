@@ -233,7 +233,7 @@
             {{----------------- [ About Peykhoone TExt ] ----------------}}
             <div class="row justify-content-center">
                 <div class="col-2 col-sm-1">
-                    <img  class="painting-comma turnUpsideDown secondComma" src="{{asset('images/comma.png')}}">
+                    <img alt="درباره پی خونه" class="painting-comma turnUpsideDown secondComma" src="{{asset('images/comma.png')}}">
                 </div>
                 <div class="col-8 col-sm-10 col-lg-7 col-xl-6">
                     <h4 class="paragraph-lineHeight medium-title hi-fontSize-15 text-center mt-3">پی خونه سامانه ای برای خرید، اجاره خانه و ارائه اطلاعات ملکی در رشت است که با هدف افزایش اعتماد در خرید و اجاره ملک در رشت، بستر ارتباطی ایمن متقاضیان ملک و مشاوران املاک قابل اعتماد و حرفه ای در تمامی محله های رشت را توسعه داده است.</h4>
@@ -294,7 +294,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-xl-5 col-md-8">
                     {{------------- [  Peykhoone App Image ] ------------}}
-                    <img class="img-fluid" src="{{asset('images/mobile.png')}}">
+                    <img alt="برنامه موبایل پی خونه" class="img-fluid" src="{{asset('images/mobile.png')}}">
                 </div>
                 <div class="col-lg-7 col-xl-7 col-md-11">
                     {{------------- [ About Peykhoone App ] ------------}}
@@ -303,22 +303,22 @@
                     {{------------- [ Download Peykhoone App Links ] ------------}}
                     <div class="row justify-content-end">
                         <div class="col-md-6 col-md-5 col-xl-4">
-                            <a href="www.google.com"><button class="m-btn m-btn-appdl warm-grey mb-3 mb-md-0"><i class="fa fa-apple hi-fontSize-22 mr-2"></i> دریافت از اپل استور </button></a>
+                            <a href="#"><button class="m-btn m-btn-appdl warm-grey mb-3 mb-md-0"><i class="fa fa-apple hi-fontSize-22 mr-2"></i> دریافت از اپل استور </button></a>
                         </div>
                         <div class="col-md-6 col-md-5 col-xl-4">
-                            <a href="www.google.com"><button class="m-btn m-btn-appdl green lighten-2"><i class="fa hi-fontSize-22 fa-android mr-2"></i> دریافت با لینک مستقیم </button></a>
+                            <a href="#"><button class="m-btn m-btn-appdl green lighten-2"><i class="fa hi-fontSize-22 fa-android mr-2"></i> دریافت با لینک مستقیم </button></a>
                         </div>
                     </div>
                     <div class="row justify-content-end mt-4">
                         <div class="col-md-6 col-md-5 col-xl-4">
-                            <a href="www.google.com">
+                            <a href="#">
                                 <div class="m-btn m-btn-appdl purple darken-1 mb-3 mb-md-0 l-flex-center">
                                     <div class="googleplay-icon"></div>  دریافت از گوگل پلی
                                 </div>
                             </a>
                         </div>
                         <div class="col-md-6 col-md-5 col-xl-4">
-                            <a href="www.google.com">
+                            <a href="#">
                                 <div class="m-btn m-btn-appdl blue lighten-2 mb-3 mb-md-0 l-flex-center">
                                     <div class="bazar-icon"></div>  دریافت از بازار
                                 </div>

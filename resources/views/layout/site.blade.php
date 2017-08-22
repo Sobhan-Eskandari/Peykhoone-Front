@@ -31,7 +31,7 @@
 <div class="container-fluid full-height-loading black-color" id="loading">
     <div class="row full-height-loading justify-content-center">
         <div class="col-12 col-lg-3 align-self-center">
-            <img class="img-fluid" src="{{asset('images/peyLogo.png')}}">
+            <img alt="پی خونه" class="img-fluid" src="{{asset('images/peyLogo.png')}}">
             <div class="spinner">
                 <div class="rect1"></div>
                 <div class="rect2"></div>
