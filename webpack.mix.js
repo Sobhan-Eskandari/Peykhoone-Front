@@ -17,9 +17,8 @@ mix.autoload({
 });
 
 mix.js([
-    'node_modules/jquery/dist/jquery.min.js',
-    'node_modules/tether/dist/js/tether.min.js',
-    'node_modules/bootstrap/dist/js/bootstrap.js',
+    // 'node_modules/jquery/dist/jquery.min.js',
+    // 'node_modules/tether/dist/js/tether.min.js',
     'resources/assets/js/app.js',
     'resources/assets/js/others/nav/nav.js',
 ], 'public/js/app.js')
@@ -37,7 +36,6 @@ mix.js([
     'node_modules/bootstrap-multiselect/dist/js/bootstrap-multiselect.js',
     'public/Hi_Framework/javascript/other/jquery.roto.min.js',
     'public/Hi_Framework/javascript/Scroll/Other Libraries/smooth-scroll.min.js',
-    'public/Hi_Framework/javascript/Carousel/Other Libraries/Woo/jquery.flexslider.js',
     'resources/assets/js/public.js',
     'resources/assets/js/others/responsive.js',
 ], 'public/js/libraries.js');

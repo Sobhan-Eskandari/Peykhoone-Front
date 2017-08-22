@@ -4,7 +4,7 @@ import $ from 'jquery'
 import noUiSlider from 'nouislider'
 import wNumb from 'wnumb'
 import SmoothScroll from 'smooth-scroll'
-require('bootstrap');
+
 
 // active category item in real state page
 $(document).ready(function () {
@@ -13,6 +13,43 @@ $(document).ready(function () {
         $(this).addClass("categoryItem-is-active");
     });
 });
+
+//******************  Open Post Gallery Autplay ********************
+$('.carousel').on('slide.bs.carousel', function () {
+    let el = $(".carousel-indicators .active");
+    console.log(el.offset().left-200);
+    $('.carousel-indicators').animate( { scrollLeft: el.offset().left-800 }, 1000);
+});
+
+$(".carousel-control-prev").on('click',function () {
+    $('.carousel').carousel(6);
+});
+//******************  Tozihate Moshaver dare safe agahie Baz shode ********************
+$.fn.extend({
+    animateCss: function (animationName) {
+        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        this.addClass('animated ' + animationName).one(animationEnd, function() {
+            $(this).removeClass('animated ' + animationName);
+        });
+        return this;
+    }
+});
+let isVisible = false;
+$("#showTozihateMoshaver").on('click',function () {
+    if (isVisible){
+        isVisible = false;
+        $( ".m-tozihateMoshaver" ).attr("style", "box-shadow:none;height:13ex;" );
+        $("#showTozihateMoshaver i").css({'transform' : 'rotate('+ 0 +'deg)'});
+    }else{
+        isVisible = true;
+        $( ".m-tozihateMoshaver" ).attr("style", "box-shadow:0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;height:90%;" );
+        $("#showTozihateMoshaver i").css({'transform' : 'rotate('+ 180 +'deg)'});
+    }
+});
+
+if ($(window).width() <= 991) {
+    $(".is-justified-center").addClass('justify-content-center');
+}
 
 // var options = {
 //     strings: ["<i>محلی برای مشاهده املاک و مستغلات</i> sentence.", "  پی خونه | سامانه آگهی خرید و فروش و رهن و اجاره خانه , ملک , آپارتمان , زمین و مستغلات در گیلان"],
@@ -27,28 +64,6 @@ $('.example-getting-started').multiselect({
     includeSelectAllOption: true,
     allSelectedText: 'همه‌‌ی موارد'
 });
-
-$(document).ready(function() {
-    // The slider being synced must be initialized first
-    $('#carousel').flexslider({
-        animation: "slide",
-        controlNav: false,
-        animationLoop: true,
-        slideshow: false,
-        itemWidth: 100,
-        itemMargin: 5,
-        asNavFor: '#slider'
-    });
-
-    $('#slider').flexslider({
-        animation: "slide",
-        controlNav: false,
-        animationLoop: false,
-        slideshow: false,
-        sync: "#carousel"
-    });
-});
-
 
 //****************** Site Loading ********************
 

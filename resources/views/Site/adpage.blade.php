@@ -19,9 +19,9 @@
 
     <section class="l-home-info">
         <div class="container-fluid">
-            <div class="row l-rtl mt-3">
+            <div class="row l-rtl mt-3 is-justified-center">
                 {{------------- [ Right Scroll Navigator ] ------------}}
-                <div class="col-1" id="l-navigator">
+                <div class="col-lg-1 col-xl-1 hidden-md-down" id="l-navigator">
                     <div class="m-card rounded-10 text-center">
                         <i class="fa fa-home hi-fontSize-23 mt-3 gradient-text"></i>
                         <hr class="my-1">
@@ -33,11 +33,10 @@
                     </div>
                 </div>
                 {{------------- [ Main Ad Contnt ] ------------}}
-                <div class="col-10">
-
-                    <div class="row m-card rounded-10 py-5 px-4">
+                <div class="col-lg-10 col-11" >
+                    <div class="row m-card rounded-10 py-5 px-4 is-justified-center">
                         {{------------- [ Ad name and share and image ] ------------}}
-                        <div class="col-6 px-0">
+                        <div class="col-lg-6 col-11 px-0">
                             <div class="container-fluid">
                                 <div class="row justify-content-between">
                                     <div class="col-auto">
@@ -54,9 +53,36 @@
                                     <div class="col-12 l-ltr p-0">
                                         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                                             <ol class="carousel-indicators">
-                                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="First slide">
+                                                </li>
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="1">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="Second slide">
+                                                </li>
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="2">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="Third slide">
+                                                </li>
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="3">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="Third slide">
+                                                </li>
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="4">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="Third slide">
+                                                </li>
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="5">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="First slide">
+                                                </li>
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="6">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="Second slide">
+                                                </li>
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="7">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="Third slide">
+                                                </li>
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="8">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="Third slide">
+                                                </li>
+                                                <li data-target="#carouselExampleIndicators" data-slide-to="9">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="Third slide">
+                                                </li>
                                             </ol>
                                             <div class="carousel-inner" role="listbox">
                                                 <div class="carousel-item carousel-cell active">
@@ -69,10 +95,28 @@
                                                     <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="Third slide">
                                                 </div>
                                                 <div class="carousel-item carousel-cell">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/touch-screen.jpg" alt="Third slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="Third slide">
+                                                </div>
+                                                <div class="carousel-item carousel-cell">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="First slide">
+                                                </div>
+                                                <div class="carousel-item carousel-cell">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="Second slide">
+                                                </div>
+                                                <div class="carousel-item carousel-cell">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="Third slide">
+                                                </div>
+                                                <div class="carousel-item carousel-cell">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="Third slide">
+                                                </div>
+                                                <div class="carousel-item carousel-cell">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="Third slide">
+                                                </div>
+                                                <div class="carousel-item carousel-cell">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="Third slide">
                                                 </div>
                                             </div>
-                                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                            <a class="carousel-control-prev"  href="#carouselExampleIndicators" onclick="nextSlide()" role="button" data-slide="prev">
                                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                                 <span class="sr-only">Previous</span>
                                             </a>
@@ -86,14 +130,16 @@
                             </div>
                         </div>
                         {{---------- [ Home Info ] ---------}}
-                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 py-5 pr-5 m-list-home">
-                            <div class="row mt-3">
+                        <div class="col-lg-6 col-12 mt-4 mt-lg-0 pt-5 pb-2 pr-lg-5 m-list-home">
+                            {{---------- [ Home Cost ] ---------}}
+                            <div class="row mt-5 mt-lg-3">
                                 <div class="col-12">
                                     <p class="ocean white-text rounded-60 text-center py-3 medium-title"><img class="hi-size-2 ml-2" src="{{asset('/images/coins.svg')}}"> ۱ میلیون و ۶۰۰ هزار تومان</p>
                                 </div>
                             </div>
-                            <div class="row py-2 px-3">
-                                <div class="col-3">
+                            {{---------- [ Home Info ] ---------}}
+                            <div class="row py-2 mt-2 px-4 justify-content-between">
+                                <div class="col-auto">
                                     <h5 class="text-right m-list-homeItem-r">
                                         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                                              width="15px" height="17px" viewBox="0 0 104.000000 128.000000"
@@ -114,12 +160,12 @@
                                         </svg>&nbsp;&nbsp;آدرس
                                     </h5>
                                 </div>
-                                <div class="col-9">
+                                <div class="col-auto">
                                     <h6 class="text-left m-list-homeItem-l">تهران، خیابان آزادی، بلوار شهید اکبری، پلاک 4، طبقه اول</h6>
                                 </div>
                             </div>
-                            <div class="row py-2 px-3 m-list-homeItem">
-                                <div class="col-3">
+                            <div class="row py-2 px-4 justify-content-between m-list-homeItem">
+                                <div class="col-auto">
                                     <h5 class="text-right m-list-homeItem-r">
                                         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                                              width="16px" height="16px" viewBox="0 0 128.000000 108.000000"
@@ -141,12 +187,12 @@
                                         </svg>&nbsp;&nbsp;متراژ
                                     </h5>
                                 </div>
-                                <div class="col-9">
+                                <div class="col-auto">
                                     <h6 class="text-left m-list-homeItem-l">230 متر</h6>
                                 </div>
                             </div>
-                            <div class="row py-2 px-3 m-list-homeItem">
-                                <div class="col-3">
+                            <div class="row py-2 px-4 justify-content-between m-list-homeItem">
+                                <div class="col-auto">
                                     <h5 class="text-right m-list-homeItem-r">
                                         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                                              width="15px" height="15px" viewBox="0 0 128.000000 118.000000"
@@ -169,12 +215,12 @@ c0 249 -3 262 -75 297 -39 19 -63 20 -456 20 -394 0 -416 -1 -454 -20z m910
                                         </svg>&nbsp;&nbsp;تعداد اتاق
                                     </h5>
                                 </div>
-                                <div class="col-9">
+                                <div class="col-auto">
                                     <h6 class="text-left m-list-homeItem-l">3 خوابه</h6>
                                 </div>
                             </div>
-                            <div class="row py-2 px-3 m-list-homeItem">
-                                <div class="col-3">
+                            <div class="row py-2 px-4 justify-content-between m-list-homeItem">
+                                <div class="col-auto">
                                     <h5 class="text-right m-list-homeItem-r">
                                         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                                              width="16px" height="16px" viewBox="0 0 128.000000 128.000000"
@@ -224,14 +270,73 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
                                         </svg>&nbsp;&nbsp;قدمت بنا
                                     </h5>
                                 </div>
-                                <div class="col-9">
+                                <div class="col-auto">
                                     <h6 class="text-left m-list-homeItem-l">نوساز</h6>
+                                </div>
+                            </div>
+                            {{---------- [ Moshaver Info ] ---------}}
+                            <div class="row m-card rounded-8 mt-4 align-items-center">
+                                <div class="col-2 col-md-2">
+                                    <img class="img-fluid" src="{{asset('images/partners/partner2.png')}}">
+                                </div>
+                                <div class="col-7 col-md-7 py-3">
+                                    <h4 class="regular-title hi-fontSize-14">آژانس املاک مشاور املاک محمود</h4>
+                                    <h4 class="regular-title hi-fontSize-14 mt-2"><i class="fa fa-phone"></i> تماس: ۰۹۳۳۷۶۸۹۴۶۵ </h4>
+                                </div>
+                                <div class="col-3 pl-0">
+                                    <button type="submit" class="filter-search-btn hi-fontSize-14 py-3">پروفایل مشاور
+                                        <i class="fa fa-long-arrow-left"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            {{---------- [ Etelaate ezafie Agahi ] ---------}}
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    <h4 class="hi-fontSize-15 pr-3"><strong>توضیحات مشاور</strong></h4>
+                                    <p class="mt-0 m-tozihateMoshaver rounded-8 p-3">
+                                        موقعیت جغرافیایی: شمالی | تعداد واحد در طبقه: 2 | تعداد طبقات: 6 | تعداد پارکینگ: 1 | وضعیت سکونت: تخلیه | نوع سند: شخصی | نما: ترکیبی | کابینت: MDF | کف پوش: سنگ
+                                        موقعیت جغرافیایی: شمالی | تعداد واحد در طبقه: 2 | تعداد طبقات: 6 | تعداد پارکینگ: 1 | وضعیت سکونت: تخلیه | نوع سند: شخصی | نما: ترکیبی | کابینت: MDF | کف پوش: سنگ
+                                        موقعیت جغرافیایی: شمالی | تعداد واحد در طبقه: 2 | تعداد طبقات: 6 | تعداد پارکینگ: 1 | وضعیت سکونت: تخلیه | نوع سند: شخصی | نما: ترکیبی | کابینت: MDF | کف پوش: سنگ
+                                        موقعیت جغرافیایی: شمالی | تعداد واحد در طبقه: 2 | تعداد طبقات: 6 | تعداد پارکینگ: 1 | وضعیت سکونت: تخلیه | نوع سند: شخصی | نما: ترکیبی | کابینت: MDF | کف پوش: سنگ
+                                        موقعیت جغرافیایی: شمالی | تعداد واحد در طبقه: 2 | تعداد طبقات: 6 | تعداد پارکینگ: 1 | وضعیت سکونت: تخلیه | نوع سند: شخصی | نما: ترکیبی | کابینت: MDF | کف پوش: سنگ
+                                        موقعیت جغرافیایی: شمالی | تعداد واحد در طبقه: 2 | تعداد طبقات: 6 | تعداد پارکینگ: 1 | وضعیت سکونت: تخلیه | نوع سند: شخصی | نما: ترکیبی | کابینت: MDF | کف پوش: سنگ
+                                        موقعیت جغرافیایی: شمالی | تعداد واحد در طبقه: 2 | تعداد طبقات: 6 | تعداد پارکینگ: 1 | وضعیت سکونت: تخلیه | نوع سند: شخصی | نما: ترکیبی | کابینت: MDF | کف پوش: سنگ
+                                        موقعیت جغرافیایی: شمالی | تعداد واحد در طبقه: 2 | تعداد طبقات: 6 | تعداد پارکینگ: 1 | وضعیت سکونت: تخلیه | نوع سند: شخصی | نما: ترکیبی | کابینت: MDF | کف پوش: سنگ
+                                    </p>
+                                    <button class="hi-button-simple grey-text l-autoMargin l-fullWidth" id="showTozihateMoshaver"> مشاهده بیشتر <i class="fa fa-angle-down"></i> </button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {{------------- [ Moshakhase Melk ] ------------}}
+                    {{------------- [ Moshakhasate Melk ] ------------}}
+                    <div class="row mt-5">
+                        <div class="col-12 px-0">
+                            <div class="m-facilities-cardBox l-rtl">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5>
+                                            <img src="{{ asset('images/list-rhb.png') }}" alt="در حال بارگذاری" height="23px" width="18px">&nbsp;
+                                            <span class="m-facilities-title"> مشخصات ملک </span>
+                                        </h5>
+                                    </div>
+                                </div>
+                                <hr class="mt-0 m-facilities-hr">
+                                @for ($j = 0; $j < 5; $j++)
+                                    <div class="row justify-content-center mt-4">
+                                        @for ($i = 0; $i < 6; $i++)
+                                            <div class="col-lg-2 col-md-3 col-sm-4 col-8  m-facilities-checkBox">
+                                                <h6 class="hi-fontSize-13 regular-title">واقع در طبقه : ۲</h6>
+                                            </div>
+                                        @endfor
+                                    </div>
+                                @endfor
+                            </div>
+                        </div>
+                    </div>
+
+                    {{------------- [ Emkanate Melk ] ------------}}
                     <div class="row mt-5">
                         <div class="col-12 px-0">
                             <div class="m-facilities-cardBox l-rtl">
@@ -262,7 +367,6 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
                                 @endfor
                             </div>
                         </div>
-
                     </div>
 
                     {{------------- [ Google Map Melk ] ------------}}
@@ -306,7 +410,7 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
                         <hr class="my-2 m-facilities-hr">
                         <div class="row mt-4 justify-content-center l-ltr">
                             @for($i = 0; $i < 4; $i++)
-                                <div class="col-10 col-md-6 col-lg-3">
+                                <div class="col-10 col-md-6 col-lg-3 my-4">
                                     @component('components.card')@endcomponent
                                 </div>
                             @endfor
@@ -317,16 +421,6 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
         </div>
     </section>
 
-
-    <div class="container my-5" id="gall">
-        <div class="row">
-            <div class="col-6">
-
-
-
-            </div>
-        </div>
-    </div>
 
 @endsection
 
@@ -346,7 +440,7 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
 
             google.maps.event.addListener(map, 'idle', function () {
                 google.maps.event.trigger(map, 'resize');
-
+                google.maps.event.trigger(map, 'dblclick');
             });
             google.maps.event.trigger(map, 'resize');
         }

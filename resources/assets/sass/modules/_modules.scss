@@ -752,6 +752,50 @@ body {
   transition: opacity 0.4s;
 }
 
+.carousel-inner{
+  border-radius: 10px;
+}
+.carousel-indicators {
+  position: absolute;
+  width: 100%;
+  right: 0;
+  bottom: -110px;
+  left: 0;
+  margin-right: 0px;
+  margin-left: 0;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.carousel-indicators li{
+  height: 70px;
+  margin-right: 5px;
+  margin-left: 5px;
+  max-width: 100%;
+  left: 110px;
+  img{
+    border-radius: 5px;
+  }
+}
+.carousel-indicators .active{
+  background: transparent;
+  img{
+    border: 2px solid $light-aquamarine;
+  }
+}
+.m-tozihateMoshaver{
+  line-height: 4ex;
+  height: 13ex;
+  overflow: hidden;
+  font-weight: 300;
+  font-size: 14px;
+  transition: all 0.3s ease-in;
+}
+
+
 .l-azhanseHamkar{
   .flickity-page-dots .dot {
     width: 14px;
@@ -881,6 +925,11 @@ map > div {
 
   i {
     font-size: 40px;
+  }
+
+  // dokme didan etelaate moshaver safe baz shdeie ad
+  &:last-of-type{
+    border-radius: 8px 0 0 8px;
   }
 }
 

@@ -140,7 +140,7 @@
     <div class="site-overlay hidden-lg-up"></div>
 
     <!-- Your Content -->
-    <div class="container-fluid px-0" id="content">
+    <div class="container-fluid" id="content">
         <!-- Menu Button -->
         <div class="row hidden-lg-up l-rtl">
             <button class="menu-btn">
@@ -217,6 +217,7 @@
 
 <!-- Pushy JS -->
 <script src="{{asset('js/app.js')}}"></script>
+{{--<script src="https://lib.arvancloud.com/ar/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>--}}
 <script src="{{asset('js/libraries.js')}}"></script>
 
 @yield('js_resources')

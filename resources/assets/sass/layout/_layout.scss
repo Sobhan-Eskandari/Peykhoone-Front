@@ -94,8 +94,8 @@
 
 //----------- [ Open Post Style ] -----------
 #l-navigator{
-  padding-right: 35px;
-  padding-left: 35px;
+  padding-right: 35px ;
+  padding-left: 35px ;
 }
 
 //----------- [ Footer Style ] -----------
@@ -110,6 +110,20 @@
   list-style-type: none;
   color: white;
   line-height: 45px;
+}
+
+
+// Large devices (desktops, less than 1200px)
+@media (max-width: 1299px) {
+  #l-navigator{
+    padding-right: 25px ;
+    padding-left: 25px ;
+  }
+}
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991px) {
+
 }
 
 // Small devices (landscape phones, less than 768px)
