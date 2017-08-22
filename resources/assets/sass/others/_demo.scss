@@ -27,12 +27,14 @@ ul {
   width: 100px;
   padding: 15px;
   background: transparent;
-  color: black;
   text-align: center;
   cursor: pointer;
   border: 0;
   margin-bottom: -87px;
   z-index: 1;
+}
+.menu-btn-iconFont{
+  color: white;
 }
 
 .menu-btn:hover {

@@ -1,17 +1,25 @@
 @extends('layout.site')
+@section('title')
+    درباره پی خونه | پی خونه
+@endsection
+@section('meta')
+    <meta name="description"
+     content="پی خونه سامانه ای برای خرید، اجاره خانه و ارائه اطلاعات ملکی در رشت است"/>
+    <meta name="Keywords" content="درباره سامانه خرید , فروش و اجاره املاک پی خونه"/>
+@endsection
 @section('content')
     <div class="row mt-0 header-text-box">
         <img src="{{ asset('images/aboutUs.jpg') }}"
-             alt="در حال بارگذاری" height="450px"
+             alt="درباره ی پی خونه" height="450px"
              width="100%" class="header-z-index">
         <h1 class="header-caption-about text-center">درباره پی خونه</h1>
-        <p class="text-center"><i class="fa fa-chevron-down fa-3x header-chevron-down"></i></p>
+        <a href="#aboutUs-description" class="text-center"><i class="fa fa-chevron-down fa-3x header-chevron-down"></i></a>
     </div>
     <!--breadcrumb-->
     <div class="container l-rtl mt-5 mb-4">
         <div class="row justify-content-center">
             <div class="col-12 px-0">
-                <ol class="breadcrumb m-breadcrumb">
+                <ol class="breadcrumb m-breadcrumb" id="aboutUs-description">
                     <li class="breadcrumb-item m-breadcrumb-item"><a href="#">خانه</a></li>
                     <li class="breadcrumb-item m-breadcrumb-item"><a href="#">درباره پی خونه</a></li>
                     <li class="breadcrumb-item m-breadcrumb-item">-</li>
@@ -21,7 +29,6 @@
     </div>
     <!--Description-->
     <div class="container l-ltr px-0">
-
             <div class="m-profileBox-sublayer">
                 <div class="row l-rtl">
                     <div class="m-profileBox-upperLayer mr-4 aboutUs-description-img p-5">
@@ -44,6 +51,29 @@
             </div>
         </div>
     <br><br><br><br><br>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "item": {
+      "@id": "",
+      "name": "خانه",
+      "image": ""
+    }
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "item": {
+      "@id": "",
+      "name": "درباره پی خونه",
+      "image": ""
+    }
+  }]
+}
+</script>
 @endsection
 @section('contact')
     @include('includes.contact-banner')

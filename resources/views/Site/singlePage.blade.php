@@ -1,11 +1,19 @@
 @extends('layout.site')
+@section('title')
+    قوانین و مقررات پی خونه | پی خونه
+@endsection
+@section('meta')
+    <meta name="description" content="برای استفاده از امکانات پی خونه و عضویت در آن ، با قوانین این سامانه آشنا شوید."/>
+    <meta name="Keywords" content="عضویت در پی خونه , استفاده از امکانات پی خونه , قوانین و مقررات پی خونه"/>
+@endsection
 @section('content')
     <!--header img-->
     <div class="row mt-0 header-text-box">
         <img src="{{ asset('images/header3.jpg') }}"
-             alt="در حال بارگذاری" height="300px"
+             alt="خرید ملک در رشت" height="300px"
              width="100%" class="header-z-index">
-        <h3 class="header-caption text-center">قوانین و مقررات پی خونه </h3>
+        <h1 class="header-caption text-center hi-fontSize-28">قوانین و مقررات پی خونه </h1>
+        <meta name="Keywords" content="سامانه خرید , فروش و اجاره املاک پی خونه"/>
     </div>
     <!--breadcrumb-->
     <div class="container l-rtl pt-5 pb-4">
@@ -76,6 +84,29 @@
         </div>
     </div>
     <br><br><br><br>
+    <script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "item": {
+      "@id": "",
+      "name": "خانه",
+      "image": ""
+    }
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "item": {
+      "@id": "",
+      "name": "قوانین و مقررات",
+      "image": ""
+    }
+  }]
+}
+</script>
 @endsection
 @section('contact')
     @include('includes.contact-banner')

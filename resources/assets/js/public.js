@@ -7,12 +7,30 @@ import SmoothScroll from 'smooth-scroll'
 
 
 // active category item in real state page
-$(document).ready(function () {
+
     $('ul li a.estate-category-link').click(function () {
         $('ul li a.estate-category-link').removeClass("categoryItem-is-active");
         $(this).addClass("categoryItem-is-active");
     });
-});
+    //smooth scroll
+    $("a").on('click', function (event) {
+        // Make sure this.hash has a value before overriding default behavior
+        if (this.hash !== "") {
+            // Prevent default anchor click behavior
+            event.preventDefault();
+            // Store hash
+            var hash = this.hash;
+            // Using jQuery's animate() method to add smooth page scroll
+            // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+            $('html, body').animate({
+                scrollTop: $(hash).offset().top
+            }, 800, function () {
+                // Add hash (#) to URL when done scrolling (default click behavior)
+                window.location.hash = hash;
+            });
+        } // End if
+    });
+
 
 //******************  Open Post Gallery Autplay ********************
 $('.carousel').on('slide.bs.carousel', function () {
@@ -65,6 +83,29 @@ $('.example-getting-started').multiselect({
     allSelectedText: 'همه‌‌ی موارد'
 });
 
+
+$(document).ready(function () {
+    // The slider being synced must be initialized first
+    $('#carousel').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: true,
+        slideshow: false,
+        itemWidth: 100,
+        itemMargin: 5,
+        asNavFor: '#slider'
+    });
+
+    $('#slider').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: false,
+        slideshow: false,
+        sync: "#carousel"
+    });
+});
+
+
 //****************** Site Loading ********************
 
 $(window).load(function () {
@@ -73,41 +114,41 @@ $(window).load(function () {
 });
 
 //****************** Wave Js ********************
-Waves.attach('.m-btn',['waves-light']);
-Waves.attach('.filter-search-btn',['waves-light']);
-Waves.attach('.m-filters-btn',['waves-block']);
-Waves.attach('.is-wave-animated',['waves-light']);
-Waves.attach('.is-wave-animated-dark',['waves-block']);
-Waves.attach('#tajrobePeykhoone',['waves-block']);
+Waves.attach('.m-btn', ['waves-light']);
+Waves.attach('.filter-search-btn', ['waves-light']);
+Waves.attach('.m-filters-btn', ['waves-block']);
+Waves.attach('.is-wave-animated', ['waves-light']);
+Waves.attach('.is-wave-animated-dark', ['waves-block']);
+Waves.attach('#tajrobePeykhoone', ['waves-block']);
 Waves.init();
 
 //****************** Ads Card Hover Effect ********************
-$( ".is-hovered-adCard" ).mouseenter(function() {
-    $( this ).find(".m-card-moreInfo").addClass('show');
-    $( this ).find(".m-card-azhansName").addClass('showTooltip');
-    $( this ).find(".m-card-moreInfo").css('color','white');
-    $( this ).find(".home-cost").css('font-weight','bold');
+$(".is-hovered-adCard").mouseenter(function () {
+    $(this).find(".m-card-moreInfo").addClass('show');
+    $(this).find(".m-card-azhansName").addClass('showTooltip');
+    $(this).find(".m-card-moreInfo").css('color', 'white');
+    $(this).find(".home-cost").css('font-weight', 'bold');
 });
-$( ".is-hovered-adCard" ).mouseleave(function() {
-    $( this ).find(".m-card-moreInfo").removeClass('show');
-    $( this ).find(".m-card-azhansName").removeClass('showTooltip');
-    $( this ).find(".m-card-moreInfo").css('color','white');
-    $( this ).find(".m-card-moreInfo").css('color','black');
-    $( this ).find(".home-cost").css('font-weight','normal');
+$(".is-hovered-adCard").mouseleave(function () {
+    $(this).find(".m-card-moreInfo").removeClass('show');
+    $(this).find(".m-card-azhansName").removeClass('showTooltip');
+    $(this).find(".m-card-moreInfo").css('color', 'white');
+    $(this).find(".m-card-moreInfo").css('color', 'black');
+    $(this).find(".home-cost").css('font-weight', 'normal');
 });
 
 if ($(window).width() <= 768) {
     // do something for medium screens
-    $( ".is-hovered-adCard" ).find(".m-card-moreInfo").addClass('show');
-    $( ".is-hovered-adCard" ).find(".m-card-azhansName").addClass('showTooltip');
-    $( ".is-hovered-adCard" ).find(".m-card-moreInfo").css('color','white');
-    $( ".is-hovered-adCard" ).find(".home-cost").css('font-weight','bold');
-}else{
-    $( ".is-hovered-adCard" ).find(".m-card-moreInfo").removeClass('show');
-    $( ".is-hovered-adCard" ).find(".m-card-azhansName").removeClass('showTooltip');
-    $( ".is-hovered-adCard" ).find(".m-card-moreInfo").css('color','white');
-    $( ".is-hovered-adCard" ).find(".m-card-moreInfo").css('color','black');
-    $( ".is-hovered-adCard" ).find(".home-cost").css('font-weight','normal');
+    $(".is-hovered-adCard").find(".m-card-moreInfo").addClass('show');
+    $(".is-hovered-adCard").find(".m-card-azhansName").addClass('showTooltip');
+    $(".is-hovered-adCard").find(".m-card-moreInfo").css('color', 'white');
+    $(".is-hovered-adCard").find(".home-cost").css('font-weight', 'bold');
+} else {
+    $(".is-hovered-adCard").find(".m-card-moreInfo").removeClass('show');
+    $(".is-hovered-adCard").find(".m-card-azhansName").removeClass('showTooltip');
+    $(".is-hovered-adCard").find(".m-card-moreInfo").css('color', 'white');
+    $(".is-hovered-adCard").find(".m-card-moreInfo").css('color', 'black');
+    $(".is-hovered-adCard").find(".home-cost").css('font-weight', 'normal');
 }
 
 // ============[ Translate English digits to farsi ]===========
@@ -132,47 +173,47 @@ $("#metraj-tray-row").hide();
 let isTrayOpen = false;
 let openedTray = "";
 let selectedBtn;
-$("#filters-cost-btn").click(function() {
+$("#filters-cost-btn").click(function () {
     selectedBtn = this;
-    if (isTrayOpen){
+    if (isTrayOpen) {
         closeTray("gheimat");
-    }else{
+    } else {
         isTrayOpen = true;
         openTray("gheimat");
     }
 });
-$("#filters-metr-btn").click(function() {
+$("#filters-metr-btn").click(function () {
     selectedBtn = this;
-    if (isTrayOpen){
+    if (isTrayOpen) {
         closeTray("metraj");
-    }else{
+    } else {
         isTrayOpen = true;
         openTray("metraj");
     }
 });
-$("#filters-room-btn").click(function() {
+$("#filters-room-btn").click(function () {
     selectedBtn = this;
-    if (isTrayOpen){
+    if (isTrayOpen) {
         closeTray("tedadekhab");
-    }else{
+    } else {
         isTrayOpen = true;
         openTray("tedadekhab");
     }
 });
-$("#filters-noemelk-btn").click(function() {
+$("#filters-noemelk-btn").click(function () {
     selectedBtn = this;
-    if (isTrayOpen){
+    if (isTrayOpen) {
         closeTray("noemelk");
-    }else{
+    } else {
         isTrayOpen = true;
         openTray("noemelk");
     }
 });
-$("#filters-moamele-btn").click(function() {
+$("#filters-moamele-btn").click(function () {
     selectedBtn = this;
-    if (isTrayOpen){
+    if (isTrayOpen) {
         closeTray("noemoamele");
-    }else{
+    } else {
         isTrayOpen = true;
         openTray("noemoamele");
     }
@@ -180,12 +221,12 @@ $("#filters-moamele-btn").click(function() {
 
 function closeTray(filterToShow) {
     $(".m-filters-btn i").removeClass('gradient-text');
-    $('.filter-selected').css('color','#949494');
+    $('.filter-selected').css('color', '#949494');
     $("#filters-tray").animate({
         "margin-top": -124
-    }, 530, $.bez([0.45, -0.41, 0.52, 1.04]),function () {
-        if (openedTray !== filterToShow){
-            switch (filterToShow){
+    }, 530, $.bez([0.45, -0.41, 0.52, 1.04]), function () {
+        if (openedTray !== filterToShow) {
+            switch (filterToShow) {
                 case "noemoamele" :
                     openTray("noemoamele");
                     break;
@@ -202,7 +243,7 @@ function closeTray(filterToShow) {
                     openTray("metraj");
                     break;
             }
-        }else{
+        } else {
             openedTray = "";
             showOrHideFilters("");
         }
@@ -210,11 +251,11 @@ function closeTray(filterToShow) {
 }
 function openTray(filter) {
     $(selectedBtn).find('i').addClass('gradient-text');
-    $(selectedBtn).find('.filter-selected').css('color','black');
+    $(selectedBtn).find('.filter-selected').css('color', 'black');
     openedTray = filter;
     showOrHideFilters(filter);
     $("#filters-tray").animate({
-        "margin-top":0
+        "margin-top": 0
     }, 430, $.bez([0.86, 0, 0.07, 1]));
 }
 
@@ -224,7 +265,7 @@ function showOrHideFilters(filter) {
     $("#tedadekhab-filters").hide();
     $("#costs-tray-row").hide();
     $("#metraj-tray-row").hide();
-    switch (filter){
+    switch (filter) {
         case "noemoamele" :
             $("#filters-tray-row").show();
             $("#noemoamele-filters").show();
@@ -250,118 +291,118 @@ function showOrHideFilters(filter) {
 
 //****************** Set kardane title Filter Noe Moamele ********************
 let dictionaryOfSelectedMoameleFilters = {
-    "خرید و پیش خرید" : true,
-    "رهن و اجاره" : false
+    "خرید و پیش خرید": true,
+    "رهن و اجاره": false
 };
 let moamelefiltersSelectedCount = 1;
 $("#kharidVaPishkharid,#rahnVaEjare").click(function () {
     let labelText = $(this).siblings('label').text();
 
     // tedade checkbox haie entekhab shode ra negah midarad
-    if (this.checked){
+    if (this.checked) {
         moamelefiltersSelectedCount++;
         // dar dictrionary filterha filtere entekhabi ra true mikonad
         dictionaryOfSelectedMoameleFilters[labelText] = true;
-    }else{
+    } else {
         moamelefiltersSelectedCount--;
         // dar dictrionary filterha filtere entekhabi ra false mikonad
         dictionaryOfSelectedMoameleFilters[labelText] = false;
     }
 
     // dar dictionary iterate mikonad va avvalin filteri ke true shode ra be onvane title set mikonad
-    for(var key in dictionaryOfSelectedMoameleFilters) {
+    for (var key in dictionaryOfSelectedMoameleFilters) {
         var value = dictionaryOfSelectedMoameleFilters[key];
-        if (value){
+        if (value) {
             $("#noemoamele-filter-text").text(key);
             break;
         }
     }
     // dar soorati ke tedade filterhaie entekhabi bish az 1 bashad و ... ra ezafe mikonad
-    if (moamelefiltersSelectedCount > 1){
+    if (moamelefiltersSelectedCount > 1) {
         $("#noemoamele-filter-text").text($("#noemoamele-filter-text").text() + " و ...");
-    }else if (moamelefiltersSelectedCount === 0){
+    } else if (moamelefiltersSelectedCount === 0) {
         $("#noemoamele-filter-text").text("انتخاب کنید");
     }
 });
 
 //****************** Set kardane title Filter Noe Melk ********************
 let dictionaryOfSelectedMelkFilters = {
-    "آپارتمان مسکونی" : true,
-    "آپارتمان اداری" : false,
-    "ویلا" : false,
-    "کلنگی" : false,
-    "مستغلات" : false,
-    "زمین" : false,
-    "تجاری" : false,
-    "پنت هاوس" : false
+    "آپارتمان مسکونی": true,
+    "آپارتمان اداری": false,
+    "ویلا": false,
+    "کلنگی": false,
+    "مستغلات": false,
+    "زمین": false,
+    "تجاری": false,
+    "پنت هاوس": false
 };
 let melkfiltersSelectedCount = 1;
 $("#noemelk-filters input").click(function () {
     let labelText = $(this).siblings('label').text();
 
     // tedade checkbox haie entekhab shode ra negah midarad
-    if (this.checked){
+    if (this.checked) {
         melkfiltersSelectedCount++;
         // dar dictrionary filterha filtere entekhabi ra true mikonad
         dictionaryOfSelectedMelkFilters[labelText] = true;
-    }else{
+    } else {
         melkfiltersSelectedCount--;
         // dar dictrionary filterha filtere entekhabi ra false mikonad
         dictionaryOfSelectedMelkFilters[labelText] = false;
     }
 
     // dar dictionary iterate mikonad va avvalin filteri ke true shode ra be onvane title set mikonad
-    for(var key in dictionaryOfSelectedMelkFilters) {
+    for (var key in dictionaryOfSelectedMelkFilters) {
         var value = dictionaryOfSelectedMelkFilters[key];
-        if (value){
+        if (value) {
             $("#noemelk-filter-text").text(key);
             break;
         }
     }
     // dar soorati ke tedade filterhaie entekhabi bish az 1 bashad و ... ra ezafe mikonad
-    if (melkfiltersSelectedCount > 1){
+    if (melkfiltersSelectedCount > 1) {
         $("#noemelk-filter-text").text($("#noemelk-filter-text").text() + " و ...");
-    }else if (melkfiltersSelectedCount === 0){
+    } else if (melkfiltersSelectedCount === 0) {
         $("#noemelk-filter-text").text("انتخاب کنید");
     }
 });
 
 //****************** Set kardane title Filter Tedade Khab ********************
 let dictionaryOfSelectedRoomsFilters = {
-    "۱ خوابه" : true,
-    "۲ خوابه" : false,
-    "۳ خوابه" : false,
-    "۴ خوابه" : false,
-    "۵ خوابه" : false,
-    "بیشتر از ۵ خواب" : false,
+    "۱ خوابه": true,
+    "۲ خوابه": false,
+    "۳ خوابه": false,
+    "۴ خوابه": false,
+    "۵ خوابه": false,
+    "بیشتر از ۵ خواب": false,
 };
 let tedadeKhabfiltersSelectedCount = 1;
 $("#tedadekhab-filters input").click(function () {
     let labelText = $(this).siblings('label').text();
 
     // tedade checkbox haie entekhab shode ra negah midarad
-    if (this.checked){
+    if (this.checked) {
         tedadeKhabfiltersSelectedCount++;
         // dar dictrionary filterha filtere entekhabi ra true mikonad
         dictionaryOfSelectedRoomsFilters[labelText] = true;
-    }else{
+    } else {
         tedadeKhabfiltersSelectedCount--;
         // dar dictrionary filterha filtere entekhabi ra false mikonad
         dictionaryOfSelectedRoomsFilters[labelText] = false;
     }
 
     // dar dictionary iterate mikonad va avvalin filteri ke true shode ra be onvane title set mikonad
-    for(var key in dictionaryOfSelectedRoomsFilters) {
+    for (var key in dictionaryOfSelectedRoomsFilters) {
         var value = dictionaryOfSelectedRoomsFilters[key];
-        if (value){
+        if (value) {
             $("#tedadekhab-filter-text").text(key);
             break;
         }
     }
     // dar soorati ke tedade filterhaie entekhabi bish az 1 bashad و ... ra ezafe mikonad
-    if (tedadeKhabfiltersSelectedCount > 1){
+    if (tedadeKhabfiltersSelectedCount > 1) {
         $("#tedadekhab-filter-text").text($("#tedadekhab-filter-text").text() + " و ...");
-    }else if (tedadeKhabfiltersSelectedCount === 0){
+    } else if (tedadeKhabfiltersSelectedCount === 0) {
         $("#tedadekhab-filter-text").text("انتخاب کنید");
     }
 });
@@ -395,10 +436,10 @@ noUiSlider.create(costSlider, {
     })
 });
 
-costSlider.noUiSlider.on('update', function( values, handle ) {
+costSlider.noUiSlider.on('update', function (values, handle) {
     // snapValues[handle].innerHTML = values[handle];
-    let translatedMin = values[0].replace("تومان","");
-    let translatedMax = values[1].replace("تومان","");
+    let translatedMin = values[0].replace("تومان", "");
+    let translatedMax = values[1].replace("تومان", "");
 
     $("#slider-step .noUi-handle-lower .noUi-tooltip").text(` ${translate(translatedMin)}  `);
     $("#slider-step .noUi-handle-upper .noUi-tooltip").text(` ${translate(translatedMax)}  `);
@@ -424,12 +465,12 @@ noUiSlider.create(metrajSlider, {
     })
 });
 
-metrajSlider.noUiSlider.on('update', function( values, handle ) {
+metrajSlider.noUiSlider.on('update', function (values, handle) {
     // snapValues[handle].innerHTML = values[handle];
-    let translatedMin = values[0].replace("متر","");
-    let translatedMax = values[1].replace("متر","");
+    let translatedMin = values[0].replace("متر", "");
+    let translatedMax = values[1].replace("متر", "");
 
-    $("#metraj-place").text( `از ${translate(translatedMin)} تا ${translate(translatedMax)}`);
+    $("#metraj-place").text(`از ${translate(translatedMin)} تا ${translate(translatedMax)}`);
     $("#metraj-slider .noUi-handle-lower .noUi-tooltip").text(` ${translate(translatedMin)} متر `);
     $("#metraj-slider .noUi-handle-upper .noUi-tooltip").text(` ${translate(translatedMax)} متر `);
 });
@@ -454,14 +495,14 @@ noUiSlider.create(seneBanaSlider, {
     })
 });
 
-seneBanaSlider.noUiSlider.on('update', function( values, handle ) {
+seneBanaSlider.noUiSlider.on('update', function (values, handle) {
 
-    let translatedMin = values[0].replace("سال","");
-    let translatedMax = values[1].replace("سال","");
+    let translatedMin = values[0].replace("سال", "");
+    let translatedMax = values[1].replace("سال", "");
 
-    if (translatedMin == 0){
+    if (translatedMin == 0) {
         $("#senebana-slider .noUi-handle-lower .noUi-tooltip").text(` نوساز `);
-    }else{
+    } else {
         $("#senebana-slider .noUi-handle-lower .noUi-tooltip").text(` ${translate(translatedMin)} سال `);
         // $("#senebana-slider .noUi-handle-lower .noUi-tooltip").text($("#senebana-slider .noUi-handle-lower .noUi-tooltip").text() + 'سال');
     }
@@ -469,4 +510,6 @@ seneBanaSlider.noUiSlider.on('update', function( values, handle ) {
     $("#senebana-slider .noUi-handle-upper .noUi-tooltip").text(` ${translate(translatedMax)} سال `);
 
 });
+
+
 

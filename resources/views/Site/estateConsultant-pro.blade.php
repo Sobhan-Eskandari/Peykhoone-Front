@@ -1,9 +1,17 @@
 @extends('layout.site')
+@section('title')
+    مشاور املاک محمود | پی خونه
+@endsection
+@section('meta')
+    <meta name="description"
+          content="مشاور املاک محمود یکی از مشاورین املاک با سابقه و خوش‌نام در خدمت همشهریان گرامی برای انجام امور ملکی است."/>
+    <meta name="Keywords" content="آژانس املاک , صفحه شخصی آزانس املاک , مشاور املاک محمود , مشاور املاک در گیلان , مشاور املاک در رشت , معامله ملک در رشت , خرید خانه"/>
+@endsection
 @section('content')
     <!--header img-->
-    <div class="row mt-0">
+    <div class="row mt-0 header-text-box">
         <img src="{{ asset('images/header3.jpg') }}"
-             alt="در حال بارگذاری" height="500px"
+             alt="خرید ملک در رشت" height="300px"
              width="100%" class="header-z-index">
     </div>
     <!--breadcrumb-->
@@ -23,7 +31,7 @@
     <div class="row justify-content-center">
         <div class="m-rounded-scope py-4  px-2">
             <img src="{{ asset('images/partners/partner5.png') }}"
-                 alt="در حال بارگذاری" height="100px"
+                 alt="مشاور املاک محمود" height="100px"
                  width="130px" class="d-block mx-auto m-rounded-stateImg">
         </div>
     </div>
@@ -155,8 +163,11 @@
             <div class="col-lg-7 col-md-12 col-sm-12 col-12">
                 <div class="estate-category-box">
                     <ul class="estate-category">
-                        <li class="estate-category-item"><a href="#" class="estate-category-link categoryItem-is-active">آپارتمان مسکونی</a></li>
-                        <li class="estate-category-item"><a href="#" class="estate-category-link">آپارتمان اداری</a></li>
+                        <li class="estate-category-item"><a href="#"
+                                                            class="estate-category-link categoryItem-is-active">آپارتمان
+                                مسکونی</a></li>
+                        <li class="estate-category-item"><a href="#" class="estate-category-link">آپارتمان اداری</a>
+                        </li>
                         <li class="estate-category-item"><a href="#" class="estate-category-link">مستغلات</a></li>
                         <li class="estate-category-item"><a href="#" class="estate-category-link">کلنگی</a></li>
                         <li class="estate-category-item"><a href="#" class="estate-category-link">زمین</a></li>
@@ -198,14 +209,38 @@
                     </div>
                 @endfor
             </div>
+            <br><br>
         </div>
     </div>
-
-
-
-    <img src="{{ asset('images/') }}"
-         alt="در حال بارگذاری" width="100%">
-    <script>
-
-    </script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "item": {
+      "@id": "",
+      "name": "خانه",
+      "image": ""
+    }
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "item": {
+      "@id": "",
+      "name": "همه آژانس ها",
+      "image": ""
+    }
+  },{
+    "@type": "ListItem",
+    "position": 3,
+    "item": {
+      "@id": "",
+      "name": "آژانس املاک محمود",
+      "image": ""
+    }
+  }]
+}
+</script>
 @endsection

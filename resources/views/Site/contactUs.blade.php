@@ -1,11 +1,20 @@
 @extends('layout.site')
+
+@section('title')
+    تماس با پی خونه | پی خونه
+@endsection
+@section('meta')
+    <meta name="description"
+          content="چنانچه مشاور املاک هستید و قصد استفاده از خدمات پی خونه را دارید؛ متقاضی ملک هستید و پیشنهاد و یا انتقادی دارید؛ لطفا با ما تماس بگیرید"/>
+    <meta name="Keywords" content="تماس با پی خونه , راه های ارتباطی پی خونه , شبکه های اجتماعی پی خونه"/>
+@endsection
 @section('content')
     <!--header img-->
     <div class="row mt-0 header-text-box">
         <img src="{{ asset('images/header3.jpg') }}"
-             alt="در حال بارگذاری" height="300px"
+             alt="خرید ملک در رشت" height="300px"
              width="100%" class="header-z-index">
-        <h3 class="header-caption text-center">تماس با پی خونه</h3>
+        <h1 class="header-caption text-center hi-fontSize-28">تماس با پی خونه</h1>
     </div>
     <!--breadcrumb-->
     <div class="container l-rtl pt-5">
@@ -40,7 +49,7 @@
                             </div>
                             <div class="col-lg-5 col-md-6 col-sm-12 col-12 px-5">
                                 <img src="{{ asset('images/apartment.png') }}"
-                                     alt="در حال بارگذاری" height="330px"
+                                     alt="خرید ملک" height="330px"
                                      width="100%" class="mx-auto d-block">
                             </div>
                         </div>
@@ -116,47 +125,70 @@
     <div class="container">
         <div class="row">
             <div class="contact-simpleBox l-rtl p-5">
-                <div class="row justify-content-center">
-                    <div class="col-8">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-12 col-sm-12 col-12 px-4">
-                                <div class="form-group">
-                                    <label class="hi-fontSize-11 form-control-label" for="name">نام و نام
-                                        خانوادگی</label>
-                                    <input class="m-field form-control" id="name" aria-describedby="name"
-                                           placeholder="نام خود را وارد کنید" tabindex="1">
+                <form class="px-0">
+                    <div class="row justify-content-center">
+                        <div class="col-8">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-12 col-sm-12 col-12 px-4">
+                                    <div class="form-group">
+                                        <label class="hi-fontSize-11 form-control-label" for="name">نام و نام
+                                            خانوادگی</label>
+                                        <input class="m-field form-control" id="name" aria-describedby="name"
+                                               placeholder="نام خود را وارد کنید" tabindex="1">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-12 col-sm-12 col-12 px-4">
+                                    <div class="form-group">
+                                        <label class="hi-fontSize-11 form-control-label" for="email">ایمیل</label>
+                                        <input class="m-field form-control" id="email" aria-describedby="name"
+                                               placeholder="ایمیل خود را وارد کنید" tabindex="2">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12 col-12 px-4">
-                                <div class="form-group">
-                                    <label class="hi-fontSize-11 form-control-label" for="email">ایمیل</label>
-                                    <input class="m-field form-control" id="email" aria-describedby="name"
-                                           placeholder="ایمیل خود را وارد کنید" tabindex="2">
+                            <div class="row">
+                                <div class="col-12 px-4">
+                                    <div class="form-group">
+                                        <label class="hi-fontSize-11 form-control-label" for="message">پیام شما</label>
+                                        <textarea class="m-field form-control" id="message" aria-describedby="name"
+                                                  placeholder="پیام خود را وارد کنید" tabindex="3" rows="7"></textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 px-4">
-                                <div class="form-group">
-                                    <label class="hi-fontSize-11 form-control-label" for="message">پیام شما</label>
-                                    <textarea class="m-field form-control" id="message" aria-describedby="name"
-                                              placeholder="پیام خود را وارد کنید" tabindex="3" rows="7"></textarea>
+                            <div class="row">
+                                <div class="col-12 px-4">
+                                    <button class="m-btn ocean px-3 pull-left mt-3">ارسال پیام</button>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 px-4">
-                                <button class="m-btn ocean px-3 pull-left mt-3">ارسال پیام</button>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
     <br><br><br><br>
-
-
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "item": {
+      "@id": "",
+      "name": "خانه",
+      "image": ""
+    }
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "item": {
+      "@id": "",
+      "name": "تماس با پی خونه",
+      "image": ""
+    }
+  }]
+}
+</script>
 @endsection
 @section('contact')
     @include('includes.contact-banner')

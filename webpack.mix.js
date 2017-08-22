@@ -25,9 +25,9 @@ mix.js([
     .sass('resources/assets/sass/app.scss', 'public/css/app.css');
 
 mix.js([
-    'node_modules/lightgallery/dist/js/lightgallery.js',
-    'node_modules/lightgallery/modules/lg-thumbnail.js',
-    'node_modules/lightgallery/modules/lg-fullscreen.js',
+    /*'node_modules/lightgallery/dist/js/lightgallery.js',*/
+    /*'node_modules/lightgallery/modules/lg-thumbnail.js',*/
+    /*'node_modules/lightgallery/modules/lg-fullscreen.js',*/
     'node_modules/infinite-scroll/dist/infinite-scroll.pkgd.js',
     'node_modules/node-waves/dist/waves.min.js',
     'node_modules/typed.js/lib/typed.min.js',
