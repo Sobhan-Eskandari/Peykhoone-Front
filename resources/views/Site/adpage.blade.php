@@ -67,66 +67,66 @@
                                         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                                             <ol class="carousel-indicators">
                                                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="First slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="عکس ملک">
                                                 </li>
                                                 <li data-target="#carouselExampleIndicators" data-slide-to="1">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="Second slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="عکس ملک">
                                                 </li>
                                                 <li data-target="#carouselExampleIndicators" data-slide-to="2">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="Third slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="عکس ملک">
                                                 </li>
                                                 <li data-target="#carouselExampleIndicators" data-slide-to="3">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="Third slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="عکس ملک">
                                                 </li>
                                                 <li data-target="#carouselExampleIndicators" data-slide-to="4">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="Third slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="عکس ملک">
                                                 </li>
                                                 <li data-target="#carouselExampleIndicators" data-slide-to="5">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="First slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="عکس ملک">
                                                 </li>
                                                 <li data-target="#carouselExampleIndicators" data-slide-to="6">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="Second slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="عکس ملک">
                                                 </li>
                                                 <li data-target="#carouselExampleIndicators" data-slide-to="7">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="Third slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="عکس ملک">
                                                 </li>
                                                 <li data-target="#carouselExampleIndicators" data-slide-to="8">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="Third slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="عکس ملک">
                                                 </li>
                                                 <li data-target="#carouselExampleIndicators" data-slide-to="9">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="Third slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="عکس ملک">
                                                 </li>
                                             </ol>
                                             <div class="carousel-inner" role="listbox">
                                                 <div class="carousel-item carousel-cell active">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="First slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="عکس ملک">
                                                 </div>
                                                 <div class="carousel-item carousel-cell">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="Second slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="عکس ملک">
                                                 </div>
                                                 <div class="carousel-item carousel-cell">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="Third slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="عکس ملک">
                                                 </div>
                                                 <div class="carousel-item carousel-cell">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="Third slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="عکس ملک">
                                                 </div>
                                                 <div class="carousel-item carousel-cell">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="First slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="عکس ملک">
                                                 </div>
                                                 <div class="carousel-item carousel-cell">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="Second slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="عکس ملک">
                                                 </div>
                                                 <div class="carousel-item carousel-cell">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="Third slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="عکس ملک">
                                                 </div>
                                                 <div class="carousel-item carousel-cell">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="Third slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/grapes.jpg" alt="عکس ملک">
                                                 </div>
                                                 <div class="carousel-item carousel-cell">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="Third slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/raspberries.jpg" alt="عکس ملک">
                                                 </div>
                                                 <div class="carousel-item carousel-cell">
-                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="Third slide">
+                                                    <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="عکس ملک">
                                                 </div>
                                             </div>
                                             <a class="carousel-control-prev"  href="#carouselExampleIndicators" onclick="nextSlide()" role="button" data-slide="prev">
@@ -147,7 +147,7 @@
                             {{---------- [ Home Cost ] ---------}}
                             <div class="row mt-5 mt-lg-3">
                                 <div class="col-12">
-                                    <h2 class="ocean white-text rounded-60 text-center py-3 medium-title hi-fontSize-16"><img class="hi-size-2 ml-2" src="{{asset('/images/coins.svg')}}"> ۱ میلیون و ۶۰۰ هزار تومان</h2>
+                                    <h2 class="ocean white-text rounded-60 text-center py-3 medium-title hi-fontSize-16"><img alt="قیمت آگهی" class="hi-size-2 ml-2" src="{{asset('/images/coins.svg')}}"> ۱ میلیون و ۶۰۰ هزار تومان</h2>
                                 </div>
                             </div>
                             {{---------- [ Home Info ] ---------}}
@@ -290,7 +290,7 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
                             {{---------- [ Moshaver Info ] ---------}}
                             <div class="row m-card rounded-8 mt-4 align-items-center">
                                 <div class="col-2 col-md-2">
-                                    <img class="img-fluid" src="{{asset('images/partners/partner2.png')}}">
+                                    <img alt="آژانس املاک مشاور املاک محمود" class="img-fluid" src="{{asset('images/partners/partner2.png')}}">
                                 </div>
                                 <div class="col-7 col-md-7 py-3">
                                     <h3 class="regular-title hi-fontSize-14">آژانس املاک مشاور املاک محمود</h3>
@@ -400,7 +400,7 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
                                 <div class="row pr-4">
                                     <div class="col-12">
                                         <h4>
-                                            <img src="{{ asset('images/list-rhb.png') }}" alt="در حال بارگذاری" height="23px" width="18px">&nbsp;
+                                            <img src="{{ asset('images/list-rhb.png') }}" alt="مکان ملک" height="23px" width="18px">&nbsp;
                                             <span class="m-facilities-title">موقعیت بر روی نقشه</span>
                                         </h4>
                                     </div>
@@ -429,7 +429,7 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
                         <div class="row pr-4 mt-4">
                             <div class="col-12">
                                 <h4>
-                                    <img src="{{ asset('images/list-rhb.png') }}" alt="در حال بارگذاری" height="23px" width="18px">&nbsp;
+                                    <img src="{{ asset('images/list-rhb.png') }}" alt="خانه‌های مشابه" height="23px" width="18px">&nbsp;
                                     <span class="m-facilities-title">خانه‌های مشابه</span>
                                 </h4>
                             </div>
