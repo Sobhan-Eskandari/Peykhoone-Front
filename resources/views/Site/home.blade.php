@@ -391,13 +391,4 @@
     {{--<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.js"></script>--}}
     <script src="/Hi_Framework/javascript/Carousel/Other Libraries/Flicklity/flickity.pkgd.min.js"></script>
 
-    <script>
-//        function initMap() {
-//            google.maps.event.addListener(map, 'idle', function () {
-//                google.maps.event.trigger(map, 'resize');
-//
-//            });
-//        }
-    </script>
-
 @endsection

@@ -1,11 +1,13 @@
 @extends('layout.site')
 
 @section('title')
-    پی خونه | تایتل کارت , نام آژانس
+    ملک مسکونی یوسف آباد , آژانس املاک مشاور املاک محمود | پی خونه
 @endsection
 
 @section('meta')
-    <meta name="description" content="Zillow has 9 photos of this $175671 3 bed, 1.0 bath, sqft single family home located at 2640 Pioneer Ave # 2 built in. MLS #."></meta>
+    <link rel="canonical" href="https://www.hidashboard.ir/ads/ملک-مسکونی-یوسف-آباد/">
+    <meta name="description" content="پی خونه دارای ۹ عکس از این آگهی با ارزش ۱۲۵ میلیون تومان و به مساحت ۱۲۰ متر واقع در خیابان لاکانی میباشد">
+    <meta name="referrer" content="always">
 @endsection
 
 @section('bg-color')
@@ -15,25 +17,37 @@
 @section('content')
 
     {{------------- [ Breadcrumb ] ------------}}
-    @include('includes.breadcrumb')
+    <div class="container l-rtl pt-5 mt-5" id="is-navigated-homeInfo">
+        <div class="row justify-content-center mt-3">
+            <div class="col-12 px-0">
+                <ol class="breadcrumb m-breadcrumb">
+                    <li class="breadcrumb-item m-breadcrumb-item"><a href="#">خانه</a></li>
+                    <li class="breadcrumb-item m-breadcrumb-item"><a href="#">تماس با پی خونه</a></li>
+                    <li class="breadcrumb-item m-breadcrumb-item">-</li>
+                </ol>
+            </div>
+        </div>
+    </div>
 
-    <section class="l-home-info">
+    <section class="l-home-info" id="homeInfo">
         <div class="container-fluid">
             <div class="row l-rtl mt-3 is-justified-center">
                 {{------------- [ Right Scroll Navigator ] ------------}}
                 <div class="col-lg-1 col-xl-1 hidden-md-down" id="l-navigator">
                     <div class="m-card rounded-10 text-center">
-                        <i class="fa fa-home hi-fontSize-23 mt-3 gradient-text"></i>
+                        <a id="navigate-to-homeInfo" data-scroll href="#is-navigated-homeInfo"><i class="fa fa-home hi-fontSize-23 my-2 gradient-text l-fullWidth"></i></a>
                         <hr class="my-1">
-                        <div class="m-Sn-icon openPost-emkanat-icon"></div>
+                        <a id="navigate-to-moshakhast" data-scroll href="#is-navigated-moshakhasate-melk"><i class="fa fa-home hi-fontSize-23 my-2 gradient-text l-fullWidth"></i></a>
                         <hr class="my-1">
-                        <div class="m-Sn-icon openPost-map-icon"></div>
+                        <a id="navigate-to-emkanat" data-scroll href="#is-navigated-emkanate-melk"><i class="fa fa-home hi-fontSize-23 my-2 gradient-text l-fullWidth"></i></a>
                         <hr class="my-1">
-                        <div class="m-Sn-icon openPost-home-icon"></div>
+                        <a id="navigate-to-map" data-scroll href="#is-navigated-google-map"><i class="fa fa-home hi-fontSize-23 my-2 gradient-text l-fullWidth"></i></a>
+                        <hr class="my-1">
+                        <a id="navigate-to-moreHome" data-scroll href="#is-navigated-moreHome"><i class="fa fa-home hi-fontSize-23 my-2 gradient-text l-fullWidth"></i></a>
                     </div>
                 </div>
                 {{------------- [ Main Ad Contnt ] ------------}}
-                <div class="col-lg-10 col-11" >
+                <div class="col-lg-10 col-11 pull-lg-1">
                     <div class="row m-card rounded-10 py-5 px-4 is-justified-center">
                         {{------------- [ Ad name and share and image ] ------------}}
                         <div class="col-lg-6 col-11 px-0">
@@ -134,7 +148,7 @@
                             {{---------- [ Home Cost ] ---------}}
                             <div class="row mt-5 mt-lg-3">
                                 <div class="col-12">
-                                    <p class="ocean white-text rounded-60 text-center py-3 medium-title"><img class="hi-size-2 ml-2" src="{{asset('/images/coins.svg')}}"> ۱ میلیون و ۶۰۰ هزار تومان</p>
+                                    <h2 class="ocean white-text rounded-60 text-center py-3 medium-title hi-fontSize-16"><img class="hi-size-2 ml-2" src="{{asset('/images/coins.svg')}}"> ۱ میلیون و ۶۰۰ هزار تومان</h2>
                                 </div>
                             </div>
                             {{---------- [ Home Info ] ---------}}
@@ -280,8 +294,8 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
                                     <img class="img-fluid" src="{{asset('images/partners/partner2.png')}}">
                                 </div>
                                 <div class="col-7 col-md-7 py-3">
-                                    <h4 class="regular-title hi-fontSize-14">آژانس املاک مشاور املاک محمود</h4>
-                                    <h4 class="regular-title hi-fontSize-14 mt-2"><i class="fa fa-phone"></i> تماس: ۰۹۳۳۷۶۸۹۴۶۵ </h4>
+                                    <h3 class="regular-title hi-fontSize-14">آژانس املاک مشاور املاک محمود</h3>
+                                    <h3 class="regular-title hi-fontSize-14 mt-2"><i class="fa fa-phone"></i> تماس: ۰۹۳۳۷۶۸۹۴۶۵ </h3>
                                 </div>
                                 <div class="col-3 pl-0">
                                     <button type="submit" class="filter-search-btn hi-fontSize-14 py-3">پروفایل مشاور
@@ -307,8 +321,13 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
                                     <button class="hi-button-simple grey-text l-autoMargin l-fullWidth" id="showTozihateMoshaver"> مشاهده بیشتر <i class="fa fa-angle-down"></i> </button>
                                 </div>
                             </div>
+                            {{--Bekhatere navbare fix baiad balatar bashe sectione harekat--}}
+                            {{--baraie navigatore samte rast--}}
+                            <div id="is-navigated-moshakhasate-melk"></div>
                         </div>
                     </div>
+
+
 
                     {{------------- [ Moshakhasate Melk ] ------------}}
                     <div class="row mt-5">
@@ -316,10 +335,10 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
                             <div class="m-facilities-cardBox l-rtl">
                                 <div class="row">
                                     <div class="col-12">
-                                        <h5>
+                                        <h4>
                                             <img src="{{ asset('images/list-rhb.png') }}" alt="در حال بارگذاری" height="23px" width="18px">&nbsp;
                                             <span class="m-facilities-title"> مشخصات ملک </span>
-                                        </h5>
+                                        </h4>
                                     </div>
                                 </div>
                                 <hr class="mt-0 m-facilities-hr">
@@ -332,20 +351,23 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
                                         @endfor
                                     </div>
                                 @endfor
+                                {{--Bekhatere navbare fix baiad balatar bashe sectione harekat--}}
+                                {{--baraie navigatore samte rast--}}
+                                <div id="is-navigated-emkanate-melk"></div>
                             </div>
                         </div>
                     </div>
 
                     {{------------- [ Emkanate Melk ] ------------}}
-                    <div class="row mt-5">
+                    <div class="row mt-5" id="l-emkanate-melk">
                         <div class="col-12 px-0">
                             <div class="m-facilities-cardBox l-rtl">
                                 <div class="row">
                                     <div class="col-12">
-                                        <h5>
+                                        <h4>
                                             <img src="{{ asset('images/list-rhb.png') }}" alt="در حال بارگذاری" height="23px" width="18px">&nbsp;
                                             <span class="m-facilities-title"> امکانات ملک</span>
-                                        </h5>
+                                        </h4>
                                     </div>
                                 </div>
                                 <hr class="mt-0 m-facilities-hr">
@@ -365,20 +387,23 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
                                         @endfor
                                     </div>
                                 @endfor
+                                {{--Bekhatere navbare fix baiad balatar bashe sectione harekat--}}
+                                {{--baraie navigatore samte rast--}}
+                                <div id="is-navigated-google-map"></div>
                             </div>
                         </div>
                     </div>
 
                     {{------------- [ Google Map Melk ] ------------}}
-                    <div class="row mt-5">
+                    <div class="row mt-5" id="l-google-map">
                         <div class="col-12 px-0">
                             <div class="m-facilities-cardBox l-rtl px-0 pb-0">
                                 <div class="row pr-4">
                                     <div class="col-12">
-                                        <h5>
+                                        <h4>
                                             <img src="{{ asset('images/list-rhb.png') }}" alt="در حال بارگذاری" height="23px" width="18px">&nbsp;
                                             <span class="m-facilities-title">موقعیت بر روی نقشه</span>
-                                        </h5>
+                                        </h4>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -386,6 +411,9 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
                                         <div id="google-map" class="google-map mt-3" style="height: 300px"></div>
                                     </div>
                                 </div>
+                                {{--Bekhatere navbare fix baiad balatar bashe sectione harekat--}}
+                                {{--baraie navigatore samte rast--}}
+                                <div id="is-navigated-moreHome"></div>
                             </div>
                         </div>
                     </div>
@@ -394,17 +422,17 @@ m160 -5 l0 -120 -60 0 -60 0 0 120 0 120 60 0 60 0 0 -120z"/>
         </div>
     </section>
 
-    <section class="l-moreHome pb-5">
+    <section class="l-moreHome pb-5" id="more-home-section">
         <div class="container">
             <div class="row mt-5">
                 <div class="col-12 px-0">
                     <div class="l-rtl px-0 pb-0">
                         <div class="row pr-4 mt-4">
                             <div class="col-12">
-                                <h5>
+                                <h4>
                                     <img src="{{ asset('images/list-rhb.png') }}" alt="در حال بارگذاری" height="23px" width="18px">&nbsp;
                                     <span class="m-facilities-title">خانه‌های مشابه</span>
-                                </h5>
+                                </h4>
                             </div>
                         </div>
                         <hr class="my-2 m-facilities-hr">

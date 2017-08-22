@@ -369,6 +369,11 @@ $("#tedadekhab-filters input").click(function () {
 //************ Smooth Scroll ***************
 var scrollApp = new SmoothScroll('#tajrobePeykhoone a');
 var scrollUp = new SmoothScroll('#goUpBtn');
+var scrollHomeInfo = new SmoothScroll('#navigate-to-homeInfo');
+var scrollEmkanat = new SmoothScroll('#navigate-to-emkanat');
+var scrollMoshakhast = new SmoothScroll('#navigate-to-moshakhast');
+var scrollMap = new SmoothScroll('#navigate-to-map');
+var scrollMoreHome = new SmoothScroll('#navigate-to-moreHome');
 
 // ****************** Cost Slider ********************
 var costSlider = document.getElementById('slider-step');

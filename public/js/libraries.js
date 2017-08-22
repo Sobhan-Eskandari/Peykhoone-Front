@@ -17252,6 +17252,11 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#tedadekhab-filters input").clic
 //************ Smooth Scroll ***************
 var scrollApp = new __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default.a('#tajrobePeykhoone a');
 var scrollUp = new __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default.a('#goUpBtn');
+var scrollHomeInfo = new __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default.a('#navigate-to-homeInfo');
+var scrollEmkanat = new __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default.a('#navigate-to-emkanat');
+var scrollMoshakhast = new __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default.a('#navigate-to-moshakhast');
+var scrollMap = new __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default.a('#navigate-to-map');
+var scrollMoreHome = new __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default.a('#navigate-to-moreHome');
 
 // ****************** Cost Slider ********************
 var costSlider = document.getElementById('slider-step');
