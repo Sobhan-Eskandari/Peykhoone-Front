@@ -44,10 +44,18 @@
   color: $light-aquamarine !important;
 }
 
-.pushy .social-icon{
+.pushy .social-icon {
   float: right;
 }
 
+.social-icon-scoop-telegram {
+  padding-top: 5px;
+  background-color: white;
+  color: #282828;
+  border-radius: 50%;
+  width: 26.7px;
+  height: 26.7px
+}
 
 /*.pushy ul:first-child {
   margin-top: 10px;

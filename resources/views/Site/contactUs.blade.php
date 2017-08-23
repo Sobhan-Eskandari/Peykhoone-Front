@@ -73,41 +73,37 @@
                     <div class="col-lg-3 col-md-6 col-sm-12 col-12 px-5">
                         <div class="contactIcon-scopes hi-icon-effect-9 hi-icon-effect-9b mx-auto d-block">
                             <a href="" class="hi-icon hi-icon-blue">
-                                <img src="{{ asset('images/call.png') }}" alt="در حال بارگذاری"
-                                     height="32px" width="32px" class="mx-auto d-block">
+                                <span class="icon-phone-call hi-fontSize-34 m-icon-social-contact"></span>
                             </a>
                         </div>
-                        <h5 class="text-center pt-3 hi-fontSize-14">خط ویژه</h5>
+                        <h5 class="text-center pt-4 hi-fontSize-14">خط ویژه</h5>
                         <h6 class="text-center contactWay-title">۴۵۶ ۶۷۸۹ ۰۹۳۳ </h6>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-12 col-12 px-5">
                         <div class="contactIcon-scopes hi-icon-effect-9 hi-icon-effect-9b mx-auto d-block">
                             <a href="" class="hi-icon hi-icon-yellow">
-                                <img src="{{ asset('images/email.png') }}" alt="در حال بارگذاری"
-                                     height="30px" width="40px" class="mx-auto d-block">
+                                <span class="icon-new-email-back-closed-envelope-symbol hi-fontSize-36 m-icon-social-contact"></span>
                             </a>
                         </div>
-                        <h5 class="text-center pt-3 hi-fontSize-14">ایمیل</h5>
+                        <h5 class="text-center pt-4 hi-fontSize-14">ایمیل</h5>
                         <h6 class="text-center contactWay-title">info@alounak.com</h6>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-12 col-12 px-5">
                         <div class="contactIcon-scopes hi-icon-effect-9 hi-icon-effect-9b mx-auto d-block">
                             <a href="" class="hi-icon hi-icon-lightBlue">
-                                <img src="{{ asset('images/telegram-icon.png') }}" alt="در حال بارگذاری"
-                                     height="32px" width="35px" class="mx-auto d-block">
+                                <span class="icon-telegram hi-fontSize-35 m-icon-social-contact"></span>
                             </a>
                         </div>
-                        <h5 class="text-center pt-3 hi-fontSize-14">تلگرام</h5>
+                        <h5 class="text-center pt-4 hi-fontSize-14">تلگرام</h5>
                         <h6 class="text-center contactWay-title">@peykhoone</h6>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-12 col-12 px-5">
                         <div class="contactIcon-scopes hi-icon-effect-9 hi-icon-effect-9b mx-auto d-block">
                             <a href="" class="hi-icon hi-icon-purple">
-                                <img src="{{ asset('images/instagram-icon.png') }}" alt="در حال بارگذاری"
-                                     height="35px" width="35px" class="mx-auto d-block">
+                                <span class="icon-instagram hi-fontSize-35 m-icon-social-contact"></span>
                             </a>
                         </div>
-                        <h5 class="text-center pt-3 hi-fontSize-14">اینستاگرام</h5>
+                        <h5 class="text-center pt-4 hi-fontSize-14">اینستاگرام</h5>
                         <h6 class="text-center contactWay-title">@peykhoone</h6>
                     </div>
                 </div>

@@ -51,9 +51,7 @@
                                 <div class="row">
                                     <div class="col-1">
                                         <div class="m-icon-scoop pt-2">
-                                            <img src="{{ asset('images/location1.png') }}"
-                                                 alt="در حال بارگذاری" height="18px"
-                                                 width="15px" class="mx-auto d-block">
+                                           <p class="text-center"><span class="icon-location-pin hi-fontSize-20 gradient-text"></span></p>
                                         </div>
                                     </div>
                                     <div class="col-11 pt-1">
@@ -64,9 +62,7 @@
                                 <div class="row mt-3">
                                     <div class="col-1">
                                         <div class="m-icon-scoop pt-2">
-                                            <img src="{{ asset('images/svg/person1.svg') }}"
-                                                 alt="در حال بارگذاری" height="18px"
-                                                 width="15px" class="mx-auto d-block">
+                                            <p class="text-center"><span class="icon-manager hi-fontSize-20 gradient-text"></span></p>
                                         </div>
                                     </div>
                                     <div class="col-11 pt-1">
@@ -76,9 +72,7 @@
                                 <div class="row mt-3">
                                     <div class="col-1">
                                         <div class="m-icon-scoop pt-2">
-                                            <img src="{{ asset('images/svg/hammer.svg') }}"
-                                                 alt="در حال بارگذاری" height="18px"
-                                                 width="15px" class="mx-auto d-block">
+                                            <p class="text-center"><span class="icon-hammer hi-fontSize-20 gradient-text"></span></p>
                                         </div>
                                     </div>
                                     <div class="col-11 pt-1">
@@ -90,9 +84,7 @@
                                 <div class="row">
                                     <div class="col-1">
                                         <div class="m-icon-scoop pt-2">
-                                            <img src="{{ asset('images/svg/tel.svg') }}"
-                                                 alt="در حال بارگذاری" height="18px"
-                                                 width="15px" class="mx-auto d-block">
+                                            <p class="text-center"><span class="icon-phone-receiver hi-fontSize-19 gradient-text"></span></p>
                                         </div>
                                     </div>
                                     <div class="col-11 pt-1">
@@ -102,9 +94,7 @@
                                 <div class="row mt-3">
                                     <div class="col-1">
                                         <div class="m-icon-scoop pt-2">
-                                            <img src="{{ asset('images/svg/person2.svg') }}"
-                                                 alt="در حال بارگذاری" height="18px"
-                                                 width="15px" class="mx-auto d-block">
+                                            <p class="text-center"><span class="icon-user hi-fontSize-19 gradient-text"></span></p>
                                         </div>
                                     </div>
                                     <div class="col-11 pt-1">
@@ -115,9 +105,7 @@
                                 <div class="row mt-3">
                                     <div class="col-1">
                                         <div class="m-icon-scoop pt-2">
-                                            <img src="{{ asset('images/svg/letter.svg') }}"
-                                                 alt="در حال بارگذاری" height="18px"
-                                                 width="15px" class="mx-auto d-block">
+                                            <p class="text-center"><span class="icon-new-email-back-closed-envelope-symbol hi-fontSize-19 gradient-text"></span></p>
                                         </div>
                                     </div>
                                     <div class="col-11 pt-1">
@@ -138,9 +126,7 @@
             <div class="col-12 m-profileBox-upperLayer map-box" style="height: 200px;">
                 <div class="row py-3 px-4">
                     <h6 class="m-estatePro-mapTitle">
-                        <img src="{{ asset('images/map-nav.png') }}"
-                             alt="در حال بارگذاری" height="19px"
-                             width="19px">
+                       <span class="icon-placeholder gradient-text hi-fontSize-20"></span>
                         موقعیت بر روی نقشه</h6>
                 </div>
                 <div class="row" style="height: 50px;">

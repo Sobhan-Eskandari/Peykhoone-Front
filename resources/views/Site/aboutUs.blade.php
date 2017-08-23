@@ -13,7 +13,7 @@
              alt="درباره ی پی خونه" height="450px"
              width="100%" class="header-z-index">
         <h1 class="header-caption-about text-center">درباره پی خونه</h1>
-        <a href="#aboutUs-description" class="text-center"><i class="fa fa-chevron-down fa-3x header-chevron-down"></i></a>
+        <a href="#aboutUs-description" class="text-center header-caption-about mt-5 pt-4"><i class="icon-expand-button icon-expand-button-property hi-fontSize-35"></i></a>
     </div>
     <!--breadcrumb-->
     <div class="container l-rtl mt-5 mb-4">

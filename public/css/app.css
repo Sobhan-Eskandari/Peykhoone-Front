@@ -1,3 +1,4 @@
+
 .multiselect-container{position:absolute;list-style-type:none;margin:0;padding:0}.multiselect-container .input-group{margin:5px}.multiselect-container>li{padding:0}.multiselect-container>li>a.multiselect-all label{font-weight:700}.multiselect-container>li.multiselect-group label{margin:0;padding:3px 20px 3px 20px;height:100%;font-weight:700}.multiselect-container>li.multiselect-group-clickable label{cursor:pointer}.multiselect-container>li>a{padding:0}.multiselect-container>li>a>label{margin:0;height:100%;cursor:pointer;font-weight:400;padding:3px 20px 3px 40px}.multiselect-container>li>a>label.radio,.multiselect-container>li>a>label.checkbox{margin:0}.multiselect-container>li>a>label>input[type=checkbox]{margin-bottom:5px}.btn-group>.btn-group:nth-child(2)>.multiselect.btn{border-top-left-radius:4px;border-bottom-left-radius:4px}.form-inline .multiselect-container label.checkbox,.form-inline .multiselect-container label.radio{padding:3px 20px 3px 40px}.form-inline .multiselect-container li a label.checkbox input[type=checkbox],.form-inline .multiselect-container li a label.radio input[type=radio]{margin-left:-20px;margin-right:0}/*! lightgallery - v1.6.0 - 2017-08-08
 * http://sachinchoolur.github.io/lightGallery/
 * Copyright (c) 2017 Sachin N; Licensed GPLv3 */
@@ -904,6 +905,9 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
   transition: left 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s;
 }
 /*
+
+.multiselect-container{position:absolute;list-style-type:none;margin:0;padding:0}.multiselect-container .input-group{margin:5px}.multiselect-container>li{padding:0}.multiselect-container>li>a.multiselect-all label{font-weight:700}.multiselect-container>li.multiselect-group label{margin:0;padding:3px 20px 3px 20px;height:100%;font-weight:700}.multiselect-container>li.multiselect-group-clickable label{cursor:pointer}.multiselect-container>li>a{padding:0}.multiselect-container>li>a>label{margin:0;height:100%;cursor:pointer;font-weight:400;padding:3px 20px 3px 40px}.multiselect-container>li>a>label.radio,.multiselect-container>li>a>label.checkbox{margin:0}.multiselect-container>li>a>label>input[type=checkbox]{margin-bottom:5px}.btn-group>.btn-group:nth-child(2)>.multiselect.btn{border-top-left-radius:4px;border-bottom-left-radius:4px}.form-inline .multiselect-container label.checkbox,.form-inline .multiselect-container label.radio{padding:3px 20px 3px 40px}.form-inline .multiselect-container li a label.checkbox input[type=checkbox],.form-inline .multiselect-container li a label.radio input[type=radio]{margin-left:-20px;margin-right:0}/*
+
  * jQuery FlexSlider v2.6.4
  * http://www.woothemes.com/flexslider/
  *
@@ -1232,8 +1236,8 @@ This set of fonts are used in this project under the license: (.....)
 
 @font-face {
   font-family: 'icomoon';
-  src: url(/fonts/icomoon.eot?47b5d6562b4396d5be581a7ff5f731c1);
-  src: url(/fonts/icomoon.eot?47b5d6562b4396d5be581a7ff5f731c1) format("embedded-opentype"), url(/fonts/icomoon.ttf?9183781fcab813022242c7d13acf13b5) format("truetype"), url(/fonts/icomoon.woff?bc7afcba9166a93993483bb9cc5a4ed7) format("woff"), url(/fonts/icomoon.svg?e47ad831c5b8f2748b6b75271a9528db) format("svg");
+  src: url(/fonts/icomoon.eot?9674cc94fe3b1b335a68e7ef44a29c82);
+  src: url(/fonts/icomoon.eot?9674cc94fe3b1b335a68e7ef44a29c82) format("embedded-opentype"), url(/fonts/icomoon.ttf?573c0d10d0592feb1210bc1baaf0f8d1) format("truetype"), url(/fonts/icomoon.woff?1344c65b2e021c67aa310fbfbf32cd5c) format("woff"), url(/fonts/icomoon.svg?889408c1984e2ff770277c502a149647) format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -1251,6 +1255,14 @@ This set of fonts are used in this project under the license: (.....)
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-placeholder--round:before {
+  content: "\E927";
+}
+
+.icon-castle:before {
+  content: "\E926";
 }
 
 .icon-telegram-icon-logo:before {
@@ -11898,6 +11910,154 @@ http://flickity.metafizzy.co
 
 /*@import "../../../node_modules/lightgallery/dist/css/lightgallery.css";*/
 
+/*! Flickity v2.0.5
+http://flickity.metafizzy.co
+---------------------------------------------- */
+
+.flickity-enabled {
+  position: relative;
+}
+
+.flickity-enabled:focus {
+  outline: none;
+}
+
+.flickity-viewport {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+
+.flickity-slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* draggable */
+
+.flickity-enabled.is-draggable {
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.flickity-enabled.is-draggable .flickity-viewport {
+  cursor: move;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+.flickity-enabled.is-draggable .flickity-viewport.is-pointer-down {
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+
+/* ---- previous/next buttons ---- */
+
+.flickity-prev-next-button {
+  position: absolute;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: white;
+  background: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  /* vertically center */
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.flickity-prev-next-button:hover {
+  background: white;
+}
+
+.flickity-prev-next-button:focus {
+  outline: none;
+  -webkit-box-shadow: 0 0 0 5px #09F;
+          box-shadow: 0 0 0 5px #09F;
+}
+
+.flickity-prev-next-button:active {
+  opacity: 0.6;
+}
+
+.flickity-prev-next-button.previous {
+  left: 10px;
+}
+
+.flickity-prev-next-button.next {
+  right: 10px;
+}
+
+/* right to left */
+
+.flickity-rtl .flickity-prev-next-button.previous {
+  left: auto;
+  right: 10px;
+}
+
+.flickity-rtl .flickity-prev-next-button.next {
+  right: auto;
+  left: 10px;
+}
+
+.flickity-prev-next-button:disabled {
+  opacity: 0.3;
+  cursor: auto;
+}
+
+.flickity-prev-next-button svg {
+  position: absolute;
+  left: 20%;
+  top: 20%;
+  width: 60%;
+  height: 60%;
+}
+
+.flickity-prev-next-button .arrow {
+  fill: #333;
+}
+
+/* ---- page dots ---- */
+
+.flickity-page-dots {
+  position: absolute;
+  width: 100%;
+  bottom: -25px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+  line-height: 1;
+}
+
+.flickity-rtl .flickity-page-dots {
+  direction: rtl;
+}
+
+.flickity-page-dots .dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0 8px;
+  background: #333;
+  border-radius: 50%;
+  opacity: 0.25;
+  cursor: pointer;
+}
+
+.flickity-page-dots .dot.is-selected {
+  opacity: 1;
+}
+
+/*@import "../../../node_modules/lightgallery/dist/css/lightgallery.css";*/
+
 /*@import "../../../node_modules/lightslider/dist/css/lightslider.min.css";*/
 
 /* Color palette */
@@ -12474,7 +12634,7 @@ body {
 .m-aboutUs {
   background-color: #2aafe4;
   padding-top: 2%;
-  padding-bottom: 1.3%;
+  padding-bottom: 2.1%;
 }
 
 .m-aboutUs-tel {
@@ -12555,9 +12715,18 @@ body {
   font-size: 17px;
 }
 
+.m-facilities-iconTitle {
+  color: #007991;
+  font-weight: 600 !important;
+}
+
 .m-facilities-checkText {
   font-weight: 500;
   font-size: 15px;
+}
+
+.m-facilities-checkbox {
+  font-weight: 500 !important;
 }
 
 .m-facilities-hr {
@@ -13517,6 +13686,12 @@ a.estate-category-link:hover {
   padding-top: 32%;
 }
 
+.contact-simpleBox .m-icon-social-contact,
+.contact-simpleBox .m-icon-social-contact:hover,
+.contact-simpleBox .m-icon-social-contact:focus {
+  color: white;
+}
+
 .contact-simpleBox .hi-icon:after {
   pointer-events: none;
   position: absolute;
@@ -13542,6 +13717,7 @@ a.estate-category-link:hover {
 
 .contact-simpleBox .contactIcon-scopes {
   border-radius: 50%;
+  padding-top: 5%;
   width: 90px;
   height: 90px;
 }
@@ -13686,6 +13862,10 @@ a.estate-category-link:hover {
 
 .singlePage-description {
   line-height: 2;
+}
+
+.icon-expand-button-property {
+  color: white;
 }
 
 .is-hover-gradient:hover {
@@ -13881,6 +14061,15 @@ a.estate-category-link:hover {
 
 .pushy .social-icon {
   float: right;
+}
+
+.social-icon-scoop-telegram {
+  padding-top: 5px;
+  background-color: white;
+  color: #282828;
+  border-radius: 50%;
+  width: 26.7px;
+  height: 26.7px;
 }
 
 /*.pushy ul:first-child {
