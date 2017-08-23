@@ -14053,6 +14053,30 @@ button[data-balloon] {
   line-height: 49px;
 }
 
+.hi-font-default {
+  font-weight: normal;
+}
+
+.hi-font-ultraLight {
+  font-weight: 200;
+}
+
+.hi-font-light {
+  font-weight: 300;
+}
+
+.hi-font-medium {
+  font-weight: 500;
+}
+
+.hi-font-bold {
+  font-weight: bold;
+}
+
+.hi-font-bolder {
+  font-weight: bolder;
+}
+
 /* ============[ javascript import ]=========== */
 
 /* ============[ Sweet Alert Import ]=========== */
