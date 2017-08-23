@@ -11562,11 +11562,10 @@ body {
   background-color: #f7f7f7;
 }
 
-.m-small-header {
-  height: 255px;
-  background: url("/images/header3.jpg");
-  background-size: cover;
-  background-position-y: -250px;
+.m-header-title {
+  position: absolute;
+  width: 100%;
+  top: 54%;
 }
 
 .m-card {

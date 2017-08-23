@@ -10,11 +10,12 @@
 
 @section('content')
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 p-0 m-small-header">
-                {{--makane navbar--}}
-            </div>
+    <div class="row">
+        <div class="col-12 p-0">
+            <img class="img-fluid l-fullWidth" src="{{asset('images/1280_All Ads header.jpg')}}">
+            <h1 class="white-text text-center m-header-title hi-fontSize-30">آگهی‌های یافت شده</h1>
+            {{--ghabl az search--}}
+            {{--<h1 class="white-text text-center m-header-title hi-fontSize-30">با پی خونه هدفمند ملک انتخاب کنید</h1>--}}
         </div>
     </div>
 
