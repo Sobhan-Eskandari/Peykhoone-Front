@@ -71,11 +71,11 @@ This set of fonts are used in this project under the license: (.....)
 
 @font-face {
 	font-family: 'icomoon';
-	src:  url('../../fonts/icomoon.eot?dx8jtx');
-	src:  url('../../fonts/icomoon.eot?dx8jtx#iefix') format('embedded-opentype'),
-	url('../../fonts/icomoon.ttf?dx8jtx') format('truetype'),
-	url('../../fonts/icomoon.woff?dx8jtx') format('woff'),
-	url('../../fonts/icomoon.svg?dx8jtx#icomoon') format('svg');
+	src:  url('../../fonts/icomoon.eot?7k4cxd');
+	src:  url('../../fonts/icomoon.eot?7k4cxd#iefix') format('embedded-opentype'),
+	url('../../fonts/icomoon.ttf?7k4cxd') format('truetype'),
+	url('../../fonts/icomoon.woff?7k4cxd') format('woff'),
+	url('../../fonts/icomoon.svg?7k4cxd#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -95,6 +95,12 @@ This set of fonts are used in this project under the license: (.....)
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-placeholder--round:before {
+	content: "\e927";
+}
+.icon-castle:before {
+	content: "\e926";
+}
 .icon-telegram-icon-logo:before {
 	content: "\e925";
 }
@@ -207,6 +213,7 @@ This set of fonts are used in this project under the license: (.....)
 .icon-user:before {
 	content: "\e924";
 }
+
 
 
 

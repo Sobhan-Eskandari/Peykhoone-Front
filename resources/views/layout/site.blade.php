@@ -123,21 +123,26 @@
             </ul>
             <div class="row l-rtl mx-0 justify-content-start">
                 <div class="col-1 px-0">
-                    <a href="#" class="social-icon">
-                        <img src="{{ asset('images/Telegram.png') }}" alt="در حال بارگذاری" height="25px" width="25px">
+                    <a href="#" class="social-icon" >
+                    <p class="text-center social-icon-scoop-telegram" style="">
+                       <i class="icon-telegram-icon-logo hi-fontSize-16">
+                       </i>
+                    </p>
                     </a>
                 </div>
-                <div class="col-1 pl-3 pr-2"><a href="#" class="social-icon"><img src="{{ asset('images/Facebook.png') }}"
-                                                                                  alt="در حال بارگذاری" height="25px"
-                                                                                  width="25px"></a></div>
-                <div class="col-1 px-3">
+                <div class="col-1 pl-3 pr-2">
                     <a href="#" class="social-icon">
-                        <img src="{{ asset('images/Twitter.png') }}" alt="در حال بارگذاری" height="25px" width="25px">
+                      <i class="icon-facebook-logo-button hi-fontSize-26"  style="color: white;"></i>
                     </a>
                 </div>
                 <div class="col-1 px-3">
                     <a href="#" class="social-icon">
-                        <img src="{{ asset('images/Instagram.png') }}" alt="در حال بارگذاری" height="25px" width="25px">
+                        <i class="icon-twitter-logo-button hi-fontSize-26"  style="color: white;"></i>
+                    </a>
+                </div>
+                <div class="col-1 px-3">
+                    <a href="#" class="social-icon">
+                        <i class="icon-instagram-logo hi-fontSize-26"  style="color: white;"></i>
                     </a>
                 </div>
             </div>
@@ -152,7 +157,7 @@
         <!-- Menu Button -->
         <div class="row hidden-lg-up l-rtl">
             <button class="menu-btn">
-                <i class="fa fa-bars fa-2x menu-btn-iconFont" aria-hidden="true"></i>
+                <i class="icon-menu-3line menu-btn-iconFont hi-fontSize-26" aria-hidden="true"></i>
             </button>
         </div>
 
