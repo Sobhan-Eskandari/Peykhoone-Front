@@ -15,41 +15,22 @@ $('ul li a.estate-category-link').click(function () {
 
 
 // Home page hamkaran slider
-$(document).ready(function(){
+$(document).ready(function() {
     $('.owl-carousel').owlCarousel({
-        loop:true,
-        margin:10,
-        nav:true,
-        items:1,
-        navText: ["<i class='fa fa-chevron-left hi-fontSize-28 gradient-text'></i>","<i class='fa hi-fontSize-28 gradient-text fa-chevron-right'></i>"]
-    })
+        loop: true,
+        margin: 10,
+        nav: true,
+        items: 1,
+        navText: ["<i class='fa fa-chevron-left hi-fontSize-28 gradient-text'></i>", "<i class='fa hi-fontSize-28 gradient-text fa-chevron-right'></i>"]
+    });
+});
+
 
 $('ul li a.estate-category-link').click(function () {
     $('ul li a.estate-category-link').removeClass("categoryItem-is-active");
     $(this).addClass("categoryItem-is-active");
 });
 
-
-
-//smooth scroll
-$("a").on('click', function (event) {
-    // Make sure this.hash has a value before overriding default behavior
-    if (this.hash !== "") {
-        // Prevent default anchor click behavior
-        event.preventDefault();
-        // Store hash
-        var hash = this.hash;
-        // Using jQuery's animate() method to add smooth page scroll
-        // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-        $('html, body').animate({
-            scrollTop: $(hash).offset().top
-        }, 800, function () {
-            // Add hash (#) to URL when done scrolling (default click behavior)
-            window.location.hash = hash;
-        });
-    } // End if
-
-});
 
 //smooth scroll
 $("a").on('click', function (event) {
@@ -81,8 +62,8 @@ $('.carousel').on('slide.bs.carousel', function () {
 //****************** Navigation safe baz shode agahi ********************
 $("#l-navigator a").on('click',function () {
     $("#l-navigator").find('i').removeClass('gradient-text');
-   $(this).find('i').addClass('gradient-text');
-
+    $(this).find('i').addClass('gradient-text');
+});
 $(".carousel-control-prev").on('click', function () {
     $('.carousel').carousel(6);
 });
@@ -116,13 +97,6 @@ if ($(window).width() <= 991) {
 if ($(window).width() <= 991) {
     $(".is-changedto-fluid").toggleClass('container','container-fluid');
 }
-
-// var options = {
-//     strings: ["<i>محلی برای مشاهده املاک و مستغلات</i> sentence.", "  پی خونه | سامانه آگهی خرید و فروش و رهن و اجاره خانه , ملک , آپارتمان , زمین و مستغلات در گیلان"],
-//     typeSpeed: 80
-// }
-
-// var typed = new Typed(".header-mainTitle", options);
 
 // <!-- Initialize the plugin: -->
 $('.example-getting-started').multiselect({
@@ -541,4 +515,18 @@ seneBanaSlider.noUiSlider.on('update', function (values, handle) {
 });
 
 
+// ****************** Homepage Typed js ********************
+var options = {
+    strings: ["<strong>با پی خونه ، </strong>آگاهانه ملک انتخاب کن",
+        "<strong>با پی خونه ، </strong>در وقت و هزینه هات صرفه جویی کن",
+        "<strong>با پی خونه ، </strong>متناسب با علاقه و نیازهات دنبال ملک بگرد",
+        "<strong>با پی خونه ، </strong>دنبال آپارتمان و ویلا و مستغلات بگرد",
+        "<strong>با پی خونه ، </strong>خونه دار شو",
+    ],
+    typeSpeed: 50,
+    showCursor : true,
+    backSpeed : 10,
+    backDelay : 300
+}
 
+var typed = new Typed("#typedjs", options);
