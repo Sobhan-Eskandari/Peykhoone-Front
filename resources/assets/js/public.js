@@ -86,12 +86,7 @@ if ($(window).width() <= 991) {
     $(".is-changedto-fluid").toggleClass('container','container-fluid');
 }
 
-// var options = {
-//     strings: ["<i>محلی برای مشاهده املاک و مستغلات</i> sentence.", "  پی خونه | سامانه آگهی خرید و فروش و رهن و اجاره خانه , ملک , آپارتمان , زمین و مستغلات در گیلان"],
-//     typeSpeed: 80
-// }
 
-// var typed = new Typed(".header-mainTitle", options);
 
 // <!-- Initialize the plugin: -->
 $('.example-getting-started').multiselect({
@@ -508,4 +503,18 @@ seneBanaSlider.noUiSlider.on('update', function (values, handle) {
 });
 
 
+// ****************** Homepage Typed js ********************
+var options = {
+    strings: ["<strong>با پی خونه ، </strong>آگاهانه ملک انتخاب کن",
+        "<strong>با پی خونه ، </strong>در وقت و هزینه هات صرفه جویی کن",
+        "<strong>با پی خونه ، </strong>متناسب با علاقه و نیازهات دنبال ملک بگرد",
+        "<strong>با پی خونه ، </strong>دنبال آپارتمان و ویلا و مستغلات بگرد",
+        "<strong>با پی خونه ، </strong>خونه دار شو",
+    ],
+    typeSpeed: 50,
+    showCursor : true,
+    backSpeed : 10,
+    backDelay : 300
+}
 
+var typed = new Typed("#typedjs", options);

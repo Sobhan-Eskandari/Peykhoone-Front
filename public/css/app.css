@@ -11720,6 +11720,8 @@ body {
   transition: all 0.3s ease-in;
 }
 
+/*--------------- [ Azhanse hamkar home page ] --------------- */
+
 .l-azhanseHamkar .owl-dot span {
   width: 14px !important;
   height: 14px !important;
@@ -11765,7 +11767,7 @@ body {
   background: transparent !important;
 }
 
-/* ============[ Open Post Gallery Style ]=========== */
+/* ============[ Open Post Map Style ]=========== */
 
 map > div {
   border-radius: 10px;
@@ -11776,7 +11778,51 @@ map > div {
   z-index: 0;
 }
 
-/* ============[ Digital Painting Style ]=========== */
+/*------------ [ Home page typed js ] ------------ */
+
+#typedjs:before {
+  visibility: visible;
+  content: '';
+  background-color: whitesmoke;
+  display: inline-block;
+  position: relative;
+  width: 3px;
+  height: 1em;
+  top: 5px;
+  margin-right: 3px;
+  -webkit-animation: flickerAnimation .7s infinite;
+  animation: flickerAnimation .7s infinite;
+}
+
+@keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* ------------ [ Digital Painting Style ] ------------ */
 
 .digitalPainting-title {
   margin-top: -90px;
@@ -11792,7 +11838,7 @@ map > div {
   right: 0;
 }
 
-/* ============[ Main Filter Style ]=========== */
+/* ------------ [ Main Filter Style ] ------------ */
 
 .m-curved-bg {
   width: 100%;
@@ -12532,7 +12578,6 @@ a.estate-category-link:hover {
 
 .header-mainTitle,
 .header-subTitle {
-  font-weight: bold;
   font-size: 35px;
   text-align: center;
   color: white;
