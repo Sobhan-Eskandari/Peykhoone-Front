@@ -10859,27 +10859,15 @@ body {
 }
 
 .m-card-azhansName {
-  background: url(/images/home-icon.png) -2px 289px;
   background-color: #f6f6f6;
   margin: auto;
   width: 25px;
   height: 25px;
-  background-size: 30px 400px !important;
-  background-repeat-x: no-repeat !important;
 }
 
 .home-cost {
   -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
-}
-
-.card-location-icon {
-  width: 30px;
-  height: 30px;
-  background-size: 40px 600px !important;
-  background-repeat-x: no-repeat !important;
-  background: url(/images/home-icon.png) -5px 475px;
-  margin-bottom: 0;
 }
 
 .googleplay-icon {

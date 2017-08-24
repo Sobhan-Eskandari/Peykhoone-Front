@@ -7,32 +7,31 @@ import SmoothScroll from 'smooth-scroll'
 
 
 // active category item in real state page
+$('ul li a.estate-category-link').click(function () {
+    $('ul li a.estate-category-link').removeClass("categoryItem-is-active");
+    $(this).addClass("categoryItem-is-active");
+});
 
-    $('ul li a.estate-category-link').click(function () {
-        $('ul li a.estate-category-link').removeClass("categoryItem-is-active");
-        $(this).addClass("categoryItem-is-active");
-    });
-    //smooth scroll
-    $("a").on('click', function (event) {
-        // Make sure this.hash has a value before overriding default behavior
-        if (this.hash !== "") {
-            // Prevent default anchor click behavior
-            event.preventDefault();
-            // Store hash
-            var hash = this.hash;
-            // Using jQuery's animate() method to add smooth page scroll
-            // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-            $('html, body').animate({
-                scrollTop: $(hash).offset().top
-            }, 800, function () {
-                // Add hash (#) to URL when done scrolling (default click behavior)
-                window.location.hash = hash;
-            });
-        } // End if
-    });
+//smooth scroll
+$("a").on('click', function (event) {
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+        // Prevent default anchor click behavior
+        event.preventDefault();
+        // Store hash
+        var hash = this.hash;
+        // Using jQuery's animate() method to add smooth page scroll
+        // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+        $('html, body').animate({
+            scrollTop: $(hash).offset().top
+        }, 800, function () {
+            // Add hash (#) to URL when done scrolling (default click behavior)
+            window.location.hash = hash;
+        });
+    } // End if
+});
 
-
-//******************  Open Post Gallery Autplay ********************
+//******************   Gallery Aks khane Autplay ********************
 $('.carousel').on('slide.bs.carousel', function () {
     let el = $(".carousel-indicators .active");
     console.log(el.offset().left-200);
@@ -42,6 +41,13 @@ $('.carousel').on('slide.bs.carousel', function () {
 $(".carousel-control-prev").on('click',function () {
     $('.carousel').carousel(6);
 });
+
+//****************** Navigation safe baz shode agahi ********************
+$("#l-navigator a").on('click',function () {
+    $("#l-navigator").find('i').removeClass('gradient-text');
+   $(this).find('i').addClass('gradient-text');
+});
+
 //******************  Tozihate Moshaver dare safe agahie Baz shode ********************
 $.fn.extend({
     animateCss: function (animationName) {
@@ -68,6 +74,9 @@ $("#showTozihateMoshaver").on('click',function () {
 if ($(window).width() <= 991) {
     $(".is-justified-center").addClass('justify-content-center');
 }
+if ($(window).width() <= 991) {
+    $(".is-changedto-fluid").toggleClass('container','container-fluid');
+}
 
 // var options = {
 //     strings: ["<i>محلی برای مشاهده املاک و مستغلات</i> sentence.", "  پی خونه | سامانه آگهی خرید و فروش و رهن و اجاره خانه , ملک , آپارتمان , زمین و مستغلات در گیلان"],
@@ -81,28 +90,6 @@ $('.example-getting-started').multiselect({
     nonSelectedText: 'انتخاب کنید',
     includeSelectAllOption: true,
     allSelectedText: 'همه‌‌ی موارد'
-});
-
-
-$(document).ready(function () {
-    // The slider being synced must be initialized first
-    $('#carousel').flexslider({
-        animation: "slide",
-        controlNav: false,
-        animationLoop: true,
-        slideshow: false,
-        itemWidth: 100,
-        itemMargin: 5,
-        asNavFor: '#slider'
-    });
-
-    $('#slider').flexslider({
-        animation: "slide",
-        controlNav: false,
-        animationLoop: false,
-        slideshow: false,
-        sync: "#carousel"
-    });
 });
 
 

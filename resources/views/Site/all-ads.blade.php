@@ -8,6 +8,10 @@
     <meta name="description" content="در پی خونه شما میتوانید آگهی‌های متوعی از املاک زمین آپارتمان و مستغلات را مشاهده و آگهی مورد نظرتون را به راحتی پیدا کنید.">
 @endsection
 
+@section('bg-color')
+    khakestari-bg
+@endsection
+
 @section('content')
 
     <div class="row">
@@ -22,13 +26,13 @@
     {{------------- [ Breadcrumb Section ] ------------}}
     @include('includes.breadcrumb')
 
-    <div class="container mb-5 mt-3">
+    <div class="container mb-5 mt-3 is-changedto-fluid">
         <div class="row l-rtl">
             <div class="col-12 p-0">
                 <div class="container-fluid">
                     <div class="row justify-content-center">
                         {{------------- [ Filters Column ] ------------}}
-                        <div class="col-lg-3 col-md-4 mb-4 px-4">
+                        <div class="col-lg-3 col-md-4 col-sm-8 mb-4 px-4">
                             <div class="row justify-content-center">
                                 <div class="col-9 col-sm-12 m-curved-bg gradient-background pt-2 px-0">
                                     <div class="m-gradient-placeholder l-fullPage py-3">
@@ -146,382 +150,46 @@
                                     <div class="container-fluid p-0">
                                         <div class="row" id="row1">
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                    <a href="#" class="is-hovered-adCard">
-                                                        <div class="m-card">
-                                                            {{--Card Infos--}}
-                                                            <img class="img-fluid l-topCornered m-card-image" alt="تصویر آگهی" src="{{asset('images/home-image.jpg')}}">
-                                                            <div class="text-center mt-2 mb-2 m-card-location">
-                                                                <div class="row justify-content-center">
-                                                                    <div class="col-auto">
-                                                                        <strong>یوسف آباد جفلای شرقی</strong>
-                                                                    </div>
-                                                                    <div class="col-auto">
-                                                                        <p class="card-location-icon"></p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>
-                                                            <p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>
-                                                            {{--cart azhans name and bishtar bedanid--}}
-                                                            <div class="container-fluid">
-                                                                <div class="row pt-2 pb-1 align-items-center">
-                                                                    <div class="col-4 pl-0">
-                                                                        <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>
-                                                                    </div>
-                                                                    <div class="col-7 text-right pr-0">
-                                                                        <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
+                                                @component('components.card')@endcomponent
+                                            </div>
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                <a href="#" class="is-hovered-adCard">
-                                                    <div class="m-card">
-                                                        {{--Card Infos--}}
-                                                        <img class="img-fluid l-topCornered m-card-image" alt="تصویر آگهی" src="{{asset('images/home-image.jpg')}}">
-                                                        <div class="text-center mt-2 mb-2 m-card-location">
-                                                            <div class="row justify-content-center">
-                                                                <div class="col-auto">
-                                                                    <strong>یوسف آباد جفلای شرقی</strong>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <p class="card-location-icon"></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>
-                                                        <p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>
-                                                        {{--cart azhans name and bishtar bedanid--}}
-                                                        <div class="container-fluid">
-                                                            <div class="row pt-2 pb-1 align-items-center">
-                                                                <div class="col-4 pl-0">
-                                                                    <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>
-                                                                </div>
-                                                                <div class="col-7 text-right pr-0">
-                                                                    <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                                @component('components.card')@endcomponent
                                             </div>
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr is-last-card">
-                                                <a href="#" class="is-hovered-adCard">
-                                                    <div class="m-card">
-                                                        {{--Card Infos--}}
-                                                        <img class="img-fluid l-topCornered m-card-image" alt="تصویر آگهی" src="{{asset('images/home-image.jpg')}}">
-                                                        <div class="text-center mt-2 mb-2 m-card-location">
-                                                            <div class="row justify-content-center">
-                                                                <div class="col-auto">
-                                                                    <strong>یوسف آباد جفلای شرقی</strong>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <p class="card-location-icon"></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>
-                                                        <p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>
-                                                        {{--cart azhans name and bishtar bedanid--}}
-                                                        <div class="container-fluid">
-                                                            <div class="row pt-2 pb-1 align-items-center">
-                                                                <div class="col-4 pl-0">
-                                                                    <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>
-                                                                </div>
-                                                                <div class="col-7 text-right pr-0">
-                                                                    <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                                @component('components.card')@endcomponent
                                             </div>
                                         </div>
                                         <div class="row" id="row2">
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                <a href="#" class="is-hovered-adCard">
-                                                    <div class="m-card">
-                                                        {{--Card Infos--}}
-                                                        <img class="img-fluid l-topCornered m-card-image" alt="تصویر آگهی" src="{{asset('images/home-image.jpg')}}">
-                                                        <div class="text-center mt-2 mb-2 m-card-location">
-                                                            <div class="row justify-content-center">
-                                                                <div class="col-auto">
-                                                                    <strong>یوسف آباد جفلای شرقی</strong>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <p class="card-location-icon"></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>
-                                                        <p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>
-                                                        {{--cart azhans name and bishtar bedanid--}}
-                                                        <div class="container-fluid">
-                                                            <div class="row pt-2 pb-1 align-items-center">
-                                                                <div class="col-4 pl-0">
-                                                                    <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>
-                                                                </div>
-                                                                <div class="col-7 text-right pr-0">
-                                                                    <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                                @component('components.card')@endcomponent
                                             </div>
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                <a href="#" class="is-hovered-adCard">
-                                                    <div class="m-card">
-                                                        {{--Card Infos--}}
-                                                        <img class="img-fluid l-topCornered m-card-image" alt="تصویر آگهی" src="{{asset('images/home-image.jpg')}}">
-                                                        <div class="text-center mt-2 mb-2 m-card-location">
-                                                            <div class="row justify-content-center">
-                                                                <div class="col-auto">
-                                                                    <strong>یوسف آباد جفلای شرقی</strong>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <p class="card-location-icon"></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>
-                                                        <p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>
-                                                        {{--cart azhans name and bishtar bedanid--}}
-                                                        <div class="container-fluid">
-                                                            <div class="row pt-2 pb-1 align-items-center">
-                                                                <div class="col-4 pl-0">
-                                                                    <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>
-                                                                </div>
-                                                                <div class="col-7 text-right pr-0">
-                                                                    <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                                @component('components.card')@endcomponent
                                             </div>
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                <a href="#" class="is-hovered-adCard">
-                                                    <div class="m-card">
-                                                        {{--Card Infos--}}
-                                                        <img class="img-fluid l-topCornered m-card-image" alt="تصویر آگهی" src="{{asset('images/home-image.jpg')}}">
-                                                        <div class="text-center mt-2 mb-2 m-card-location">
-                                                            <div class="row justify-content-center">
-                                                                <div class="col-auto">
-                                                                    <strong>یوسف آباد جفلای شرقی</strong>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <p class="card-location-icon"></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>
-                                                        <p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>
-                                                        {{--cart azhans name and bishtar bedanid--}}
-                                                        <div class="container-fluid">
-                                                            <div class="row pt-2 pb-1 align-items-center">
-                                                                <div class="col-4 pl-0">
-                                                                    <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>
-                                                                </div>
-                                                                <div class="col-7 text-right pr-0">
-                                                                    <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                                @component('components.card')@endcomponent
                                             </div>
                                         </div>
                                         <div class="row" id="row3">
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                <a href="#" class="is-hovered-adCard">
-                                                    <div class="m-card">
-                                                        {{--Card Infos--}}
-                                                        <img class="img-fluid l-topCornered m-card-image" alt="تصویر آگهی" src="{{asset('images/home-image.jpg')}}">
-                                                        <div class="text-center mt-2 mb-2 m-card-location">
-                                                            <div class="row justify-content-center">
-                                                                <div class="col-auto">
-                                                                    <strong>یوسف آباد جفلای شرقی</strong>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <p class="card-location-icon"></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>
-                                                        <p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>
-                                                        {{--cart azhans name and bishtar bedanid--}}
-                                                        <div class="container-fluid">
-                                                            <div class="row pt-2 pb-1 align-items-center">
-                                                                <div class="col-4 pl-0">
-                                                                    <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>
-                                                                </div>
-                                                                <div class="col-7 text-right pr-0">
-                                                                    <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                                @component('components.card')@endcomponent
                                             </div>
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                <a href="#" class="is-hovered-adCard">
-                                                    <div class="m-card">
-                                                        {{--Card Infos--}}
-                                                        <img class="img-fluid l-topCornered m-card-image" alt="تصویر آگهی" src="{{asset('images/home-image.jpg')}}">
-                                                        <div class="text-center mt-2 mb-2 m-card-location">
-                                                            <div class="row justify-content-center">
-                                                                <div class="col-auto">
-                                                                    <strong>یوسف آباد جفلای شرقی</strong>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <p class="card-location-icon"></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>
-                                                        <p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>
-                                                        {{--cart azhans name and bishtar bedanid--}}
-                                                        <div class="container-fluid">
-                                                            <div class="row pt-2 pb-1 align-items-center">
-                                                                <div class="col-4 pl-0">
-                                                                    <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>
-                                                                </div>
-                                                                <div class="col-7 text-right pr-0">
-                                                                    <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                                @component('components.card')@endcomponent
                                             </div>
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr is-last-card">
-                                                <a href="#" class="is-hovered-adCard">
-                                                    <div class="m-card">
-                                                        {{--Card Infos--}}
-                                                        <img class="img-fluid l-topCornered m-card-image" alt="تصویر آگهی" src="{{asset('images/home-image.jpg')}}">
-                                                        <div class="text-center mt-2 mb-2 m-card-location">
-                                                            <div class="row justify-content-center">
-                                                                <div class="col-auto">
-                                                                    <strong>یوسف آباد جفلای شرقی</strong>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <p class="card-location-icon"></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>
-                                                        <p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>
-                                                        {{--cart azhans name and bishtar bedanid--}}
-                                                        <div class="container-fluid">
-                                                            <div class="row pt-2 pb-1 align-items-center">
-                                                                <div class="col-4 pl-0">
-                                                                    <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>
-                                                                </div>
-                                                                <div class="col-7 text-right pr-0">
-                                                                    <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                                @component('components.card')@endcomponent
                                             </div>
                                         </div>
                                         <div class="row" id="row4">
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                <a href="#" class="is-hovered-adCard">
-                                                    <div class="m-card">
-                                                        {{--Card Infos--}}
-                                                        <img class="img-fluid l-topCornered m-card-image" alt="تصویر آگهی" src="{{asset('images/home-image.jpg')}}">
-                                                        <div class="text-center mt-2 mb-2 m-card-location">
-                                                            <div class="row justify-content-center">
-                                                                <div class="col-auto">
-                                                                    <strong>یوسف آباد جفلای شرقی</strong>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <p class="card-location-icon"></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>
-                                                        <p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>
-                                                        {{--cart azhans name and bishtar bedanid--}}
-                                                        <div class="container-fluid">
-                                                            <div class="row pt-2 pb-1 align-items-center">
-                                                                <div class="col-4 pl-0">
-                                                                    <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>
-                                                                </div>
-                                                                <div class="col-7 text-right pr-0">
-                                                                    <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                                @component('components.card')@endcomponent
                                             </div>
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                <a href="#" class="is-hovered-adCard">
-                                                    <div class="m-card">
-                                                        {{--Card Infos--}}
-                                                        <img class="img-fluid l-topCornered m-card-image" alt="تصویر آگهی" src="{{asset('images/home-image.jpg')}}">
-                                                        <div class="text-center mt-2 mb-2 m-card-location">
-                                                            <div class="row justify-content-center">
-                                                                <div class="col-auto">
-                                                                    <strong>یوسف آباد جفلای شرقی</strong>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <p class="card-location-icon"></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>
-                                                        <p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>
-                                                        {{--cart azhans name and bishtar bedanid--}}
-                                                        <div class="container-fluid">
-                                                            <div class="row pt-2 pb-1 align-items-center">
-                                                                <div class="col-4 pl-0">
-                                                                    <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>
-                                                                </div>
-                                                                <div class="col-7 text-right pr-0">
-                                                                    <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                                @component('components.card')@endcomponent
                                             </div>
                                             <div class="col-lg-4 col-sm-6 my-2 l-ltr">
-                                                <a href="#" class="is-hovered-adCard">
-                                                    <div class="m-card">
-                                                        {{--Card Infos--}}
-                                                        <img class="img-fluid l-topCornered m-card-image" alt="تصویر آگهی" src="{{asset('images/home-image.jpg')}}">
-                                                        <div class="text-center mt-2 mb-2 m-card-location">
-                                                            <div class="row justify-content-center">
-                                                                <div class="col-auto">
-                                                                    <strong>یوسف آباد جفلای شرقی</strong>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <p class="card-location-icon"></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="text-center hi-fontSize-12">متراژ : ۲۳۰ متر</p>
-                                                        <p class="text-center hi-fontSize-15 home-cost">قیمت : ۳۵۰ میلیون تومان</p>
-                                                        {{--cart azhans name and bishtar bedanid--}}
-                                                        <div class="container-fluid">
-                                                            <div class="row pt-2 pb-1 align-items-center">
-                                                                <div class="col-4 pl-0">
-                                                                    <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>
-                                                                </div>
-                                                                <div class="col-7 text-right pr-0">
-                                                                    <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                                @component('components.card')@endcomponent
                                             </div>
                                         </div>
                                         {{------------- [ Horizental Cards ] ------------}}

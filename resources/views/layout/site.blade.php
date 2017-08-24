@@ -200,10 +200,68 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-2 align-self-center">
                 <ul class="l-horizental-list m-horizental-category m-horizental-SN">
                     <li class="gradient-borderBottom"><a href="#">شبکه‌های اجتماعی</a> </li>
-                    <li><a href="#">Telegram<p class="m-Sn-icon m-telegram-icon pull-left"></p> </a> </li>
-                    <li><a href="#">Instagram<p class="m-Sn-icon m-instagram-icon pull-left"></p> </a> </li>
-                    <li><a href="#">Twitter<p class="m-Sn-icon m-twitter-icon pull-left"></p> </a> </li>
-                    <li><a href="#">Facebook<p class="m-Sn-icon m-facebook-icon pull-left"></p> </a> </li>
+                    {{------------ [ Telegram Icon ] ------------}}
+                    <li>
+                        <a href="#">
+                            <div class="container-fluid l-fullWidth">
+                                <div class="row justify-content-between align-items-center">
+                                    <div class="col-auto">
+                                        <p>Telegram</p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p class="text-center social-icon-scoop-telegram" style="">
+                                            <i class="icon-telegram-icon-logo hi-fontSize-16 l-flex-center"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    {{------------ [ Instagram Icon ] ------------}}
+                    <li>
+                        <a href="#">
+                            <div class="container-fluid l-fullWidth">
+                                <div class="row justify-content-between align-items-center">
+                                    <div class="col-auto">
+                                        <p>Instagram</p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p class="icon-instagram-logo pull-left hi-fontSize-30"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    {{------------ [ Twitter Icon ] ------------}}
+                    <li>
+                        <a href="#">
+                            <div class="container-fluid l-fullWidth">
+                                <div class="row justify-content-between align-items-center">
+                                    <div class="col-auto">
+                                        <p>Twitter</p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p class="icon-twitter-logo-button pull-left hi-fontSize-30"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    {{------------ [ Facebook Icon ] ------------}}
+                    <li>
+                        <a href="#">
+                            <div class="container-fluid l-fullWidth">
+                                <div class="row justify-content-between align-items-center">
+                                    <div class="col-auto">
+                                        <p>Facebook</p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p class="icon-facebook-logo-button pull-left hi-fontSize-30"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
                 </ul>
             </div>
 

@@ -304,17 +304,17 @@
                     {{------------- [ Download Peykhoone App Links ] ------------}}
                     <div class="row justify-content-end">
                         <div class="col-md-6 col-md-5 col-xl-4">
-                            <a href="#"><button class="m-btn m-btn-appdl warm-grey mb-3 mb-md-0"><i class="fa fa-apple hi-fontSize-22 mr-2"></i> دریافت از اپل استور </button></a>
+                            <a href="#"><button class="m-btn m-btn-appdl warm-grey mb-3 mb-md-0"><i class="icon-apple hi-fontSize-22 mr-2"></i> دریافت از اپل استور </button></a>
                         </div>
                         <div class="col-md-6 col-md-5 col-xl-4">
-                            <a href="#"><button class="m-btn m-btn-appdl green lighten-2"><i class="fa hi-fontSize-22 fa-android mr-2"></i> دریافت با لینک مستقیم </button></a>
+                            <a href="#"><button class="m-btn m-btn-appdl green lighten-2"><i class="hi-fontSize-22 icon-android-logo mr-2"></i> دریافت با لینک مستقیم </button></a>
                         </div>
                     </div>
                     <div class="row justify-content-end mt-4">
                         <div class="col-md-6 col-md-5 col-xl-4">
                             <a href="#">
                                 <div class="m-btn m-btn-appdl purple darken-1 mb-3 mb-md-0 l-flex-center">
-                                    <div class="googleplay-icon"></div>  دریافت از گوگل پلی
+                                    <div class="icon-g"></div>  دریافت از گوگل پلی
                                 </div>
                             </a>
                         </div>

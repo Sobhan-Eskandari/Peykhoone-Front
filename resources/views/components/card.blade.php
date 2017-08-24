@@ -8,7 +8,7 @@
                     <strong>یوسف آباد جفلای شرقی</strong>
                 </div>
                 <div class="col-auto">
-                    <p class="card-location-icon"></p>
+                    <p class="icon-placeholder--round gradient-text ml-2 mt-1"></p>
                 </div>
             </div>
         </div>
@@ -18,7 +18,9 @@
         <div class="container-fluid">
             <div class="row pt-2 pb-1 align-items-center">
                 <div class="col-4 pl-0">
-                    <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></div>
+                    <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName l-flex-center" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+                        <span class="icon-home"></span>
+                    </div>
                 </div>
                 <div class="col-7 text-right pr-0">
                     <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>
