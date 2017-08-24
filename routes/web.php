@@ -58,4 +58,7 @@ Route::get('/about', function () {
 Route::get('/single', function () {
     return view('site.singlePage');
 });
+Route::get('/agencies', function () {
+    return view('site.all-agencies');
+});
 

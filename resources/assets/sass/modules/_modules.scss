@@ -594,9 +594,6 @@ body {
 
 //----------- [ real state info ] -----------
 
-.m-realState-info {
-}
-
 .m-realState-detailInfo {
   font-size: 14px;
   line-height: normal;
@@ -815,19 +812,12 @@ body {
 
 .l-azhanseHamkar{
   .owl-dot {
-    span{
+    span {
       width: 14px !important;
       height: 14px !important;
       background: #CBCBCB;
       transition: all 0.3s ease;
     }
-
-.l-azhanseHamkar {
-  .flickity-page-dots .dot {
-    width: 14px;
-    height: 14px;
-    background: #CBCBCB;
-    transition: all 0.3s ease;
   }
 
   .owl-dot.active {

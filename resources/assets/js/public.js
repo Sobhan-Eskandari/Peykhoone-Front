@@ -22,13 +22,14 @@ $(document).ready(function(){
         nav:true,
         items:1,
         navText: ["<i class='fa fa-chevron-left hi-fontSize-28 gradient-text'></i>","<i class='fa hi-fontSize-28 gradient-text fa-chevron-right'></i>"]
-    })
+    });
+});
+
 
 $('ul li a.estate-category-link').click(function () {
     $('ul li a.estate-category-link').removeClass("categoryItem-is-active");
     $(this).addClass("categoryItem-is-active");
 });
-
 
 
 //smooth scroll
@@ -82,6 +83,7 @@ $('.carousel').on('slide.bs.carousel', function () {
 $("#l-navigator a").on('click',function () {
     $("#l-navigator").find('i').removeClass('gradient-text');
    $(this).find('i').addClass('gradient-text');
+});
 
 $(".carousel-control-prev").on('click', function () {
     $('.carousel').carousel(6);
