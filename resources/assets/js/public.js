@@ -4,12 +4,24 @@ import $ from 'jquery'
 import noUiSlider from 'nouislider'
 import wNumb from 'wnumb'
 import SmoothScroll from 'smooth-scroll'
+import 'owl.carousel';
 
 
 // active category item in real state page
 $('ul li a.estate-category-link').click(function () {
     $('ul li a.estate-category-link').removeClass("categoryItem-is-active");
     $(this).addClass("categoryItem-is-active");
+});
+
+// Home page hamkaran slider
+$(document).ready(function(){
+    $('.owl-carousel').owlCarousel({
+        loop:true,
+        margin:10,
+        nav:true,
+        items:1,
+        navText: ["<i class='fa fa-chevron-left hi-fontSize-28 gradient-text'></i>","<i class='fa hi-fontSize-28 gradient-text fa-chevron-right'></i>"]
+    })
 });
 
 //smooth scroll
@@ -36,10 +48,6 @@ $('.carousel').on('slide.bs.carousel', function () {
     let el = $(".carousel-indicators .active");
     console.log(el.offset().left-200);
     $('.carousel-indicators').animate( { scrollLeft: el.offset().left-800 }, 1000);
-});
-
-$(".carousel-control-prev").on('click',function () {
-    $('.carousel').carousel(6);
 });
 
 //****************** Navigation safe baz shode agahi ********************

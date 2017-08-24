@@ -343,9 +343,9 @@
                     <div class="row justify-content-center">
                         <div class="col-12 col-lg-10">
                             <!-- Flickity HTML init -->
-                            <div class="carousel mt-5" data-flickity>
+                            <div class="owl-carousel owl-theme mt-5">
                                 @for($j = 0; $j < 3; $j++)
-                                    <div class="m-carousel-cell">
+                                    <div class="m-carousel-cel px-3">
                                         @for($i = 0; $i < 3; $i++)
                                             <div class="row mb-3">
                                                 <div class="col-4 col-md-2 mb-4">
@@ -384,11 +384,6 @@
 @endsection
 
 @section('js_resources')
-    <script
-            src="https://code.jquery.com/jquery-2.2.4.min.js"
-            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-            crossorigin="anonymous"></script>
-    <script src="/Hi_Framework/javascript/Carousel/Other Libraries/Flicklity/flickity.pkgd.min.js"></script>
 
     <script type="application/ld+json">
         {

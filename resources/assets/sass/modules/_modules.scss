@@ -805,18 +805,47 @@ body {
 
 
 .l-azhanseHamkar{
-  .flickity-page-dots .dot {
-    width: 14px;
-    height: 14px;
-    background: #CBCBCB;
-    transition: all 0.3s ease;
+  .owl-dot {
+    span{
+      width: 14px !important;
+      height: 14px !important;
+      background: #CBCBCB;
+      transition: all 0.3s ease;
+    }
   }
 
-  .flickity-page-dots .dot.is-selected {
-    opacity: 1;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
-    transform: scale(1.3);
-    background-color: #73F9D4 !important;
+  .owl-dot.active {
+    span{
+      opacity: 1;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
+      transform: scale(1.3);
+      background-color: #73F9D4 !important;
+    }
+  }
+
+  .owl-nav{
+    position: absolute;
+    width: 100%;
+    top: 150px;
+
+    .owl-prev{
+      float: left;
+      background: transparent;
+      padding-left: 0;
+      margin-left: 0;
+      &:hover{
+        background: transparent !important;
+      }
+    }
+    .owl-next{
+      float: right;
+      background: transparent;
+      padding-right: 0;
+      margin-right: 0;
+      &:hover{
+        background: transparent !important;
+      }
+    }
   }
 }
 

@@ -29,6 +29,7 @@ mix.js([
     /*'node_modules/lightgallery/modules/lg-thumbnail.js',*/
     /*'node_modules/lightgallery/modules/lg-fullscreen.js',*/
     'node_modules/infinite-scroll/dist/infinite-scroll.pkgd.js',
+    'node_modules/owl.carousel/dist/owl.carousel.js',
     'node_modules/node-waves/dist/waves.min.js',
     'node_modules/typed.js/lib/typed.min.js',
     'public/Hi_Framework/components/Slider/Other Libraries/noUI/nouislider.min.js',

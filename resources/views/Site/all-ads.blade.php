@@ -34,7 +34,7 @@
                         {{------------- [ Filters Column ] ------------}}
                         <div class="col-lg-3 col-md-4 col-sm-8 mb-4 px-4">
                             <div class="row justify-content-center">
-                                <div class="col-9 col-sm-12 m-curved-bg gradient-background pt-2 px-0">
+                                <div class="col-9 col-sm-12 m-curved-bg gradient-background-horizental pt-2 px-0">
                                     <div class="m-gradient-placeholder l-fullPage py-3">
                                         <div class="container-fluid">
                                             <div class="row justify-content-center">
