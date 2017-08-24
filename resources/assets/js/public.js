@@ -410,6 +410,7 @@ var scrollEmkanat = new SmoothScroll('#navigate-to-emkanat');
 var scrollMoshakhast = new SmoothScroll('#navigate-to-moshakhast');
 var scrollMap = new SmoothScroll('#navigate-to-map');
 var scrollMoreHome = new SmoothScroll('#navigate-to-moreHome');
+var scrollMainFilter = new SmoothScroll('#filter-section');
 
 // ****************** Cost Slider ********************
 var costSlider = document.getElementById('slider-step');

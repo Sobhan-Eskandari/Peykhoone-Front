@@ -16,7 +16,8 @@
             <img class="img-fluid l-fullWidth" src="{{asset('images/header3.jpg')}}" alt="عکسی از رشت">
             <h1 class="header-mainTitle l-absolute">محلی برای مشاهده املاک و مستغلات</h1>
             <h2 class="header-subTitle l-absolute mt-sm-3 mt-md-3 mt-lg-0">جامع ترین وبسایت املاک رشت و دیگر شهرهای گیلان</h2>
-            <p class="header-arrow text-center l-absolute hi-fontSize-13 mt-md-3"><i class="fa fa-chevron-down fa-3x white-text"></i></p>
+            <a data-scroll href="#filter-section" class="header-arrow text-center l-absolute hi-fontSize-13 mt-md-3"><i class="fa fa-chevron-down fa-3x white-text"></i></a>
+            {{--<div id="filter-section"></div>--}}
         </div>
     </Header>
 
