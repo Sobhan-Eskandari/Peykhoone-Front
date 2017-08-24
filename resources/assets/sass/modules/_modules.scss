@@ -5,7 +5,7 @@ body {
 .m-header-title {
   position: absolute;
   width: 100%;
-  top:54%;
+  top: 54%;
 }
 
 .m-card {
@@ -406,7 +406,8 @@ body {
   color: $ocean;
   font-size: 17px;
 }
-.m-facilities-iconTitle{
+
+.m-facilities-iconTitle {
   color: $ocean;
   font-weight: 600 !important;
 }
@@ -415,8 +416,9 @@ body {
   font-weight: 500;
   font-size: 15px;
 }
-.m-facilities-checkbox{
-  font-weight: 500!important;
+
+.m-facilities-checkbox {
+  font-weight: 500 !important;
 }
 
 .m-facilities-hr {
@@ -555,15 +557,20 @@ body {
 //----------- [ horizental card ] -----------
 
 .m-horizentalCard-box {
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
   border-radius: 10px;
   background-color: white;
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.29);
   -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.29);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.29);
 }
-.m-horizentalCard-box:hover{
-  .m-horizentalCard-price{
+
+.m-horizentalCard-box:hover {
+  .m-horizentalCard-price {
     font-weight: 600;
+  }
+  .hvr-shutter-out-horizontal:before{
   }
 }
 
@@ -582,7 +589,7 @@ body {
 }
 
 .m-horizentalCard-moreExp {
-  font-size: 11px;
+  font-size: 12px;
   color: #949494;
 }
 
@@ -768,9 +775,10 @@ body {
   transition: opacity 0.4s;
 }
 
-.carousel-inner{
+.carousel-inner {
   border-radius: 10px;
 }
+
 .carousel-indicators {
   position: absolute;
   width: 100%;
@@ -786,23 +794,25 @@ body {
   }
 }
 
-.carousel-indicators li{
+.carousel-indicators li {
   height: 70px;
   margin-right: 5px;
   margin-left: 5px;
   max-width: 100%;
   left: 110px;
-  img{
+  img {
     border-radius: 5px;
   }
 }
-.carousel-indicators .active{
+
+.carousel-indicators .active {
   background: transparent;
-  img{
+  img {
     border: 2px solid $light-aquamarine;
   }
 }
-.m-tozihateMoshaver{
+
+.m-tozihateMoshaver {
   line-height: 4ex;
   height: 13ex;
   overflow: hidden;
@@ -811,8 +821,7 @@ body {
   transition: all 0.3s ease-in;
 }
 
-
-.l-azhanseHamkar{
+.l-azhanseHamkar {
   .flickity-page-dots .dot {
     width: 14px;
     height: 14px;
@@ -944,7 +953,7 @@ map > div {
   }
 
   // dokme didan etelaate moshaver safe baz shdeie ad
-  &:last-of-type{
+  &:last-of-type {
     border-radius: 8px 0 0 8px;
   }
 }
@@ -1359,7 +1368,7 @@ a.estate-category-link:hover {
     padding-top: 32%;
   }
 
-  .m-icon-social-contact,.m-icon-social-contact:hover,.m-icon-social-contact:focus{
+  .m-icon-social-contact, .m-icon-social-contact:hover, .m-icon-social-contact:focus {
     color: white;
   }
 
@@ -1523,6 +1532,7 @@ a.estate-category-link:hover {
 .singlePage-description {
   line-height: 2;
 }
-.icon-expand-button-property{
+
+.icon-expand-button-property {
   color: white;
 }
