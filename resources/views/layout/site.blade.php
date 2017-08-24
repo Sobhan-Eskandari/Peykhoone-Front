@@ -168,10 +168,10 @@
 
     @yield('contact')
     <footer class="container-fluid" id="l-footer">
-        <div class="row py-4">
+        <div class="row py-4 justify-content-center">
             {{------------ [ pey khoone logo place ] ------------}}
             <div class="col-12 col-sm-10 col-md-6 col-lg-2 align-self-center text-center p-3">
-                <img class="m-footer-logo p-2" alt="لوگوی پی‌ خونه" src="{{asset('images/peyLogo.png')}}">
+                <img class="m-footer-logo p-5 p-lg-2" alt="لوگوی پی‌ خونه" src="{{asset('images/peyLogo.png')}}">
             </div>
 
             {{------------ [ Contactus List ] ------------}}
