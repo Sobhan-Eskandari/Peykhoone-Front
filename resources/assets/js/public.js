@@ -13,6 +13,7 @@ $('ul li a.estate-category-link').click(function () {
     $(this).addClass("categoryItem-is-active");
 });
 
+
 // Home page hamkaran slider
 $(document).ready(function(){
     $('.owl-carousel').owlCarousel({
@@ -22,6 +23,32 @@ $(document).ready(function(){
         items:1,
         navText: ["<i class='fa fa-chevron-left hi-fontSize-28 gradient-text'></i>","<i class='fa hi-fontSize-28 gradient-text fa-chevron-right'></i>"]
     })
+
+$('ul li a.estate-category-link').click(function () {
+    $('ul li a.estate-category-link').removeClass("categoryItem-is-active");
+    $(this).addClass("categoryItem-is-active");
+});
+
+
+
+//smooth scroll
+$("a").on('click', function (event) {
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+        // Prevent default anchor click behavior
+        event.preventDefault();
+        // Store hash
+        var hash = this.hash;
+        // Using jQuery's animate() method to add smooth page scroll
+        // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+        $('html, body').animate({
+            scrollTop: $(hash).offset().top
+        }, 800, function () {
+            // Add hash (#) to URL when done scrolling (default click behavior)
+            window.location.hash = hash;
+        });
+    } // End if
+
 });
 
 //smooth scroll
@@ -46,36 +73,40 @@ $("a").on('click', function (event) {
 //******************   Gallery Aks khane Autplay ********************
 $('.carousel').on('slide.bs.carousel', function () {
     let el = $(".carousel-indicators .active");
-    console.log(el.offset().left-200);
-    $('.carousel-indicators').animate( { scrollLeft: el.offset().left-800 }, 1000);
+    console.log(el.offset().left - 200);
+    $('.carousel-indicators').animate({scrollLeft: el.offset().left - 800}, 1000);
 });
+
 
 //****************** Navigation safe baz shode agahi ********************
 $("#l-navigator a").on('click',function () {
     $("#l-navigator").find('i').removeClass('gradient-text');
    $(this).find('i').addClass('gradient-text');
+
+$(".carousel-control-prev").on('click', function () {
+    $('.carousel').carousel(6);
 });
 
 //******************  Tozihate Moshaver dare safe agahie Baz shode ********************
 $.fn.extend({
     animateCss: function (animationName) {
         var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-        this.addClass('animated ' + animationName).one(animationEnd, function() {
+        this.addClass('animated ' + animationName).one(animationEnd, function () {
             $(this).removeClass('animated ' + animationName);
         });
         return this;
     }
 });
 let isVisible = false;
-$("#showTozihateMoshaver").on('click',function () {
-    if (isVisible){
+$("#showTozihateMoshaver").on('click', function () {
+    if (isVisible) {
         isVisible = false;
-        $( ".m-tozihateMoshaver" ).attr("style", "box-shadow:none;height:13ex;" );
-        $("#showTozihateMoshaver i").css({'transform' : 'rotate('+ 0 +'deg)'});
-    }else{
+        $(".m-tozihateMoshaver").attr("style", "box-shadow:none;height:13ex;");
+        $("#showTozihateMoshaver i").css({'transform': 'rotate(' + 0 + 'deg)'});
+    } else {
         isVisible = true;
-        $( ".m-tozihateMoshaver" ).attr("style", "box-shadow:0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;height:90%;" );
-        $("#showTozihateMoshaver i").css({'transform' : 'rotate('+ 180 +'deg)'});
+        $(".m-tozihateMoshaver").attr("style", "box-shadow:0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;height:90%;");
+        $("#showTozihateMoshaver i").css({'transform': 'rotate(' + 180 + 'deg)'});
     }
 });
 
@@ -145,7 +176,9 @@ if ($(window).width() <= 768) {
     $(".is-hovered-adCard").find(".m-card-moreInfo").css('color', 'black');
     $(".is-hovered-adCard").find(".home-cost").css('font-weight', 'normal');
 }
-
+$(".m-horizental-card-hover").hover(function () {
+    $(this).find("button.m-horizentalCard-btn").addClass('show');
+});
 // ============[ Translate English digits to farsi ]===========
 let translate = function (englishNumber) {
     let chars = englishNumber.split('');
