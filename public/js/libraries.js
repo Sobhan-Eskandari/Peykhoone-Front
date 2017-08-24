@@ -16636,7 +16636,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             checkboxName: false,
             includeSelectAllOption: false,
             includeSelectAllIfMoreThan: 0,
-            selectAllText: 'انتخاب همه',
+            selectAllText: ' Select all',
             selectAllValue: 'multiselect-all',
             selectAllName: false,
             selectAllNumber: true,
@@ -18202,6 +18202,7 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()('ul li a.estate-category-link').c
 // Home page hamkaran slider
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()(document).ready(function () {
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()('.owl-carousel').owlCarousel({
+
         loop: true,
         margin: 10,
         nav: true,
@@ -18234,6 +18235,25 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()("a").on('click', function (event)
     } // End if
 });
 
+//smooth scroll
+__WEBPACK_IMPORTED_MODULE_2_jquery___default()("a").on('click', function (event) {
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+        // Prevent default anchor click behavior
+        event.preventDefault();
+        // Store hash
+        var hash = this.hash;
+        // Using jQuery's animate() method to add smooth page scroll
+        // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()('html, body').animate({
+            scrollTop: __WEBPACK_IMPORTED_MODULE_2_jquery___default()(hash).offset().top
+        }, 800, function () {
+            // Add hash (#) to URL when done scrolling (default click behavior)
+            window.location.hash = hash;
+        });
+    } // End if
+});
+
 //******************   Gallery Aks khane Autplay ********************
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()('.carousel').on('slide.bs.carousel', function () {
     var el = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".carousel-indicators .active");
@@ -18244,8 +18264,10 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()('.carousel').on('slide.bs.carouse
 //****************** Navigation safe baz shode agahi ********************
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#l-navigator a").on('click', function () {
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#l-navigator").find('i').removeClass('gradient-text');
+
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find('i').addClass('gradient-text');
 });
+
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".carousel-control-prev").on('click', function () {
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()('.carousel').carousel(6);
 });

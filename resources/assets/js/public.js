@@ -17,6 +17,7 @@ $('ul li a.estate-category-link').click(function () {
 // Home page hamkaran slider
 $(document).ready(function() {
     $('.owl-carousel').owlCarousel({
+
         loop: true,
         margin: 10,
         nav: true,
@@ -29,6 +30,28 @@ $(document).ready(function() {
 $('ul li a.estate-category-link').click(function () {
     $('ul li a.estate-category-link').removeClass("categoryItem-is-active");
     $(this).addClass("categoryItem-is-active");
+});
+
+
+
+//smooth scroll
+$("a").on('click', function (event) {
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+        // Prevent default anchor click behavior
+        event.preventDefault();
+        // Store hash
+        var hash = this.hash;
+        // Using jQuery's animate() method to add smooth page scroll
+        // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+        $('html, body').animate({
+            scrollTop: $(hash).offset().top
+        }, 800, function () {
+            // Add hash (#) to URL when done scrolling (default click behavior)
+            window.location.hash = hash;
+        });
+    } // End if
+
 });
 
 
@@ -62,8 +85,12 @@ $('.carousel').on('slide.bs.carousel', function () {
 //****************** Navigation safe baz shode agahi ********************
 $("#l-navigator a").on('click',function () {
     $("#l-navigator").find('i').removeClass('gradient-text');
+
     $(this).find('i').addClass('gradient-text');
 });
+
+
+
 $(".carousel-control-prev").on('click', function () {
     $('.carousel').carousel(6);
 });

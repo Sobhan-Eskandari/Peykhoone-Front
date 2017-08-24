@@ -1,5 +1,5 @@
 {{--about us--}}
-<div class="l-rtl">
+<div class="container-fluid l-rtl">
     <div class="row px-lg-5 m-aboutUs justify-content-around">
         <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 pr-lg-5">
             <h5 class="m-aboutUs-msg mr-lg-4 mb-0 mt-2">در پی خونه ما مشتاقانه منتظریم تا پاسخگوی سوالات شما باشیم،با ما در تماس باشید.</h5>
