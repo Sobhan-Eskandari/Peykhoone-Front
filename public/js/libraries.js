@@ -16636,7 +16636,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             checkboxName: false,
             includeSelectAllOption: false,
             includeSelectAllIfMoreThan: 0,
-            selectAllText: ' Select all',
+            selectAllText: 'انتخاب همه',
             selectAllValue: 'multiselect-all',
             selectAllName: false,
             selectAllNumber: true,
@@ -18622,98 +18622,106 @@ var scrollMoreHome = new __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default.a('
 var scrollMainFilter = new __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default.a('#filter-section');
 
 // ****************** Cost Slider ********************
-var costSlider = document.getElementById('slider-step');
+if (__WEBPACK_IMPORTED_MODULE_2_jquery___default()('#slider-step').length) {
+    var costSlider = document.getElementById('slider-step');
 
-__WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(costSlider, {
-    start: [50000, 5000000],
-    step: 50000,
-    connect: true,
-    direction: 'ltr',
-    tooltips: true,
-    range: {
-        'min': 50000,
-        'max': 5000000
-    },
-    format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
-        decimals: 0,
-        thousand: ',',
-        postfix: ''
-    })
-});
+    __WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(costSlider, {
+        start: [50000, 5000000],
+        step: 50000,
+        connect: true,
+        direction: 'ltr',
+        tooltips: true,
+        range: {
+            'min': 50000,
+            'max': 5000000
+        },
+        format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
+            decimals: 0,
+            thousand: ',',
+            postfix: ''
+        })
+    });
 
-costSlider.noUiSlider.on('update', function (values, handle) {
-    // snapValues[handle].innerHTML = values[handle];
-    var translatedMin = values[0].replace("تومان", "");
-    var translatedMax = values[1].replace("تومان", "");
+    costSlider.noUiSlider.on('update', function (values, handle) {
+        // snapValues[handle].innerHTML = values[handle];
+        var translatedMin = values[0].replace("تومان", "");
+        var translatedMax = values[1].replace("تومان", "");
 
-    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#slider-step .noUi-handle-lower .noUi-tooltip").text(' ' + translate(translatedMin) + '  ');
-    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#slider-step .noUi-handle-upper .noUi-tooltip").text(' ' + translate(translatedMax) + '  ');
-});
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#slider-step .noUi-handle-lower .noUi-tooltip").text(' ' + translate(translatedMin) + '  ');
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#slider-step .noUi-handle-upper .noUi-tooltip").text(' ' + translate(translatedMax) + '  ');
+    });
+}
 
 // ****************** Metraj Slider ********************
-var metrajSlider = document.getElementById('metraj-slider');
+if (__WEBPACK_IMPORTED_MODULE_2_jquery___default()('#metraj-slider').length) {
+    // use this if you are using id to check{
+    var metrajSlider = document.getElementById('metraj-slider');
 
-__WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(metrajSlider, {
-    start: [10, 50000],
-    step: 10,
-    connect: true,
-    direction: 'ltr',
-    tooltips: true,
-    range: {
-        'min': 10,
-        'max': 50000
-    },
-    format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
-        decimals: 0,
-        thousand: ',',
-        postfix: 'متر'
-    })
-});
+    __WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(metrajSlider, {
+        start: [10, 50000],
+        step: 10,
+        connect: true,
+        direction: 'ltr',
+        tooltips: true,
+        range: {
+            'min': 10,
+            'max': 50000
+        },
+        format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
+            decimals: 0,
+            thousand: ',',
+            postfix: 'متر'
+        })
+    });
 
-metrajSlider.noUiSlider.on('update', function (values, handle) {
-    // snapValues[handle].innerHTML = values[handle];
-    var translatedMin = values[0].replace("متر", "");
-    var translatedMax = values[1].replace("متر", "");
+    metrajSlider.noUiSlider.on('update', function (values, handle) {
+        // snapValues[handle].innerHTML = values[handle];
+        var translatedMin = values[0].replace("متر", "");
+        var translatedMax = values[1].replace("متر", "");
 
-    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-place").text('\u0627\u0632 ' + translate(translatedMin) + ' \u062A\u0627 ' + translate(translatedMax));
-    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-slider .noUi-handle-lower .noUi-tooltip").text(' ' + translate(translatedMin) + ' \u0645\u062A\u0631 ');
-    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-slider .noUi-handle-upper .noUi-tooltip").text(' ' + translate(translatedMax) + ' \u0645\u062A\u0631 ');
-});
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-place").text('\u0627\u0632 ' + translate(translatedMin) + ' \u062A\u0627 ' + translate(translatedMax));
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-slider .noUi-handle-lower .noUi-tooltip").text(' ' + translate(translatedMin) + ' \u0645\u062A\u0631 ');
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#metraj-slider .noUi-handle-upper .noUi-tooltip").text(' ' + translate(translatedMax) + ' \u0645\u062A\u0631 ');
+    });
+}
 
 // ****************** Sene Bana Slider ********************
-var seneBanaSlider = document.getElementById('senebana-slider');
+if (__WEBPACK_IMPORTED_MODULE_2_jquery___default()('#senebana-slider').length) {
+    // it exists
+    var seneBanaSlider = document.getElementById('senebana-slider');
 
-__WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(seneBanaSlider, {
-    start: [0, 35],
-    step: 2,
-    connect: true,
-    direction: 'ltr',
-    tooltips: true,
-    range: {
-        'min': 0,
-        'max': 35
-    },
-    format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
-        decimals: 0,
-        thousand: ',',
-        postfix: 'سال'
-    })
-});
+    __WEBPACK_IMPORTED_MODULE_3_nouislider___default.a.create(seneBanaSlider, {
+        start: [0, 35],
+        step: 2,
+        connect: true,
+        direction: 'ltr',
+        tooltips: true,
+        range: {
+            'min': 0,
+            'max': 35
+        },
+        format: __WEBPACK_IMPORTED_MODULE_4_wnumb___default()({
+            decimals: 0,
+            thousand: ',',
+            postfix: 'سال'
+        })
+    });
 
-seneBanaSlider.noUiSlider.on('update', function (values, handle) {
+    seneBanaSlider.noUiSlider.on('update', function (values, handle) {
 
-    var translatedMin = values[0].replace("سال", "");
-    var translatedMax = values[1].replace("سال", "");
+        var translatedMin = values[0].replace("سال", "");
+        var translatedMax = values[1].replace("سال", "");
 
-    if (translatedMin == 0) {
-        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#senebana-slider .noUi-handle-lower .noUi-tooltip").text(' \u0646\u0648\u0633\u0627\u0632 ');
-    } else {
-        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#senebana-slider .noUi-handle-lower .noUi-tooltip").text(' ' + translate(translatedMin) + ' \u0633\u0627\u0644 ');
-        // $("#senebana-slider .noUi-handle-lower .noUi-tooltip").text($("#senebana-slider .noUi-handle-lower .noUi-tooltip").text() + 'سال');
-    }
+        if (translatedMin == 0) {
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#senebana-slider .noUi-handle-lower .noUi-tooltip").text(' \u0646\u0648\u0633\u0627\u0632 ');
+        } else {
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#senebana-slider .noUi-handle-lower .noUi-tooltip").text(' ' + translate(translatedMin) + ' \u0633\u0627\u0644 ');
+            // $("#senebana-slider .noUi-handle-lower .noUi-tooltip").text($("#senebana-slider .noUi-handle-lower .noUi-tooltip").text() + 'سال');
+        }
 
-    __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#senebana-slider .noUi-handle-upper .noUi-tooltip").text(' ' + translate(translatedMax) + ' \u0633\u0627\u0644 ');
-});
+        __WEBPACK_IMPORTED_MODULE_2_jquery___default()("#senebana-slider .noUi-handle-upper .noUi-tooltip").text(' ' + translate(translatedMax) + ' \u0633\u0627\u0644 ');
+    });
+}
 
 // ****************** Homepage Typed js ********************
 var options = {

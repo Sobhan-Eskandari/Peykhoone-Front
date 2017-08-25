@@ -447,99 +447,107 @@ var scrollMoreHome = new SmoothScroll('#navigate-to-moreHome');
 var scrollMainFilter = new SmoothScroll('#filter-section');
 
 // ****************** Cost Slider ********************
-var costSlider = document.getElementById('slider-step');
+if( $('#slider-step').length ) {
+    var costSlider = document.getElementById('slider-step');
 
-noUiSlider.create(costSlider, {
-    start: [50000, 5000000],
-    step: 50000,
-    connect: true,
-    direction: 'ltr',
-    tooltips: true,
-    range: {
-        'min': 50000,
-        'max': 5000000
-    },
-    format: wNumb({
-        decimals: 0,
-        thousand: ',',
-        postfix: '',
-    })
-});
+    noUiSlider.create(costSlider, {
+        start: [50000, 5000000],
+        step: 50000,
+        connect: true,
+        direction: 'ltr',
+        tooltips: true,
+        range: {
+            'min': 50000,
+            'max': 5000000
+        },
+        format: wNumb({
+            decimals: 0,
+            thousand: ',',
+            postfix: '',
+        })
+    });
 
-costSlider.noUiSlider.on('update', function (values, handle) {
-    // snapValues[handle].innerHTML = values[handle];
-    let translatedMin = values[0].replace("تومان", "");
-    let translatedMax = values[1].replace("تومان", "");
+    costSlider.noUiSlider.on('update', function (values, handle) {
+        // snapValues[handle].innerHTML = values[handle];
+        let translatedMin = values[0].replace("تومان", "");
+        let translatedMax = values[1].replace("تومان", "");
 
-    $("#slider-step .noUi-handle-lower .noUi-tooltip").text(` ${translate(translatedMin)}  `);
-    $("#slider-step .noUi-handle-upper .noUi-tooltip").text(` ${translate(translatedMax)}  `);
-});
+        $("#slider-step .noUi-handle-lower .noUi-tooltip").text(` ${translate(translatedMin)}  `);
+        $("#slider-step .noUi-handle-upper .noUi-tooltip").text(` ${translate(translatedMax)}  `);
+    });
+}
 
 // ****************** Metraj Slider ********************
-var metrajSlider = document.getElementById('metraj-slider');
+if( $('#metraj-slider').length )  {       // use this if you are using id to check{
+    var metrajSlider = document.getElementById('metraj-slider');
 
-noUiSlider.create(metrajSlider, {
-    start: [10, 50000],
-    step: 10,
-    connect: true,
-    direction: 'ltr',
-    tooltips: true,
-    range: {
-        'min': 10,
-        'max': 50000
-    },
-    format: wNumb({
-        decimals: 0,
-        thousand: ',',
-        postfix: 'متر',
-    })
-});
+    noUiSlider.create(metrajSlider, {
+        start: [10, 50000],
+        step: 10,
+        connect: true,
+        direction: 'ltr',
+        tooltips: true,
+        range: {
+            'min': 10,
+            'max': 50000
+        },
+        format: wNumb({
+            decimals: 0,
+            thousand: ',',
+            postfix: 'متر',
+        })
+    });
 
-metrajSlider.noUiSlider.on('update', function (values, handle) {
-    // snapValues[handle].innerHTML = values[handle];
-    let translatedMin = values[0].replace("متر", "");
-    let translatedMax = values[1].replace("متر", "");
+    metrajSlider.noUiSlider.on('update', function (values, handle) {
+        // snapValues[handle].innerHTML = values[handle];
+        let translatedMin = values[0].replace("متر", "");
+        let translatedMax = values[1].replace("متر", "");
 
-    $("#metraj-place").text(`از ${translate(translatedMin)} تا ${translate(translatedMax)}`);
-    $("#metraj-slider .noUi-handle-lower .noUi-tooltip").text(` ${translate(translatedMin)} متر `);
-    $("#metraj-slider .noUi-handle-upper .noUi-tooltip").text(` ${translate(translatedMax)} متر `);
-});
+        $("#metraj-place").text(`از ${translate(translatedMin)} تا ${translate(translatedMax)}`);
+        $("#metraj-slider .noUi-handle-lower .noUi-tooltip").text(` ${translate(translatedMin)} متر `);
+        $("#metraj-slider .noUi-handle-upper .noUi-tooltip").text(` ${translate(translatedMax)} متر `);
+    });
+}
 
 // ****************** Sene Bana Slider ********************
-var seneBanaSlider = document.getElementById('senebana-slider');
+if( $('#senebana-slider').length )  {
+    // it exists
+    var seneBanaSlider = document.getElementById('senebana-slider');
 
-noUiSlider.create(seneBanaSlider, {
-    start: [0, 35],
-    step: 2,
-    connect: true,
-    direction: 'ltr',
-    tooltips: true,
-    range: {
-        'min': 0,
-        'max': 35
-    },
-    format: wNumb({
-        decimals: 0,
-        thousand: ',',
-        postfix: 'سال',
-    })
-});
+    noUiSlider.create(seneBanaSlider, {
+        start: [0, 35],
+        step: 2,
+        connect: true,
+        direction: 'ltr',
+        tooltips: true,
+        range: {
+            'min': 0,
+            'max': 35
+        },
+        format: wNumb({
+            decimals: 0,
+            thousand: ',',
+            postfix: 'سال',
+        })
+    });
 
-seneBanaSlider.noUiSlider.on('update', function (values, handle) {
+    seneBanaSlider.noUiSlider.on('update', function (values, handle) {
 
-    let translatedMin = values[0].replace("سال", "");
-    let translatedMax = values[1].replace("سال", "");
+        let translatedMin = values[0].replace("سال", "");
+        let translatedMax = values[1].replace("سال", "");
 
-    if (translatedMin == 0) {
-        $("#senebana-slider .noUi-handle-lower .noUi-tooltip").text(` نوساز `);
-    } else {
-        $("#senebana-slider .noUi-handle-lower .noUi-tooltip").text(` ${translate(translatedMin)} سال `);
-        // $("#senebana-slider .noUi-handle-lower .noUi-tooltip").text($("#senebana-slider .noUi-handle-lower .noUi-tooltip").text() + 'سال');
-    }
+        if (translatedMin == 0) {
+            $("#senebana-slider .noUi-handle-lower .noUi-tooltip").text(` نوساز `);
+        } else {
+            $("#senebana-slider .noUi-handle-lower .noUi-tooltip").text(` ${translate(translatedMin)} سال `);
+            // $("#senebana-slider .noUi-handle-lower .noUi-tooltip").text($("#senebana-slider .noUi-handle-lower .noUi-tooltip").text() + 'سال');
+        }
 
-    $("#senebana-slider .noUi-handle-upper .noUi-tooltip").text(` ${translate(translatedMax)} سال `);
+        $("#senebana-slider .noUi-handle-upper .noUi-tooltip").text(` ${translate(translatedMax)} سال `);
 
-});
+    });
+
+}
 
 
 // ****************** Homepage Typed js ********************
