@@ -61,4 +61,9 @@ Route::get('/single', function () {
 Route::get('/agencies', function () {
     return view('site.all-agencies');
 });
-
+Route::get('/dashboard', function () {
+    return view('layout.dashboard');
+});
+Route::get('/user-profile', function () {
+    return view('site.user-profile');
+});

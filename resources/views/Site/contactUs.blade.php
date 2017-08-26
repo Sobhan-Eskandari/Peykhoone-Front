@@ -11,8 +11,8 @@
 @section('content')
     <!--header img-->
     <div class="row mt-0 header-text-box">
-        <img src="{{ asset('images/header3.jpg') }}"
-             alt="خرید ملک در رشت" height="300px"
+        <img src="{{ asset('images/1280_Contact us header.jpg') }}"
+             alt="خرید ملک در رشت"
              width="100%" class="header-z-index">
         <h1 class="header-caption text-center hi-fontSize-28">تماس با پی خونه</h1>
     </div>
