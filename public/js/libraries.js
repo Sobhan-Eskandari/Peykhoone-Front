@@ -18758,6 +18758,8 @@ if (__WEBPACK_IMPORTED_MODULE_2_jquery___default()('#typedjs').length) {
     var typed = new __WEBPACK_IMPORTED_MODULE_0_typed_js___default.a("#typedjs", options);
 }
 
+var typed = new __WEBPACK_IMPORTED_MODULE_0_typed_js___default.a("#typedjs", options);
+
 /***/ }),
 /* 54 */
 /***/ (function(module, exports, __webpack_require__) {
