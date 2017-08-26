@@ -12888,6 +12888,10 @@ a.estate-category-link:hover {
   background-color: #007991 !important;
 }
 
+.m-dashboard-headerMenu {
+  margin-top: -2%;
+}
+
 .is-hover-gradient:hover {
   background: -webkit-gradient(linear, left top, left bottom, from(#007991), to(#63E7CA));
   background: linear-gradient(-180deg, #007991 0%, #63E7CA 100%);
