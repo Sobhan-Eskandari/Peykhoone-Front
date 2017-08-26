@@ -188,9 +188,8 @@
 
     </div>
 </div>
-<br><br><br>
 
-<img src="{{ asset('images/50.png') }}" alt="پروفایل" width="100%">
+
 <!-- Pushy JS -->
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/libraries.js')}}"></script>

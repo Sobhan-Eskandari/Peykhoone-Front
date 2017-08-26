@@ -8501,6 +8501,9 @@ a.estate-category-link:hover {
 .m-dashboad-nav-dropItem:active {
   background-color: #007991 !important; }
 
+.m-dashboard-headerMenu {
+  margin-top: -2%; }
+
 .is-hover-gradient:hover {
   background: linear-gradient(-180deg, #007991 0%, #63E7CA 100%);
   color: whitesmoke; }
