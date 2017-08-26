@@ -43,7 +43,7 @@ mix.js([
 
 mix.js([
     'node_modules/bootstrap-multiselect/dist/js/bootstrap-multiselect.js',
-    'node_modules/materialize-stepper/materialize-stepper.js',
+    'resources/assets/js/others/horizental-stepper/materialize-stepper.js',
     'resources/assets/js/dashboard-azhans.js'
 ], 'public/js/azhans-dashboard.js');
 
