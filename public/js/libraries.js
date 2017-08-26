@@ -18726,13 +18726,14 @@ if (__WEBPACK_IMPORTED_MODULE_2_jquery___default()('#senebana-slider').length) {
 // ****************** Homepage Typed js ********************
 var options = {
     strings: ["<strong>با پی خونه ، </strong>آگاهانه ملک انتخاب کن", "<strong>با پی خونه ، </strong>در وقت و هزینه هات صرفه جویی کن", "<strong>با پی خونه ، </strong>متناسب با علاقه و نیازهات دنبال ملک بگرد", "<strong>با پی خونه ، </strong>دنبال آپارتمان و ویلا و مستغلات بگرد", "<strong>با پی خونه ، </strong>خونه دار شو"],
-    typeSpeed: 50,
+    typeSpeed: 60,
     showCursor: true,
     backSpeed: 10,
-    backDelay: 300
+    backDelay: 900
 };
-
-var typed = new __WEBPACK_IMPORTED_MODULE_0_typed_js___default.a("#typedjs", options);
+if (__WEBPACK_IMPORTED_MODULE_2_jquery___default()('#typedjs').length) {
+    var typed = new __WEBPACK_IMPORTED_MODULE_0_typed_js___default.a("#typedjs", options);
+}
 
 /***/ }),
 /* 53 */

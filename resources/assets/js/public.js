@@ -558,10 +558,11 @@ var options = {
         "<strong>با پی خونه ، </strong>دنبال آپارتمان و ویلا و مستغلات بگرد",
         "<strong>با پی خونه ، </strong>خونه دار شو",
     ],
-    typeSpeed: 50,
+    typeSpeed: 60,
     showCursor : true,
     backSpeed : 10,
-    backDelay : 300
+    backDelay : 900
 }
-
-var typed = new Typed("#typedjs", options);
+if( $('#typedjs').length )  {
+    var typed = new Typed("#typedjs", options);
+}
