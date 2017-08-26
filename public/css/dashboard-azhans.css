@@ -368,3 +368,18 @@ ul.stepper .step-content .row {
 }
 /* Color palette */
 
+body {
+  background-color: #FEFFFF;
+  background-size: cover;
+  height: 3000px;
+}
+
+.stepper.horizontal:before {
+  content: none !important;
+}
+
+ul.stepper.horizontal .step.active .step-title:before,
+ul.stepper.horizontal .step.done .step-title:before {
+  background-color: #36BFD9 !important;
+}
+

@@ -9,17 +9,15 @@
     <link rel="stylesheet" href="{{asset('css/Hi_Framework.css')}}">
     <!-- App Css -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
-
     <!-- Fontawesome Css -->
     <link rel="stylesheet" href="https://lib.arvancloud.com/ar/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <!-- Dashboard Azhans Css -->
+    <link rel="stylesheet" href="{{asset('css/dashboard-azhans.css')}}">
 
     <!--Import Google Icon Font-->
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import Materialize-Stepper CSS (after importing materialize.css) -->
 
-    <!-- Dashboard Azhans Css -->
-    <link rel="stylesheet" href="{{asset('css/dashboard-azhans.css')}}">
+
 </head>
 
 <body>
@@ -29,7 +27,7 @@
         <div class="col-6">
             <ul class="stepper horizontal l-rtl">
                 <li class="step active">
-                    <div class="step-title waves-effect">تصاویر</div>
+                    <div class="step-title waves-effect">جزئیات</div>
                     <div class="step-content">
                         <div class="row">
                             <div class="input-field col s12">
@@ -58,7 +56,7 @@
                     </div>
                 </li>
                 <li class="step">
-                    <div class="step-title waves-effect">جزئیات</div>
+                    <div class="step-title waves-effect">شرایط</div>
                     <div class="step-content">
                         Finish!
                         <div class="step-actions">
