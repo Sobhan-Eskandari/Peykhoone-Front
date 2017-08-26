@@ -13,6 +13,30 @@ $('ul li a.estate-category-link').click(function () {
     $(this).addClass("categoryItem-is-active");
 });
 
+$(window).scroll(function(){
+    let scroll = $(window).scrollTop();
+    if (scroll > 460) {
+        $(".m-navBar-transparent").css("background" , "#282828");
+
+    }
+    else{
+        $(".m-navBar-transparent").css("background" , "transparent");
+    }
+});
+
+$(window).scroll(function() {
+    let scroll = $(window).scrollTop();
+
+    //>=, not <=
+    if (scroll >= 450) {
+        //clearHeader, not clearheader - caps H
+        $(".m-navBar-transparent").removeClass("mt-5");
+    }else {
+        $(".m-navBar-transparent").addClass("mt-5");
+    }
+}); //missing );
+
+
 
 // Home page hamkaran slider
 $(document).ready(function() {
@@ -566,3 +590,9 @@ var options = {
 if( $('#typedjs').length )  {
     var typed = new Typed("#typedjs", options);
 }
+
+
+var typed = new Typed("#typedjs", options);
+
+
+

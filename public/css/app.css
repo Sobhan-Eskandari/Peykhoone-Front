@@ -144,7 +144,7 @@
   top: 50%;
   margin-left: -40px;
   margin-top: -40px;
-  background: url(/images/vendor/owl.carousel/dist/owl.video.play.png?4cbde124d6cd8122c801118696c16f07) no-repeat;
+  background: url("/owl.video.play.png") no-repeat;
   cursor: pointer;
   z-index: 1;
   -webkit-backface-visibility: hidden;
@@ -289,8 +289,13 @@ This set of fonts are used in this project under the license: (.....)
 
 @font-face {
   font-family: 'icomoon';
+
   src: url(/fonts/icomoon.eot?9674cc94fe3b1b335a68e7ef44a29c82);
   src: url(/fonts/icomoon.eot?9674cc94fe3b1b335a68e7ef44a29c82) format("embedded-opentype"), url(/fonts/icomoon.ttf?573c0d10d0592feb1210bc1baaf0f8d1) format("truetype"), url(/fonts/icomoon.woff?1344c65b2e021c67aa310fbfbf32cd5c) format("woff"), url(/fonts/icomoon.svg?889408c1984e2ff770277c502a149647) format("svg");
+
+  src: url(/fonts/icomoon.eot?19138554da11ef943042d11808631cc5);
+  src: url(/fonts/icomoon.eot?19138554da11ef943042d11808631cc5) format("embedded-opentype"), url(/fonts/icomoon.ttf?39e775fd4ac4969245251d39f055dc65) format("truetype"), url(/fonts/icomoon.woff?fac3d2e902e54836fb0ba2e5251903e3) format("woff"), url(/fonts/icomoon.svg?7b2c910406d848c08a4e1f93ff9b41f4) format("svg");
+
   font-weight: normal;
   font-style: normal;
 }
@@ -308,6 +313,232 @@ This set of fonts are used in this project under the license: (.....)
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-rocket .path1:before {
+  content: "\E928";
+  color: #324d5b;
+}
+
+.icon-rocket .path2:before {
+  content: "\E929";
+  margin-left: -1em;
+  color: #efc75e;
+}
+
+.icon-rocket .path3:before {
+  content: "\E92A";
+  margin-left: -1em;
+  color: #deb957;
+}
+
+.icon-rocket .path4:before {
+  content: "\E92B";
+  margin-left: -1em;
+  color: #26a6d1;
+}
+
+.icon-rocket .path5:before {
+  content: "\E92C";
+  margin-left: -1em;
+  color: #1795bf;
+}
+
+.icon-rocket .path6:before {
+  content: "\E92D";
+  margin-left: -1em;
+  color: #1795bf;
+}
+
+.icon-rocket .path7:before {
+  content: "\E92E";
+  margin-left: -1em;
+  color: #efc75e;
+}
+
+.icon-rocket .path8:before {
+  content: "\E92F";
+  margin-left: -1em;
+  color: #5b717c;
+}
+
+.icon-rocket .path9:before {
+  content: "\E930";
+  margin-left: -1em;
+  color: #f26c4f;
+}
+
+.icon-rocket .path10:before {
+  content: "\E931";
+  margin-left: -1em;
+  color: #f4f0d3;
+}
+
+.icon-rocket .path11:before {
+  content: "\E932";
+  margin-left: -1em;
+  color: #8ba0ab;
+}
+
+.icon-rocket .path12:before {
+  content: "\E933";
+  margin-left: -1em;
+  color: #324d5b;
+}
+
+.icon-rocket .path13:before {
+  content: "\E934";
+  margin-left: -1em;
+  color: #1483a8;
+}
+
+.icon-rocket .path14:before {
+  content: "\E935";
+  margin-left: -1em;
+  color: #f26c4f;
+}
+
+.icon-rocket .path15:before {
+  content: "\E936";
+  margin-left: -1em;
+  color: #dad3af;
+}
+
+.icon-rocket .path16:before {
+  content: "\E937";
+  margin-left: -1em;
+  color: #f26c4f;
+}
+
+.icon-more:before {
+  content: "\E938";
+}
+
+.icon-close:before {
+  content: "\E939";
+}
+
+.icon-power:before {
+  content: "\E93A";
+}
+
+.icon-advertising .path1:before {
+  content: "\E93B";
+  color: #40596b;
+}
+
+.icon-advertising .path2:before {
+  content: "\E93C";
+  margin-left: -1em;
+  color: #f2f2f2;
+}
+
+.icon-advertising .path3:before {
+  content: "\E93D";
+  margin-left: -1em;
+  color: #cdd6e0;
+}
+
+.icon-advertising .path4:before {
+  content: "\E93E";
+  margin-left: -1em;
+  color: #cdd6e0;
+}
+
+.icon-advertising .path5:before {
+  content: "\E93F";
+  margin-left: -1em;
+  color: #f2f2f2;
+}
+
+.icon-advertising .path6:before {
+  content: "\E940";
+  margin-left: -1em;
+  color: #acb3ba;
+}
+
+.icon-advertising .path7:before {
+  content: "\E941";
+  margin-left: -1em;
+  color: white;
+}
+
+.icon-advertising .path8:before {
+  content: "\E942";
+  margin-left: -1em;
+  color: #f2f2f2;
+}
+
+.icon-advertising .path9:before {
+  content: "\E943";
+  margin-left: -1em;
+  color: #ff7058;
+}
+
+.icon-advertising .path10:before {
+  content: "\E944";
+  margin-left: -1em;
+  color: #40596b;
+}
+
+.icon-advertising .path11:before {
+  content: "\E945";
+  margin-left: -1em;
+  color: #acb3ba;
+}
+
+.icon-advertising .path12:before {
+  content: "\E946";
+  margin-left: -1em;
+  color: #ff7058;
+}
+
+.icon-advertising .path13:before {
+  content: "\E947";
+  margin-left: -1em;
+  color: #334a5e;
+}
+
+.icon-advertising .path14:before {
+  content: "\E948";
+  margin-left: -1em;
+  color: #acb3ba;
+}
+
+.icon-advertising .path15:before {
+  content: "\E949";
+  margin-left: -1em;
+  color: #ffd15c;
+}
+
+.icon-advertising .path16:before {
+  content: "\E94A";
+  margin-left: -1em;
+  color: #ff7058;
+}
+
+.icon-advertising .path17:before {
+  content: "\E94B";
+  margin-left: -1em;
+  color: #ff7058;
+}
+
+.icon-advertising .path18:before {
+  content: "\E94C";
+  margin-left: -1em;
+  color: #ff7058;
+}
+
+.icon-i:before {
+  content: "\E94D";
+}
+
+.icon-icon-user-second:before {
+  content: "\E94E";
+}
+
+.icon-rounded-plus:before {
+  content: "\E94F";
 }
 
 .icon-placeholder--round:before {
@@ -11183,6 +11414,8 @@ body {
 
 .m-navBar-transparent {
   background-color: transparent;
+  -webkit-transition: all .4s ease;
+  transition: all .4s ease;
 }
 
 .m-navBar-brand {
@@ -11348,6 +11581,16 @@ body {
 
 .m-pagination-num {
   padding: 9.5px 12px 9.5px 12px;
+}
+
+@media (max-width: 400px) {
+  .m-pagination-num {
+    padding: 7.5px 10px 7.5px 10px;
+  }
+
+  .m-pagination-angleLink {
+    padding: 6.2px 10px 6.2px 10px;
+  }
 }
 
 .m-filter-nav .nav-tabs {
@@ -12545,6 +12788,109 @@ a.estate-category-link:hover {
 
 .icon-expand-button-property {
   color: white;
+}
+
+.all-agencies-inputSearch {
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border: 1px solid transparent;
+}
+
+.all-agencies-inputSearch:focus {
+  border: 1px solid transparent;
+}
+
+.all-agencies-btnSearch {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  padding-top: 4% !important;
+  padding-bottom: 3% !important;
+  background-color: #37BED8;
+  color: white;
+  border: 1px solid #37BED8;
+}
+
+.all-agencies-btnSearch:hover {
+  background-color: #37BED8;
+  color: white;
+  border: 1px solid #37BED8;
+  webkit-filter: brightness(120%);
+  cursor: pointer;
+}
+
+.all-agencies-inputGroup {
+  -webkit-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.17);
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.17);
+  border-radius: 5px;
+}
+
+.simple-shadow-box {
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.13);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.13);
+  border-radius: 8px;
+  width: 100%;
+  background-color: white;
+}
+
+.see-agencies-btn {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 5px;
+  color: white;
+  width: 100%;
+  cursor: pointer;
+  border-left-color: #73f9d3;
+}
+
+.see-agencies-btn:active {
+  background-image: linear-gradient(-116deg, #007991 0%, #63E7CA 95%) !important;
+}
+
+.agencies-contact-tel {
+  color: #949494;
+}
+
+.agencies-logo-img {
+  opacity: 1;
+  -webkit-transition: .3s ease-in-out;
+  transition: .3s ease-in-out;
+}
+
+.agencies-logo-img:hover {
+  opacity: .6;
+}
+
+.m-dashboard-navbar-padding {
+  padding-right: 14.5%;
+  padding-left: 14.5%;
+}
+
+@media (max-width: 1120px) {
+  .m-dashboard-navbar-padding {
+    padding-right: 3%;
+    padding-left: 3%;
+  }
+}
+
+.m-dashboard-navBar-btn {
+  font-size: 12px;
+  font-weight: 400;
+  width: 110px;
+}
+
+.m-dashboad-nav-dropdown {
+  min-width: 7rem !important;
+  border-radius: 7px !important;
+  margin-left: 5px;
+}
+
+.m-dashboad-nav-dropItem:active {
+  background-color: #007991 !important;
 }
 
 .is-hover-gradient:hover {
