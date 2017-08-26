@@ -22,7 +22,7 @@ mix.js([
     'resources/assets/js/app.js',
     'resources/assets/js/others/nav/nav.js',
 ], 'public/js/app.js')
-    .sass('resources/assets/sass/app.scss', 'public/css/app.css');
+    .sass('resources/assets/sass/site/app.scss', 'public/css/app.css');
 
 mix.js([
     /*'node_modules/lightgallery/dist/js/lightgallery.js',*/
@@ -41,4 +41,12 @@ mix.js([
     'resources/assets/js/others/responsive.js',
 ], 'public/js/libraries.js');
 
+mix.js([
+    'node_modules/bootstrap-multiselect/dist/js/bootstrap-multiselect.js',
+    'node_modules/materialize-stepper/materialize-stepper.js',
+    'resources/assets/js/dashboard-azhans.js'
+], 'public/js/azhans-dashboard.js');
+
 mix.sass('public/Hi_Framework/dist/Hi_Framework.scss','public/css/Hi_Framework.css');
+
+mix.sass('resources/assets/sass/dashboard-azhans/dashboard-azhans.scss','public/css/dashboard-azhans.css');

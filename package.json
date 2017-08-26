@@ -22,6 +22,7 @@
     "bootstrap-multiselect": "^0.9.13-1",
     "infinite-scroll": "^3.0.1",
     "lightgallery": "^1.6.0",
+    "materialize-stepper": "^2.1.4",
     "node-waves": "^0.7.5",
     "nouislider": "^10.1.0",
     "owl.carousel": "^2.2.0",

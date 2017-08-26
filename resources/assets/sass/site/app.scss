@@ -1,17 +1,17 @@
 // Fonts
-@import "../../../resources/assets/fonts/css/_font.scss";
+@import "../../fonts/css/font";
 
 
 // Bootstrap
-@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../../../../node_modules/bootstrap/scss/bootstrap";
 
 //Dropdown
-@import "../../../node_modules/bootstrap-multiselect/dist/css/bootstrap-multiselect.css";
+@import "../../../../node_modules/bootstrap-multiselect/dist/css/bootstrap-multiselect.css";
 
 //Flickity Carousel
 
-@import "../../../node_modules/owl.carousel/dist/assets/owl.carousel.css";
-@import "../../../node_modules/owl.carousel/dist/assets/owl.theme.default.css";
+@import "../../../../node_modules/owl.carousel/dist/assets/owl.carousel.css";
+@import "../../../../node_modules/owl.carousel/dist/assets/owl.theme.default.css";
 /*@import "../../../node_modules/lightgallery/dist/css/lightgallery.css";*/
 /*@import "../../../node_modules/lightslider/dist/css/lightslider.min.css";*/
 

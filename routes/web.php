@@ -62,3 +62,7 @@ Route::get('/agencies', function () {
     return view('site.all-agencies');
 });
 
+//--------------------------------------------------------------------------
+Route::get('/dashboard/azhans/ad/create', function () {
+    return view('dashboard-azhans.ads.create');
+});
