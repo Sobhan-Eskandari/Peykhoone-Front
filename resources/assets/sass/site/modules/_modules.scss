@@ -34,7 +34,6 @@ body {
   transition: all 0.2s ease;
 }
 
-
 .googleplay-icon {
   width: 30px;
   height: 30px;
@@ -250,6 +249,7 @@ body {
 
 .m-navBar-transparent {
   background-color: transparent;
+  transition: all .4s ease;
 }
 
 .m-navBar-brand {
@@ -436,6 +436,15 @@ body {
   padding: 9.5px 12px 9.5px 12px;
 }
 
+@media(max-width: 400px) {
+  .m-pagination-num {
+    padding: 7.5px 10px 7.5px 10px;
+  }
+  .m-pagination-angleLink {
+    padding: 6.2px 10px 6.2px 10px;
+  }
+}
+
 //----------- [ Filter Nav ] -----------
 .m-filter-nav {
   .nav-tabs {
@@ -562,7 +571,7 @@ body {
   .m-horizentalCard-price {
     font-weight: 600;
   }
-  .hvr-shutter-out-horizontal:before{
+  .hvr-shutter-out-horizontal:before {
   }
 }
 
@@ -810,8 +819,6 @@ body {
   transition: all 0.3s ease-in;
 }
 
-
-
 /*--------------- [ Azhanse hamkar home page ] --------------- */
 
 /*--------------- [ Azhanse hamkar home page ] —------------- */
@@ -826,7 +833,7 @@ body {
   }
 
   .owl-dot.active {
-    span{
+    span {
       opacity: 1;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
       transform: scale(1.3);
@@ -839,21 +846,21 @@ body {
     width: 100%;
     top: 150px;
 
-    .owl-prev{
+    .owl-prev {
       float: left;
       background: transparent;
       padding-left: 0;
       margin-left: 0;
-      &:hover{
+      &:hover {
         background: transparent !important;
       }
     }
-    .owl-next{
+    .owl-next {
       float: right;
       background: transparent;
       padding-right: 0;
       margin-right: 0;
-      &:hover{
+      &:hover {
         background: transparent !important;
       }
     }
@@ -888,24 +895,51 @@ map > div {
 }
 
 @keyframes flickerAnimation {
-  0%   { opacity:1; }
-  50%  { opacity:0; }
-  100% { opacity:1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
-@-o-keyframes flickerAnimation{
-  0%   { opacity:1; }
-  50%  { opacity:0; }
-  100% { opacity:1; }
+
+@-o-keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
-@-moz-keyframes flickerAnimation{
-  0%   { opacity:1; }
-  50%  { opacity:0; }
-  100% { opacity:1; }
+
+@-moz-keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
-@-webkit-keyframes flickerAnimation{
-  0%   { opacity:1; }
-  50%  { opacity:0; }
-  100% { opacity:1; }
+
+@-webkit-keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 /* ------------ [ Digital Painting Style ] ------------ */
@@ -1597,3 +1631,116 @@ a.estate-category-link:hover {
 .icon-expand-button-property {
   color: white;
 }
+
+//----------- [ all agencies ] -----------
+.all-agencies-inputSearch {
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border: 1px solid transparent;
+}
+
+.all-agencies-inputSearch:focus {
+  border: 1px solid transparent;
+}
+
+.all-agencies-btnSearch {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  padding-top: 4% !important;
+  padding-bottom: 3% !important;
+  background-color: #37BED8;
+  color: white;
+  border: 1px solid #37BED8;
+}
+
+.all-agencies-btnSearch:hover {
+  background-color: #37BED8;
+  color: white;
+  border: 1px solid #37BED8;
+  webkit-filter: brightness(120%);
+  cursor: pointer;
+}
+
+.all-agencies-inputGroup {
+  -webkit-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.17);
+  -moz-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.17);
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.17);
+  border-radius: 5px;
+}
+
+.simple-shadow-box {
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.13);
+  -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.13);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.13);
+  border-radius: 8px;
+  width: 100%;
+  background-color: white;
+}
+
+.see-agencies-btn {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 5px;
+  color: white;
+  width: 100%;
+  cursor: pointer;
+  border-left-color: $light-aquamarine;
+}
+
+.see-agencies-btn:active {
+  background-image: linear-gradient(-116deg, #007991 0%, #63E7CA 95%) !important;
+}
+
+.agencies-contact-tel {
+  color: #949494;
+}
+
+.agencies-logo-img {
+  opacity: 1;
+  -webkit-transition: .3s ease-in-out;
+  transition: .3s ease-in-out;
+}
+
+.agencies-logo-img:hover {
+  opacity: .6;
+}
+
+//----------- [ navBar dashboard  ] -----------
+.m-dashboard-navbar-padding {
+  padding-right: 14.5%;
+  padding-left: 14.5%;
+}
+
+@media (max-width: 1120px) {
+  .m-dashboard-navbar-padding {
+    padding-right: 3%;
+    padding-left: 3%;
+  }
+}
+
+.m-dashboard-navBar-btn {
+  font-size: 12px;
+  font-weight: 400;
+  width: 110px;
+}
+
+.m-dashboad-nav-dropdown {
+  min-width: 7rem !important;
+  border-radius: 7px !important;
+  margin-left: 5px;
+}
+
+.m-dashboad-nav-dropItem:active {
+  background-color: $ocean !important;
+}
+
+
+
+
+
+
