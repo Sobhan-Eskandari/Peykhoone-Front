@@ -22,6 +22,8 @@
     <!-- Fontawesome Css -->
     <link rel="stylesheet" href="https://lib.arvancloud.com/ar/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <link rel="stylesheet" href="{{asset('css/dashboard-azhans.css')}}">
+
     @yield('css_resources')
 </head>
 

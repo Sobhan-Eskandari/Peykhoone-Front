@@ -1,0 +1,33 @@
+//----------- [ navBar dashboard  ] -----------
+.m-dashboard-navbar-padding {
+  padding-right: 14.5%;
+  padding-left: 14.5%;
+}
+
+@media (max-width: 1120px) {
+  .m-dashboard-navbar-padding {
+    padding-right: 3%;
+    padding-left: 3%;
+  }
+}
+
+.m-dashboard-navBar-btn {
+  font-size: 12px;
+  font-weight: 400;
+  width: 110px;
+}
+
+.m-dashboad-nav-dropdown {
+  min-width: 7rem !important;
+  border-radius: 7px !important;
+  margin-left: 5px;
+}
+
+.m-dashboard-headerMenu {
+  margin-top: -2%;
+}
+
+.m-dashboard-headerMenu-item {
+  webkit-transition: color 0.3s ease-in;
+  transition: color 0.3s ease-in;
+}

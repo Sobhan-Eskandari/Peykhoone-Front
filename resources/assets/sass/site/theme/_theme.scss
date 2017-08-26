@@ -1,107 +1,127 @@
 //----------- [ Typography Style ] -----------
-.paragraph-lineHeight{
+.paragraph-lineHeight {
   line-height: 30px;
 }
-.thin-title{
+
+.thin-title {
   font-weight: $font-weight--thin !important;
 }
-.medium-title{
+
+.medium-title {
   font-weight: $font-weight--medium !important;
 }
-.regular-title{
+
+.regular-title {
   font-weight: 300 !important;
 }
-.gradient-text{
+
+.gradient-text {
   background: $gradient;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.header-mainTitle{
+.header-mainTitle {
   font-size: 35px;
   text-align: center;
   color: white;
   letter-spacing: 0.75px;
   line-height: 45px;
-  top:35%;
+  top: 35%;
 }
-.header-subTitle{
+
+.header-subTitle {
   @extend .header-mainTitle;
   font-weight: 300;
   font-size: 19px;
   top: 45% !important;
 }
-//----------- [ Line Style ] -----------
 
+//----------- [ Line Style ] -----------
 
 //----------- [ Borders Style ] -----------
 .rounded {
   border-radius: 60px;
 }
+
 .rounded-6 {
   border-radius: 6px !important;
 }
+
 .rounded-8 {
   border-radius: 8px !important;
 }
+
 .rounded-10 {
   border-radius: 10px;
 }
+
 .rounded-60 {
   border-radius: 60px;
 }
 
-.gradient-borderBottom{
+.gradient-borderBottom {
   border: 5px solid transparent;
   -o-border-image: url('/images/line.png') 10 round;
   border-image: url('/images/line.png') 10 round;
   border-top: 0;
 }
-.border-top-teal{
+
+.border-top-teal {
   border-top: 3px solid teal;
 }
 
 //----------- [ Color Style ] -----------
-.light-aquamarine{
+.light-aquamarine {
   background-color: $light-aquamarine;
 }
-.ocean{
+
+.ocean {
   background-color: $ocean;
 }
-.white-two{
+
+.white-two {
   background-color: $white-two;
 }
-.black-color{
+
+.black-color {
   background-color: $black;
 }
-.black-text-color{
+
+.black-text-color {
   color: $black;
 }
-.white{
+
+.white {
   background-color: $white;
 }
-.warm-grey{
+
+.warm-grey {
   background-color: $warm-grey;
 }
-.black-darker{
+
+.black-darker {
   background-color: $black-darker;
 }
-.filter-khakestari{
+
+.filter-khakestari {
   background-color: $filter-khakestari;
 }
-.gradient-background{
+
+.gradient-background {
   background: $gradient;
 }
-.gradient-background-horizental{
+
+.gradient-background-horizental {
   background: linear-gradient(-116deg, #007991 0%, #63E7CA 95%);
 }
-.khakestari-bg{
+
+.khakestari-bg {
   background-color: #f7f7f7;
 }
 
-
 //----------- [ Other Style ] -----------
-.turnUpsideDown{
+.turnUpsideDown {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
@@ -111,15 +131,46 @@
 
 // Extra small devices (portrait phones, less than 576px)
 @media (max-width: 575px) {
-  .header-mainTitle{
+  .header-mainTitle {
     font-size: 30px;
     line-height: 35px;
     top: 25%;
     padding-right: 10px;
     padding-left: 10px;
   }
-  .header-subTitle{
+  .header-subTitle {
     font-size: 20px;
   }
 }
 
+//----------- [ contact us ] -----------
+.contact-simpleBox {
+  .hi-icon-blue {
+    background: #007991;
+  }
+  .hi-icon-effect-9b .hi-icon-blue:hover {
+    box-shadow: 0 0 0 10px rgba(0, 121, 145, 0.4);
+    color: #fff;
+  }
+  .hi-icon-yellow {
+    background-color: #fbbc05;
+  }
+  .hi-icon-effect-9b .hi-icon-yellow:hover {
+    box-shadow: 0 0 0 10px rgba(251, 188, 5, 0.4);
+    color: #fff;
+  }
+  .hi-icon-lightBlue {
+    background-color: #0088cc;
+  }
+  .hi-icon-effect-9b .hi-icon-lightBlue:hover {
+    box-shadow: 0 0 0 10px rgba(0, 136, 204, 0.4);
+    color: #fff;
+  }
+  .hi-icon-purple {
+    background-color: #5851db;
+  }
+  .hi-icon-effect-9b .hi-icon-purple:hover {
+    box-shadow: 0 0 0 10px rgba(88, 81, 219, 0.4);
+    color: #fff;
+  }
+}

@@ -1,7 +1,12 @@
-.is-hover-gradient:hover{
+.is-hover-gradient:hover {
   background: $gradient;
   color: whitesmoke;
 }
-.categoryItem-is-active{
+
+.categoryItem-is-active {
   color: #007991 !important;
+}
+
+.dashboard-Menu-is-active {
+  color: #37BED8 !important;
 }
