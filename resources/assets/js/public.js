@@ -14,8 +14,8 @@ $('ul li a.estate-category-link').click(function () {
 });
 
 $('ul li a.m-dashboard-headerMenu-item').click(function () {
-    $('ul li a.m-dashboard-headerMenu-item').removeClass("categoryItem-is-active");
-    $(this).addClass("categoryItem-is-active");
+    $('ul li a.m-dashboard-headerMenu-item').removeClass("dashboard-Menu-is-active");
+    $(this).addClass("dashboard-Menu-is-active");
 });
 
 $(window).scroll(function(){

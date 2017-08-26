@@ -18202,8 +18202,8 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()('ul li a.estate-category-link').c
 });
 
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()('ul li a.m-dashboard-headerMenu-item').click(function () {
-    __WEBPACK_IMPORTED_MODULE_2_jquery___default()('ul li a.m-dashboard-headerMenu-item').removeClass("categoryItem-is-active");
-    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).addClass("categoryItem-is-active");
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()('ul li a.m-dashboard-headerMenu-item').removeClass("dashboard-Menu-is-active");
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).addClass("dashboard-Menu-is-active");
 });
 
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()(window).scroll(function () {

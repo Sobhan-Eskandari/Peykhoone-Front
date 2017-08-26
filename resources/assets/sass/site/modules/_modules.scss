@@ -1520,35 +1520,6 @@ a.estate-category-link:hover {
     -ms-transform: scale(0.85);
     transform: scale(0.85);
   }
-
-  .hi-icon-blue {
-    background: #007991;
-  }
-  .hi-icon-effect-9b .hi-icon-blue:hover {
-    box-shadow: 0 0 0 10px rgba(0, 121, 145, 0.4);
-    color: #fff;
-  }
-  .hi-icon-yellow {
-    background-color: #fbbc05;
-  }
-  .hi-icon-effect-9b .hi-icon-yellow:hover {
-    box-shadow: 0 0 0 10px rgba(251, 188, 5, 0.4);
-    color: #fff;
-  }
-  .hi-icon-lightBlue {
-    background-color: #0088cc;
-  }
-  .hi-icon-effect-9b .hi-icon-lightBlue:hover {
-    box-shadow: 0 0 0 10px rgba(0, 136, 204, 0.4);
-    color: #fff;
-  }
-  .hi-icon-purple {
-    background-color: #5851db;
-  }
-  .hi-icon-effect-9b .hi-icon-purple:hover {
-    box-shadow: 0 0 0 10px rgba(88, 81, 219, 0.4);
-    color: #fff;
-  }
 }
 
 .contactWay-title {
@@ -1709,40 +1680,6 @@ a.estate-category-link:hover {
 .agencies-logo-img:hover {
   opacity: .6;
 }
-
-//----------- [ navBar dashboard  ] -----------
-.m-dashboard-navbar-padding {
-  padding-right: 14.5%;
-  padding-left: 14.5%;
-}
-
-@media (max-width: 1120px) {
-  .m-dashboard-navbar-padding {
-    padding-right: 3%;
-    padding-left: 3%;
-  }
-}
-
-.m-dashboard-navBar-btn {
-  font-size: 12px;
-  font-weight: 400;
-  width: 110px;
-}
-
-.m-dashboad-nav-dropdown {
-  min-width: 7rem !important;
-  border-radius: 7px !important;
-  margin-left: 5px;
-}
-
-.m-dashboad-nav-dropItem:active {
-  background-color: $ocean !important;
-}
-.m-dashboard-headerMenu {
-  margin-top: -2%;
-}
-
-
 
 
 
