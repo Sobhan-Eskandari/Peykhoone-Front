@@ -466,7 +466,7 @@ select.selectpicker {
   background: #007991; }
 
 .pure-checkbox input[type="checkbox"]:checked + label,
-.pure-radiobutton input[type="checkbox"]:checked + label {
+.pure-radiobutton input[type="radio"]:checked + label {
   color: black; }
 
 .pure-checkbox input[type="checkbox"]:checked + label:after,

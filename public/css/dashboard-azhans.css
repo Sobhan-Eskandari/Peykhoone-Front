@@ -885,6 +885,11 @@ ul.stepper.horizontal .step-content {
   }
 }
 
+.m-userPro-color {
+  color: dimgray;
+  border-top: 1.2px solid;
+}
+
 .m-dashboad-nav-dropItem:active {
   background-color: #007991 !important;
 }
