@@ -144,7 +144,7 @@
   top: 50%;
   margin-left: -40px;
   margin-top: -40px;
-  background: url("/owl.video.play.png") no-repeat;
+  background: url(/images/vendor/owl.carousel/dist/owl.video.play.png?4cbde124d6cd8122c801118696c16f07) no-repeat;
   cursor: pointer;
   z-index: 1;
   -webkit-backface-visibility: hidden;
@@ -290,7 +290,7 @@ This set of fonts are used in this project under the license: (.....)
 @font-face {
   font-family: 'icomoon';
   src: url(/fonts/icomoon.eot?19138554da11ef943042d11808631cc5);
-  src: url(/fonts/icomoon.eot?19138554da11ef943042d11808631cc5) format("embedded-opentype"), url(/fonts/icomoon.ttf?39e775fd4ac4969245251d39f055dc65) format("truetype"), url(/fonts/icomoon.woff?fac3d2e902e54836fb0ba2e5251903e3) format("woff"), url(/fonts/icomoon.svg?25b33cf66e094144e039c192578ca9b1) format("svg");
+  src: url(/fonts/icomoon.eot?19138554da11ef943042d11808631cc5) format("embedded-opentype"), url(/fonts/icomoon.ttf?39e775fd4ac4969245251d39f055dc65) format("truetype"), url(/fonts/icomoon.woff?fac3d2e902e54836fb0ba2e5251903e3) format("woff"), url(/fonts/icomoon.svg?7b2c910406d848c08a4e1f93ff9b41f4) format("svg");
   font-weight: normal;
   font-style: normal;
 }

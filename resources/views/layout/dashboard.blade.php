@@ -5,22 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="author" content="پی خونه">
-    {{--<meta itemprop="name" content="Zillow Real Estate, Rentals, and Mortgage">--}}
-    {{--<meta itemprop="description" content="The most trafficked website about home sales and rentals, with real estate values for almost every U.S. home. 1,000,000 listings that you won't find on MLS.">--}}
-    {{--<link rel="start" title="Zillow home" href="/"> ?--}}
-    <meta name="theme-color" content="#007991">
-    <meta name="referrer" content="always">
+    <title>داشبرد آژانس پی خونه</title>
+    <meta name="title" content="داشبرد آژانس پی خونه">
 
-    <title>@yield('title')</title>
-    <meta name="title" content=">@yield('title')">
-    @yield('meta')
-
-<!-- Hi Framework -->
+    <!-- Hi Framework -->
     <link rel="stylesheet" href="{{asset('css/Hi_Framework.css')}}">
     <!-- App Css -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <!-- Fontawesome Css -->
     <link rel="stylesheet" href="https://lib.arvancloud.com/ar/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Dashboard Azhans Css -->
+    <link rel="stylesheet" href="{{asset('css/dashboard-azhans.css')}}">
 
     <link rel="stylesheet" href="{{asset('css/dashboard-azhans.css')}}">
 
@@ -194,7 +189,7 @@
 
 <!-- Pushy JS -->
 <script src="{{asset('js/app.js')}}"></script>
-<script src="{{asset('js/libraries.js')}}"></script>
+<script src="{{asset('js/azhans-dashboard.js')}}"></script>
 
 @yield('js_resources')
 

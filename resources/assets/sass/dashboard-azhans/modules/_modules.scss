@@ -1,3 +1,16 @@
+
+//----------- [ Horizontal Material Stepper Style ] -----------
+.stepper.horizontal:before{
+  content: none !important;
+}
+ul.stepper.horizontal .step.active .step-title:before, ul.stepper.horizontal .step.done .step-title:before{
+  background-color: $abi-roshan !important;
+}
+ul.stepper.horizontal .step.done .step-title:before{
+  font-family: FontAwesome;
+  content: '\f00c';
+}
+
 //----------- [ navBar dashboard  ] -----------
 .m-dashboard-navbar-padding {
   padding-right: 14.5%;
@@ -31,3 +44,4 @@
   webkit-transition: color 0.3s ease-in;
   transition: color 0.3s ease-in;
 }
+
