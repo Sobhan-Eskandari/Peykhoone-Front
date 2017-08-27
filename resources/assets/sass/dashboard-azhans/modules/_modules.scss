@@ -10,6 +10,11 @@ ul.stepper.horizontal .step.done .step-title:before{
   font-family: FontAwesome;
   content: '\f00c';
 }
+ul.stepper.horizontal{
+  width: 50% !important;
+  flex: auto;
+  margin: 10px auto;
+}
 
 //----------- [ navBar dashboard  ] -----------
 .m-dashboard-navbar-padding {
