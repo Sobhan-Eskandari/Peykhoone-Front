@@ -1,7 +1,7 @@
 <div class="row mt-0 header-text-box">
-    <img src="{{ asset('images/AzhansHeader.jpg') }}"
-         alt="خرید ملک در رشت"
-         width="100%" class="header-z-index">
+    <div class="col-12 p-0">
+        <img src="{{ asset('images/AzhansHeader.jpg') }}" alt="خرید ملک در رشت" class="img-fluid header-z-index">
+    </div>
 </div>
 <div class="row justify-content-center l-rtl m-dashboard-headerMenu">
     <div class="col-lg-4 col-md-7 col-sm-8 col-10">
