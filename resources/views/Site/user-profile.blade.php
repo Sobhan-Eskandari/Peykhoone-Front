@@ -5,4 +5,6 @@
     @include('includes.header-img')
 @endsection
 @section('content')
+
+    <!--upload img>
 @endsection
