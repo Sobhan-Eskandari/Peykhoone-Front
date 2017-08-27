@@ -7,14 +7,18 @@
 @endsection
 
 @section('content')
-    <div class="container mt-5">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <ul class="stepper horizontal l-rtl">
                     <li class="step active">
                         <div class="step-title waves-effect">جزئیات</div>
                         <div class="step-content">
-
+                            <div class="m-card-azhans py-5">
+                               @component('components.azhans-form-title')
+                                   @slot('title')مشخصات ملک@endslot
+                                @endcomponent
+                            </div>
                         </div>
                     </li>
                     <li class="step">
