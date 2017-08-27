@@ -1,16 +1,18 @@
-
 //----------- [ Horizontal Material Stepper Style ] -----------
-.stepper.horizontal:before{
+.stepper.horizontal:before {
   content: none !important;
 }
-ul.stepper.horizontal .step.active .step-title:before, ul.stepper.horizontal .step.done .step-title:before{
+
+ul.stepper.horizontal .step.active .step-title:before, ul.stepper.horizontal .step.done .step-title:before {
   background-color: $abi-roshan !important;
 }
-ul.stepper.horizontal .step.done .step-title:before{
+
+ul.stepper.horizontal .step.done .step-title:before {
   font-family: FontAwesome;
   content: '\f00c';
 }
-ul.stepper.horizontal{
+
+ul.stepper.horizontal {
   width: 50% !important;
   flex: auto;
   margin: 10px auto;
@@ -50,10 +52,21 @@ ul.stepper.horizontal{
   transition: color 0.3s ease-in;
 }
 
-.m-dashboard-breadcrumbs{
+.m-dashboard-breadcrumbs {
   background-color: transparent !important;
 }
-.m-dashboard-headerBox{
+
+.m-dashboard-headerBox {
   margin-top: -120px;
+}
+
+.m-dashboard-headerImg {
+  height: 400px;
+}
+
+@media (max-width: 900px) {
+  .m-dashboard-headerImg {
+    height: 300px;
+  }
 }
 

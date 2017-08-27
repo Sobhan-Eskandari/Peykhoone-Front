@@ -2,7 +2,7 @@
     <div class="col-12 px-0">
     <img src="{{ asset('images/AzhansHeader.jpg') }}"
          alt="خرید ملک در رشت"
-         width="100%" class="header-z-index" height="400px;">
+         width="100%" class="header-z-index m-dashboard-headerImg" height="400px;">
     </div>
 </div>
 <div class="row justify-content-center l-rtl m-dashboard-headerMenu">

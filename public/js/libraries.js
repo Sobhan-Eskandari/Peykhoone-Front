@@ -10233,7 +10233,7 @@ module.exports = g;
             checkboxName: false,
             includeSelectAllOption: false,
             includeSelectAllIfMoreThan: 0,
-            selectAllText: 'انتخاب همه',
+            selectAllText: ' Select all',
             selectAllValue: 'multiselect-all',
             selectAllName: false,
             selectAllNumber: true,
@@ -18204,30 +18204,6 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()('ul li a.m-dashboard-headerMenu-i
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()('ul li a.m-dashboard-headerMenu-item').removeClass("dashboard-Menu-is-active");
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).addClass("dashboard-Menu-is-active");
 });
-
-// $(window).scroll(function(){
-//     let scroll = $(window).scrollTop();
-//     if (scroll > 460) {
-//         $(".m-navBar-transparent").css("background" , "#282828");
-//
-//     }
-//     else{
-//         $(".m-navBar-transparent").css("background" , "transparent");
-//     }
-// });
-//
-// $(window).scroll(function() {
-//     let scroll = $(window).scrollTop();
-//
-//     //>=, not <=
-//     if (scroll >= 450) {
-//         //clearHeader, not clearheader - caps H
-//         $(".m-navBar-transparent").removeClass("mt-5");
-//     }else {
-//         $(".m-navBar-transparent").addClass("mt-5");
-//     }
-// }); //missing );
-
 
 // Home page hamkaran slider
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()(document).ready(function () {
