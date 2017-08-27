@@ -573,7 +573,7 @@ select.selectpicker {
 }
 
 .pure-checkbox input[type="checkbox"]:checked + label,
-.pure-radiobutton input[type="checkbox"]:checked + label {
+.pure-radiobutton input[type="radio"]:checked + label {
   color: black;
 }
 

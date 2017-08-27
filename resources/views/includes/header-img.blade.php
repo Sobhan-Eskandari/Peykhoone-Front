@@ -10,7 +10,7 @@
         <div class="simple-shadow-box">
             <ul class="list-inline py-2 mx-auto text-center">
                 <li class="list-inline-item px-5 py-1"><a href="#" class="text-center hi-fontSize-17 m-dashboard-headerMenu-item">آگهی ها</a></li>
-                <li class="list-inline-item px-5 py-1"><a href="#" class="text-center hi-fontSize-17 m-dashboard-headerMenu-item dashboard-Menu-is-active">پروفایل من</a></li>
+                <li class="list-inline-item px-5 py-1"><a href="#" class="text-center hi-fontSize-17 m-dashboard-headerMenu-item">پروفایل من</a></li>
             </ul>
         </div>
     </div>

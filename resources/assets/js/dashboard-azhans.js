@@ -1,13 +1,24 @@
 import 'materialize-stepper'
 import 'jquery'
 
-//****************** Site Loading ********************
 
+// ****************** Dropdowns Acitvator ********************
+$( document ).ready(function() {
+    $('.is-radio-dropdown').multiselect();
+
+    $('.is-checkbox-dropdown').multiselect({
+        nonSelectedText: 'انتخاب کنید',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+});
+
+
+//****************** Site Loading ********************
 $(window).load(function () {
     $("#loading").remove();
     $("#content").show();
 });
-
 
 // ****************** Horizental Stepper ********************
 $('.stepper').activateStepper({
@@ -17,15 +28,3 @@ $('.stepper').activateStepper({
     showFeedbackLoader: true //set if a loading screen will appear while feedbacks functions are running
 });
 
-// ****************** Translator ********************
-
-var arabicNumbers = ['۰', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-// $('.step-title').text(function(i, v) {
-//     var chars = v.split('');
-//     for (var i = 0; i < chars.length; i++) {
-//         if (/\d/.test(chars[i])) {
-//             chars[i] = arabicNumbers[chars[i]];
-//         }
-//     }
-//     return chars.join('');
-// });
