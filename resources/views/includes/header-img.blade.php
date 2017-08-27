@@ -1,8 +1,7 @@
 <div class="row header-text-box m-dashboard-headerBox">
     <div class="col-12 px-0">
     <img src="{{ asset('images/AzhansHeader.jpg') }}"
-         alt="خرید ملک در رشت"
-         width="100%" class="header-z-index" height="400px;">
+         alt="خرید ملک در رشت" class="header-z-index l-fullWidth" height="100%">
     </div>
 </div>
 <div class="row justify-content-center l-rtl m-dashboard-headerMenu">

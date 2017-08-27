@@ -760,14 +760,7 @@ ul.stepper .step-content .row {
 
 body {
   background-color: #FEFFFF;
-<<<<<<< HEAD
-  background-image: url("/images/5-خرید مرحله یک مسکونی.jpg");
-  background-size: 100% 100%;
-=======
   /*background-image: url("/images/5-خرید مرحله یک مسکونی.jpg");*/
-  background-size: cover;
-  height: 3000px;
->>>>>>> mersede
 }
 
 .stepper.horizontal:before {
