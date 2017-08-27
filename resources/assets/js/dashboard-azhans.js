@@ -28,3 +28,8 @@ $('.stepper').activateStepper({
     showFeedbackLoader: true //set if a loading screen will appear while feedbacks functions are running
 });
 
+
+//****************** Wave Js ********************
+Waves.attach('.is-wave-animated', ['waves-light']);
+Waves.attach('.is-wave-animated-dark', ['waves-block']);
+Waves.init();

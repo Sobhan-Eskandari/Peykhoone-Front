@@ -14,7 +14,7 @@
                     <li class="step active">
                         <div class="step-title waves-effect">جزئیات</div>
                         <div class="step-content">
-                            <div class="m-card-azhans pb-5">
+                            <div class="m-card-azhans pb-4">
 
                                 {{----------- [ Title of Form  ] -----------}}
                                @component('components.azhans-form-title')
@@ -73,23 +73,6 @@
                                 {{--------- [ Filedaie Moshakhasate melk  ] --------}}
                                 <div class="container-fluid px-5 mt-4">
 
-                                    {{----------- [  Masahat Haie khoone  ] -----------}}
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <p class="m-field-title"><span class="red-text">*</span> مساحت ساخته شده(متر مربع)</p>
-                                                <input class="m-field form-control" id="name" aria-describedby="name">
-                                                <div class="form-control-feedback hi-fontSize-12">وارد کردن مساحت ساخت (زیربنا) الزامی است</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <p class="m-field-title">مساحت زمین(متر مربع)</p>
-                                                <input class="m-field form-control" id="name" aria-describedby="name">
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     {{----------- [ Tedade otagh - Tedade Parking  ] -----------}}
                                     <div class="row l-rtl Topbar_dropdown mt-4">
                                         <div class="col-md-3">
@@ -108,9 +91,22 @@
                                         </div>
                                     </div>
 
-                                    {{----------- [  Sale Sakht  ] -----------}}
+                                    {{----------- [  Masahat Haie khoone va sale sakht  ] -----------}}
                                     <div class="row mt-5">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <p class="m-field-title"><span class="red-text">*</span> مساحت ساخته شده(متر مربع)</p>
+                                                <input class="m-field form-control" id="name" aria-describedby="name">
+                                                <div class="form-control-feedback hi-fontSize-12">وارد کردن مساحت ساخت (زیربنا) الزامی است</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <p class="m-field-title">مساحت زمین(متر مربع)</p>
+                                                <input class="m-field form-control" id="name" aria-describedby="name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <p class="m-field-title"><span class="red-text">*</span>سال ساخت (هجری شمسی)</p>
                                                 <input class="m-field form-control" id="name" aria-describedby="name">
@@ -120,7 +116,7 @@
                                     </div>
 
                                     {{----------- [  Vaziate Melk  ] -----------}}
-                                    <div class="row mt-3">
+                                    <div class="row mt-4">
                                         <div class="col-auto">
                                             <div class="pure-radiobutton mr-3 l-fullWidth text-right">
                                                 <input checked id="rahnoejare" name="radiobutton" type="radio">
@@ -164,7 +160,7 @@
                                 {{--------- [ Filedaie Address va moghieate melk  ] --------}}
                                 <div class="container-fluid px-5 my-4">
 
-                                    {{----------- [ Noe va Daste bandie Melk - Modate Agahi  ] -----------}}
+                                    {{----------- [ Ostano shahro mahale Agahi  ] -----------}}
                                     <div class="row l-rtl Topbar_dropdown">
                                         <div class="col-md-3">
                                             <p class="m-field-title"><span class="red-text">*</span>استان</p>
@@ -189,7 +185,50 @@
                                             </select>
                                         </div>
                                     </div>
+
+                                    {{----------- [  Address Melk  ] -----------}}
+                                    <div class="row mt-5">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <p class="m-field-title"><span class="red-text">*</span>آدرس ملک</p>
+                                                <input class="m-field form-control" id="name" aria-describedby="name">
+                                                <div class="form-control-feedback hi-fontSize-12">درج آدرس پستی ملک تا سرحد خیابان فرعی و یا کوچه الزامی است (مثال: میدان رز - خیابان مریم - کوچه سوم).</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="pure-checkbox l-fullWidth mt-2 text-right">
+                                                <input id="rahnoejare" name="checkbox" type="checkbox">
+                                                <label class="m-form-label" for="rahnoejare">آدرس ذکر شده در بالا را به عموم نمایش ندهید</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{----------- [  Map Section  ] -----------}}
+                                    <div class="row mt-5">
+                                        <div class="col-md-9 align-self-center">
+                                            <p class="white-text mb-0 py-2 px-3 ocean rounded-6"><span class="icon-placeholder"></span> با کلیک کردن روی نقشه موقعیت دقیق ملک را ثبت کنید</p>
+                                        </div>
+                                        <div class="col-9">
+                                            <div id="google-map-rounded" class="google-map mt-3" style="height: 300px"></div>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            <div class="pure-checkbox l-fullWidth mt-2 text-right">
+                                                <input id="rahnoejare" name="checkbox" type="checkbox">
+                                                <label class="m-form-label" for="rahnoejare"> محل مشخص شده ملک در نقشه بالا را به صورت حدودی به عموم نمایش دهید!</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
+
+                                <div class="container-fluid px-5">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button class="is-wave-animated m-btn ocean next-step px-3">  ثبت و مرحله بعد <i class="fa fa-chevron-left"></i> </button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </li>
@@ -217,7 +256,31 @@
 
 
 @section('js_resources')
+    <script>
+        function initMap() {
+            var uluru = {lat: 48.8583739, lng: 2.2924872};
+            var map = new google.maps.Map(document.getElementById('google-map-rounded'), {
+                zoom: 14,
+                center: uluru,
+                scrollwheel: false
+            });
+            var marker = new google.maps.Marker({
+                position: uluru,
+                map: map
+            });
+
+            google.maps.event.addListener(map, 'idle', function () {
+                google.maps.event.trigger(map, 'resize');
+                google.maps.event.trigger(map, 'dblclick');
+            });
+            google.maps.event.trigger(map, 'resize');
+        }
+
+    </script>
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaKuMOTrKgymjzEvHe_Rz7SDzUIZnvNrQ&callback=initMap">
+    </script>
 
 @endsection
-
 

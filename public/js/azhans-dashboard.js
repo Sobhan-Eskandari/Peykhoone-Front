@@ -13720,6 +13720,11 @@ $('.stepper').activateStepper({
     autoFormCreation: true, //control the auto generation of a form around the stepper (in case you want to disable it)
     showFeedbackLoader: true //set if a loading screen will appear while feedbacks functions are running
 });
+
+//****************** Wave Js ********************
+Waves.attach('.is-wave-animated', ['waves-light']);
+Waves.attach('.is-wave-animated-dark', ['waves-block']);
+Waves.init();
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),

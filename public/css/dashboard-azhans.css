@@ -815,14 +815,6 @@ ul.stepper.horizontal .step.done .step-title:before {
   content: '\F00C';
 }
 
-ul.stepper.horizontal {
-  width: 50% !important;
-  -webkit-box-flex: 1;
-      -ms-flex: auto;
-          flex: auto;
-  margin: 10px auto;
-}
-
 ul.stepper {
   padding: 10px 20%;
 }
