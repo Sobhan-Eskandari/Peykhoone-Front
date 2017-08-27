@@ -3,7 +3,7 @@
 /* Color palette */
 body {
   background-color: #FEFFFF;
-  background-image: url("/images/5-خرید مرحله یک مسکونی.jpg");
+  /*background-image: url("/images/5-خرید مرحله یک مسکونی.jpg");*/
   background-size: cover;
   height: 3000px; }
 
@@ -44,6 +44,9 @@ ul.stepper.horizontal .step.done .step-title:before {
 
 .m-dashboard-breadcrumbs {
   background-color: transparent !important; }
+
+.m-dashboard-headerBox {
+  margin-top: -120px; }
 
 .m-dashboad-nav-dropItem:active {
   background-color: #007991 !important; }
