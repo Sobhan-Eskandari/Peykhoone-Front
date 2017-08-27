@@ -1,6 +1,14 @@
 import 'materialize-stepper'
 import 'jquery'
 
+//****************** Site Loading ********************
+
+$(window).load(function () {
+    $("#loading").remove();
+    $("#content").show();
+});
+
+
 // ****************** Horizental Stepper ********************
 $('.stepper').activateStepper({
     linearStepsNavigation: true, //allow navigation by clicking on the next and previous steps on linear steppers

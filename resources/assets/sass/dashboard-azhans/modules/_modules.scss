@@ -5,3 +5,7 @@
 ul.stepper.horizontal .step.active .step-title:before, ul.stepper.horizontal .step.done .step-title:before{
   background-color: $abi-roshan !important;
 }
+ul.stepper.horizontal .step.done .step-title:before{
+  font-family: FontAwesome;
+  content: '\f00c';
+}

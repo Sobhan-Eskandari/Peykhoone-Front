@@ -366,10 +366,13 @@ ul.stepper .step-actions .btn:not(:last-child), ul.stepper .step-actions .btn-fl
 ul.stepper .step-content .row {
    margin-bottom: 7px;
 }
+@charset "UTF-8";
+
 /* Color palette */
 
 body {
   background-color: #FEFFFF;
+  background-image: url("/images/5-خرید مرحله یک مسکونی.jpg");
   background-size: cover;
   height: 3000px;
 }
@@ -381,5 +384,10 @@ body {
 ul.stepper.horizontal .step.active .step-title:before,
 ul.stepper.horizontal .step.done .step-title:before {
   background-color: #36BFD9 !important;
+}
+
+ul.stepper.horizontal .step.done .step-title:before {
+  font-family: FontAwesome;
+  content: '\F00C';
 }
 
