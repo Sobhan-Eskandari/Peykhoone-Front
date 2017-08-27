@@ -366,8 +366,6 @@ ul.stepper .step-actions .btn:not(:last-child), ul.stepper .step-actions .btn-fl
 ul.stepper .step-content .row {
    margin-bottom: 7px;
 }
-@charset "UTF-8";
-
 /*
  * The MIT License
  * Copyright (c) 2012 Matias Meno <m@tias.me>
@@ -760,7 +758,6 @@ ul.stepper .step-content .row {
 
 body {
   background-color: #FEFFFF;
-  /*background-image: url("/images/5-خرید مرحله یک مسکونی.jpg");*/
 }
 
 .stepper.horizontal:before {
@@ -825,6 +822,16 @@ ul.stepper.horizontal {
 
 .m-dashboard-headerBox {
   margin-top: -120px;
+}
+
+.m-dashboard-headerImg {
+  height: 400px;
+}
+
+@media (max-width: 900px) {
+  .m-dashboard-headerImg {
+    height: 300px;
+  }
 }
 
 .m-dashboad-nav-dropItem:active {
