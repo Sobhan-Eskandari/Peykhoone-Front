@@ -760,6 +760,30 @@ body {
   background-color: #FEFFFF;
 }
 
+.m-card-azhans {
+  /* Rectangle 12: */
+  background: #FFFFFF;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16);
+          box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16);
+  border-radius: 8px;
+}
+
+.m-azshansform-title {
+  /* مشخصات ملک: */
+  font-weight: bold;
+  color: #37BED8;
+  margin-right: 20px;
+  font-size: 20px;
+  letter-spacing: 0.27px;
+  margin-bottom: 0;
+}
+
+.m-azhansform-line {
+  /* Line 4 Copy: */
+  border: 4px solid #37BED8;
+  width: 50px;
+}
+
 .stepper.horizontal:before {
   content: none !important;
 }
@@ -774,12 +798,14 @@ ul.stepper.horizontal .step.done .step-title:before {
   content: '\F00C';
 }
 
-ul.stepper.horizontal {
-  width: 50% !important;
-  -webkit-box-flex: 1;
-      -ms-flex: auto;
-          flex: auto;
-  margin: 10px auto;
+ul.stepper {
+  padding: 10px 20%;
+}
+
+ul.stepper.horizontal .step {
+  -webkit-box-flex: 1 !important;
+      -ms-flex: 1 !important;
+          flex: 1 !important;
 }
 
 .m-dashboard-navbar-padding {
