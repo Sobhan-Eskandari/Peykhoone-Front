@@ -18205,26 +18205,28 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()('ul li a.m-dashboard-headerMenu-i
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).addClass("dashboard-Menu-is-active");
 });
 
-__WEBPACK_IMPORTED_MODULE_2_jquery___default()(window).scroll(function () {
-    var scroll = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(window).scrollTop();
-    if (scroll > 460) {
-        __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".m-navBar-transparent").css("background", "#282828");
-    } else {
-        __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".m-navBar-transparent").css("background", "transparent");
-    }
-});
-
-__WEBPACK_IMPORTED_MODULE_2_jquery___default()(window).scroll(function () {
-    var scroll = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(window).scrollTop();
-
-    //>=, not <=
-    if (scroll >= 450) {
-        //clearHeader, not clearheader - caps H
-        __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".m-navBar-transparent").removeClass("mt-5");
-    } else {
-        __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".m-navBar-transparent").addClass("mt-5");
-    }
-}); //missing );
+// $(window).scroll(function(){
+//     let scroll = $(window).scrollTop();
+//     if (scroll > 460) {
+//         $(".m-navBar-transparent").css("background" , "#282828");
+//
+//     }
+//     else{
+//         $(".m-navBar-transparent").css("background" , "transparent");
+//     }
+// });
+//
+// $(window).scroll(function() {
+//     let scroll = $(window).scrollTop();
+//
+//     //>=, not <=
+//     if (scroll >= 450) {
+//         //clearHeader, not clearheader - caps H
+//         $(".m-navBar-transparent").removeClass("mt-5");
+//     }else {
+//         $(".m-navBar-transparent").addClass("mt-5");
+//     }
+// }); //missing );
 
 
 // Home page hamkaran slider

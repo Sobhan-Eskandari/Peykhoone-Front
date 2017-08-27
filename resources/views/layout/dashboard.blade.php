@@ -44,7 +44,7 @@
 
     <header class="push m-dashboard-header">
         <div class="container-fluid px-0 l-rtl hidden-md-down">
-            <nav class="navbar navbar-toggleable-md navbar-light py-1 m-navBar fixed-top @yield('backColor') @yield('marginTop') dashboard-nav">
+            <nav class="navbar navbar-toggleable-md navbar-light py-1 m-navBar @yield('backColor') @yield('marginTop') dashboard-nav">
                 <div class="collapse navbar-collapse cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left m-dashboard-navbar-padding"
                      id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto pt-3 pb-2">
