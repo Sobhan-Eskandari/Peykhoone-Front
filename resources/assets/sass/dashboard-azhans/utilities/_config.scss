@@ -2,13 +2,45 @@
 // Global Config
 // ==========================================================================
 
+// Font Weights
+
+$font-weight--thin       : 100;
+$font-weight--light      : 300;
+$font-weight--medium     : 400;
+$font-weight--bold       : 700;
+$font-weight--ultra-bold : 900;
+
 /* Color palette */
 
+
 $abi-roshan : #36BFD9;
+$light-aquamarine: #73f9d3;
+$ocean: #007991;
+$white-two: #eeeeee;
+$black: #282828;
+$white: #f4f4f4;
+$warm-grey: #787878;
+$black-darker: #111111;
+$filter-khakestari : #949494;
+$gradient : linear-gradient(-180deg, #007991 0%, #63E7CA 100%);
+
 
 // Text
 
+$base__font-size : 16px;
+
 // Border radius
 
+$br-one    : 4px;
+$br-two    : 5px;
+$br-three    : 8px;
+$br-four  : 10px;
+$br-five   : 60px;
+
+
 // Transitions
+
+$trns-duration  : .3s;
+
+
 

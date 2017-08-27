@@ -17,6 +17,8 @@
     <!-- Dashboard Azhans Css -->
     <link rel="stylesheet" href="{{asset('css/dashboard-azhans.css')}}">
 
+    <link rel="stylesheet" href="{{asset('css/dashboard-azhans.css')}}">
+
     @yield('css_resources')
 </head>
 
