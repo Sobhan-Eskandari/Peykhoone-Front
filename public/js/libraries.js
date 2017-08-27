@@ -10233,7 +10233,7 @@ module.exports = g;
             checkboxName: false,
             includeSelectAllOption: false,
             includeSelectAllIfMoreThan: 0,
-            selectAllText: 'انتخاب همه',
+            selectAllText: ' Select all',
             selectAllValue: 'multiselect-all',
             selectAllName: false,
             selectAllNumber: true,

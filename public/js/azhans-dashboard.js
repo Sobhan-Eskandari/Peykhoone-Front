@@ -10206,7 +10206,7 @@ return jQuery;
             checkboxName: false,
             includeSelectAllOption: false,
             includeSelectAllIfMoreThan: 0,
-            selectAllText: 'انتخاب همه',
+            selectAllText: ' Select all',
             selectAllValue: 'multiselect-all',
             selectAllName: false,
             selectAllNumber: true,
@@ -11314,9 +11314,9 @@ return jQuery;
 /***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
+__webpack_require__(4);
 __webpack_require__(60);
 __webpack_require__(61);
-__webpack_require__(4);
 module.exports = __webpack_require__(63);
 
 
@@ -13902,9 +13902,9 @@ $.fn.closeAction = function(order, callback) {
       closable.stop().slideUp(300,"easeOutQuad", callback);
    } else {
       if(order==1) {
-          closable.animate({left: '100%'},function(){closable.css({display: 'none', left: '0%'}, callback);});
+         closable.animate({left: '-100%'},function(){closable.css({display: 'none', left: '0%'}, callback);});
       } else {
-          closable.animate({left: '-100%'},function(){closable.css({display: 'none', left: '0%'}, callback);});
+         closable.animate({left: '100%'},function(){closable.css({display: 'none', left: '0%'}, callback);});
       }
    }
 };
@@ -13915,9 +13915,9 @@ $.fn.openAction = function(order, callback) {
       openable.slideDown(300,"easeOutQuad", callback);
    } else {
       if(order==1) {
-          openable.css({left: '-100%', display: 'block'}).animate({left: '0%'}, callback);
+         openable.css({left: '100%', display: 'block'}).animate({left: '0%'}, callback);
       } else {
-          openable.css({left: '100%', display: 'block'}).animate({left: '0%'}, callback);
+         openable.css({left: '-100%', display: 'block'}).animate({left: '0%'}, callback);
       }
    }
 };

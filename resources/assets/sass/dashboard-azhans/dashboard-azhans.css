@@ -431,11 +431,39 @@
 
 /* Color palette */
 body {
-  background-color: #FEFFFF;
-  /*background-image: url("/images/5-خرید مرحله یک مسکونی.jpg");*/
-  background-size: 100% 100%;
-  background-size: cover;
-  height: 3000px; }
+  background-color: #FEFFFF; }
+
+.m-card-azhans {
+  /* Rectangle 12: */
+  background: #FFFFFF;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16);
+  border-radius: 8px; }
+
+.m-azshansform-title {
+  /* مشخصات ملک: */
+  font-weight: bold;
+  color: #37BED8;
+  margin-right: 20px;
+  font-size: 20px;
+  letter-spacing: 0.27px;
+  margin-bottom: 0; }
+
+.m-azhansform-line {
+  /* Line 4 Copy: */
+  border: 4px solid #37BED8;
+  width: 50px; }
+
+.m-form-label {
+  color: #949494;
+  font-size: 14px;
+  font-weight: 300; }
+
+.m-field-title {
+  font-size: 15px;
+  font-weight: 400; }
+
+.form-control-feedback {
+  color: #69676A; }
 
 .stepper.horizontal:before {
   content: none !important; }
@@ -447,10 +475,17 @@ ul.stepper.horizontal .step.done .step-title:before {
   font-family: FontAwesome;
   content: '\f00c'; }
 
+ul.stepper {
+  padding: 10px 20%; }
+
 ul.stepper.horizontal {
-  width: 50% !important;
-  flex: auto;
-  margin: 10px auto; }
+  position: inherit !important; }
+
+ul.stepper.horizontal .step {
+  flex: 1 !important; }
+
+ul.stepper.horizontal .step-content {
+  height: auto !important; }
 
 .m-dashboard-navbar-padding {
   padding-right: 14.5%;
