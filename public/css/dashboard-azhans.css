@@ -366,6 +366,8 @@ ul.stepper .step-actions .btn:not(:last-child), ul.stepper .step-actions .btn-fl
 ul.stepper .step-content .row {
    margin-bottom: 7px;
 }
+@charset "UTF-8";
+
 /*
  * The MIT License
  * Copyright (c) 2012 Matias Meno <m@tias.me>
@@ -784,6 +786,21 @@ body {
   width: 50px;
 }
 
+.m-form-label {
+  color: #949494;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.m-field-title {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.form-control-feedback {
+  color: #69676A;
+}
+
 .stepper.horizontal:before {
   content: none !important;
 }
@@ -802,10 +819,18 @@ ul.stepper {
   padding: 10px 20%;
 }
 
+ul.stepper.horizontal {
+  position: inherit !important;
+}
+
 ul.stepper.horizontal .step {
   -webkit-box-flex: 1 !important;
       -ms-flex: 1 !important;
           flex: 1 !important;
+}
+
+ul.stepper.horizontal .step-content {
+  height: auto !important;
 }
 
 .m-dashboard-navbar-padding {

@@ -5,6 +5,7 @@
   border-radius: 8px;
 }
 
+//----------- [ Forms Style ] -----------
 .m-azshansform-title{
   /* مشخصات ملک: */
   font-weight: bold;
@@ -20,6 +21,20 @@
   width: 50px;
 }
 
+.m-form-label {
+  color: #949494 ;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.m-field-title{
+  font-size: 15px;
+  font-weight: 400;
+}
+.form-control-feedback{
+  color: #69676A;
+}
+
 //----------- [ Horizontal Material Stepper Style ] -----------
 .stepper.horizontal:before {
   content: none !important;
@@ -27,23 +42,22 @@
 ul.stepper.horizontal .step.active .step-title:before, ul.stepper.horizontal .step.done .step-title:before {
   background-color: $abi-roshan !important;
 }
-
 ul.stepper.horizontal .step.done .step-title:before {
   font-family: FontAwesome;
   content: '\f00c';
 }
-ul.stepper.horizontal {
-  width: 50% !important;
-  flex: auto;
-  margin: 10px auto;
-}
 ul.stepper{
   padding: 10px 20%;
+}
+ul.stepper.horizontal{
+  position: inherit !important;
 }
 ul.stepper.horizontal .step{
   flex: 1 !important;
 }
-
+ul.stepper.horizontal .step-content{
+  height: auto !important;
+}
 //----------- [ navBar dashboard  ] -----------
 .m-dashboard-navbar-padding {
   padding-right: 14.5%;
