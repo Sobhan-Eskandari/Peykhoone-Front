@@ -489,6 +489,10 @@ ul.stepper.horizontal {
 @media (max-width: 900px) {
   .m-dashboard-headerImg {
     height: 300px; } }
+.m-userPro-color {
+  color: dimgray;
+  border-top: 1.2px solid; }
+
 .m-dashboad-nav-dropItem:active {
   background-color: #007991 !important; }
 
