@@ -13,3 +13,16 @@
         </div>
     </div>
 </div>
+<!--breadcrumbs-->
+<div class="container-fluid l-rtl">
+    <div class="row justify-content-center">
+        <div class="col-12 px-0">
+            <ol class="breadcrumb m-dashboard-breadcrumbs">
+                <li class="breadcrumb-item m-breadcrumb-item"><a href="#">خانه</a></li>
+                <li class="breadcrumb-item m-breadcrumb-item"><a href="#">پروفایل من</a></li>
+                <li class="breadcrumb-item m-breadcrumb-item">ویرایش اطلاعات</li>
+                <li class="breadcrumb-item m-breadcrumb-item">-</li>
+            </ol>
+        </div>
+    </div>
+</div>
