@@ -366,6 +366,8 @@ ul.stepper .step-actions .btn:not(:last-child), ul.stepper .step-actions .btn-fl
 ul.stepper .step-content .row {
    margin-bottom: 7px;
 }
+@charset "UTF-8";
+
 /*
  * The MIT License
  * Copyright (c) 2012 Matias Meno <m@tias.me>
@@ -796,6 +798,14 @@ ul.stepper.horizontal .step.done .step-title:before {
 ul.stepper.horizontal .step.done .step-title:before {
   font-family: FontAwesome;
   content: '\F00C';
+}
+
+ul.stepper.horizontal {
+  width: 50% !important;
+  -webkit-box-flex: 1;
+      -ms-flex: auto;
+          flex: auto;
+  margin: 10px auto;
 }
 
 ul.stepper {
