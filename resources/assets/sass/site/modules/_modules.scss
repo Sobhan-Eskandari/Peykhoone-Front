@@ -624,6 +624,8 @@ body {
   border: transparent;
   border-top: 3px solid #dbdbdb;
   background-color: $white;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .m-field.form-control:focus {
@@ -874,6 +876,10 @@ map > div {
 
 #google-map {
   -webkit-border-radius: 0 0 10px 10px;
+  z-index: 0;
+}
+#google-map-rounded {
+  -webkit-border-radius: 10px 10px 10px 10px;
   z-index: 0;
 }
 
