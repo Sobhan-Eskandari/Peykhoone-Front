@@ -11761,6 +11761,8 @@ body {
   border: transparent;
   border-top: 3px solid #dbdbdb;
   background-color: #f4f4f4;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .m-field.form-control:focus {

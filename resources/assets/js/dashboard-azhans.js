@@ -1,5 +1,6 @@
 import 'materialize-stepper'
 import 'jquery'
+import 'node-waves'
 
 
 // ****************** Dropdowns Acitvator ********************
