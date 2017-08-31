@@ -24981,9 +24981,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jquery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_node_waves__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_node_waves___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_node_waves__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_mixitup__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_mixitup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_mixitup__);
 
 
 
+
+
+// ****************** Animate Css ********************
+$.fn.extend({
+    animateCss: function animateCss(animationName) {
+        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        this.addClass('animated ' + animationName).one(animationEnd, function () {
+            $(this).removeClass('animated ' + animationName);
+        });
+        return this;
+    }
+});
 
 // ****************** Dropdowns Acitvator ********************
 $(document).ready(function () {
@@ -25011,9 +25025,110 @@ $('.stepper').activateStepper({
 });
 
 //****************** Wave Js ********************
-Waves.attach('.is-wave-animated', ['waves-light']);
-Waves.attach('.is-wave-animated-dark', ['waves-block']);
-Waves.init();
+__WEBPACK_IMPORTED_MODULE_2_node_waves___default.a.attach('.is-wave-animated', ['waves-light']);
+__WEBPACK_IMPORTED_MODULE_2_node_waves___default.a.attach('.is-wave-animated-dark', ['waves-block']);
+__WEBPACK_IMPORTED_MODULE_2_node_waves___default.a.init();
+
+//************ Show and hide Rahno ejare va kharid pishkharid **************
+var rahn_ejare_section = $("#is-rahn-ejare-section");
+var foroosh_pishforoosh_section = $("#is-foroosh-pishforoosh-section");
+var sanad_section = $("#is-sanad-section");
+rahn_ejare_section.hide();
+$("#rahn_ejare").click(function () {
+    foroosh_pishforoosh_section.hide();
+    sanad_section.hide();
+    rahn_ejare_section.show();
+});
+$("#foroosh_pishforoosh").click(function () {
+    setTimeout(function () {
+        foroosh_pishforoosh_section.show();
+        sanad_section.show();
+        rahn_ejare_section.hide();
+    }, 500);
+});
+
+//********** Show and hide مسکونی خانه  ************
+var config = {
+    animation: {
+        enable: false
+    },
+    selectors: {
+        target: '.mix'
+    }
+};
+var mixer = __WEBPACK_IMPORTED_MODULE_3_mixitup___default()('.mix-container', config);
+mixer.filter('.is-typeof-maskooni');
+$('#noe_melk').change(function () {
+    if ($(this).find(':selected').val() === '1') {
+        mixer.filter('.is-typeof-maskooni');
+    } else if ($(this).find(':selected').val() === '2') {
+        mixer.filter('.is-typeof-edari');
+    } else if ($(this).find(':selected').val() === '3') {
+        mixer.filter('.is-typeof-tejari');
+    } else if ($(this).find(':selected').val() === '4') {
+        mixer.filter('.is-typeof-zamin');
+    } else if ($(this).find(':selected').val() === '5') {
+        mixer.filter('.is-typeof-mostaghelat');
+    }
+});
+
+//************ Show and hide Chansal sakht va kolangi **************
+var bazsazishodeParent = $("#bazsazishode").parent();
+var ghabeleSokoonatParent = $("#ghabele_sokoonat").parent();
+bazsazishodeParent.hide();
+ghabeleSokoonatParent.hide();
+$("#nosaz").click(function () {
+    bazsazishodeParent.hide();
+    ghabeleSokoonatParent.hide();
+});
+$("#chansalsakht").click(function () {
+    bazsazishodeParent.show();
+    ghabeleSokoonatParent.hide();
+});
+$("#kolangi").click(function () {
+    bazsazishodeParent.show();
+    ghabeleSokoonatParent.show();
+});
+
+//************ Show and hide معاوضه **************
+$("#saghfe_mablagh_moaveze").parent().parent().slideUp();
+$('#moaveze').change(function () {
+    if (this.checked) {
+        $("#saghfe_mablagh_moaveze").parent().parent().slideDown();
+    } else {
+        $("#saghfe_mablagh_moaveze").parent().parent().slideUp();
+    }
+});
+
+//************ Show and hide پیش فروش **************
+$("#is-pishforoosh-section").slideUp();
+$('#pishforoosh').change(function () {
+    if (this.checked) {
+        $("#is-pishforoosh-section").slideDown();
+    } else {
+        $("#is-pishforoosh-section").slideUp();
+    }
+});
+
+//************ Show and hide دارای وام **************
+$("#is-daraievam-section").slideUp();
+$('#daraievam').change(function () {
+    if (this.checked) {
+        $("#is-daraievam-section").slideDown();
+    } else {
+        $("#is-daraievam-section").slideUp();
+    }
+});
+
+//************ Show and hide فروش با مستاجر  **************
+$("#is-forooshBaMostajer-section").slideUp();
+$('#foroosh_ba_mostajer').change(function () {
+    if (this.checked) {
+        $("#is-forooshBaMostajer-section").slideDown();
+    } else {
+        $("#is-forooshBaMostajer-section").slideUp();
+    }
+});
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
