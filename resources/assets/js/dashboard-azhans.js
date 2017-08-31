@@ -52,7 +52,15 @@ $("#foroosh_pishforoosh").click(function () {
 });
 
 //********** Show and hide مسکونی خانه  ************
-var mixer = mixitup('.mix-container');
+var config = {
+    animation: {
+        enable: false
+    },
+    selectors: {
+        target: '.mix'
+    }
+};
+var mixer = mixitup('.mix-container',config);
 mixer.filter('.is-typeof-maskooni');
 $('#noe_melk').change(function() {
     // if ($(this).find(':selected').text() === 'مسکونی (خانه)') {

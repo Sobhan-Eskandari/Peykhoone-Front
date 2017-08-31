@@ -39,7 +39,7 @@
 
                                     {{----------- [ * نوع ملک - دسته بندی ملک - کاربری کنونی زمین - مدت اعتبار آگهی  ] -----------}}
                                     <div class="row l-rtl Topbar_dropdown">
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 mix is-typeof-maskooni is-typeof-edari is-typeof-zamin is-typeof-tejari is-typeof-mostaghelat">
                                             <label for="noe_melk" class="m-field-title"><span class="red-text">*</span> نوع ملک</label>
                                             <select id="noe_melk" name="noe_melk" class="is-radio-dropdown">
                                                 <option value="1">مسکونی (خانه)</option>
@@ -59,7 +59,7 @@
                                             </select>
                                         </div>
                                         {{--done--}}
-                                        <div class="col-md-3 mix is-typeof-mostaghelat" data-order="2">
+                                        <div class="col-md-3 mix is-typeof-mostaghelat" >
                                             <label for="dastebandie_mostaghelat" class="m-field-title"><span class="red-text">*</span> دسته بندی ملک</label>
                                             <select id="dastebandie_mostaghelat" name="dastebandie_mostaghelat" class="is-radio-dropdown">
                                                 <option value="ac101">باغ - باغچه</option>
@@ -85,7 +85,7 @@
                                             </select>
                                         </div>
                                         {{--done--}}
-                                        <div class="col-md-3 mix is-typeof-zamin" data-order="3">
+                                        <div class="col-md-3 mix is-typeof-zamin" >
                                             <label for="karbarie_zamin" class="m-field-title"><span class="red-text">*</span>کاربری کنونی زمین</label>
                                             <select id="karbarie_zamin" name="karbarie_zamin" class="is-radio-dropdown">
                                                 <option value="cheese">مسکونی</option>
@@ -105,7 +105,7 @@
                                             </select>
                                         </div>
                                         {{--done--}}
-                                        <div class="col-md-3 mix is-typeof-edari is-typeof-mostaghelat is-typeof-tejari is-typeof-maskooni is-typeof-zamin" data-order="4">
+                                        <div class="col-md-3 mix is-typeof-edari is-typeof-mostaghelat is-typeof-tejari is-typeof-maskooni is-typeof-zamin" >
                                             <label for="modate_agahi" class="m-field-title"><span class="red-text">*</span>مدت اعتبار آگهی</label>
                                             <select name="modate_agahi" id="modate_agahi" class="is-radio-dropdown">
                                                 <option value="1">۱ ماه</option>
@@ -122,12 +122,12 @@
                                 @endcomponent
 
                                 {{--------- [ Filedaie Moshakhasate melk  ] --------}}
-                                <div class="container-fluid px-5 mt-4 mix is-typeof-tejari is-typeof-maskooni is-typeof-edari is-typeof-mostaghelat is-typeof-zamin">
+                                <div class="container-fluid px-5 mt-4">
 
                                     {{----------- [  Masahat Haie khoone va sale sakht  ] -----------}}
-                                    <div class="row mt-5 mix is-typeof-maskooni is-typeof-edari is-typeof-mostaghelat is-typeof-zamin">
+                                    <div class="row mt-3 mix is-typeof-maskooni is-typeof-edari is-typeof-mostaghelat is-typeof-zamin">
                                         {{--done--}}
-                                        <div class="col-md-4 mix is-typeof-maskooni is-typeof-edari" data-order="9">
+                                        <div class="col-md-5 mix is-typeof-maskooni is-typeof-edari" >
                                             <div class="form-group">
                                                 <label for="masahate_sakhteShode" class="m-field-title"><span class="red-text">*</span> مساحت ساخته شده(متر مربع)</label>
                                                 <input type="number" min="10" class="m-field form-control" id="masahate_sakhteShode" aria-describedby="masahate_sakhteShode">
@@ -135,7 +135,7 @@
                                             </div>
                                         </div>
                                         {{--done--}}
-                                        <div class="col-md-4 mix is-typeof-mostaghelat" data-order="10">
+                                        <div class="col-md-4 mix is-typeof-mostaghelat" >
                                             <div class="form-group">
                                                 <label for="masahate_kol" class="m-field-title"><span class="red-text">*</span>مساحت کل بنای ساخته شده (متر مربع)</label>
                                                 <input class="m-field form-control" id="masahate_kol" aria-describedby="masahate_kol">
@@ -143,14 +143,14 @@
                                             </div>
                                         </div>
                                         {{--done--}}
-                                        <div class="col-md-4 mix is-typeof-maskooni is-typeof-mostaghelat" data-order="11">
+                                        <div class="col-md-5 mix is-typeof-maskooni is-typeof-edari is-typeof-mostaghelat" >
                                             <div class="form-group">
                                                 <label for="masahate_zamin" class="m-field-title">مساحت زمین(متر مربع)</label>
                                                 <input type="number" min="10" class="m-field form-control" id="masahate_zamin" aria-describedby="masahate_zamin">
                                             </div>
                                         </div>
                                         {{--done--}}
-                                        <div class="col-md-4 mix is-typeof-zamin" data-order="12">
+                                        <div class="col-md-6 mix is-typeof-zamin" >
                                             <div class="form-group">
                                                 <label for="masahate_zamin_eslah" class="m-field-title"><span class="red-text">*</span> *مساحت زمین پس از اصلاحی (متر مربع)</label>
                                                 <input type="number" min="10" class="m-field form-control" id="masahate_zamin_eslah" aria-describedby="masahate_zamin_eslah">
@@ -158,10 +158,30 @@
                                         </div>
                                     </div>
 
-                                    {{----------- [ Tedade otagh - Tedade Parking  ] -----------}}
-                                    <div class="row l-rtl Topbar_dropdown mt-2 mix is-typeof-edari is-typeof-tejari is-typeof-maskooni">
+                                    {{----------- [  Masahat Haie khoone va sale sakht  ] -----------}}
+                                    <div class="row mt-3 mix is-typeof-tejari" >
                                         {{--done--}}
-                                        <div class="col-md-3 mix is-typeof-edari" data-order="5">
+                                        <div class="col-md-5 mix is-typeof-tejari">
+                                            <div class="form-group">
+                                                <label for="masahate_kaf" class="m-field-title">مساحت کف (متر مربع)</label>
+                                                <input type="number" min="10" class="m-field form-control" id="masahate_kaf" aria-describedby="masahate_kaf">
+                                                <div class="form-control-feedback hi-fontSize-12">وارد کردن مساحت ساخت (زیربنا) الزامی است</div>
+                                            </div>
+                                        </div>
+                                        {{--done--}}
+                                        <div class="col-md-5 mix is-typeof-tejari">
+                                            <div class="form-group">
+                                                <label for="masahate_balkon_nimtabaghe" class="m-field-title">مساحت بالکن (نیم طبقه)</label>
+                                                <input type="number" min="10" class="m-field form-control" id="masahate_balkon_nimtabaghe" aria-describedby="masahate_balkon_nimtabaghe">
+                                                <div class="form-control-feedback hi-fontSize-12">اگر مغازه دارای نیم طبقه بالکن است مساحت آن را به متر مربع در اینجا وارد نمایید.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{----------- [ Tedade otagh - Tedade Parking  ] -----------}}
+                                    <div class="row l-rtl Topbar_dropdown mt-2 mix is-typeof-edari is-typeof-mostaghelat is-typeof-tejari is-typeof-maskooni">
+                                        {{--done--}}
+                                        <div class="col-md-4 mix is-typeof-edari" >
                                             <label for="mogheiate_sakhteman" class="m-field-title"><span class="red-text">*</span> موقعیت ساختمان</label>
                                             <select name="" id="mogheiate_sakhteman" class="is-radio-dropdown">
                                                 <option value="cheese">ساختمان مسکونی با موقعیت اداری</option>
@@ -169,7 +189,7 @@
                                             </select>
                                         </div>
                                         {{--done--}}
-                                        <div class="col-md-3 mix is-typeof-tejari" data-order="6">
+                                        <div class="col-md-3 mix is-typeof-tejari" >
                                             <label for="mogheiate_maghaze" class="m-field-title"><span class="red-text">*</span> موقعیت مغازه</label>
                                             <select name="" id="mogheiate_maghaze" class="is-radio-dropdown">
                                                 <option value="cheese">مغازه کنار گذر</option>
@@ -177,7 +197,29 @@
                                             </select>
                                         </div>
                                         {{--done--}}
-                                        <div class="col-md-3 mix is-typeof-maskooni is-typeof-edari" data-order="7">
+                                        <div class="col-md-3 mix is-typeof-tejari is-typeof-zamin is-typeof-mostaghelat" >
+                                            <label for="tedade_bar" class="m-field-title">تعداد بر</label>
+                                            <select name="tedade_bar" id="tedade_bar" class="is-radio-dropdown">
+                                                <option value="cheese">۱ نبش</option>
+                                                <option value="cheese">۲ نبش</option>
+                                                <option value="cheese">۳ نبش</option>
+                                                <option value="cheese">۴ نبش</option>
+                                            </select>
+                                        </div>
+                                        {{--done--}}
+                                        <div class="col-md-3 mix is-typeof-tejari" >
+                                            <label for="tedade_dahane" class="m-field-title">تعداد دهنه</label>
+                                            <select id="tedade_dahane" name="tedade_dahane" class="is-radio-dropdown">
+                                                <option value="cheese">۱ دهنه</option>
+                                                <option value="cheese">۲ دهنه</option>
+                                                <option value="cheese">۳ دهنه</option>
+                                                <option value="cheese">۴ دهنه</option>
+                                                <option value="cheese">۵ دهنه</option>
+                                                <option value="cheese">بیش از ۵ دهنه</option>
+                                            </select>
+                                        </div>
+                                        {{--done--}}
+                                        <div class="col-md-3 mix is-typeof-maskooni is-typeof-edari" >
                                             <label for="tedade_otagh" class="m-field-title"> تعداد اتاق</label>
                                             <select id="tedade_otagh" name="tedade_otagh" class="is-radio-dropdown">
                                                 <option value="cheese">ندارد</option>
@@ -195,7 +237,7 @@
                                             </select>
                                         </div>
                                         {{--done--}}
-                                        <div class="col-md-3 mix is-typeof-maskooni is-typeof-edari" data-order="8">
+                                        <div class="col-md-3 mix is-typeof-maskooni is-typeof-edari" >
                                             <label for="tedade_parking" class="m-field-title">تعداد پارکینگ</label>
                                             <select id="tedade_parking" name="tedade_parking" class="is-radio-dropdown">
                                                 <option value="cheese">ندارد</option>
@@ -214,7 +256,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row mt-4 mix is-typeof-maskooni is-typeof-edari is-typeof-mostaghelat" data-order="15">
+                                    <div class="row mt-4 mix is-typeof-maskooni is-typeof-edari is-typeof-mostaghelat">
                                         {{--done--}}
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -225,67 +267,27 @@
                                         </div>
                                     </div>
 
-                                    {{----------- [  Masahat Haie khoone va sale sakht  ] -----------}}
-                                    <div class="row mt-5 mix is-typeof-tejari" data-order="16">
-                                        {{--done--}}
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="masahate_kaf" class="m-field-title">مساحت کف (متر مربع)</label>
-                                                <input type="number" min="10" class="m-field form-control" id="masahate_kaf" aria-describedby="masahate_kaf">
-                                                <div class="form-control-feedback hi-fontSize-12">وارد کردن مساحت ساخت (زیربنا) الزامی است</div>
-                                            </div>
-                                        </div>
-                                        {{--done--}}
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="masahate_balkon_nimtabaghe" class="m-field-title">مساحت بالکن (نیم طبقه)</label>
-                                                <input type="number" min="10" class="m-field form-control" id="masahate_balkon_nimtabaghe" aria-describedby="masahate_balkon_nimtabaghe">
-                                                <div class="form-control-feedback hi-fontSize-12">اگر مغازه دارای نیم طبقه بالکن است مساحت آن را به متر مربع در اینجا وارد نمایید.</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     {{----------- [ Tedade bar - toole bar  ] -----------}}
-                                    <div class="row l-rtl Topbar_dropdown mt-3 mix is-typeof-edari is-typeof-tejari is-typeof-zamin is-typeof-mostaghelat">
+                                    <div class="row l-rtl Topbar_dropdown mix is-typeof-tejari is-typeof-zamin mt-3">
                                         {{--done--}}
-                                        <div class="col-md-3 mix is-typeof-tejari is-typeof-zamin is-typeof-mostaghelat" data-order="16">
-                                            <label for="tedade_bar" class="m-field-title">تعداد بر</label>
-                                            <select name="tedade_bar" id="tedade_bar" class="is-radio-dropdown">
+                                        <div class="col-md-3 mix is-typeof-tejari is-typeof-zamin" >
+                                            <label for="toole_bar" class="m-field-title">طول بر اصلی(به متر)</label>
+                                            <input class="m-field form-control" id="toole_bar" aria-describedby="toole_bar">
+                                        </div>
+                                        {{--done--}}
+                                        <div class="col-md-3 mix is-typeof-zamin" >
+                                            <label for="tedade_bar_zamin" class="m-field-title">تعداد بر</label>
+                                            <select name="tedade_bar_zamin" id="tedade_bar_zamin" class="is-radio-dropdown">
                                                 <option value="cheese">۱ نبش</option>
                                                 <option value="cheese">۲ نبش</option>
                                                 <option value="cheese">۳ نبش</option>
                                                 <option value="cheese">۴ نبش</option>
                                             </select>
                                         </div>
-                                        {{--done--}}
-                                        <div class="col-md-3 mix is-typeof-tejari" data-order="17">
-                                            <label for="tedade_dahane" class="m-field-title">تعداد دهنه</label>
-                                            <select id="tedade_dahane" name="tedade_dahane" class="is-radio-dropdown">
-                                                <option value="cheese">۱ دهنه</option>
-                                                <option value="cheese">۲ دهنه</option>
-                                                <option value="cheese">۳ دهنه</option>
-                                                <option value="cheese">۴ دهنه</option>
-                                                <option value="cheese">۵ دهنه</option>
-                                                <option value="cheese">بیش از ۵ دهنه</option>
-                                            </select>
-                                        </div>
-                                        {{--done--}}
-                                        <div class="col-md-3 mix is-typeof-edari" data-order="18">
-                                            <label for="mogheiate_sakhteman" class="m-field-title"><span class="red-text">*</span> موقعیت ساختمان</label>
-                                            <select name="" id="mogheiate_sakhteman" class="is-radio-dropdown">
-                                                <option value="cheese">ساختمان مسکونی با موقعیت اداری</option>
-                                                <option value="tomatoes">ساختمان اداری با سند اداری</option>
-                                            </select>
-                                        </div>
-                                        {{--done--}}
-                                        <div class="col-md-3 mix is-typeof-tejari is-typeof-zamin" data-order="19">
-                                            <label for="toole_bar" class="m-field-title">طول بر اصلی(به متر)</label>
-                                            <input class="m-field form-control" id="toole_bar" aria-describedby="toole_bar">
-                                        </div>
                                     </div>
 
                                     {{--------- [ Filedaie * نوع واگذاری  ] --------}} {{--done--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-tejari" data-order="20">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-tejari" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><span class="red-text">*</span><strong> نوع واگذاری  </strong></p>
                                         </div>
@@ -304,7 +306,7 @@
                                     </div>
 
                                     {{----------- [ Mojaveze sakht  ] -----------}} {{--done--}}
-                                    <div class="row mt-4 mix is-typeof-zamin" data-order="21">
+                                    <div class="row mt-4 mix is-typeof-zamin" >
                                         <div class="col-auto">
                                             <div class="pure-checkbox mr-3 l-fullWidth text-right">
                                                 <input id="rahnoejare" name="checkbox" type="checkbox">
@@ -326,29 +328,29 @@
                                     </div>
 
                                     {{----------- [  Vaziate Melk  ] -----------}} {{--done--}}
-                                    <div class="row mt-2 mix is-typeof-maskooni is-typeof-edari is-typeof-mostaghelat" data-order="22">
+                                    <div class="row mt-2 mix is-typeof-maskooni is-typeof-edari is-typeof-mostaghelat" >
                                         <div class="col-auto">
                                             <div class="pure-radiobutton mr-3 l-fullWidth text-right">
-                                                <input checked id="rahnoejare" name="radiobutton" type="radio">
-                                                <label class="m-form-label" for="rahnoejare">نوساز</label>
+                                                <input checked id="nosaz" name="radiobutton" type="radio">
+                                                <label class="m-form-label" for="nosaz">نوساز</label>
                                             </div>
                                         </div>
                                         <div class="col-auto">
                                             <div class="pure-radiobutton mr-5 l-fullWidth text-right">
-                                                <input checked id="rahnoejare" name="radiobutton" type="radio">
-                                                <label class="m-form-label" for="rahnoejare">چند سال ساخت</label>
+                                                <input checked id="chansalsakht" name="radiobutton" type="radio">
+                                                <label class="m-form-label" for="chansalsakht">چند سال ساخت</label>
                                             </div>
                                         </div>
                                         <div class="col-auto">
                                             <div class="pure-radiobutton mr-5 l-fullWidth text-right">
-                                                <input checked id="rahnoejare" name="radiobutton" type="radio">
-                                                <label class="m-form-label" for="rahnoejare">کلنگی</label>
+                                                <input checked id="kolangi" name="radiobutton" type="radio">
+                                                <label class="m-form-label" for="kolangi">کلنگی</label>
                                             </div>
                                         </div>
                                     </div>
 
                                     {{--Todo mostaghelat click shod ina zaher mishe--}}
-                                    <div class="row mt-3">
+                                    <div class="row mt-3 mix is-typeof-maskooni is-typeof-edari is-typeof-mostaghelat">
                                         <div class="col-auto">
                                             <div class="pure-checkbox mr-3 l-fullWidth text-right">
                                                 <input id="rahnoejare" name="checkbox" type="checkbox">
@@ -449,7 +451,7 @@
                         <div class="step-content">
 
                             {{--------- [ مشخصات ملک  ] --------}}
-                            <div class="m-card-azhans pb-4">
+                            <div class="m-card-azhans pb-4 mix is-typeof-mostaghelat is-typeof-tejari is-typeof-maskooni is-typeof-edari">
                                 {{----------- [ Title of Form  ] -----------}}
                                 @component('components.azhans-form-title')
                                     @slot('title')مشخصات ملک@endslot
@@ -459,7 +461,7 @@
                                 <div class="container-fluid px-5 my-4">
 
                                     {{--------- [ Filedaie موقعیت ملک  ] --------}} {{-- done--}}
-                                    <div class="row l-rtl Topbar_dropdown mix is-typeof-maskooni is-typeof-edari" data-order="23">
+                                    <div class="row l-rtl Topbar_dropdown mix is-typeof-maskooni is-typeof-edari" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>موقعیت ملک</strong></p>
                                         </div>
@@ -489,7 +491,7 @@
                                     </div>
 
                                     {{--------- [ Filedaie امکانات واحد  ] --------}} {{-- done--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari" data-order="24">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>امکانات واحد</strong></p>
                                         </div>
@@ -518,7 +520,7 @@
                                     </div>
 
                                     {{--------- [ Filedaie شکل ساخت Agahi  ] --------}} {{-- done--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari" data-order="25">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>شکل ساخت</strong></p>
                                         </div>
@@ -549,7 +551,7 @@
                                     </div>
 
                                     {{--------- [ Filedaie فضای اصلی  ] --------}} {{-- done--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-tejari" data-order="26">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-tejari" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>فضای اصلی</strong></p>
                                         </div>
@@ -581,7 +583,7 @@
 
                                     {{--------- [ Filedaie نمای ملک  ] --------}} {{-- done--}}
                                     <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari
-                                    is-typeof-tejari is-typeof-mostaghelat" data-order="27">
+                                    is-typeof-tejari is-typeof-mostaghelat" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>نمای ملک</strong></p>
                                         </div>
@@ -631,7 +633,7 @@
 
                                     {{--------- [ Filedaie اسکلت ساختمان  ] --------}} {{-- done--}}
                                     <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-mostaghelat is-typeof-edari
-                                    is-typeof-maskooni" data-order="28">
+                                    is-typeof-maskooni" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>اسکلت ساختمان</strong></p>
                                         </div>
@@ -662,7 +664,7 @@
                                     </div>
 
                                     {{--------- [ Filedaie کف  ] --------}} {{-- done--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari is-typeof-tejari" data-order="29">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari is-typeof-tejari" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>کف</strong></p>
                                         </div>
@@ -717,7 +719,7 @@
                                     </div>
 
                                     {{--------- [ Filedaie دیوار  ] --------}} {{-- done--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari" data-order="30">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-mostaghelat is-typeof-maskooni is-typeof-edari" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>دیوار</strong></p>
                                         </div>
@@ -772,8 +774,7 @@
                                     </div>
 
                                     {{--------- [ Filedaie دید و منظر  ] --------}} {{-- done--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-edari is-typeof-maskooni is-typeof-mostaghelat"
-                                         data-order="31">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-edari is-typeof-maskooni is-typeof-mostaghelat">
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>دید و منظر</strong></p>
                                         </div>
@@ -828,7 +829,7 @@
                                     </div>
 
                                     {{--------- [ Filedaie نورگیر  ] --------}} {{-- done--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari" data-order="32">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>نورگیر</strong></p>
                                         </div>
@@ -872,7 +873,7 @@
 
                                     {{--------- [ Filedaie سرویس بهداشتی  ] --------}} {{-- done--}}
                                     <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni
-                                    is-typeof-edari is-typeof-tejari" data-order="33">
+                                    is-typeof-edari is-typeof-tejari" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>سرویس بهداشتی</strong></p>
                                         </div>
@@ -897,7 +898,7 @@
                                     </div>
 
                                     {{--------- [ Filedaie نشیمن و پذیرایی  ] --------}} {{-- done--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni" data-order="34">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>نشیمن و پذیرایی</strong></p>
                                         </div>
@@ -928,7 +929,7 @@
                                     </div>
 
                                     {{--------- [ Filedaie اتاق انتظار و پذیرایی  ] --------}} {{-- done--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari" data-order="35">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>اتاق انتظار و پذیرایی</strong></p>
                                         </div>
@@ -966,7 +967,7 @@
 
                                     {{--------- [ Filedaie تجهیزات سرمایشی گرمایشی  ] --------}} {{-- done--}}
                                     <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari
-                                    is-typeof-tejari is-typeof-mostaghelat" data-order="36">
+                                    is-typeof-tejari is-typeof-mostaghelat" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>تجهیزات سرمایشی گرمایشی</strong></p>
                                         </div>
@@ -1028,7 +1029,7 @@
 
                                     {{--------- [ Filedaie تجهیزات رفاهی  ] --------}} {{-- done--}}
                                     <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari
-                                    is-typeof-tejari is-typeof-mostaghelat" data-order="37">
+                                    is-typeof-tejari is-typeof-mostaghelat" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>تجهیزات رفاهی</strong></p>
                                         </div>
@@ -1072,7 +1073,7 @@
 
                                     {{--------- [ Filedaie تجهیزات ایمنی امنیتی  ] --------}} {{-- done--}}
                                     <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari
-                                    is-typeof-tejari is-typeof-mostaghelat" data-order="38">
+                                    is-typeof-tejari is-typeof-mostaghelat" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>تجهیزات ایمنی امنیتی</strong></p>
                                         </div>
@@ -1122,7 +1123,7 @@
 
                                     {{--------- [ Filedaie امکانات ساختمان  ] --------}} {{-- done--}}
                                     <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari
-                                    is-typeof-mostaghelat" data-order="39">
+                                    is-typeof-mostaghelat" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>امکانات ساختمان</strong></p>
                                         </div>
@@ -1201,8 +1202,7 @@
                                     </div>
 
                                     {{--------- [ Filedaie امکانات ورزشی  ] --------}}  {{-- done--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-mostaghelat"
-                                         data-order="40">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-mostaghelat">
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>امکانات ورزشی</strong></p>
                                         </div>
@@ -1281,7 +1281,7 @@
                                     </div>
 
                                     {{--------- [ Filedaie اکاربری پیشنهادی  ] --------}} {{-- done--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-mostaghelat" data-order="41">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-mostaghelat is-typeof-zamin" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>کاربری پیشنهادی</strong></p>
                                         </div>
@@ -1366,7 +1366,7 @@
                                     </div>
 
                                     {{--------- [ Filedaie دسترسی  ] --------}} {{-- done--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-mostaghelat is-typeof-tejari" data-order="42">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-mostaghelat is-typeof-zamin is-typeof-tejari" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>دسترسی</strong></p>
                                         </div>
@@ -1415,8 +1415,8 @@
                                     </div>
 
                                     {{--------- [ Filedaie تاسیسات  ] --------}} {{-- done--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari
-                                    is-typeof-mostaghelat is-typeof-tejari" data-order="43">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-zamin is-typeof-maskooni is-typeof-edari
+                                    is-typeof-mostaghelat is-typeof-tejari" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>تاسیسات</strong></p>
                                         </div>
@@ -1447,8 +1447,8 @@
                                     </div>
 
                                     {{--------- [ Filedaie خط تلفن  ] --------}} {{-- done--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari
-                                    is-typeof-mostaghelat is-typeof-tejari" data-order="44">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-zamin is-typeof-maskooni is-typeof-edari
+                                    is-typeof-mostaghelat is-typeof-tejari" >
                                         <div class="col-3">
                                             <label for="khate_telephone" class="m-field-title">خط تلفن</label>
                                             <select id="khate_telephone" name="khate_telephone" class="is-radio-dropdown">
@@ -1464,8 +1464,8 @@
                                     </div>
 
                                     {{--------- [ Filedaie مشخصات سند  ] --------}}{{-- TODO faghat baraie foroshe na rahn--}}
-                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-maskooni is-typeof-edari
-                                    is-typeof-mostaghelat is-typeof-tejari" data-order="45">
+                                    <div class="row l-rtl Topbar_dropdown mt-4 mix is-typeof-zamin is-typeof-maskooni is-typeof-edari
+                                    is-typeof-mostaghelat is-typeof-tejari" >
                                         <div class="col-12 mb-2">
                                             <p class="m-field-title"><strong>مشخصات سند</strong></p>
                                         </div>
