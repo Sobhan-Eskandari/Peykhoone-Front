@@ -18799,7 +18799,6 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()('ul li a.m-dashboard-headerMenu-i
 // Home page hamkaran slider
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()(document).ready(function () {
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()('.owl-carousel').owlCarousel({
-
         loop: true,
         margin: 10,
         nav: true,
