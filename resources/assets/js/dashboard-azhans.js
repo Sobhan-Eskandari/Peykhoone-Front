@@ -2,7 +2,7 @@ import 'materialize-stepper'
 import 'jquery'
 import Waves from 'node-waves';
 import mixitup from 'mixitup';
-
+// require('./bootstrap');
 
 // ****************** Animate Css ********************
 $.fn.extend({
@@ -24,6 +24,51 @@ $( document ).ready(function() {
         includeSelectAllOption: true,
         allSelectedText: 'همه‌‌ی موارد'
     });
+    $('.buy-presell-btn').multiselect({
+        nonSelectedText: 'خرید و پیش خرید',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.state-kind-btn').multiselect({
+        nonSelectedText: 'آپارتمانی مسکونی',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.stateKind').multiselect({
+        nonSelectedText: 'مسکونی',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.stateCategory').multiselect({
+        nonSelectedText: 'آپارتمان',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.stateGoal').multiselect({
+        nonSelectedText: 'فروش یا پیش فروش',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.stateProvince').multiselect({
+        nonSelectedText: 'گیلان',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.stateCity').multiselect({
+        nonSelectedText: 'رشت',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.stateDistrict').multiselect({
+        nonSelectedText: 'رشت',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.stateTime').multiselect({
+        nonSelectedText: '1 ماه',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
 });
 
 
@@ -40,7 +85,6 @@ $('.stepper').activateStepper({
     autoFormCreation: true, //control the auto generation of a form around the stepper (in case you want to disable it)
     showFeedbackLoader: true //set if a loading screen will appear while feedbacks functions are running
 });
-
 
 //****************** Wave Js ********************
 Waves.attach('.is-wave-animated', ['waves-light']);
@@ -165,3 +209,4 @@ $(".is-hovered-adCard").mouseleave(function () {
     $(this).find(".m-card-moreInfo").css('color', 'black');
     $(this).find(".home-cost").css('font-weight', 'normal');
 });
+

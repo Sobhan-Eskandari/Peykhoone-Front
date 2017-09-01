@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="{{asset('css/dashboard-azhans.css')}}">
 
 
+
+
+
+
     @yield('css_resources')
 </head>
 
@@ -187,9 +191,9 @@
 
 
 <!-- Pushy JS -->
+
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/azhans-dashboard.js')}}"></script>
-
 @yield('js_resources')
 
 </body>

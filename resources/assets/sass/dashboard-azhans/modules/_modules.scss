@@ -1,12 +1,12 @@
-.m-card-azhans{
+.m-card-azhans {
   /* Rectangle 12: */
   background: #FFFFFF;
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16);
   border-radius: 8px;
 }
 
 //----------- [ Forms Style ] -----------
-.m-azshansform-title{
+.m-azshansform-title {
   /* مشخصات ملک: */
   font-weight: bold;
   color: #37BED8;
@@ -15,23 +15,25 @@
   letter-spacing: 0.27px;
   margin-bottom: 0;
 }
-.m-azhansform-line{
+
+.m-azhansform-line {
   /* Line 4 Copy: */
   border: 4px solid #37BED8;
   width: 50px;
 }
 
 .m-form-label {
-  color: #949494 ;
+  color: #949494;
   font-size: 14px;
   font-weight: 300;
 }
 
-.m-field-title{
+.m-field-title {
   font-size: 15px;
   font-weight: 400;
 }
-.form-control-feedback{
+
+.form-control-feedback {
   color: #69676A;
 }
 
@@ -58,25 +60,32 @@
 .stepper.horizontal:before {
   content: none !important;
 }
+
 ul.stepper.horizontal .step.active .step-title:before, ul.stepper.horizontal .step.done .step-title:before {
   background-color: $abi-roshan !important;
 }
+
 ul.stepper.horizontal .step.done .step-title:before {
   font-family: FontAwesome;
   content: '\f00c';
 }
-ul.stepper{
+
+ul.stepper {
   padding: 10px 20%;
 }
-ul.stepper.horizontal{
+
+ul.stepper.horizontal {
   position: inherit !important;
 }
-ul.stepper.horizontal .step{
+
+ul.stepper.horizontal .step {
   flex: 1 !important;
 }
-ul.stepper.horizontal .step-content{
+
+ul.stepper.horizontal .step-content {
   height: auto !important;
 }
+
 //----------- [ navBar dashboard  ] -----------
 .m-dashboard-navbar-padding {
   padding-right: 14.5%;
@@ -128,8 +137,239 @@ ul.stepper.horizontal .step-content{
     height: 300px;
   }
 }
-.m-userPro-color{
-  color: dimgray;
+
+.m-userPro-color {
+  color: lightgray;
   border-top: 1.2px solid;
 }
+
+.m-userPro-btn {
+  background-color: $abi-roshan;
+  color: white;
+}
+
+.m-dropzon-rounded {
+  border: 1.5px solid #EEEEEE !important;
+  border-radius: 50% !important;
+  min-height: 120px !important;
+  width: 120px !important;
+  padding: 0 !important;
+  margin: auto;
+  top: auto;
+  left: auto;
+  background-color: transparent !important;
+  background-image: url("/../images/Avatar-upload2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+
+.m-dropzon-rounded:hover {
+  background-image: url("/../images/Group-upload.png");
+  background-size: cover;
+}
+
+.m-dropzon-rounded .dz-preview .dz-image {
+  height: 98%;
+  width: 98%;
+  border-radius: 50%;
+  background-size: cover;
+  background-color: transparent;
+  border: none;
+}
+
+.dz-preview.dz-processing.dz-image-preview.dz-complete {
+  background-color: transparent;
+  margin: auto;
+}
+
+/*tooltip*/
+.m-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.m-tooltip .m-tooltiptext {
+  width: 155px;
+  background-color: $abi-roshan;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  right: 110%;
+}
+
+.m-tooltip .m-tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent $abi-roshan;
+}
+
+.m-tooltip .m-tooltiptext {
+  visibility: visible;
+}
+
+.m-tooltip-icon {
+  color: $abi-roshan;
+}
+
+.m-simple-multiselected-btn {
+  font-family: icomoon;
+  .multiselect-selected-text {
+    font-size: 12px;
+  }
+  .btn {
+    padding-top: 9.5px;
+    padding-bottom: 9.5px;
+    color: white;
+    width: 135px;
+    text-align: center;
+    background-color: #838d8f;
+  }
+  .btn:focus {
+    webkit-box-shadow: 0 0 0 0 #fff;
+    box-shadow: 0 0 0 0 #fff;
+  }
+  .btn:hover {
+    -webkit-filter: brightness(120%);
+  }
+  .dropdown-toggle::after {
+    font-family: icomoon;
+    content: "\e90b";
+    border-top: 0;
+    display: inline;
+    font-size: 12px;
+    vertical-align: bottom;
+    color: white;
+  }
+  .dropdown-menu {
+    text-align: right;
+  }
+  .multiselect-container > li > a > label.checkbox {
+    font-size: 12px;
+  }
+  .multiselect-container.dropdown-menu {
+    min-width: 135px;
+  }
+}
+
+.m-ads-checkbox {
+  .pure-checkbox input[type="checkbox"] + label {
+    font-size: 15px;
+    padding-right: 30px;
+    padding-top: 2px;
+    font-weight: 400;
+  }
+  .pure-checkbox input[type="checkbox"] + label:before {
+    width: 19px;
+    height: 19px;
+  }
+  .pure-checkbox input[type="checkbox"] + label:after {
+    top: 13px;
+    right: 6px;
+  }
+}
+
+//.m-ads-background-img {
+//  background-image: url("/../images/digital-painting.png");
+//  background-repeat: no-repeat;
+//  width: 100%;
+//  padding-top: 30%;
+//  padding-bottom: 40%;
+//}
+
+.m-btn-makeAdv {
+  color: white;
+  background-color: $abi-roshan;
+  border-radius: 8px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.text-btn-onImg {
+  margin-top: -200px;
+}
+
+.textBtnBoxOnImg {
+  margin-top: 13%;
+  margin-bottom: 20%;
+}
+
+.m-smile {
+  color: $abi-roshan;
+}
+
+.simple-shadow-box-two {
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  width: 100%;
+  background-color: white;
+}
+
+.m-checked-round-icon {
+  font-size: 85px;
+  color: $abi-roshan;
+  font-weight: 100;
+}
+
+.m-confirmation-title {
+  color: $abi-roshan;
+}
+
+.m-simple-radiusBtn {
+  color: white;
+  background-color: $abi-roshan;
+  border-radius: 8px;
+}
+
+.m-error-name {
+  color: #838d8f;
+}
+
+.m-simple-radiusBtn2 {
+  color: white;
+  background-color: $abi-roshan;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.m-error-backImg {
+  margin-top: -7%;
+}
+
+.m-error-btn-zIndex {
+  z-index: 1;
+  position: relative;
+}
+
+.m-error-img-zIndex {
+  z-index: 0;
+}
+.m-star-color{
+  color: #d0011b;
+}
+.m-input-exp{
+  color: #838d8f;
+}
+.m-map-banner {
+  border-radius: 8px;
+  padding: 10px 14px 10px 14px;
+  background-color: #007991;
+  color: white;
+}
+.m-btn-loading-fast{
+  padding: 13px 25px 13px 25px;
+}
+
 
