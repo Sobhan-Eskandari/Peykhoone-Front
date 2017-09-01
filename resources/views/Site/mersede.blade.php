@@ -321,7 +321,7 @@
                 <div class="m-horizentalCard-box px-3 pt-2 pb-1 m-card">
                     <div class="row">
                         <div class="col-lg-2 col-md-12 col-sm-12 col-12 pt-2">
-                            <img src="{{ asset('images/home.rhb.jpg') }}" alt="در حال بارگذاری"
+                            <img src="{{ asset('homeDemo.jpg') }}" alt="در حال بارگذاری"
                                  class="m-horizentalCard-img" height="100px" width="100px">
                         </div>
                         <div class="col-lg-10 col-md-11 col-sm-11 col-11 pr-lg-0">

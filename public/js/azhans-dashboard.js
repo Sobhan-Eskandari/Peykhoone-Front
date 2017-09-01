@@ -11314,9 +11314,9 @@ return jQuery;
 /***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(4);
 __webpack_require__(60);
 __webpack_require__(61);
+__webpack_require__(4);
 module.exports = __webpack_require__(63);
 
 
@@ -11757,7 +11757,8 @@ $.fn.activateStepper = function (options) {
       renameFilename: null,
       renameFile: null,
       forceFallback: false,
-      dictDefaultMessage: "Drop files here to upload",
+      //Drop files here to up
+      dictDefaultMessage: "",
       dictFallbackMessage: "Your browser does not support drag'n'drop file uploads.",
       dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
       dictFileTooBig: "File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.",
@@ -13695,6 +13696,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jquery__);
 
 
+// require('./bootstrap');
 
 // ****************** Dropdowns Acitvator ********************
 $(document).ready(function () {
@@ -13702,6 +13704,51 @@ $(document).ready(function () {
 
     $('.is-checkbox-dropdown').multiselect({
         nonSelectedText: 'انتخاب کنید',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.buy-presell-btn').multiselect({
+        nonSelectedText: 'خرید و پیش خرید',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.state-kind-btn').multiselect({
+        nonSelectedText: 'آپارتمانی مسکونی',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.stateKind').multiselect({
+        nonSelectedText: 'مسکونی',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.stateCategory').multiselect({
+        nonSelectedText: 'آپارتمان',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.stateGoal').multiselect({
+        nonSelectedText: 'فروش یا پیش فروش',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.stateProvince').multiselect({
+        nonSelectedText: 'گیلان',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.stateCity').multiselect({
+        nonSelectedText: 'رشت',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.stateDistrict').multiselect({
+        nonSelectedText: 'رشت',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.stateTime').multiselect({
+        nonSelectedText: '1 ماه',
         includeSelectAllOption: true,
         allSelectedText: 'همه‌‌ی موارد'
     });

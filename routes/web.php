@@ -71,5 +71,32 @@ Route::get('/dashboard', function () {
     return view('layout.dashboard');
 });
 Route::get('/user-profile', function () {
-    return view('site.user-profile');
+    return view('dashboard-azhans.profile.user-profile');
+});
+Route::get('/first-ad', function () {
+    return view('dashboard-azhans.profile.index');
+});
+Route::get('/confirm', function () {
+    return view('dashboard-azhans.Ads.confirmation');
+});
+Route::get('/400', function () {
+    return view('dashboard-azhans.errors.400');
+});
+Route::get('/403', function () {
+    return view('dashboard-azhans.errors.403');
+});
+Route::get('/404', function () {
+    return view('dashboard-azhans.errors.404');
+});
+Route::get('/500', function () {
+    return view('dashboard-azhans.errors.500');
+});
+Route::get('/503', function () {
+    return view('dashboard-azhans.errors.503');
+});
+Route::get('/504', function () {
+    return view('dashboard-azhans.errors.504');
+});
+Route::get('/fast', function () {
+    return view('dashboard-azhans.Ads.create-fast');
 });
