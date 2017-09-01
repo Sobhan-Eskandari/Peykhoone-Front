@@ -7658,7 +7658,9 @@ body {
   border-radius: 4px;
   border: transparent;
   border-top: 3px solid #dbdbdb;
-  background-color: #f4f4f4; }
+  background-color: #f4f4f4;
+  padding-top: 10px;
+  padding-bottom: 10px; }
 
 .m-field.form-control:focus {
   background-color: #f4f4f4;
@@ -7840,6 +7842,10 @@ map > div {
 
 #google-map {
   -webkit-border-radius: 0 0 10px 10px;
+  z-index: 0; }
+
+#google-map-rounded {
+  -webkit-border-radius: 10px 10px 10px 10px;
   z-index: 0; }
 
 /*------------ [ Home page typed js ] ------------ */

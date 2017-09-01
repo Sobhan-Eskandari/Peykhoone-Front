@@ -21,7 +21,6 @@ $('ul li a.m-dashboard-headerMenu-item').click(function () {
 // Home page hamkaran slider
 $(document).ready(function() {
     $('.owl-carousel').owlCarousel({
-
         loop: true,
         margin: 10,
         nav: true,

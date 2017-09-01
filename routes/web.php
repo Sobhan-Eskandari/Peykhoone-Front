@@ -65,6 +65,9 @@ Route::get('/agencies', function () {
 
 //--------------------------------------------------------------------------
 Route::get('/dashboard/azhans/ad/create', function () {
+    return view('dashboard-azhans.Ads.create');
+});
+Route::get('/dashboard/ad/create', function () {
     return view('dashboard-azhans.ads.create');
 });
 Route::get('/dashboard', function () {
