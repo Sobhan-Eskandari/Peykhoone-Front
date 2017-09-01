@@ -18,9 +18,26 @@
         <div class="container-fluid">
             <div class="row pt-2 pb-1 align-items-center">
                 <div class="col-4 pl-0">
-                    <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName l-flex-center" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
-                        <span class="icon-home"></span>
-                    </div>
+                    @if ($type == "normal")
+                        <div data-balloon="آزانس املاک محمود" data-balloon-pos="top" class="m-card-azhansName l-flex-center" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+                            <span class="icon-home"></span>
+                        </div>
+                    @endif
+                    @if ($type == "confirmed")
+                        <div data-balloon="تایید شده" data-balloon-pos="top" class="m-card-azhansName l-flex-center" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+                            <span class="fa fa-check cyan-text"></span>
+                        </div>
+                    @endif
+                    @if ($type == "dismissed")
+                        <div data-balloon="تایید نشده" data-balloon-pos="top" class="m-card-azhansName l-flex-center" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+                            <span class="fa fa-times red-text"></span>
+                        </div>
+                    @endif
+                    @if ($type == "pending")
+                        <div data-balloon="در حال بررسی" data-balloon-pos="top" class="m-card-azhansName l-flex-center" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+                            <span class="yellow-text text-darken-3 hi-fontSize-17">!</span>
+                        </div>
+                    @endif
                 </div>
                 <div class="col-7 text-right pr-0">
                     <span class="m-card-moreInfo p-2 hvr-shutter-out-vertical">اطلاعات بیشتر</span>

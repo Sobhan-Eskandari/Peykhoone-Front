@@ -762,6 +762,11 @@ body {
   background-color: #FEFFFF;
 }
 
+.l-modal {
+  border-radius: 20px !important;
+  border: none !important;
+}
+
 .m-card-azhans {
   /* Rectangle 12: */
   background: #FFFFFF;

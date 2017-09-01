@@ -74,8 +74,11 @@ var config = {
         target: '.mix'
     }
 };
-var mixer = mixitup('.mix-container',config);
-mixer.filter('.is-typeof-maskooni');
+if( $('.mix-container').length ) {
+    var mixer = mixitup('.mix-container',config);
+    mixer.filter('.is-typeof-maskooni');
+}
+
 $('#noe_melk').change(function() {
     if ($(this).find(':selected').val() === '1') {
         mixer.filter('.is-typeof-maskooni');
@@ -146,4 +149,19 @@ $('#foroosh_ba_mostajer').change(function() {
     }else{
         $("#is-forooshBaMostajer-section").slideUp();
     }
+});
+
+//****************** Ads Card Hover Effect ********************
+$(".is-hovered-adCard").mouseenter(function () {
+    $(this).find(".m-card-moreInfo").addClass('show');
+    $(this).find(".m-card-azhansName").addClass('showTooltip');
+    $(this).find(".m-card-moreInfo").css('color', 'white');
+    $(this).find(".home-cost").css('font-weight', 'bold');
+});
+$(".is-hovered-adCard").mouseleave(function () {
+    $(this).find(".m-card-moreInfo").removeClass('show');
+    $(this).find(".m-card-azhansName").removeClass('showTooltip');
+    $(this).find(".m-card-moreInfo").css('color', 'white');
+    $(this).find(".m-card-moreInfo").css('color', 'black');
+    $(this).find(".home-cost").css('font-weight', 'normal');
 });

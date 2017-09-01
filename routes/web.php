@@ -76,3 +76,6 @@ Route::get('/dashboard', function () {
 Route::get('/user-profile', function () {
     return view('site.user-profile');
 });
+Route::get('/dashboard/ads', function () {
+    return view('dashboard-azhans.ads.index');
+});
