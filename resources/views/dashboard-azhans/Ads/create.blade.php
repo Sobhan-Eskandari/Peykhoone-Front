@@ -11,7 +11,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <ul class="stepper horizontal l-rtl mix-container">
-                    <li class="step ">
+                    <li class="step">
                         <div class="step-title waves-effect">جزئیات</div>
                         <div class="step-content">
                             <div class="m-card-azhans pb-4">
@@ -27,7 +27,7 @@
                                         <div class="col-12">
                                             <p class="m-field-title"><span class="red-text">*</span> هدف</p>
                                             <div class="pure-radiobutton mt-4 l-fullWidth text-right">
-                                                <input id="foroosh_pishforoosh" checked="checked" name="radiobutton" type="radio">
+                                                <input id="foroosh_pishforoosh" checked name="radiobutton" type="radio">
                                                 <label class="m-form-label" for="foroosh_pishforoosh">فروش / پیش فروش</label>
                                             </div>
                                             <div class="pure-radiobutton mt-2 mb-3 l-fullWidth text-right">
@@ -445,7 +445,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="step">
+                    <li class="step ">
                         <div class="step-title waves-effect">ویژگی ها</div>
                         <div class="step-content">
 
@@ -524,26 +524,26 @@
                                         </div>
                                         <div class="col-2">
                                             <div class="pure-radiobutton  l-fullWidth text-right">
-                                                <input checked id="kharidVaPishkharid" name="radiobutton" type="radio">
-                                                <label class="m-form-label" for="kharidVaPishkharid">فلت</label>
+                                                <input id="flat" name="flat" type="radio">
+                                                <label class="m-form-label" for="flat">فلت</label>
                                             </div>
                                         </div>
                                         <div class="col-2">
                                             <div class="pure-radiobutton  l-fullWidth text-right">
-                                                <input checked id="kharidVaPishkharid" name="radiobutton" type="radio">
-                                                <label class="m-form-label" for="kharidVaPishkharid">دوبلکس</label>
+                                                <input id="dublex" name="dublex" type="radio">
+                                                <label class="m-form-label" for="dublex">دوبلکس</label>
                                             </div>
                                         </div>
                                         <div class="col-2">
                                             <div class="pure-radiobutton l-fullWidth text-right">
-                                                <input checked id="kharidVaPishkharid" name="radiobutton" type="radio">
-                                                <label class="m-form-label" for="kharidVaPishkharid">تریبلکس</label>
+                                                <input id="triblex" name="triblex" type="radio">
+                                                <label class="m-form-label" for="triblex">تریبلکس</label>
                                             </div>
                                         </div>
                                         <div class="col-2">
                                             <div class="pure-radiobutton l-fullWidth text-right">
-                                                <input checked id="kharidVaPishkharid" name="radiobutton" type="radio">
-                                                <label class="m-form-label" for="kharidVaPishkharid">پنت هاوس</label>
+                                                <input id="penthouse" name="penthouse" type="radio">
+                                                <label class="m-form-label" for="penthouse">پنت هاوس</label>
                                             </div>
                                         </div>
                                     </div>
@@ -668,8 +668,8 @@
                                         </div>
                                         <div class="col-2">
                                             <div class="pure-checkbox  l-fullWidth text-right">
-                                                <input id="sang" name="sang" type="checkbox">
-                                                <label class="m-form-label" for="sang">سنگ</label>
+                                                <input id="sang_kaf" name="sang_kaf" type="checkbox">
+                                                <label class="m-form-label" for="sang_kaf">سنگ</label>
                                             </div>
                                         </div>
                                         <div class="col-2">
@@ -729,8 +729,8 @@
                                         </div>
                                         <div class="col-2">
                                             <div class="pure-checkbox  l-fullWidth text-right">
-                                                <input id="sang" name="sang" type="checkbox">
-                                                <label class="m-form-label" for="sang">سنگ</label>
+                                                <input id="sang_divar" name="sang_divar" type="checkbox">
+                                                <label class="m-form-label" for="sang_divar">سنگ</label>
                                             </div>
                                         </div>
                                         <div class="col-2">
@@ -747,8 +747,8 @@
                                         </div>
                                         <div class="col-2">
                                             <div class="pure-checkbox  l-fullWidth text-right">
-                                                <input id="choob" name="choob" type="checkbox">
-                                                <label class="m-form-label" for="choob">چوب / دیوارکوب</label>
+                                                <input id="choob_divar" name="choob_divar" type="checkbox">
+                                                <label class="m-form-label" for="choob_divar">چوب / دیوارکوب</label>
                                             </div>
                                         </div>
                                         <div class="col-2">
@@ -778,8 +778,8 @@
                                         </div>
                                         <div class="col-2">
                                             <div class="pure-checkbox  l-fullWidth text-right">
-                                                <input id="shahr" name="shahr" type="checkbox">
-                                                <label class="m-form-label" for="shahr">شهر</label>
+                                                <input id="shahr_manzar" name="shahr_manzar" type="checkbox">
+                                                <label class="m-form-label" for="shahr_manzar">شهر</label>
                                             </div>
                                         </div>
                                         <div class="col-2">
@@ -890,7 +890,7 @@
                                         <div class="col-2">
                                             <div class="pure-checkbox  l-fullWidth text-right">
                                                 <input id="hamam" name="hamam" type="checkbox">
-                                                <label class="m-form-label" for="hamam"></label>
+                                                <label class="m-form-label" for="hamam">حمام</label>
                                             </div>
                                         </div>
                                     </div>
@@ -1105,8 +1105,8 @@
                                                 <label class="m-form-label" for="elame_atish">سیستم اعلام آتش</label>
                                             </div>
                                         </div>
-                                        <div class="col-2 mt-3">
-                                            <div class="pure-checkbox  l-fullWidth text-right">
+                                        <div class="col-2">
+                                            <div class="pure-checkbox l-fullWidth text-right">
                                                 <input id="etfae_harigh" name="etfae_harigh" type="checkbox">
                                                 <label class="m-form-label" for="etfae_harigh">سیستم اطفاء حریق</label>
                                             </div>
@@ -1157,14 +1157,14 @@
                                         </div>
                                         <div class="col-2 mt-3">
                                             <div class="pure-checkbox  l-fullWidth text-right">
-                                                <input id="salonejtemaat" name="checkbox" type="checkbox">
+                                                <input id="salonejtemaat" name="salonejtemaat" type="checkbox">
                                                 <label class="m-form-label" for="salonejtemaat">سالن اجتماعات</label>
                                             </div>
                                         </div>
                                         <div class="col-2 mt-3">
                                             <div class="pure-checkbox  l-fullWidth text-right">
-                                                <input id="bagh" name="checkbox" type="checkbox">
-                                                <label class="m-form-label" for="bagh">باغ</label>
+                                                <input id="bagh_sakhteman" name="bagh_sakhteman" type="checkbox">
+                                                <label class="m-form-label" for="bagh_sakhteman">باغ</label>
                                             </div>
                                         </div>
                                         <div class="col-2 mt-3">
@@ -1237,7 +1237,7 @@
                                         <div class="col-2 mt-3">
                                             <div class="pure-checkbox  l-fullWidth text-right">
                                                 <input id="volleyball" name="volleyball" type="checkbox">
-                                                <label class="m-form-label" for="volleybal">والیبال</label>
+                                                <label class="m-form-label" for="volleyball">والیبال</label>
                                             </div>
                                         </div>
                                         <div class="col-2 mt-3">
@@ -1728,7 +1728,15 @@
 
                                 {{--------- [  بارگذاری تصاویر  ] --------}}
                                 <div class="container-fluid px-5 my-4">
-
+                                    <div class="row justify-content-center">
+                                        <div class="col-11">
+                                            <form action="/file-upload" class="dropzone m-dropzone">
+                                                <div class="fallback">
+                                                    <input name="file" type="file" multiple />
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 

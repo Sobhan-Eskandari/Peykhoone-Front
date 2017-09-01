@@ -801,6 +801,26 @@ body {
   color: #69676A;
 }
 
+.m-dropzone {
+  background-color: #EEEEEE;
+  border: 1px dashed;
+  border-radius: 6px;
+}
+
+.m-dropzone:before {
+  font-family: FontAwesome !important;
+  content: '\F067';
+  position: absolute;
+  left: 51%;
+  color: grey;
+  top: 40px;
+  margin-top: 8px;
+}
+
+.m-dropzone .dz-message {
+  margin-top: 75px !important;
+}
+
 .stepper.horizontal:before {
   content: none !important;
 }
