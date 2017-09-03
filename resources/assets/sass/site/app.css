@@ -7244,8 +7244,7 @@ body {
   border-radius: 2px;
   color: gray;
   font-size: 9px;
-  margin-bottom: 5px;
-  left: 180% !important; }
+  margin-bottom: 5px; }
 
 .m-card [data-balloon]:before {
   background: url(/images/down.png);
@@ -8506,8 +8505,18 @@ a.estate-category-link:hover {
   font-size: 19px;
   top: 45% !important; }
 
+.dashed-border {
+  border: 2px dashed lightgray; }
+
+.border-right-gray {
+  /* Line: */
+  border-right: 1px solid #979797; }
+
 .rounded {
   border-radius: 60px; }
+
+.rounded-5 {
+  border-radius: 6px !important; }
 
 .rounded-6 {
   border-radius: 6px !important; }
@@ -8557,6 +8566,9 @@ a.estate-category-link:hover {
 .filter-khakestari {
   background-color: #949494; }
 
+.khakestarie-roshan {
+  background-color: #F3F3F3 !important; }
+
 .gradient-background {
   background: linear-gradient(-180deg, #007991 0%, #63E7CA 100%); }
 
@@ -8572,6 +8584,9 @@ a.estate-category-link:hover {
   -o-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg); }
+
+.mouse-pointer {
+  cursor: pointer; }
 
 @media (max-width: 575px) {
   .header-mainTitle, .header-subTitle {

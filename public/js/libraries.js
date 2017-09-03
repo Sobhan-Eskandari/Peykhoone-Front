@@ -9913,7 +9913,2021 @@ module.exports = g;
 
 
 /***/ }),
-/* 3 */
+/* 3 */,
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery) {/**
+ * Bootstrap Multiselect (https://github.com/davidstutz/bootstrap-multiselect)
+ * 
+ * Apache License, Version 2.0:
+ * Copyright (c) 2012 - 2015 David Stutz
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a
+ * copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ * 
+ * BSD 3-Clause License:
+ * Copyright (c) 2012 - 2015 David Stutz
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *    - Redistributions of source code must retain the above copyright notice,
+ *      this list of conditions and the following disclaimer.
+ *    - Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
+ *      and/or other materials provided with the distribution.
+ *    - Neither the name of David Stutz nor the names of its contributors may be
+ *      used to endorse or promote products derived from this software without
+ *      specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+!function ($) {
+    "use strict";// jshint ;_;
+
+    if (typeof ko !== 'undefined' && ko.bindingHandlers && !ko.bindingHandlers.multiselect) {
+        ko.bindingHandlers.multiselect = {
+            after: ['options', 'value', 'selectedOptions'],
+
+            init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+                var $element = $(element);
+                var config = ko.toJS(valueAccessor());
+
+                $element.multiselect(config);
+
+                if (allBindings.has('options')) {
+                    var options = allBindings.get('options');
+                    if (ko.isObservable(options)) {
+                        ko.computed({
+                            read: function() {
+                                options();
+                                setTimeout(function() {
+                                    var ms = $element.data('multiselect');
+                                    if (ms)
+                                        ms.updateOriginalOptions();//Not sure how beneficial this is.
+                                    $element.multiselect('rebuild');
+                                }, 1);
+                            },
+                            disposeWhenNodeIsRemoved: element
+                        });
+                    }
+                }
+
+                //value and selectedOptions are two-way, so these will be triggered even by our own actions.
+                //It needs some way to tell if they are triggered because of us or because of outside change.
+                //It doesn't loop but it's a waste of processing.
+                if (allBindings.has('value')) {
+                    var value = allBindings.get('value');
+                    if (ko.isObservable(value)) {
+                        ko.computed({
+                            read: function() {
+                                value();
+                                setTimeout(function() {
+                                    $element.multiselect('refresh');
+                                }, 1);
+                            },
+                            disposeWhenNodeIsRemoved: element
+                        }).extend({ rateLimit: 100, notifyWhenChangesStop: true });
+                    }
+                }
+
+                //Switched from arrayChange subscription to general subscription using 'refresh'.
+                //Not sure performance is any better using 'select' and 'deselect'.
+                if (allBindings.has('selectedOptions')) {
+                    var selectedOptions = allBindings.get('selectedOptions');
+                    if (ko.isObservable(selectedOptions)) {
+                        ko.computed({
+                            read: function() {
+                                selectedOptions();
+                                setTimeout(function() {
+                                    $element.multiselect('refresh');
+                                }, 1);
+                            },
+                            disposeWhenNodeIsRemoved: element
+                        }).extend({ rateLimit: 100, notifyWhenChangesStop: true });
+                    }
+                }
+
+                ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
+                    $element.multiselect('destroy');
+                });
+            },
+
+            update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+                var $element = $(element);
+                var config = ko.toJS(valueAccessor());
+
+                $element.multiselect('setOptions', config);
+                $element.multiselect('rebuild');
+            }
+        };
+    }
+
+    function forEach(array, callback) {
+        for (var index = 0; index < array.length; ++index) {
+            callback(array[index], index);
+        }
+    }
+
+    /**
+     * Constructor to create a new multiselect using the given select.
+     *
+     * @param {jQuery} select
+     * @param {Object} options
+     * @returns {Multiselect}
+     */
+    function Multiselect(select, options) {
+
+        this.$select = $(select);
+        
+        // Placeholder via data attributes
+        if (this.$select.attr("data-placeholder")) {
+            options.nonSelectedText = this.$select.data("placeholder");
+        }
+        
+        this.options = this.mergeOptions($.extend({}, options, this.$select.data()));
+
+        // Initialization.
+        // We have to clone to create a new reference.
+        this.originalOptions = this.$select.clone()[0].options;
+        this.query = '';
+        this.searchTimeout = null;
+        this.lastToggledInput = null
+
+        this.options.multiple = this.$select.attr('multiple') === "multiple";
+        this.options.onChange = $.proxy(this.options.onChange, this);
+        this.options.onDropdownShow = $.proxy(this.options.onDropdownShow, this);
+        this.options.onDropdownHide = $.proxy(this.options.onDropdownHide, this);
+        this.options.onDropdownShown = $.proxy(this.options.onDropdownShown, this);
+        this.options.onDropdownHidden = $.proxy(this.options.onDropdownHidden, this);
+        
+        // Build select all if enabled.
+        this.buildContainer();
+        this.buildButton();
+        this.buildDropdown();
+        this.buildSelectAll();
+        this.buildDropdownOptions();
+        this.buildFilter();
+
+        this.updateButtonText();
+        this.updateSelectAll();
+
+        if (this.options.disableIfEmpty && $('option', this.$select).length <= 0) {
+            this.disable();
+        }
+        
+        this.$select.hide().after(this.$container);
+    };
+
+    Multiselect.prototype = {
+
+        defaults: {
+            /**
+             * Default text function will either print 'None selected' in case no
+             * option is selected or a list of the selected options up to a length
+             * of 3 selected options.
+             * 
+             * @param {jQuery} options
+             * @param {jQuery} select
+             * @returns {String}
+             */
+            buttonText: function(options, select) {
+                if (options.length === 0) {
+                    return this.nonSelectedText;
+                }
+                else if (this.allSelectedText 
+                            && options.length === $('option', $(select)).length 
+                            && $('option', $(select)).length !== 1 
+                            && this.multiple) {
+
+                    if (this.selectAllNumber) {
+                        return this.allSelectedText + ' (' + options.length + ')';
+                    }
+                    else {
+                        return this.allSelectedText;
+                    }
+                }
+                else if (options.length > this.numberDisplayed) {
+                    return options.length + ' ' + this.nSelectedText;
+                }
+                else {
+                    var selected = '';
+                    var delimiter = this.delimiterText;
+                    
+                    options.each(function() {
+                        var label = ($(this).attr('label') !== undefined) ? $(this).attr('label') : $(this).text();
+                        selected += label + delimiter;
+                    });
+                    
+                    return selected.substr(0, selected.length - 2);
+                }
+            },
+            /**
+             * Updates the title of the button similar to the buttonText function.
+             * 
+             * @param {jQuery} options
+             * @param {jQuery} select
+             * @returns {@exp;selected@call;substr}
+             */
+            buttonTitle: function(options, select) {
+                if (options.length === 0) {
+                    return this.nonSelectedText;
+                }
+                else {
+                    var selected = '';
+                    var delimiter = this.delimiterText;
+                    
+                    options.each(function () {
+                        var label = ($(this).attr('label') !== undefined) ? $(this).attr('label') : $(this).text();
+                        selected += label + delimiter;
+                    });
+                    return selected.substr(0, selected.length - 2);
+                }
+            },
+            /**
+             * Create a label.
+             *
+             * @param {jQuery} element
+             * @returns {String}
+             */
+            optionLabel: function(element){
+                return $(element).attr('label') || $(element).text();
+            },
+            /**
+             * Triggered on change of the multiselect.
+             * 
+             * Not triggered when selecting/deselecting options manually.
+             * 
+             * @param {jQuery} option
+             * @param {Boolean} checked
+             */
+            onChange : function(option, checked) {
+
+            },
+            /**
+             * Triggered when the dropdown is shown.
+             *
+             * @param {jQuery} event
+             */
+            onDropdownShow: function(event) {
+
+            },
+            /**
+             * Triggered when the dropdown is hidden.
+             *
+             * @param {jQuery} event
+             */
+            onDropdownHide: function(event) {
+
+            },
+            /**
+             * Triggered after the dropdown is shown.
+             * 
+             * @param {jQuery} event
+             */
+            onDropdownShown: function(event) {
+                
+            },
+            /**
+             * Triggered after the dropdown is hidden.
+             * 
+             * @param {jQuery} event
+             */
+            onDropdownHidden: function(event) {
+                
+            },
+            /**
+             * Triggered on select all.
+             */
+            onSelectAll: function() {
+                
+            },
+            enableHTML: false,
+            buttonClass: 'btn btn-default',
+            inheritClass: false,
+            buttonWidth: 'auto',
+            buttonContainer: '<div class="btn-group" />',
+            dropRight: false,
+            selectedClass: 'active',
+            // Maximum height of the dropdown menu.
+            // If maximum height is exceeded a scrollbar will be displayed.
+            maxHeight: false,
+            checkboxName: false,
+            includeSelectAllOption: false,
+            includeSelectAllIfMoreThan: 0,
+            selectAllText: ' Select all',
+            selectAllValue: 'multiselect-all',
+            selectAllName: false,
+            selectAllNumber: true,
+            enableFiltering: false,
+            enableCaseInsensitiveFiltering: false,
+            enableClickableOptGroups: false,
+            filterPlaceholder: 'Search',
+            // possible options: 'text', 'value', 'both'
+            filterBehavior: 'text',
+            includeFilterClearBtn: true,
+            preventInputChangeEvent: false,
+            nonSelectedText: 'None selected',
+            nSelectedText: 'selected',
+            allSelectedText: 'All selected',
+            numberDisplayed: 3,
+            disableIfEmpty: false,
+            delimiterText: ', ',
+            templates: {
+                button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> <b class="caret"></b></button>',
+                ul: '<ul class="multiselect-container dropdown-menu"></ul>',
+                filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
+                filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default multiselect-clear-filter" type="button"><i class="glyphicon glyphicon-remove-circle"></i></button></span>',
+                li: '<li><a tabindex="0"><label></label></a></li>',
+                divider: '<li class="multiselect-item divider"></li>',
+                liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
+            }
+        },
+
+        constructor: Multiselect,
+
+        /**
+         * Builds the container of the multiselect.
+         */
+        buildContainer: function() {
+            this.$container = $(this.options.buttonContainer);
+            this.$container.on('show.bs.dropdown', this.options.onDropdownShow);
+            this.$container.on('hide.bs.dropdown', this.options.onDropdownHide);
+            this.$container.on('shown.bs.dropdown', this.options.onDropdownShown);
+            this.$container.on('hidden.bs.dropdown', this.options.onDropdownHidden);
+        },
+
+        /**
+         * Builds the button of the multiselect.
+         */
+        buildButton: function() {
+            this.$button = $(this.options.templates.button).addClass(this.options.buttonClass);
+            if (this.$select.attr('class') && this.options.inheritClass) {
+                this.$button.addClass(this.$select.attr('class'));
+            }
+            // Adopt active state.
+            if (this.$select.prop('disabled')) {
+                this.disable();
+            }
+            else {
+                this.enable();
+            }
+
+            // Manually add button width if set.
+            if (this.options.buttonWidth && this.options.buttonWidth !== 'auto') {
+                this.$button.css({
+                    'width' : this.options.buttonWidth,
+                    'overflow' : 'hidden',
+                    'text-overflow' : 'ellipsis'
+                });
+                this.$container.css({
+                    'width': this.options.buttonWidth
+                });
+            }
+
+            // Keep the tab index from the select.
+            var tabindex = this.$select.attr('tabindex');
+            if (tabindex) {
+                this.$button.attr('tabindex', tabindex);
+            }
+
+            this.$container.prepend(this.$button);
+        },
+
+        /**
+         * Builds the ul representing the dropdown menu.
+         */
+        buildDropdown: function() {
+
+            // Build ul.
+            this.$ul = $(this.options.templates.ul);
+
+            if (this.options.dropRight) {
+                this.$ul.addClass('pull-right');
+            }
+
+            // Set max height of dropdown menu to activate auto scrollbar.
+            if (this.options.maxHeight) {
+                // TODO: Add a class for this option to move the css declarations.
+                this.$ul.css({
+                    'max-height': this.options.maxHeight + 'px',
+                    'overflow-y': 'auto',
+                    'overflow-x': 'hidden'
+                });
+            }
+
+            this.$container.append(this.$ul);
+        },
+
+        /**
+         * Build the dropdown options and binds all nessecary events.
+         * 
+         * Uses createDivider and createOptionValue to create the necessary options.
+         */
+        buildDropdownOptions: function() {
+
+            this.$select.children().each($.proxy(function(index, element) {
+
+                var $element = $(element);
+                // Support optgroups and options without a group simultaneously.
+                var tag = $element.prop('tagName')
+                    .toLowerCase();
+            
+                if ($element.prop('value') === this.options.selectAllValue) {
+                    return;
+                }
+
+                if (tag === 'optgroup') {
+                    this.createOptgroup(element);
+                }
+                else if (tag === 'option') {
+
+                    if ($element.data('role') === 'divider') {
+                        this.createDivider();
+                    }
+                    else {
+                        this.createOptionValue(element);
+                    }
+
+                }
+
+                // Other illegal tags will be ignored.
+            }, this));
+
+            // Bind the change event on the dropdown elements.
+            $('li input', this.$ul).on('change', $.proxy(function(event) {
+                var $target = $(event.target);
+
+                var checked = $target.prop('checked') || false;
+                var isSelectAllOption = $target.val() === this.options.selectAllValue;
+
+                // Apply or unapply the configured selected class.
+                if (this.options.selectedClass) {
+                    if (checked) {
+                        $target.closest('li')
+                            .addClass(this.options.selectedClass);
+                    }
+                    else {
+                        $target.closest('li')
+                            .removeClass(this.options.selectedClass);
+                    }
+                }
+
+                // Get the corresponding option.
+                var value = $target.val();
+                var $option = this.getOptionByValue(value);
+
+                var $optionsNotThis = $('option', this.$select).not($option);
+                var $checkboxesNotThis = $('input', this.$container).not($target);
+
+                if (isSelectAllOption) {
+                    if (checked) {
+                        this.selectAll();
+                    }
+                    else {
+                        this.deselectAll();
+                    }
+                }
+
+                if(!isSelectAllOption){
+                    if (checked) {
+                        $option.prop('selected', true);
+
+                        if (this.options.multiple) {
+                            // Simply select additional option.
+                            $option.prop('selected', true);
+                        }
+                        else {
+                            // Unselect all other options and corresponding checkboxes.
+                            if (this.options.selectedClass) {
+                                $($checkboxesNotThis).closest('li').removeClass(this.options.selectedClass);
+                            }
+
+                            $($checkboxesNotThis).prop('checked', false);
+                            $optionsNotThis.prop('selected', false);
+
+                            // It's a single selection, so close.
+                            this.$button.click();
+                        }
+
+                        if (this.options.selectedClass === "active") {
+                            $optionsNotThis.closest("a").css("outline", "");
+                        }
+                    }
+                    else {
+                        // Unselect option.
+                        $option.prop('selected', false);
+                    }
+                }
+
+                this.$select.change();
+
+                this.updateButtonText();
+                this.updateSelectAll();
+
+                this.options.onChange($option, checked);
+
+                if(this.options.preventInputChangeEvent) {
+                    return false;
+                }
+            }, this));
+
+            $('li a', this.$ul).on('mousedown', function(e) {
+                if (e.shiftKey) {
+                    // Prevent selecting text by Shift+click
+                    return false;
+                }
+            });
+        
+            $('li a', this.$ul).on('touchstart click', $.proxy(function(event) {
+                event.stopPropagation();
+
+                var $target = $(event.target);
+                
+                if (event.shiftKey && this.options.multiple) {
+                    if($target.is("label")){ // Handles checkbox selection manually (see https://github.com/davidstutz/bootstrap-multiselect/issues/431)
+                        event.preventDefault();
+                        $target = $target.find("input");
+                        $target.prop("checked", !$target.prop("checked"));
+                    }
+                    var checked = $target.prop('checked') || false;
+
+                    if (this.lastToggledInput !== null && this.lastToggledInput !== $target) { // Make sure we actually have a range
+                        var from = $target.closest("li").index();
+                        var to = this.lastToggledInput.closest("li").index();
+                        
+                        if (from > to) { // Swap the indices
+                            var tmp = to;
+                            to = from;
+                            from = tmp;
+                        }
+                        
+                        // Make sure we grab all elements since slice excludes the last index
+                        ++to;
+                        
+                        // Change the checkboxes and underlying options
+                        var range = this.$ul.find("li").slice(from, to).find("input");
+                        
+                        range.prop('checked', checked);
+                        
+                        if (this.options.selectedClass) {
+                            range.closest('li')
+                                .toggleClass(this.options.selectedClass, checked);
+                        }
+                        
+                        for (var i = 0, j = range.length; i < j; i++) {
+                            var $checkbox = $(range[i]);
+
+                            var $option = this.getOptionByValue($checkbox.val());
+
+                            $option.prop('selected', checked);
+                        }                   
+                    }
+                    
+                    // Trigger the select "change" event
+                    $target.trigger("change");
+                }
+                
+                // Remembers last clicked option
+                if($target.is("input") && !$target.closest("li").is(".multiselect-item")){
+                    this.lastToggledInput = $target;
+                }
+
+                $target.blur();
+            }, this));
+
+            // Keyboard support.
+            this.$container.off('keydown.multiselect').on('keydown.multiselect', $.proxy(function(event) {
+                if ($('input[type="text"]', this.$container).is(':focus')) {
+                    return;
+                }
+
+                if (event.keyCode === 9 && this.$container.hasClass('open')) {
+                    this.$button.click();
+                }
+                else {
+                    var $items = $(this.$container).find("li:not(.divider):not(.disabled) a").filter(":visible");
+
+                    if (!$items.length) {
+                        return;
+                    }
+
+                    var index = $items.index($items.filter(':focus'));
+
+                    // Navigation up.
+                    if (event.keyCode === 38 && index > 0) {
+                        index--;
+                    }
+                    // Navigate down.
+                    else if (event.keyCode === 40 && index < $items.length - 1) {
+                        index++;
+                    }
+                    else if (!~index) {
+                        index = 0;
+                    }
+
+                    var $current = $items.eq(index);
+                    $current.focus();
+
+                    if (event.keyCode === 32 || event.keyCode === 13) {
+                        var $checkbox = $current.find('input');
+
+                        $checkbox.prop("checked", !$checkbox.prop("checked"));
+                        $checkbox.change();
+                    }
+
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            }, this));
+
+            if(this.options.enableClickableOptGroups && this.options.multiple) {
+                $('li.multiselect-group', this.$ul).on('click', $.proxy(function(event) {
+                    event.stopPropagation();
+
+                    var group = $(event.target).parent();
+
+                    // Search all option in optgroup
+                    var $options = group.nextUntil('li.multiselect-group');
+                    var $visibleOptions = $options.filter(":visible:not(.disabled)");
+
+                    // check or uncheck items
+                    var allChecked = true;
+                    var optionInputs = $visibleOptions.find('input');
+                    optionInputs.each(function() {
+                        allChecked = allChecked && $(this).prop('checked');
+                    });
+
+                    optionInputs.prop('checked', !allChecked).trigger('change');
+               }, this));
+            }
+        },
+
+        /**
+         * Create an option using the given select option.
+         *
+         * @param {jQuery} element
+         */
+        createOptionValue: function(element) {
+            var $element = $(element);
+            if ($element.is(':selected')) {
+                $element.prop('selected', true);
+            }
+
+            // Support the label attribute on options.
+            var label = this.options.optionLabel(element);
+            var value = $element.val();
+            var inputType = this.options.multiple ? "checkbox" : "radio";
+
+            var $li = $(this.options.templates.li);
+            var $label = $('label', $li);
+            $label.addClass(inputType);
+
+            if (this.options.enableHTML) {
+                $label.html(" " + label);
+            }
+            else {
+                $label.text(" " + label);
+            }
+        
+            var $checkbox = $('<input/>').attr('type', inputType);
+
+            if (this.options.checkboxName) {
+                $checkbox.attr('name', this.options.checkboxName);
+            }
+            $label.prepend($checkbox);
+
+            var selected = $element.prop('selected') || false;
+            $checkbox.val(value);
+
+            if (value === this.options.selectAllValue) {
+                $li.addClass("multiselect-item multiselect-all");
+                $checkbox.parent().parent()
+                    .addClass('multiselect-all');
+            }
+
+            $label.attr('title', $element.attr('title'));
+
+            this.$ul.append($li);
+
+            if ($element.is(':disabled')) {
+                $checkbox.attr('disabled', 'disabled')
+                    .prop('disabled', true)
+                    .closest('a')
+                    .attr("tabindex", "-1")
+                    .closest('li')
+                    .addClass('disabled');
+            }
+
+            $checkbox.prop('checked', selected);
+
+            if (selected && this.options.selectedClass) {
+                $checkbox.closest('li')
+                    .addClass(this.options.selectedClass);
+            }
+        },
+
+        /**
+         * Creates a divider using the given select option.
+         *
+         * @param {jQuery} element
+         */
+        createDivider: function(element) {
+            var $divider = $(this.options.templates.divider);
+            this.$ul.append($divider);
+        },
+
+        /**
+         * Creates an optgroup.
+         *
+         * @param {jQuery} group
+         */
+        createOptgroup: function(group) {
+            var groupName = $(group).prop('label');
+
+            // Add a header for the group.
+            var $li = $(this.options.templates.liGroup);
+            
+            if (this.options.enableHTML) {
+                $('label', $li).html(groupName);
+            }
+            else {
+                $('label', $li).text(groupName);
+            }
+            
+            if (this.options.enableClickableOptGroups) {
+                $li.addClass('multiselect-group-clickable');
+            }
+
+            this.$ul.append($li);
+
+            if ($(group).is(':disabled')) {
+                $li.addClass('disabled');
+            }
+
+            // Add the options of the group.
+            $('option', group).each($.proxy(function(index, element) {
+                this.createOptionValue(element);
+            }, this));
+        },
+
+        /**
+         * Build the selct all.
+         * 
+         * Checks if a select all has already been created.
+         */
+        buildSelectAll: function() {
+            if (typeof this.options.selectAllValue === 'number') {
+                this.options.selectAllValue = this.options.selectAllValue.toString();
+            }
+            
+            var alreadyHasSelectAll = this.hasSelectAll();
+
+            if (!alreadyHasSelectAll && this.options.includeSelectAllOption && this.options.multiple
+                    && $('option', this.$select).length > this.options.includeSelectAllIfMoreThan) {
+
+                // Check whether to add a divider after the select all.
+                if (this.options.includeSelectAllDivider) {
+                    this.$ul.prepend($(this.options.templates.divider));
+                }
+
+                var $li = $(this.options.templates.li);
+                $('label', $li).addClass("checkbox");
+                
+                if (this.options.enableHTML) {
+                    $('label', $li).html(" " + this.options.selectAllText);
+                }
+                else {
+                    $('label', $li).text(" " + this.options.selectAllText);
+                }
+                
+                if (this.options.selectAllName) {
+                    $('label', $li).prepend('<input type="checkbox" name="' + this.options.selectAllName + '" />');
+                }
+                else {
+                    $('label', $li).prepend('<input type="checkbox" />');
+                }
+                
+                var $checkbox = $('input', $li);
+                $checkbox.val(this.options.selectAllValue);
+
+                $li.addClass("multiselect-item multiselect-all");
+                $checkbox.parent().parent()
+                    .addClass('multiselect-all');
+
+                this.$ul.prepend($li);
+
+                $checkbox.prop('checked', false);
+            }
+        },
+
+        /**
+         * Builds the filter.
+         */
+        buildFilter: function() {
+
+            // Build filter if filtering OR case insensitive filtering is enabled and the number of options exceeds (or equals) enableFilterLength.
+            if (this.options.enableFiltering || this.options.enableCaseInsensitiveFiltering) {
+                var enableFilterLength = Math.max(this.options.enableFiltering, this.options.enableCaseInsensitiveFiltering);
+
+                if (this.$select.find('option').length >= enableFilterLength) {
+
+                    this.$filter = $(this.options.templates.filter);
+                    $('input', this.$filter).attr('placeholder', this.options.filterPlaceholder);
+                    
+                    // Adds optional filter clear button
+                    if(this.options.includeFilterClearBtn){
+                        var clearBtn = $(this.options.templates.filterClearBtn);
+                        clearBtn.on('click', $.proxy(function(event){
+                            clearTimeout(this.searchTimeout);
+                            this.$filter.find('.multiselect-search').val('');
+                            $('li', this.$ul).show().removeClass("filter-hidden");
+                            this.updateSelectAll();
+                        }, this));
+                        this.$filter.find('.input-group').append(clearBtn);
+                    }
+                    
+                    this.$ul.prepend(this.$filter);
+
+                    this.$filter.val(this.query).on('click', function(event) {
+                        event.stopPropagation();
+                    }).on('input keydown', $.proxy(function(event) {
+                        // Cancel enter key default behaviour
+                        if (event.which === 13) {
+                          event.preventDefault();
+                        }
+                        
+                        // This is useful to catch "keydown" events after the browser has updated the control.
+                        clearTimeout(this.searchTimeout);
+
+                        this.searchTimeout = this.asyncFunction($.proxy(function() {
+
+                            if (this.query !== event.target.value) {
+                                this.query = event.target.value;
+
+                                var currentGroup, currentGroupVisible;
+                                $.each($('li', this.$ul), $.proxy(function(index, element) {
+                                    var value = $('input', element).length > 0 ? $('input', element).val() : "";
+                                    var text = $('label', element).text();
+
+                                    var filterCandidate = '';
+                                    if ((this.options.filterBehavior === 'text')) {
+                                        filterCandidate = text;
+                                    }
+                                    else if ((this.options.filterBehavior === 'value')) {
+                                        filterCandidate = value;
+                                    }
+                                    else if (this.options.filterBehavior === 'both') {
+                                        filterCandidate = text + '\n' + value;
+                                    }
+
+                                    if (value !== this.options.selectAllValue && text) {
+                                        // By default lets assume that element is not
+                                        // interesting for this search.
+                                        var showElement = false;
+
+                                        if (this.options.enableCaseInsensitiveFiltering && filterCandidate.toLowerCase().indexOf(this.query.toLowerCase()) > -1) {
+                                            showElement = true;
+                                        }
+                                        else if (filterCandidate.indexOf(this.query) > -1) {
+                                            showElement = true;
+                                        }
+
+                                        // Toggle current element (group or group item) according to showElement boolean.
+                                        $(element).toggle(showElement).toggleClass('filter-hidden', !showElement);
+                                        
+                                        // Differentiate groups and group items.
+                                        if ($(element).hasClass('multiselect-group')) {
+                                            // Remember group status.
+                                            currentGroup = element;
+                                            currentGroupVisible = showElement;
+                                        }
+                                        else {
+                                            // Show group name when at least one of its items is visible.
+                                            if (showElement) {
+                                                $(currentGroup).show().removeClass('filter-hidden');
+                                            }
+                                            
+                                            // Show all group items when group name satisfies filter.
+                                            if (!showElement && currentGroupVisible) {
+                                                $(element).show().removeClass('filter-hidden');
+                                            }
+                                        }
+                                    }
+                                }, this));
+                            }
+
+                            this.updateSelectAll();
+                        }, this), 300, this);
+                    }, this));
+                }
+            }
+        },
+
+        /**
+         * Unbinds the whole plugin.
+         */
+        destroy: function() {
+            this.$container.remove();
+            this.$select.show();
+            this.$select.data('multiselect', null);
+        },
+
+        /**
+         * Refreshs the multiselect based on the selected options of the select.
+         */
+        refresh: function() {
+            $('option', this.$select).each($.proxy(function(index, element) {
+                var $input = $('li input', this.$ul).filter(function() {
+                    return $(this).val() === $(element).val();
+                });
+
+                if ($(element).is(':selected')) {
+                    $input.prop('checked', true);
+
+                    if (this.options.selectedClass) {
+                        $input.closest('li')
+                            .addClass(this.options.selectedClass);
+                    }
+                }
+                else {
+                    $input.prop('checked', false);
+
+                    if (this.options.selectedClass) {
+                        $input.closest('li')
+                            .removeClass(this.options.selectedClass);
+                    }
+                }
+
+                if ($(element).is(":disabled")) {
+                    $input.attr('disabled', 'disabled')
+                        .prop('disabled', true)
+                        .closest('li')
+                        .addClass('disabled');
+                }
+                else {
+                    $input.prop('disabled', false)
+                        .closest('li')
+                        .removeClass('disabled');
+                }
+            }, this));
+
+            this.updateButtonText();
+            this.updateSelectAll();
+        },
+
+        /**
+         * Select all options of the given values.
+         * 
+         * If triggerOnChange is set to true, the on change event is triggered if
+         * and only if one value is passed.
+         * 
+         * @param {Array} selectValues
+         * @param {Boolean} triggerOnChange
+         */
+        select: function(selectValues, triggerOnChange) {
+            if(!$.isArray(selectValues)) {
+                selectValues = [selectValues];
+            }
+
+            for (var i = 0; i < selectValues.length; i++) {
+                var value = selectValues[i];
+
+                if (value === null || value === undefined) {
+                    continue;
+                }
+
+                var $option = this.getOptionByValue(value);
+                var $checkbox = this.getInputByValue(value);
+
+                if($option === undefined || $checkbox === undefined) {
+                    continue;
+                }
+                
+                if (!this.options.multiple) {
+                    this.deselectAll(false);
+                }
+                
+                if (this.options.selectedClass) {
+                    $checkbox.closest('li')
+                        .addClass(this.options.selectedClass);
+                }
+
+                $checkbox.prop('checked', true);
+                $option.prop('selected', true);
+                
+                if (triggerOnChange) {
+                    this.options.onChange($option, true);
+                }
+            }
+
+            this.updateButtonText();
+            this.updateSelectAll();
+        },
+
+        /**
+         * Clears all selected items.
+         */
+        clearSelection: function () {
+            this.deselectAll(false);
+            this.updateButtonText();
+            this.updateSelectAll();
+        },
+
+        /**
+         * Deselects all options of the given values.
+         * 
+         * If triggerOnChange is set to true, the on change event is triggered, if
+         * and only if one value is passed.
+         * 
+         * @param {Array} deselectValues
+         * @param {Boolean} triggerOnChange
+         */
+        deselect: function(deselectValues, triggerOnChange) {
+            if(!$.isArray(deselectValues)) {
+                deselectValues = [deselectValues];
+            }
+
+            for (var i = 0; i < deselectValues.length; i++) {
+                var value = deselectValues[i];
+
+                if (value === null || value === undefined) {
+                    continue;
+                }
+
+                var $option = this.getOptionByValue(value);
+                var $checkbox = this.getInputByValue(value);
+
+                if($option === undefined || $checkbox === undefined) {
+                    continue;
+                }
+
+                if (this.options.selectedClass) {
+                    $checkbox.closest('li')
+                        .removeClass(this.options.selectedClass);
+                }
+
+                $checkbox.prop('checked', false);
+                $option.prop('selected', false);
+                
+                if (triggerOnChange) {
+                    this.options.onChange($option, false);
+                }
+            }
+
+            this.updateButtonText();
+            this.updateSelectAll();
+        },
+        
+        /**
+         * Selects all enabled & visible options.
+         *
+         * If justVisible is true or not specified, only visible options are selected.
+         *
+         * @param {Boolean} justVisible
+         * @param {Boolean} triggerOnSelectAll
+         */
+        selectAll: function (justVisible, triggerOnSelectAll) {
+            var justVisible = typeof justVisible === 'undefined' ? true : justVisible;
+            var allCheckboxes = $("li input[type='checkbox']:enabled", this.$ul);
+            var visibleCheckboxes = allCheckboxes.filter(":visible");
+            var allCheckboxesCount = allCheckboxes.length;
+            var visibleCheckboxesCount = visibleCheckboxes.length;
+            
+            if(justVisible) {
+                visibleCheckboxes.prop('checked', true);
+                $("li:not(.divider):not(.disabled)", this.$ul).filter(":visible").addClass(this.options.selectedClass);
+            }
+            else {
+                allCheckboxes.prop('checked', true);
+                $("li:not(.divider):not(.disabled)", this.$ul).addClass(this.options.selectedClass);
+            }
+                
+            if (allCheckboxesCount === visibleCheckboxesCount || justVisible === false) {
+                $("option:enabled", this.$select).prop('selected', true);
+            }
+            else {
+                var values = visibleCheckboxes.map(function() {
+                    return $(this).val();
+                }).get();
+                
+                $("option:enabled", this.$select).filter(function(index) {
+                    return $.inArray($(this).val(), values) !== -1;
+                }).prop('selected', true);
+            }
+            
+            if (triggerOnSelectAll) {
+                this.options.onSelectAll();
+            }
+        },
+
+        /**
+         * Deselects all options.
+         * 
+         * If justVisible is true or not specified, only visible options are deselected.
+         * 
+         * @param {Boolean} justVisible
+         */
+        deselectAll: function (justVisible) {
+            var justVisible = typeof justVisible === 'undefined' ? true : justVisible;
+            
+            if(justVisible) {              
+                var visibleCheckboxes = $("li input[type='checkbox']:not(:disabled)", this.$ul).filter(":visible");
+                visibleCheckboxes.prop('checked', false);
+                
+                var values = visibleCheckboxes.map(function() {
+                    return $(this).val();
+                }).get();
+                
+                $("option:enabled", this.$select).filter(function(index) {
+                    return $.inArray($(this).val(), values) !== -1;
+                }).prop('selected', false);
+                
+                if (this.options.selectedClass) {
+                    $("li:not(.divider):not(.disabled)", this.$ul).filter(":visible").removeClass(this.options.selectedClass);
+                }
+            }
+            else {
+                $("li input[type='checkbox']:enabled", this.$ul).prop('checked', false);
+                $("option:enabled", this.$select).prop('selected', false);
+                
+                if (this.options.selectedClass) {
+                    $("li:not(.divider):not(.disabled)", this.$ul).removeClass(this.options.selectedClass);
+                }
+            }
+        },
+
+        /**
+         * Rebuild the plugin.
+         * 
+         * Rebuilds the dropdown, the filter and the select all option.
+         */
+        rebuild: function() {
+            this.$ul.html('');
+
+            // Important to distinguish between radios and checkboxes.
+            this.options.multiple = this.$select.attr('multiple') === "multiple";
+
+            this.buildSelectAll();
+            this.buildDropdownOptions();
+            this.buildFilter();
+
+            this.updateButtonText();
+            this.updateSelectAll();
+            
+            if (this.options.disableIfEmpty && $('option', this.$select).length <= 0) {
+                this.disable();
+            }
+            else {
+                this.enable();
+            }
+            
+            if (this.options.dropRight) {
+                this.$ul.addClass('pull-right');
+            }
+        },
+
+        /**
+         * The provided data will be used to build the dropdown.
+         */
+        dataprovider: function(dataprovider) {
+            
+            var groupCounter = 0;
+            var $select = this.$select.empty();
+            
+            $.each(dataprovider, function (index, option) {
+                var $tag;
+                
+                if ($.isArray(option.children)) { // create optiongroup tag
+                    groupCounter++;
+                    
+                    $tag = $('<optgroup/>').attr({
+                        label: option.label || 'Group ' + groupCounter,
+                        disabled: !!option.disabled
+                    });
+                    
+                    forEach(option.children, function(subOption) { // add children option tags
+                        $tag.append($('<option/>').attr({
+                            value: subOption.value,
+                            label: subOption.label || subOption.value,
+                            title: subOption.title,
+                            selected: !!subOption.selected,
+                            disabled: !!subOption.disabled
+                        }));
+                    });
+                }
+                else {
+                    $tag = $('<option/>').attr({
+                        value: option.value,
+                        label: option.label || option.value,
+                        title: option.title,
+                        selected: !!option.selected,
+                        disabled: !!option.disabled
+                    });
+                }
+                
+                $select.append($tag);
+            });
+            
+            this.rebuild();
+        },
+
+        /**
+         * Enable the multiselect.
+         */
+        enable: function() {
+            this.$select.prop('disabled', false);
+            this.$button.prop('disabled', false)
+                .removeClass('disabled');
+        },
+
+        /**
+         * Disable the multiselect.
+         */
+        disable: function() {
+            this.$select.prop('disabled', true);
+            this.$button.prop('disabled', true)
+                .addClass('disabled');
+        },
+
+        /**
+         * Set the options.
+         *
+         * @param {Array} options
+         */
+        setOptions: function(options) {
+            this.options = this.mergeOptions(options);
+        },
+
+        /**
+         * Merges the given options with the default options.
+         *
+         * @param {Array} options
+         * @returns {Array}
+         */
+        mergeOptions: function(options) {
+            return $.extend(true, {}, this.defaults, this.options, options);
+        },
+
+        /**
+         * Checks whether a select all checkbox is present.
+         *
+         * @returns {Boolean}
+         */
+        hasSelectAll: function() {
+            return $('li.multiselect-all', this.$ul).length > 0;
+        },
+
+        /**
+         * Updates the select all checkbox based on the currently displayed and selected checkboxes.
+         */
+        updateSelectAll: function() {
+            if (this.hasSelectAll()) {
+                var allBoxes = $("li:not(.multiselect-item):not(.filter-hidden) input:enabled", this.$ul);
+                var allBoxesLength = allBoxes.length;
+                var checkedBoxesLength = allBoxes.filter(":checked").length;
+                var selectAllLi  = $("li.multiselect-all", this.$ul);
+                var selectAllInput = selectAllLi.find("input");
+                
+                if (checkedBoxesLength > 0 && checkedBoxesLength === allBoxesLength) {
+                    selectAllInput.prop("checked", true);
+                    selectAllLi.addClass(this.options.selectedClass);
+                    this.options.onSelectAll();
+                }
+                else {
+                    selectAllInput.prop("checked", false);
+                    selectAllLi.removeClass(this.options.selectedClass);
+                }
+            }
+        },
+
+        /**
+         * Update the button text and its title based on the currently selected options.
+         */
+        updateButtonText: function() {
+            var options = this.getSelected();
+            
+            // First update the displayed button text.
+            if (this.options.enableHTML) {
+                $('.multiselect .multiselect-selected-text', this.$container).html(this.options.buttonText(options, this.$select));
+            }
+            else {
+                $('.multiselect .multiselect-selected-text', this.$container).text(this.options.buttonText(options, this.$select));
+            }
+            
+            // Now update the title attribute of the button.
+            $('.multiselect', this.$container).attr('title', this.options.buttonTitle(options, this.$select));
+        },
+
+        /**
+         * Get all selected options.
+         *
+         * @returns {jQUery}
+         */
+        getSelected: function() {
+            return $('option', this.$select).filter(":selected");
+        },
+
+        /**
+         * Gets a select option by its value.
+         *
+         * @param {String} value
+         * @returns {jQuery}
+         */
+        getOptionByValue: function (value) {
+
+            var options = $('option', this.$select);
+            var valueToCompare = value.toString();
+
+            for (var i = 0; i < options.length; i = i + 1) {
+                var option = options[i];
+                if (option.value === valueToCompare) {
+                    return $(option);
+                }
+            }
+        },
+
+        /**
+         * Get the input (radio/checkbox) by its value.
+         *
+         * @param {String} value
+         * @returns {jQuery}
+         */
+        getInputByValue: function (value) {
+
+            var checkboxes = $('li input', this.$ul);
+            var valueToCompare = value.toString();
+
+            for (var i = 0; i < checkboxes.length; i = i + 1) {
+                var checkbox = checkboxes[i];
+                if (checkbox.value === valueToCompare) {
+                    return $(checkbox);
+                }
+            }
+        },
+
+        /**
+         * Used for knockout integration.
+         */
+        updateOriginalOptions: function() {
+            this.originalOptions = this.$select.clone()[0].options;
+        },
+
+        asyncFunction: function(callback, timeout, self) {
+            var args = Array.prototype.slice.call(arguments, 3);
+            return setTimeout(function() {
+                callback.apply(self || window, args);
+            }, timeout);
+        },
+
+        setAllSelectedText: function(allSelectedText) {
+            this.options.allSelectedText = allSelectedText;
+            this.updateButtonText();
+        }
+    };
+
+    $.fn.multiselect = function(option, parameter, extraOptions) {
+        return this.each(function() {
+            var data = $(this).data('multiselect');
+            var options = typeof option === 'object' && option;
+
+            // Initialize the multiselect.
+            if (!data) {
+                data = new Multiselect(this, options);
+                $(this).data('multiselect', data);
+            }
+
+            // Call multiselect method.
+            if (typeof option === 'string') {
+                data[option](parameter, extraOptions);
+                
+                if (option === 'destroy') {
+                    $(this).data('multiselect', false);
+                }
+            }
+        });
+    };
+
+    $.fn.multiselect.Constructor = Multiselect;
+
+    $(function() {
+        $("select[data-role=multiselect]").multiselect();
+    });
+
+}(__webpack_provided_window_dot_jQuery);
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * Waves v0.7.5
+ * http://fian.my.id/Waves
+ *
+ * Copyright 2014-2016 Alfiana E. Sibuea and other contributors
+ * Released under the MIT license
+ * https://github.com/fians/Waves/blob/master/LICENSE
+ */
+
+;(function(window, factory) {
+    'use strict';
+
+    // AMD. Register as an anonymous module.  Wrap in function so we have access
+    // to root via `this`.
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
+            return factory.apply(window);
+        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    }
+
+    // Node. Does not work with strict CommonJS, but only CommonJS-like
+    // environments that support module.exports, like Node.
+    else if (typeof exports === 'object') {
+        module.exports = factory.call(window);
+    }
+
+    // Browser globals.
+    else {
+        window.Waves = factory.call(window);
+    }
+})(typeof global === 'object' ? global : this, function() {
+    'use strict';
+
+    var Waves            = Waves || {};
+    var $$               = document.querySelectorAll.bind(document);
+    var toString         = Object.prototype.toString;
+    var isTouchAvailable = 'ontouchstart' in window;
+
+
+    // Find exact position of element
+    function isWindow(obj) {
+        return obj !== null && obj === obj.window;
+    }
+
+    function getWindow(elem) {
+        return isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
+    }
+
+    function isObject(value) {
+        var type = typeof value;
+        return type === 'function' || type === 'object' && !!value;
+    }
+
+    function isDOMNode(obj) {
+        return isObject(obj) && obj.nodeType > 0;
+    }
+
+    function getWavesElements(nodes) {
+        var stringRepr = toString.call(nodes);
+
+        if (stringRepr === '[object String]') {
+            return $$(nodes);
+        } else if (isObject(nodes) && /^\[object (Array|HTMLCollection|NodeList|Object)\]$/.test(stringRepr) && nodes.hasOwnProperty('length')) {
+            return nodes;
+        } else if (isDOMNode(nodes)) {
+            return [nodes];
+        }
+
+        return [];
+    }
+
+    function offset(elem) {
+        var docElem, win,
+            box = { top: 0, left: 0 },
+            doc = elem && elem.ownerDocument;
+
+        docElem = doc.documentElement;
+
+        if (typeof elem.getBoundingClientRect !== typeof undefined) {
+            box = elem.getBoundingClientRect();
+        }
+        win = getWindow(doc);
+        return {
+            top: box.top + win.pageYOffset - docElem.clientTop,
+            left: box.left + win.pageXOffset - docElem.clientLeft
+        };
+    }
+
+    function convertStyle(styleObj) {
+        var style = '';
+
+        for (var prop in styleObj) {
+            if (styleObj.hasOwnProperty(prop)) {
+                style += (prop + ':' + styleObj[prop] + ';');
+            }
+        }
+
+        return style;
+    }
+
+    var Effect = {
+
+        // Effect duration
+        duration: 750,
+
+        // Effect delay (check for scroll before showing effect)
+        delay: 200,
+
+        show: function(e, element, velocity) {
+
+            // Disable right click
+            if (e.button === 2) {
+                return false;
+            }
+
+            element = element || this;
+
+            // Create ripple
+            var ripple = document.createElement('div');
+            ripple.className = 'waves-ripple waves-rippling';
+            element.appendChild(ripple);
+
+            // Get click coordinate and element width
+            var pos       = offset(element);
+            var relativeY = 0;
+            var relativeX = 0;
+            // Support for touch devices
+            if('touches' in e && e.touches.length) {
+                relativeY   = (e.touches[0].pageY - pos.top);
+                relativeX   = (e.touches[0].pageX - pos.left);
+            }
+            //Normal case
+            else {
+                relativeY   = (e.pageY - pos.top);
+                relativeX   = (e.pageX - pos.left);
+            }
+            // Support for synthetic events
+            relativeX = relativeX >= 0 ? relativeX : 0;
+            relativeY = relativeY >= 0 ? relativeY : 0;
+
+            var scale     = 'scale(' + ((element.clientWidth / 100) * 3) + ')';
+            var translate = 'translate(0,0)';
+
+            if (velocity) {
+                translate = 'translate(' + (velocity.x) + 'px, ' + (velocity.y) + 'px)';
+            }
+
+            // Attach data to element
+            ripple.setAttribute('data-hold', Date.now());
+            ripple.setAttribute('data-x', relativeX);
+            ripple.setAttribute('data-y', relativeY);
+            ripple.setAttribute('data-scale', scale);
+            ripple.setAttribute('data-translate', translate);
+
+            // Set ripple position
+            var rippleStyle = {
+                top: relativeY + 'px',
+                left: relativeX + 'px'
+            };
+
+            ripple.classList.add('waves-notransition');
+            ripple.setAttribute('style', convertStyle(rippleStyle));
+            ripple.classList.remove('waves-notransition');
+
+            // Scale the ripple
+            rippleStyle['-webkit-transform'] = scale + ' ' + translate;
+            rippleStyle['-moz-transform'] = scale + ' ' + translate;
+            rippleStyle['-ms-transform'] = scale + ' ' + translate;
+            rippleStyle['-o-transform'] = scale + ' ' + translate;
+            rippleStyle.transform = scale + ' ' + translate;
+            rippleStyle.opacity = '1';
+
+            var duration = e.type === 'mousemove' ? 2500 : Effect.duration;
+            rippleStyle['-webkit-transition-duration'] = duration + 'ms';
+            rippleStyle['-moz-transition-duration']    = duration + 'ms';
+            rippleStyle['-o-transition-duration']      = duration + 'ms';
+            rippleStyle['transition-duration']         = duration + 'ms';
+
+            ripple.setAttribute('style', convertStyle(rippleStyle));
+        },
+
+        hide: function(e, element) {
+            element = element || this;
+
+            var ripples = element.getElementsByClassName('waves-rippling');
+
+            for (var i = 0, len = ripples.length; i < len; i++) {
+                removeRipple(e, element, ripples[i]);
+            }
+        }
+    };
+
+    /**
+     * Collection of wrapper for HTML element that only have single tag
+     * like <input> and <img>
+     */
+    var TagWrapper = {
+
+        // Wrap <input> tag so it can perform the effect
+        input: function(element) {
+
+            var parent = element.parentNode;
+
+            // If input already have parent just pass through
+            if (parent.tagName.toLowerCase() === 'i' && parent.classList.contains('waves-effect')) {
+                return;
+            }
+
+            // Put element class and style to the specified parent
+            var wrapper       = document.createElement('i');
+            wrapper.className = element.className + ' waves-input-wrapper';
+            element.className = 'waves-button-input';
+
+            // Put element as child
+            parent.replaceChild(wrapper, element);
+            wrapper.appendChild(element);
+
+            // Apply element color and background color to wrapper
+            var elementStyle    = window.getComputedStyle(element, null);
+            var color           = elementStyle.color;
+            var backgroundColor = elementStyle.backgroundColor;
+
+            wrapper.setAttribute('style', 'color:' + color + ';background:' + backgroundColor);
+            element.setAttribute('style', 'background-color:rgba(0,0,0,0);');
+
+        },
+
+        // Wrap <img> tag so it can perform the effect
+        img: function(element) {
+
+            var parent = element.parentNode;
+
+            // If input already have parent just pass through
+            if (parent.tagName.toLowerCase() === 'i' && parent.classList.contains('waves-effect')) {
+                return;
+            }
+
+            // Put element as child
+            var wrapper  = document.createElement('i');
+            parent.replaceChild(wrapper, element);
+            wrapper.appendChild(element);
+
+        }
+    };
+
+    /**
+     * Hide the effect and remove the ripple. Must be
+     * a separate function to pass the JSLint...
+     */
+    function removeRipple(e, el, ripple) {
+
+        // Check if the ripple still exist
+        if (!ripple) {
+            return;
+        }
+
+        ripple.classList.remove('waves-rippling');
+
+        var relativeX = ripple.getAttribute('data-x');
+        var relativeY = ripple.getAttribute('data-y');
+        var scale     = ripple.getAttribute('data-scale');
+        var translate = ripple.getAttribute('data-translate');
+
+        // Get delay beetween mousedown and mouse leave
+        var diff = Date.now() - Number(ripple.getAttribute('data-hold'));
+        var delay = 350 - diff;
+
+        if (delay < 0) {
+            delay = 0;
+        }
+
+        if (e.type === 'mousemove') {
+            delay = 150;
+        }
+
+        // Fade out ripple after delay
+        var duration = e.type === 'mousemove' ? 2500 : Effect.duration;
+
+        setTimeout(function() {
+
+            var style = {
+                top: relativeY + 'px',
+                left: relativeX + 'px',
+                opacity: '0',
+
+                // Duration
+                '-webkit-transition-duration': duration + 'ms',
+                '-moz-transition-duration': duration + 'ms',
+                '-o-transition-duration': duration + 'ms',
+                'transition-duration': duration + 'ms',
+                '-webkit-transform': scale + ' ' + translate,
+                '-moz-transform': scale + ' ' + translate,
+                '-ms-transform': scale + ' ' + translate,
+                '-o-transform': scale + ' ' + translate,
+                'transform': scale + ' ' + translate
+            };
+
+            ripple.setAttribute('style', convertStyle(style));
+
+            setTimeout(function() {
+                try {
+                    el.removeChild(ripple);
+                } catch (e) {
+                    return false;
+                }
+            }, duration);
+
+        }, delay);
+    }
+
+
+    /**
+     * Disable mousedown event for 500ms during and after touch
+     */
+    var TouchHandler = {
+
+        /* uses an integer rather than bool so there's no issues with
+         * needing to clear timeouts if another touch event occurred
+         * within the 500ms. Cannot mouseup between touchstart and
+         * touchend, nor in the 500ms after touchend. */
+        touches: 0,
+
+        allowEvent: function(e) {
+
+            var allow = true;
+
+            if (/^(mousedown|mousemove)$/.test(e.type) && TouchHandler.touches) {
+                allow = false;
+            }
+
+            return allow;
+        },
+        registerEvent: function(e) {
+            var eType = e.type;
+
+            if (eType === 'touchstart') {
+
+                TouchHandler.touches += 1; // push
+
+            } else if (/^(touchend|touchcancel)$/.test(eType)) {
+
+                setTimeout(function() {
+                    if (TouchHandler.touches) {
+                        TouchHandler.touches -= 1; // pop after 500ms
+                    }
+                }, 500);
+
+            }
+        }
+    };
+
+
+    /**
+     * Delegated click handler for .waves-effect element.
+     * returns null when .waves-effect element not in "click tree"
+     */
+    function getWavesEffectElement(e) {
+
+        if (TouchHandler.allowEvent(e) === false) {
+            return null;
+        }
+
+        var element = null;
+        var target = e.target || e.srcElement;
+
+        while (target.parentElement !== null) {
+            if (target.classList.contains('waves-effect') && (!(target instanceof SVGElement))) {
+                element = target;
+                break;
+            }
+            target = target.parentElement;
+        }
+
+        return element;
+    }
+
+    /**
+     * Bubble the click and show effect if .waves-effect elem was found
+     */
+    function showEffect(e) {
+
+        // Disable effect if element has "disabled" property on it
+        // In some cases, the event is not triggered by the current element
+        // if (e.target.getAttribute('disabled') !== null) {
+        //     return;
+        // }
+
+        var element = getWavesEffectElement(e);
+
+        if (element !== null) {
+
+            // Make it sure the element has either disabled property, disabled attribute or 'disabled' class
+            if (element.disabled || element.getAttribute('disabled') || element.classList.contains('disabled')) {
+                return;
+            }
+
+            TouchHandler.registerEvent(e);
+
+            if (e.type === 'touchstart' && Effect.delay) {
+
+                var hidden = false;
+
+                var timer = setTimeout(function () {
+                    timer = null;
+                    Effect.show(e, element);
+                }, Effect.delay);
+
+                var hideEffect = function(hideEvent) {
+
+                    // if touch hasn't moved, and effect not yet started: start effect now
+                    if (timer) {
+                        clearTimeout(timer);
+                        timer = null;
+                        Effect.show(e, element);
+                    }
+                    if (!hidden) {
+                        hidden = true;
+                        Effect.hide(hideEvent, element);
+                    }
+                };
+
+                var touchMove = function(moveEvent) {
+                    if (timer) {
+                        clearTimeout(timer);
+                        timer = null;
+                    }
+                    hideEffect(moveEvent);
+                };
+
+                element.addEventListener('touchmove', touchMove, false);
+                element.addEventListener('touchend', hideEffect, false);
+                element.addEventListener('touchcancel', hideEffect, false);
+
+            } else {
+
+                Effect.show(e, element);
+
+                if (isTouchAvailable) {
+                    element.addEventListener('touchend', Effect.hide, false);
+                    element.addEventListener('touchcancel', Effect.hide, false);
+                }
+
+                element.addEventListener('mouseup', Effect.hide, false);
+                element.addEventListener('mouseleave', Effect.hide, false);
+            }
+        }
+    }
+
+    Waves.init = function(options) {
+        var body = document.body;
+
+        options = options || {};
+
+        if ('duration' in options) {
+            Effect.duration = options.duration;
+        }
+
+        if ('delay' in options) {
+            Effect.delay = options.delay;
+        }
+
+        if (isTouchAvailable) {
+            body.addEventListener('touchstart', showEffect, false);
+            body.addEventListener('touchcancel', TouchHandler.registerEvent, false);
+            body.addEventListener('touchend', TouchHandler.registerEvent, false);
+        }
+
+        body.addEventListener('mousedown', showEffect, false);
+    };
+
+
+    /**
+     * Attach Waves to dynamically loaded inputs, or add .waves-effect and other
+     * waves classes to a set of elements. Set drag to true if the ripple mouseover
+     * or skimming effect should be applied to the elements.
+     */
+    Waves.attach = function(elements, classes) {
+
+        elements = getWavesElements(elements);
+
+        if (toString.call(classes) === '[object Array]') {
+            classes = classes.join(' ');
+        }
+
+        classes = classes ? ' ' + classes : '';
+
+        var element, tagName;
+
+        for (var i = 0, len = elements.length; i < len; i++) {
+
+            element = elements[i];
+            tagName = element.tagName.toLowerCase();
+
+            if (['input', 'img'].indexOf(tagName) !== -1) {
+                TagWrapper[tagName](element);
+                element = element.parentElement;
+            }
+
+            if (element.className.indexOf('waves-effect') === -1) {
+                element.className += ' waves-effect' + classes;
+            }
+        }
+    };
+
+
+    /**
+     * Cause a ripple to appear in an element via code.
+     */
+    Waves.ripple = function(elements, options) {
+        elements = getWavesElements(elements);
+        var elementsLen = elements.length;
+
+        options          = options || {};
+        options.wait     = options.wait || 0;
+        options.position = options.position || null; // default = centre of element
+
+
+        if (elementsLen) {
+            var element, pos, off, centre = {}, i = 0;
+            var mousedown = {
+                type: 'mousedown',
+                button: 1
+            };
+            var hideRipple = function(mouseup, element) {
+                return function() {
+                    Effect.hide(mouseup, element);
+                };
+            };
+
+            for (; i < elementsLen; i++) {
+                element = elements[i];
+                pos = options.position || {
+                    x: element.clientWidth / 2,
+                    y: element.clientHeight / 2
+                };
+
+                off      = offset(element);
+                centre.x = off.left + pos.x;
+                centre.y = off.top + pos.y;
+
+                mousedown.pageX = centre.x;
+                mousedown.pageY = centre.y;
+
+                Effect.show(mousedown, element);
+
+                if (options.wait >= 0 && options.wait !== null) {
+                    var mouseup = {
+                        type: 'mouseup',
+                        button: 1
+                    };
+
+                    setTimeout(hideRipple(mouseup, element), options.wait);
+                }
+            }
+        }
+    };
+
+    /**
+     * Remove all ripples from an element.
+     */
+    Waves.calm = function(elements) {
+        elements = getWavesElements(elements);
+        var mouseup = {
+            type: 'mouseup',
+            button: 1
+        };
+
+        for (var i = 0, len = elements.length; i < len; i++) {
+            Effect.hide(mouseup, elements[i]);
+        }
+    };
+
+    /**
+     * Deprecated API fallback
+     */
+    Waves.displayEffect = function(options) {
+        console.error('Waves.displayEffect() has been deprecated and will be removed in future version. Please use Waves.init() to initialize Waves effect');
+        Waves.init(options);
+    };
+
+    return Waves;
+});
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(jQuery, Tether) {/*!
@@ -13452,3850 +15466,15 @@ var Popover = function ($) {
 
 }();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(18)))
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4.0 */
-
-(function(root, factory) {
-  if (true) {
-    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-				__WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else if (typeof exports === 'object') {
-    module.exports = factory(require, exports, module);
-  } else {
-    root.Tether = factory();
-  }
-}(this, function(require, exports, module) {
-
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var TetherBase = undefined;
-if (typeof TetherBase === 'undefined') {
-  TetherBase = { modules: [] };
-}
-
-var zeroElement = null;
-
-// Same as native getBoundingClientRect, except it takes into account parent <frame> offsets
-// if the element lies within a nested document (<frame> or <iframe>-like).
-function getActualBoundingClientRect(node) {
-  var boundingRect = node.getBoundingClientRect();
-
-  // The original object returned by getBoundingClientRect is immutable, so we clone it
-  // We can't use extend because the properties are not considered part of the object by hasOwnProperty in IE9
-  var rect = {};
-  for (var k in boundingRect) {
-    rect[k] = boundingRect[k];
-  }
-
-  if (node.ownerDocument !== document) {
-    var _frameElement = node.ownerDocument.defaultView.frameElement;
-    if (_frameElement) {
-      var frameRect = getActualBoundingClientRect(_frameElement);
-      rect.top += frameRect.top;
-      rect.bottom += frameRect.top;
-      rect.left += frameRect.left;
-      rect.right += frameRect.left;
-    }
-  }
-
-  return rect;
-}
-
-function getScrollParents(el) {
-  // In firefox if the el is inside an iframe with display: none; window.getComputedStyle() will return null;
-  // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
-  var computedStyle = getComputedStyle(el) || {};
-  var position = computedStyle.position;
-  var parents = [];
-
-  if (position === 'fixed') {
-    return [el];
-  }
-
-  var parent = el;
-  while ((parent = parent.parentNode) && parent && parent.nodeType === 1) {
-    var style = undefined;
-    try {
-      style = getComputedStyle(parent);
-    } catch (err) {}
-
-    if (typeof style === 'undefined' || style === null) {
-      parents.push(parent);
-      return parents;
-    }
-
-    var _style = style;
-    var overflow = _style.overflow;
-    var overflowX = _style.overflowX;
-    var overflowY = _style.overflowY;
-
-    if (/(auto|scroll)/.test(overflow + overflowY + overflowX)) {
-      if (position !== 'absolute' || ['relative', 'absolute', 'fixed'].indexOf(style.position) >= 0) {
-        parents.push(parent);
-      }
-    }
-  }
-
-  parents.push(el.ownerDocument.body);
-
-  // If the node is within a frame, account for the parent window scroll
-  if (el.ownerDocument !== document) {
-    parents.push(el.ownerDocument.defaultView);
-  }
-
-  return parents;
-}
-
-var uniqueId = (function () {
-  var id = 0;
-  return function () {
-    return ++id;
-  };
-})();
-
-var zeroPosCache = {};
-var getOrigin = function getOrigin() {
-  // getBoundingClientRect is unfortunately too accurate.  It introduces a pixel or two of
-  // jitter as the user scrolls that messes with our ability to detect if two positions
-  // are equivilant or not.  We place an element at the top left of the page that will
-  // get the same jitter, so we can cancel the two out.
-  var node = zeroElement;
-  if (!node || !document.body.contains(node)) {
-    node = document.createElement('div');
-    node.setAttribute('data-tether-id', uniqueId());
-    extend(node.style, {
-      top: 0,
-      left: 0,
-      position: 'absolute'
-    });
-
-    document.body.appendChild(node);
-
-    zeroElement = node;
-  }
-
-  var id = node.getAttribute('data-tether-id');
-  if (typeof zeroPosCache[id] === 'undefined') {
-    zeroPosCache[id] = getActualBoundingClientRect(node);
-
-    // Clear the cache when this position call is done
-    defer(function () {
-      delete zeroPosCache[id];
-    });
-  }
-
-  return zeroPosCache[id];
-};
-
-function removeUtilElements() {
-  if (zeroElement) {
-    document.body.removeChild(zeroElement);
-  }
-  zeroElement = null;
-};
-
-function getBounds(el) {
-  var doc = undefined;
-  if (el === document) {
-    doc = document;
-    el = document.documentElement;
-  } else {
-    doc = el.ownerDocument;
-  }
-
-  var docEl = doc.documentElement;
-
-  var box = getActualBoundingClientRect(el);
-
-  var origin = getOrigin();
-
-  box.top -= origin.top;
-  box.left -= origin.left;
-
-  if (typeof box.width === 'undefined') {
-    box.width = document.body.scrollWidth - box.left - box.right;
-  }
-  if (typeof box.height === 'undefined') {
-    box.height = document.body.scrollHeight - box.top - box.bottom;
-  }
-
-  box.top = box.top - docEl.clientTop;
-  box.left = box.left - docEl.clientLeft;
-  box.right = doc.body.clientWidth - box.width - box.left;
-  box.bottom = doc.body.clientHeight - box.height - box.top;
-
-  return box;
-}
-
-function getOffsetParent(el) {
-  return el.offsetParent || document.documentElement;
-}
-
-var _scrollBarSize = null;
-function getScrollBarSize() {
-  if (_scrollBarSize) {
-    return _scrollBarSize;
-  }
-  var inner = document.createElement('div');
-  inner.style.width = '100%';
-  inner.style.height = '200px';
-
-  var outer = document.createElement('div');
-  extend(outer.style, {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    pointerEvents: 'none',
-    visibility: 'hidden',
-    width: '200px',
-    height: '150px',
-    overflow: 'hidden'
-  });
-
-  outer.appendChild(inner);
-
-  document.body.appendChild(outer);
-
-  var widthContained = inner.offsetWidth;
-  outer.style.overflow = 'scroll';
-  var widthScroll = inner.offsetWidth;
-
-  if (widthContained === widthScroll) {
-    widthScroll = outer.clientWidth;
-  }
-
-  document.body.removeChild(outer);
-
-  var width = widthContained - widthScroll;
-
-  _scrollBarSize = { width: width, height: width };
-  return _scrollBarSize;
-}
-
-function extend() {
-  var out = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-  var args = [];
-
-  Array.prototype.push.apply(args, arguments);
-
-  args.slice(1).forEach(function (obj) {
-    if (obj) {
-      for (var key in obj) {
-        if (({}).hasOwnProperty.call(obj, key)) {
-          out[key] = obj[key];
-        }
-      }
-    }
-  });
-
-  return out;
-}
-
-function removeClass(el, name) {
-  if (typeof el.classList !== 'undefined') {
-    name.split(' ').forEach(function (cls) {
-      if (cls.trim()) {
-        el.classList.remove(cls);
-      }
-    });
-  } else {
-    var regex = new RegExp('(^| )' + name.split(' ').join('|') + '( |$)', 'gi');
-    var className = getClassName(el).replace(regex, ' ');
-    setClassName(el, className);
-  }
-}
-
-function addClass(el, name) {
-  if (typeof el.classList !== 'undefined') {
-    name.split(' ').forEach(function (cls) {
-      if (cls.trim()) {
-        el.classList.add(cls);
-      }
-    });
-  } else {
-    removeClass(el, name);
-    var cls = getClassName(el) + (' ' + name);
-    setClassName(el, cls);
-  }
-}
-
-function hasClass(el, name) {
-  if (typeof el.classList !== 'undefined') {
-    return el.classList.contains(name);
-  }
-  var className = getClassName(el);
-  return new RegExp('(^| )' + name + '( |$)', 'gi').test(className);
-}
-
-function getClassName(el) {
-  // Can't use just SVGAnimatedString here since nodes within a Frame in IE have
-  // completely separately SVGAnimatedString base classes
-  if (el.className instanceof el.ownerDocument.defaultView.SVGAnimatedString) {
-    return el.className.baseVal;
-  }
-  return el.className;
-}
-
-function setClassName(el, className) {
-  el.setAttribute('class', className);
-}
-
-function updateClasses(el, add, all) {
-  // Of the set of 'all' classes, we need the 'add' classes, and only the
-  // 'add' classes to be set.
-  all.forEach(function (cls) {
-    if (add.indexOf(cls) === -1 && hasClass(el, cls)) {
-      removeClass(el, cls);
-    }
-  });
-
-  add.forEach(function (cls) {
-    if (!hasClass(el, cls)) {
-      addClass(el, cls);
-    }
-  });
-}
-
-var deferred = [];
-
-var defer = function defer(fn) {
-  deferred.push(fn);
-};
-
-var flush = function flush() {
-  var fn = undefined;
-  while (fn = deferred.pop()) {
-    fn();
-  }
-};
-
-var Evented = (function () {
-  function Evented() {
-    _classCallCheck(this, Evented);
-  }
-
-  _createClass(Evented, [{
-    key: 'on',
-    value: function on(event, handler, ctx) {
-      var once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
-
-      if (typeof this.bindings === 'undefined') {
-        this.bindings = {};
-      }
-      if (typeof this.bindings[event] === 'undefined') {
-        this.bindings[event] = [];
-      }
-      this.bindings[event].push({ handler: handler, ctx: ctx, once: once });
-    }
-  }, {
-    key: 'once',
-    value: function once(event, handler, ctx) {
-      this.on(event, handler, ctx, true);
-    }
-  }, {
-    key: 'off',
-    value: function off(event, handler) {
-      if (typeof this.bindings === 'undefined' || typeof this.bindings[event] === 'undefined') {
-        return;
-      }
-
-      if (typeof handler === 'undefined') {
-        delete this.bindings[event];
-      } else {
-        var i = 0;
-        while (i < this.bindings[event].length) {
-          if (this.bindings[event][i].handler === handler) {
-            this.bindings[event].splice(i, 1);
-          } else {
-            ++i;
-          }
-        }
-      }
-    }
-  }, {
-    key: 'trigger',
-    value: function trigger(event) {
-      if (typeof this.bindings !== 'undefined' && this.bindings[event]) {
-        var i = 0;
-
-        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-          args[_key - 1] = arguments[_key];
-        }
-
-        while (i < this.bindings[event].length) {
-          var _bindings$event$i = this.bindings[event][i];
-          var handler = _bindings$event$i.handler;
-          var ctx = _bindings$event$i.ctx;
-          var once = _bindings$event$i.once;
-
-          var context = ctx;
-          if (typeof context === 'undefined') {
-            context = this;
-          }
-
-          handler.apply(context, args);
-
-          if (once) {
-            this.bindings[event].splice(i, 1);
-          } else {
-            ++i;
-          }
-        }
-      }
-    }
-  }]);
-
-  return Evented;
-})();
-
-TetherBase.Utils = {
-  getActualBoundingClientRect: getActualBoundingClientRect,
-  getScrollParents: getScrollParents,
-  getBounds: getBounds,
-  getOffsetParent: getOffsetParent,
-  extend: extend,
-  addClass: addClass,
-  removeClass: removeClass,
-  hasClass: hasClass,
-  updateClasses: updateClasses,
-  defer: defer,
-  flush: flush,
-  uniqueId: uniqueId,
-  Evented: Evented,
-  getScrollBarSize: getScrollBarSize,
-  removeUtilElements: removeUtilElements
-};
-/* globals TetherBase, performance */
-
-'use strict';
-
-var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x6, _x7, _x8) { var _again = true; _function: while (_again) { var object = _x6, property = _x7, receiver = _x8; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x6 = parent; _x7 = property; _x8 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-if (typeof TetherBase === 'undefined') {
-  throw new Error('You must include the utils.js file before tether.js');
-}
-
-var _TetherBase$Utils = TetherBase.Utils;
-var getScrollParents = _TetherBase$Utils.getScrollParents;
-var getBounds = _TetherBase$Utils.getBounds;
-var getOffsetParent = _TetherBase$Utils.getOffsetParent;
-var extend = _TetherBase$Utils.extend;
-var addClass = _TetherBase$Utils.addClass;
-var removeClass = _TetherBase$Utils.removeClass;
-var updateClasses = _TetherBase$Utils.updateClasses;
-var defer = _TetherBase$Utils.defer;
-var flush = _TetherBase$Utils.flush;
-var getScrollBarSize = _TetherBase$Utils.getScrollBarSize;
-var removeUtilElements = _TetherBase$Utils.removeUtilElements;
-
-function within(a, b) {
-  var diff = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
-
-  return a + diff >= b && b >= a - diff;
-}
-
-var transformKey = (function () {
-  if (typeof document === 'undefined') {
-    return '';
-  }
-  var el = document.createElement('div');
-
-  var transforms = ['transform', 'WebkitTransform', 'OTransform', 'MozTransform', 'msTransform'];
-  for (var i = 0; i < transforms.length; ++i) {
-    var key = transforms[i];
-    if (el.style[key] !== undefined) {
-      return key;
-    }
-  }
-})();
-
-var tethers = [];
-
-var position = function position() {
-  tethers.forEach(function (tether) {
-    tether.position(false);
-  });
-  flush();
-};
-
-function now() {
-  if (typeof performance !== 'undefined' && typeof performance.now !== 'undefined') {
-    return performance.now();
-  }
-  return +new Date();
-}
-
-(function () {
-  var lastCall = null;
-  var lastDuration = null;
-  var pendingTimeout = null;
-
-  var tick = function tick() {
-    if (typeof lastDuration !== 'undefined' && lastDuration > 16) {
-      // We voluntarily throttle ourselves if we can't manage 60fps
-      lastDuration = Math.min(lastDuration - 16, 250);
-
-      // Just in case this is the last event, remember to position just once more
-      pendingTimeout = setTimeout(tick, 250);
-      return;
-    }
-
-    if (typeof lastCall !== 'undefined' && now() - lastCall < 10) {
-      // Some browsers call events a little too frequently, refuse to run more than is reasonable
-      return;
-    }
-
-    if (pendingTimeout != null) {
-      clearTimeout(pendingTimeout);
-      pendingTimeout = null;
-    }
-
-    lastCall = now();
-    position();
-    lastDuration = now() - lastCall;
-  };
-
-  if (typeof window !== 'undefined' && typeof window.addEventListener !== 'undefined') {
-    ['resize', 'scroll', 'touchmove'].forEach(function (event) {
-      window.addEventListener(event, tick);
-    });
-  }
-})();
-
-var MIRROR_LR = {
-  center: 'center',
-  left: 'right',
-  right: 'left'
-};
-
-var MIRROR_TB = {
-  middle: 'middle',
-  top: 'bottom',
-  bottom: 'top'
-};
-
-var OFFSET_MAP = {
-  top: 0,
-  left: 0,
-  middle: '50%',
-  center: '50%',
-  bottom: '100%',
-  right: '100%'
-};
-
-var autoToFixedAttachment = function autoToFixedAttachment(attachment, relativeToAttachment) {
-  var left = attachment.left;
-  var top = attachment.top;
-
-  if (left === 'auto') {
-    left = MIRROR_LR[relativeToAttachment.left];
-  }
-
-  if (top === 'auto') {
-    top = MIRROR_TB[relativeToAttachment.top];
-  }
-
-  return { left: left, top: top };
-};
-
-var attachmentToOffset = function attachmentToOffset(attachment) {
-  var left = attachment.left;
-  var top = attachment.top;
-
-  if (typeof OFFSET_MAP[attachment.left] !== 'undefined') {
-    left = OFFSET_MAP[attachment.left];
-  }
-
-  if (typeof OFFSET_MAP[attachment.top] !== 'undefined') {
-    top = OFFSET_MAP[attachment.top];
-  }
-
-  return { left: left, top: top };
-};
-
-function addOffset() {
-  var out = { top: 0, left: 0 };
-
-  for (var _len = arguments.length, offsets = Array(_len), _key = 0; _key < _len; _key++) {
-    offsets[_key] = arguments[_key];
-  }
-
-  offsets.forEach(function (_ref) {
-    var top = _ref.top;
-    var left = _ref.left;
-
-    if (typeof top === 'string') {
-      top = parseFloat(top, 10);
-    }
-    if (typeof left === 'string') {
-      left = parseFloat(left, 10);
-    }
-
-    out.top += top;
-    out.left += left;
-  });
-
-  return out;
-}
-
-function offsetToPx(offset, size) {
-  if (typeof offset.left === 'string' && offset.left.indexOf('%') !== -1) {
-    offset.left = parseFloat(offset.left, 10) / 100 * size.width;
-  }
-  if (typeof offset.top === 'string' && offset.top.indexOf('%') !== -1) {
-    offset.top = parseFloat(offset.top, 10) / 100 * size.height;
-  }
-
-  return offset;
-}
-
-var parseOffset = function parseOffset(value) {
-  var _value$split = value.split(' ');
-
-  var _value$split2 = _slicedToArray(_value$split, 2);
-
-  var top = _value$split2[0];
-  var left = _value$split2[1];
-
-  return { top: top, left: left };
-};
-var parseAttachment = parseOffset;
-
-var TetherClass = (function (_Evented) {
-  _inherits(TetherClass, _Evented);
-
-  function TetherClass(options) {
-    var _this = this;
-
-    _classCallCheck(this, TetherClass);
-
-    _get(Object.getPrototypeOf(TetherClass.prototype), 'constructor', this).call(this);
-    this.position = this.position.bind(this);
-
-    tethers.push(this);
-
-    this.history = [];
-
-    this.setOptions(options, false);
-
-    TetherBase.modules.forEach(function (module) {
-      if (typeof module.initialize !== 'undefined') {
-        module.initialize.call(_this);
-      }
-    });
-
-    this.position();
-  }
-
-  _createClass(TetherClass, [{
-    key: 'getClass',
-    value: function getClass() {
-      var key = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
-      var classes = this.options.classes;
-
-      if (typeof classes !== 'undefined' && classes[key]) {
-        return this.options.classes[key];
-      } else if (this.options.classPrefix) {
-        return this.options.classPrefix + '-' + key;
-      } else {
-        return key;
-      }
-    }
-  }, {
-    key: 'setOptions',
-    value: function setOptions(options) {
-      var _this2 = this;
-
-      var pos = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-
-      var defaults = {
-        offset: '0 0',
-        targetOffset: '0 0',
-        targetAttachment: 'auto auto',
-        classPrefix: 'tether'
-      };
-
-      this.options = extend(defaults, options);
-
-      var _options = this.options;
-      var element = _options.element;
-      var target = _options.target;
-      var targetModifier = _options.targetModifier;
-
-      this.element = element;
-      this.target = target;
-      this.targetModifier = targetModifier;
-
-      if (this.target === 'viewport') {
-        this.target = document.body;
-        this.targetModifier = 'visible';
-      } else if (this.target === 'scroll-handle') {
-        this.target = document.body;
-        this.targetModifier = 'scroll-handle';
-      }
-
-      ['element', 'target'].forEach(function (key) {
-        if (typeof _this2[key] === 'undefined') {
-          throw new Error('Tether Error: Both element and target must be defined');
-        }
-
-        if (typeof _this2[key].jquery !== 'undefined') {
-          _this2[key] = _this2[key][0];
-        } else if (typeof _this2[key] === 'string') {
-          _this2[key] = document.querySelector(_this2[key]);
-        }
-      });
-
-      addClass(this.element, this.getClass('element'));
-      if (!(this.options.addTargetClasses === false)) {
-        addClass(this.target, this.getClass('target'));
-      }
-
-      if (!this.options.attachment) {
-        throw new Error('Tether Error: You must provide an attachment');
-      }
-
-      this.targetAttachment = parseAttachment(this.options.targetAttachment);
-      this.attachment = parseAttachment(this.options.attachment);
-      this.offset = parseOffset(this.options.offset);
-      this.targetOffset = parseOffset(this.options.targetOffset);
-
-      if (typeof this.scrollParents !== 'undefined') {
-        this.disable();
-      }
-
-      if (this.targetModifier === 'scroll-handle') {
-        this.scrollParents = [this.target];
-      } else {
-        this.scrollParents = getScrollParents(this.target);
-      }
-
-      if (!(this.options.enabled === false)) {
-        this.enable(pos);
-      }
-    }
-  }, {
-    key: 'getTargetBounds',
-    value: function getTargetBounds() {
-      if (typeof this.targetModifier !== 'undefined') {
-        if (this.targetModifier === 'visible') {
-          if (this.target === document.body) {
-            return { top: pageYOffset, left: pageXOffset, height: innerHeight, width: innerWidth };
-          } else {
-            var bounds = getBounds(this.target);
-
-            var out = {
-              height: bounds.height,
-              width: bounds.width,
-              top: bounds.top,
-              left: bounds.left
-            };
-
-            out.height = Math.min(out.height, bounds.height - (pageYOffset - bounds.top));
-            out.height = Math.min(out.height, bounds.height - (bounds.top + bounds.height - (pageYOffset + innerHeight)));
-            out.height = Math.min(innerHeight, out.height);
-            out.height -= 2;
-
-            out.width = Math.min(out.width, bounds.width - (pageXOffset - bounds.left));
-            out.width = Math.min(out.width, bounds.width - (bounds.left + bounds.width - (pageXOffset + innerWidth)));
-            out.width = Math.min(innerWidth, out.width);
-            out.width -= 2;
-
-            if (out.top < pageYOffset) {
-              out.top = pageYOffset;
-            }
-            if (out.left < pageXOffset) {
-              out.left = pageXOffset;
-            }
-
-            return out;
-          }
-        } else if (this.targetModifier === 'scroll-handle') {
-          var bounds = undefined;
-          var target = this.target;
-          if (target === document.body) {
-            target = document.documentElement;
-
-            bounds = {
-              left: pageXOffset,
-              top: pageYOffset,
-              height: innerHeight,
-              width: innerWidth
-            };
-          } else {
-            bounds = getBounds(target);
-          }
-
-          var style = getComputedStyle(target);
-
-          var hasBottomScroll = target.scrollWidth > target.clientWidth || [style.overflow, style.overflowX].indexOf('scroll') >= 0 || this.target !== document.body;
-
-          var scrollBottom = 0;
-          if (hasBottomScroll) {
-            scrollBottom = 15;
-          }
-
-          var height = bounds.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth) - scrollBottom;
-
-          var out = {
-            width: 15,
-            height: height * 0.975 * (height / target.scrollHeight),
-            left: bounds.left + bounds.width - parseFloat(style.borderLeftWidth) - 15
-          };
-
-          var fitAdj = 0;
-          if (height < 408 && this.target === document.body) {
-            fitAdj = -0.00011 * Math.pow(height, 2) - 0.00727 * height + 22.58;
-          }
-
-          if (this.target !== document.body) {
-            out.height = Math.max(out.height, 24);
-          }
-
-          var scrollPercentage = this.target.scrollTop / (target.scrollHeight - height);
-          out.top = scrollPercentage * (height - out.height - fitAdj) + bounds.top + parseFloat(style.borderTopWidth);
-
-          if (this.target === document.body) {
-            out.height = Math.max(out.height, 24);
-          }
-
-          return out;
-        }
-      } else {
-        return getBounds(this.target);
-      }
-    }
-  }, {
-    key: 'clearCache',
-    value: function clearCache() {
-      this._cache = {};
-    }
-  }, {
-    key: 'cache',
-    value: function cache(k, getter) {
-      // More than one module will often need the same DOM info, so
-      // we keep a cache which is cleared on each position call
-      if (typeof this._cache === 'undefined') {
-        this._cache = {};
-      }
-
-      if (typeof this._cache[k] === 'undefined') {
-        this._cache[k] = getter.call(this);
-      }
-
-      return this._cache[k];
-    }
-  }, {
-    key: 'enable',
-    value: function enable() {
-      var _this3 = this;
-
-      var pos = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
-
-      if (!(this.options.addTargetClasses === false)) {
-        addClass(this.target, this.getClass('enabled'));
-      }
-      addClass(this.element, this.getClass('enabled'));
-      this.enabled = true;
-
-      this.scrollParents.forEach(function (parent) {
-        if (parent !== _this3.target.ownerDocument) {
-          parent.addEventListener('scroll', _this3.position);
-        }
-      });
-
-      if (pos) {
-        this.position();
-      }
-    }
-  }, {
-    key: 'disable',
-    value: function disable() {
-      var _this4 = this;
-
-      removeClass(this.target, this.getClass('enabled'));
-      removeClass(this.element, this.getClass('enabled'));
-      this.enabled = false;
-
-      if (typeof this.scrollParents !== 'undefined') {
-        this.scrollParents.forEach(function (parent) {
-          parent.removeEventListener('scroll', _this4.position);
-        });
-      }
-    }
-  }, {
-    key: 'destroy',
-    value: function destroy() {
-      var _this5 = this;
-
-      this.disable();
-
-      tethers.forEach(function (tether, i) {
-        if (tether === _this5) {
-          tethers.splice(i, 1);
-        }
-      });
-
-      // Remove any elements we were using for convenience from the DOM
-      if (tethers.length === 0) {
-        removeUtilElements();
-      }
-    }
-  }, {
-    key: 'updateAttachClasses',
-    value: function updateAttachClasses(elementAttach, targetAttach) {
-      var _this6 = this;
-
-      elementAttach = elementAttach || this.attachment;
-      targetAttach = targetAttach || this.targetAttachment;
-      var sides = ['left', 'top', 'bottom', 'right', 'middle', 'center'];
-
-      if (typeof this._addAttachClasses !== 'undefined' && this._addAttachClasses.length) {
-        // updateAttachClasses can be called more than once in a position call, so
-        // we need to clean up after ourselves such that when the last defer gets
-        // ran it doesn't add any extra classes from previous calls.
-        this._addAttachClasses.splice(0, this._addAttachClasses.length);
-      }
-
-      if (typeof this._addAttachClasses === 'undefined') {
-        this._addAttachClasses = [];
-      }
-      var add = this._addAttachClasses;
-
-      if (elementAttach.top) {
-        add.push(this.getClass('element-attached') + '-' + elementAttach.top);
-      }
-      if (elementAttach.left) {
-        add.push(this.getClass('element-attached') + '-' + elementAttach.left);
-      }
-      if (targetAttach.top) {
-        add.push(this.getClass('target-attached') + '-' + targetAttach.top);
-      }
-      if (targetAttach.left) {
-        add.push(this.getClass('target-attached') + '-' + targetAttach.left);
-      }
-
-      var all = [];
-      sides.forEach(function (side) {
-        all.push(_this6.getClass('element-attached') + '-' + side);
-        all.push(_this6.getClass('target-attached') + '-' + side);
-      });
-
-      defer(function () {
-        if (!(typeof _this6._addAttachClasses !== 'undefined')) {
-          return;
-        }
-
-        updateClasses(_this6.element, _this6._addAttachClasses, all);
-        if (!(_this6.options.addTargetClasses === false)) {
-          updateClasses(_this6.target, _this6._addAttachClasses, all);
-        }
-
-        delete _this6._addAttachClasses;
-      });
-    }
-  }, {
-    key: 'position',
-    value: function position() {
-      var _this7 = this;
-
-      var flushChanges = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
-
-      // flushChanges commits the changes immediately, leave true unless you are positioning multiple
-      // tethers (in which case call Tether.Utils.flush yourself when you're done)
-
-      if (!this.enabled) {
-        return;
-      }
-
-      this.clearCache();
-
-      // Turn 'auto' attachments into the appropriate corner or edge
-      var targetAttachment = autoToFixedAttachment(this.targetAttachment, this.attachment);
-
-      this.updateAttachClasses(this.attachment, targetAttachment);
-
-      var elementPos = this.cache('element-bounds', function () {
-        return getBounds(_this7.element);
-      });
-
-      var width = elementPos.width;
-      var height = elementPos.height;
-
-      if (width === 0 && height === 0 && typeof this.lastSize !== 'undefined') {
-        var _lastSize = this.lastSize;
-
-        // We cache the height and width to make it possible to position elements that are
-        // getting hidden.
-        width = _lastSize.width;
-        height = _lastSize.height;
-      } else {
-        this.lastSize = { width: width, height: height };
-      }
-
-      var targetPos = this.cache('target-bounds', function () {
-        return _this7.getTargetBounds();
-      });
-      var targetSize = targetPos;
-
-      // Get an actual px offset from the attachment
-      var offset = offsetToPx(attachmentToOffset(this.attachment), { width: width, height: height });
-      var targetOffset = offsetToPx(attachmentToOffset(targetAttachment), targetSize);
-
-      var manualOffset = offsetToPx(this.offset, { width: width, height: height });
-      var manualTargetOffset = offsetToPx(this.targetOffset, targetSize);
-
-      // Add the manually provided offset
-      offset = addOffset(offset, manualOffset);
-      targetOffset = addOffset(targetOffset, manualTargetOffset);
-
-      // It's now our goal to make (element position + offset) == (target position + target offset)
-      var left = targetPos.left + targetOffset.left - offset.left;
-      var top = targetPos.top + targetOffset.top - offset.top;
-
-      for (var i = 0; i < TetherBase.modules.length; ++i) {
-        var _module2 = TetherBase.modules[i];
-        var ret = _module2.position.call(this, {
-          left: left,
-          top: top,
-          targetAttachment: targetAttachment,
-          targetPos: targetPos,
-          elementPos: elementPos,
-          offset: offset,
-          targetOffset: targetOffset,
-          manualOffset: manualOffset,
-          manualTargetOffset: manualTargetOffset,
-          scrollbarSize: scrollbarSize,
-          attachment: this.attachment
-        });
-
-        if (ret === false) {
-          return false;
-        } else if (typeof ret === 'undefined' || typeof ret !== 'object') {
-          continue;
-        } else {
-          top = ret.top;
-          left = ret.left;
-        }
-      }
-
-      // We describe the position three different ways to give the optimizer
-      // a chance to decide the best possible way to position the element
-      // with the fewest repaints.
-      var next = {
-        // It's position relative to the page (absolute positioning when
-        // the element is a child of the body)
-        page: {
-          top: top,
-          left: left
-        },
-
-        // It's position relative to the viewport (fixed positioning)
-        viewport: {
-          top: top - pageYOffset,
-          bottom: pageYOffset - top - height + innerHeight,
-          left: left - pageXOffset,
-          right: pageXOffset - left - width + innerWidth
-        }
-      };
-
-      var doc = this.target.ownerDocument;
-      var win = doc.defaultView;
-
-      var scrollbarSize = undefined;
-      if (win.innerHeight > doc.documentElement.clientHeight) {
-        scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
-        next.viewport.bottom -= scrollbarSize.height;
-      }
-
-      if (win.innerWidth > doc.documentElement.clientWidth) {
-        scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
-        next.viewport.right -= scrollbarSize.width;
-      }
-
-      if (['', 'static'].indexOf(doc.body.style.position) === -1 || ['', 'static'].indexOf(doc.body.parentElement.style.position) === -1) {
-        // Absolute positioning in the body will be relative to the page, not the 'initial containing block'
-        next.page.bottom = doc.body.scrollHeight - top - height;
-        next.page.right = doc.body.scrollWidth - left - width;
-      }
-
-      if (typeof this.options.optimizations !== 'undefined' && this.options.optimizations.moveElement !== false && !(typeof this.targetModifier !== 'undefined')) {
-        (function () {
-          var offsetParent = _this7.cache('target-offsetparent', function () {
-            return getOffsetParent(_this7.target);
-          });
-          var offsetPosition = _this7.cache('target-offsetparent-bounds', function () {
-            return getBounds(offsetParent);
-          });
-          var offsetParentStyle = getComputedStyle(offsetParent);
-          var offsetParentSize = offsetPosition;
-
-          var offsetBorder = {};
-          ['Top', 'Left', 'Bottom', 'Right'].forEach(function (side) {
-            offsetBorder[side.toLowerCase()] = parseFloat(offsetParentStyle['border' + side + 'Width']);
-          });
-
-          offsetPosition.right = doc.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;
-          offsetPosition.bottom = doc.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom;
-
-          if (next.page.top >= offsetPosition.top + offsetBorder.top && next.page.bottom >= offsetPosition.bottom) {
-            if (next.page.left >= offsetPosition.left + offsetBorder.left && next.page.right >= offsetPosition.right) {
-              // We're within the visible part of the target's scroll parent
-              var scrollTop = offsetParent.scrollTop;
-              var scrollLeft = offsetParent.scrollLeft;
-
-              // It's position relative to the target's offset parent (absolute positioning when
-              // the element is moved to be a child of the target's offset parent).
-              next.offset = {
-                top: next.page.top - offsetPosition.top + scrollTop - offsetBorder.top,
-                left: next.page.left - offsetPosition.left + scrollLeft - offsetBorder.left
-              };
-            }
-          }
-        })();
-      }
-
-      // We could also travel up the DOM and try each containing context, rather than only
-      // looking at the body, but we're gonna get diminishing returns.
-
-      this.move(next);
-
-      this.history.unshift(next);
-
-      if (this.history.length > 3) {
-        this.history.pop();
-      }
-
-      if (flushChanges) {
-        flush();
-      }
-
-      return true;
-    }
-
-    // THE ISSUE
-  }, {
-    key: 'move',
-    value: function move(pos) {
-      var _this8 = this;
-
-      if (!(typeof this.element.parentNode !== 'undefined')) {
-        return;
-      }
-
-      var same = {};
-
-      for (var type in pos) {
-        same[type] = {};
-
-        for (var key in pos[type]) {
-          var found = false;
-
-          for (var i = 0; i < this.history.length; ++i) {
-            var point = this.history[i];
-            if (typeof point[type] !== 'undefined' && !within(point[type][key], pos[type][key])) {
-              found = true;
-              break;
-            }
-          }
-
-          if (!found) {
-            same[type][key] = true;
-          }
-        }
-      }
-
-      var css = { top: '', left: '', right: '', bottom: '' };
-
-      var transcribe = function transcribe(_same, _pos) {
-        var hasOptimizations = typeof _this8.options.optimizations !== 'undefined';
-        var gpu = hasOptimizations ? _this8.options.optimizations.gpu : null;
-        if (gpu !== false) {
-          var yPos = undefined,
-              xPos = undefined;
-          if (_same.top) {
-            css.top = 0;
-            yPos = _pos.top;
-          } else {
-            css.bottom = 0;
-            yPos = -_pos.bottom;
-          }
-
-          if (_same.left) {
-            css.left = 0;
-            xPos = _pos.left;
-          } else {
-            css.right = 0;
-            xPos = -_pos.right;
-          }
-
-          if (window.matchMedia) {
-            // HubSpot/tether#207
-            var retina = window.matchMedia('only screen and (min-resolution: 1.3dppx)').matches || window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 1.3)').matches;
-            if (!retina) {
-              xPos = Math.round(xPos);
-              yPos = Math.round(yPos);
-            }
-          }
-
-          css[transformKey] = 'translateX(' + xPos + 'px) translateY(' + yPos + 'px)';
-
-          if (transformKey !== 'msTransform') {
-            // The Z transform will keep this in the GPU (faster, and prevents artifacts),
-            // but IE9 doesn't support 3d transforms and will choke.
-            css[transformKey] += " translateZ(0)";
-          }
-        } else {
-          if (_same.top) {
-            css.top = _pos.top + 'px';
-          } else {
-            css.bottom = _pos.bottom + 'px';
-          }
-
-          if (_same.left) {
-            css.left = _pos.left + 'px';
-          } else {
-            css.right = _pos.right + 'px';
-          }
-        }
-      };
-
-      var moved = false;
-      if ((same.page.top || same.page.bottom) && (same.page.left || same.page.right)) {
-        css.position = 'absolute';
-        transcribe(same.page, pos.page);
-      } else if ((same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right)) {
-        css.position = 'fixed';
-        transcribe(same.viewport, pos.viewport);
-      } else if (typeof same.offset !== 'undefined' && same.offset.top && same.offset.left) {
-        (function () {
-          css.position = 'absolute';
-          var offsetParent = _this8.cache('target-offsetparent', function () {
-            return getOffsetParent(_this8.target);
-          });
-
-          if (getOffsetParent(_this8.element) !== offsetParent) {
-            defer(function () {
-              _this8.element.parentNode.removeChild(_this8.element);
-              offsetParent.appendChild(_this8.element);
-            });
-          }
-
-          transcribe(same.offset, pos.offset);
-          moved = true;
-        })();
-      } else {
-        css.position = 'absolute';
-        transcribe({ top: true, left: true }, pos.page);
-      }
-
-      if (!moved) {
-        if (this.options.bodyElement) {
-          this.options.bodyElement.appendChild(this.element);
-        } else {
-          var offsetParentIsBody = true;
-          var currentNode = this.element.parentNode;
-          while (currentNode && currentNode.nodeType === 1 && currentNode.tagName !== 'BODY') {
-            if (getComputedStyle(currentNode).position !== 'static') {
-              offsetParentIsBody = false;
-              break;
-            }
-
-            currentNode = currentNode.parentNode;
-          }
-
-          if (!offsetParentIsBody) {
-            this.element.parentNode.removeChild(this.element);
-            this.element.ownerDocument.body.appendChild(this.element);
-          }
-        }
-      }
-
-      // Any css change will trigger a repaint, so let's avoid one if nothing changed
-      var writeCSS = {};
-      var write = false;
-      for (var key in css) {
-        var val = css[key];
-        var elVal = this.element.style[key];
-
-        if (elVal !== val) {
-          write = true;
-          writeCSS[key] = val;
-        }
-      }
-
-      if (write) {
-        defer(function () {
-          extend(_this8.element.style, writeCSS);
-          _this8.trigger('repositioned');
-        });
-      }
-    }
-  }]);
-
-  return TetherClass;
-})(Evented);
-
-TetherClass.modules = [];
-
-TetherBase.position = position;
-
-var Tether = extend(TetherClass, TetherBase);
-/* globals TetherBase */
-
-'use strict';
-
-var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
-
-var _TetherBase$Utils = TetherBase.Utils;
-var getBounds = _TetherBase$Utils.getBounds;
-var extend = _TetherBase$Utils.extend;
-var updateClasses = _TetherBase$Utils.updateClasses;
-var defer = _TetherBase$Utils.defer;
-
-var BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
-
-function getBoundingRect(tether, to) {
-  if (to === 'scrollParent') {
-    to = tether.scrollParents[0];
-  } else if (to === 'window') {
-    to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset];
-  }
-
-  if (to === document) {
-    to = to.documentElement;
-  }
-
-  if (typeof to.nodeType !== 'undefined') {
-    (function () {
-      var node = to;
-      var size = getBounds(to);
-      var pos = size;
-      var style = getComputedStyle(to);
-
-      to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top];
-
-      // Account any parent Frames scroll offset
-      if (node.ownerDocument !== document) {
-        var win = node.ownerDocument.defaultView;
-        to[0] += win.pageXOffset;
-        to[1] += win.pageYOffset;
-        to[2] += win.pageXOffset;
-        to[3] += win.pageYOffset;
-      }
-
-      BOUNDS_FORMAT.forEach(function (side, i) {
-        side = side[0].toUpperCase() + side.substr(1);
-        if (side === 'Top' || side === 'Left') {
-          to[i] += parseFloat(style['border' + side + 'Width']);
-        } else {
-          to[i] -= parseFloat(style['border' + side + 'Width']);
-        }
-      });
-    })();
-  }
-
-  return to;
-}
-
-TetherBase.modules.push({
-  position: function position(_ref) {
-    var _this = this;
-
-    var top = _ref.top;
-    var left = _ref.left;
-    var targetAttachment = _ref.targetAttachment;
-
-    if (!this.options.constraints) {
-      return true;
-    }
-
-    var _cache = this.cache('element-bounds', function () {
-      return getBounds(_this.element);
-    });
-
-    var height = _cache.height;
-    var width = _cache.width;
-
-    if (width === 0 && height === 0 && typeof this.lastSize !== 'undefined') {
-      var _lastSize = this.lastSize;
-
-      // Handle the item getting hidden as a result of our positioning without glitching
-      // the classes in and out
-      width = _lastSize.width;
-      height = _lastSize.height;
-    }
-
-    var targetSize = this.cache('target-bounds', function () {
-      return _this.getTargetBounds();
-    });
-
-    var targetHeight = targetSize.height;
-    var targetWidth = targetSize.width;
-
-    var allClasses = [this.getClass('pinned'), this.getClass('out-of-bounds')];
-
-    this.options.constraints.forEach(function (constraint) {
-      var outOfBoundsClass = constraint.outOfBoundsClass;
-      var pinnedClass = constraint.pinnedClass;
-
-      if (outOfBoundsClass) {
-        allClasses.push(outOfBoundsClass);
-      }
-      if (pinnedClass) {
-        allClasses.push(pinnedClass);
-      }
-    });
-
-    allClasses.forEach(function (cls) {
-      ['left', 'top', 'right', 'bottom'].forEach(function (side) {
-        allClasses.push(cls + '-' + side);
-      });
-    });
-
-    var addClasses = [];
-
-    var tAttachment = extend({}, targetAttachment);
-    var eAttachment = extend({}, this.attachment);
-
-    this.options.constraints.forEach(function (constraint) {
-      var to = constraint.to;
-      var attachment = constraint.attachment;
-      var pin = constraint.pin;
-
-      if (typeof attachment === 'undefined') {
-        attachment = '';
-      }
-
-      var changeAttachX = undefined,
-          changeAttachY = undefined;
-      if (attachment.indexOf(' ') >= 0) {
-        var _attachment$split = attachment.split(' ');
-
-        var _attachment$split2 = _slicedToArray(_attachment$split, 2);
-
-        changeAttachY = _attachment$split2[0];
-        changeAttachX = _attachment$split2[1];
-      } else {
-        changeAttachX = changeAttachY = attachment;
-      }
-
-      var bounds = getBoundingRect(_this, to);
-
-      if (changeAttachY === 'target' || changeAttachY === 'both') {
-        if (top < bounds[1] && tAttachment.top === 'top') {
-          top += targetHeight;
-          tAttachment.top = 'bottom';
-        }
-
-        if (top + height > bounds[3] && tAttachment.top === 'bottom') {
-          top -= targetHeight;
-          tAttachment.top = 'top';
-        }
-      }
-
-      if (changeAttachY === 'together') {
-        if (tAttachment.top === 'top') {
-          if (eAttachment.top === 'bottom' && top < bounds[1]) {
-            top += targetHeight;
-            tAttachment.top = 'bottom';
-
-            top += height;
-            eAttachment.top = 'top';
-          } else if (eAttachment.top === 'top' && top + height > bounds[3] && top - (height - targetHeight) >= bounds[1]) {
-            top -= height - targetHeight;
-            tAttachment.top = 'bottom';
-
-            eAttachment.top = 'bottom';
-          }
-        }
-
-        if (tAttachment.top === 'bottom') {
-          if (eAttachment.top === 'top' && top + height > bounds[3]) {
-            top -= targetHeight;
-            tAttachment.top = 'top';
-
-            top -= height;
-            eAttachment.top = 'bottom';
-          } else if (eAttachment.top === 'bottom' && top < bounds[1] && top + (height * 2 - targetHeight) <= bounds[3]) {
-            top += height - targetHeight;
-            tAttachment.top = 'top';
-
-            eAttachment.top = 'top';
-          }
-        }
-
-        if (tAttachment.top === 'middle') {
-          if (top + height > bounds[3] && eAttachment.top === 'top') {
-            top -= height;
-            eAttachment.top = 'bottom';
-          } else if (top < bounds[1] && eAttachment.top === 'bottom') {
-            top += height;
-            eAttachment.top = 'top';
-          }
-        }
-      }
-
-      if (changeAttachX === 'target' || changeAttachX === 'both') {
-        if (left < bounds[0] && tAttachment.left === 'left') {
-          left += targetWidth;
-          tAttachment.left = 'right';
-        }
-
-        if (left + width > bounds[2] && tAttachment.left === 'right') {
-          left -= targetWidth;
-          tAttachment.left = 'left';
-        }
-      }
-
-      if (changeAttachX === 'together') {
-        if (left < bounds[0] && tAttachment.left === 'left') {
-          if (eAttachment.left === 'right') {
-            left += targetWidth;
-            tAttachment.left = 'right';
-
-            left += width;
-            eAttachment.left = 'left';
-          } else if (eAttachment.left === 'left') {
-            left += targetWidth;
-            tAttachment.left = 'right';
-
-            left -= width;
-            eAttachment.left = 'right';
-          }
-        } else if (left + width > bounds[2] && tAttachment.left === 'right') {
-          if (eAttachment.left === 'left') {
-            left -= targetWidth;
-            tAttachment.left = 'left';
-
-            left -= width;
-            eAttachment.left = 'right';
-          } else if (eAttachment.left === 'right') {
-            left -= targetWidth;
-            tAttachment.left = 'left';
-
-            left += width;
-            eAttachment.left = 'left';
-          }
-        } else if (tAttachment.left === 'center') {
-          if (left + width > bounds[2] && eAttachment.left === 'left') {
-            left -= width;
-            eAttachment.left = 'right';
-          } else if (left < bounds[0] && eAttachment.left === 'right') {
-            left += width;
-            eAttachment.left = 'left';
-          }
-        }
-      }
-
-      if (changeAttachY === 'element' || changeAttachY === 'both') {
-        if (top < bounds[1] && eAttachment.top === 'bottom') {
-          top += height;
-          eAttachment.top = 'top';
-        }
-
-        if (top + height > bounds[3] && eAttachment.top === 'top') {
-          top -= height;
-          eAttachment.top = 'bottom';
-        }
-      }
-
-      if (changeAttachX === 'element' || changeAttachX === 'both') {
-        if (left < bounds[0]) {
-          if (eAttachment.left === 'right') {
-            left += width;
-            eAttachment.left = 'left';
-          } else if (eAttachment.left === 'center') {
-            left += width / 2;
-            eAttachment.left = 'left';
-          }
-        }
-
-        if (left + width > bounds[2]) {
-          if (eAttachment.left === 'left') {
-            left -= width;
-            eAttachment.left = 'right';
-          } else if (eAttachment.left === 'center') {
-            left -= width / 2;
-            eAttachment.left = 'right';
-          }
-        }
-      }
-
-      if (typeof pin === 'string') {
-        pin = pin.split(',').map(function (p) {
-          return p.trim();
-        });
-      } else if (pin === true) {
-        pin = ['top', 'left', 'right', 'bottom'];
-      }
-
-      pin = pin || [];
-
-      var pinned = [];
-      var oob = [];
-
-      if (top < bounds[1]) {
-        if (pin.indexOf('top') >= 0) {
-          top = bounds[1];
-          pinned.push('top');
-        } else {
-          oob.push('top');
-        }
-      }
-
-      if (top + height > bounds[3]) {
-        if (pin.indexOf('bottom') >= 0) {
-          top = bounds[3] - height;
-          pinned.push('bottom');
-        } else {
-          oob.push('bottom');
-        }
-      }
-
-      if (left < bounds[0]) {
-        if (pin.indexOf('left') >= 0) {
-          left = bounds[0];
-          pinned.push('left');
-        } else {
-          oob.push('left');
-        }
-      }
-
-      if (left + width > bounds[2]) {
-        if (pin.indexOf('right') >= 0) {
-          left = bounds[2] - width;
-          pinned.push('right');
-        } else {
-          oob.push('right');
-        }
-      }
-
-      if (pinned.length) {
-        (function () {
-          var pinnedClass = undefined;
-          if (typeof _this.options.pinnedClass !== 'undefined') {
-            pinnedClass = _this.options.pinnedClass;
-          } else {
-            pinnedClass = _this.getClass('pinned');
-          }
-
-          addClasses.push(pinnedClass);
-          pinned.forEach(function (side) {
-            addClasses.push(pinnedClass + '-' + side);
-          });
-        })();
-      }
-
-      if (oob.length) {
-        (function () {
-          var oobClass = undefined;
-          if (typeof _this.options.outOfBoundsClass !== 'undefined') {
-            oobClass = _this.options.outOfBoundsClass;
-          } else {
-            oobClass = _this.getClass('out-of-bounds');
-          }
-
-          addClasses.push(oobClass);
-          oob.forEach(function (side) {
-            addClasses.push(oobClass + '-' + side);
-          });
-        })();
-      }
-
-      if (pinned.indexOf('left') >= 0 || pinned.indexOf('right') >= 0) {
-        eAttachment.left = tAttachment.left = false;
-      }
-      if (pinned.indexOf('top') >= 0 || pinned.indexOf('bottom') >= 0) {
-        eAttachment.top = tAttachment.top = false;
-      }
-
-      if (tAttachment.top !== targetAttachment.top || tAttachment.left !== targetAttachment.left || eAttachment.top !== _this.attachment.top || eAttachment.left !== _this.attachment.left) {
-        _this.updateAttachClasses(eAttachment, tAttachment);
-        _this.trigger('update', {
-          attachment: eAttachment,
-          targetAttachment: tAttachment
-        });
-      }
-    });
-
-    defer(function () {
-      if (!(_this.options.addTargetClasses === false)) {
-        updateClasses(_this.target, addClasses, allClasses);
-      }
-      updateClasses(_this.element, addClasses, allClasses);
-    });
-
-    return { top: top, left: left };
-  }
-});
-/* globals TetherBase */
-
-'use strict';
-
-var _TetherBase$Utils = TetherBase.Utils;
-var getBounds = _TetherBase$Utils.getBounds;
-var updateClasses = _TetherBase$Utils.updateClasses;
-var defer = _TetherBase$Utils.defer;
-
-TetherBase.modules.push({
-  position: function position(_ref) {
-    var _this = this;
-
-    var top = _ref.top;
-    var left = _ref.left;
-
-    var _cache = this.cache('element-bounds', function () {
-      return getBounds(_this.element);
-    });
-
-    var height = _cache.height;
-    var width = _cache.width;
-
-    var targetPos = this.getTargetBounds();
-
-    var bottom = top + height;
-    var right = left + width;
-
-    var abutted = [];
-    if (top <= targetPos.bottom && bottom >= targetPos.top) {
-      ['left', 'right'].forEach(function (side) {
-        var targetPosSide = targetPos[side];
-        if (targetPosSide === left || targetPosSide === right) {
-          abutted.push(side);
-        }
-      });
-    }
-
-    if (left <= targetPos.right && right >= targetPos.left) {
-      ['top', 'bottom'].forEach(function (side) {
-        var targetPosSide = targetPos[side];
-        if (targetPosSide === top || targetPosSide === bottom) {
-          abutted.push(side);
-        }
-      });
-    }
-
-    var allClasses = [];
-    var addClasses = [];
-
-    var sides = ['left', 'top', 'right', 'bottom'];
-    allClasses.push(this.getClass('abutted'));
-    sides.forEach(function (side) {
-      allClasses.push(_this.getClass('abutted') + '-' + side);
-    });
-
-    if (abutted.length) {
-      addClasses.push(this.getClass('abutted'));
-    }
-
-    abutted.forEach(function (side) {
-      addClasses.push(_this.getClass('abutted') + '-' + side);
-    });
-
-    defer(function () {
-      if (!(_this.options.addTargetClasses === false)) {
-        updateClasses(_this.target, addClasses, allClasses);
-      }
-      updateClasses(_this.element, addClasses, allClasses);
-    });
-
-    return true;
-  }
-});
-/* globals TetherBase */
-
-'use strict';
-
-var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
-
-TetherBase.modules.push({
-  position: function position(_ref) {
-    var top = _ref.top;
-    var left = _ref.left;
-
-    if (!this.options.shift) {
-      return;
-    }
-
-    var shift = this.options.shift;
-    if (typeof this.options.shift === 'function') {
-      shift = this.options.shift.call(this, { top: top, left: left });
-    }
-
-    var shiftTop = undefined,
-        shiftLeft = undefined;
-    if (typeof shift === 'string') {
-      shift = shift.split(' ');
-      shift[1] = shift[1] || shift[0];
-
-      var _shift = shift;
-
-      var _shift2 = _slicedToArray(_shift, 2);
-
-      shiftTop = _shift2[0];
-      shiftLeft = _shift2[1];
-
-      shiftTop = parseFloat(shiftTop, 10);
-      shiftLeft = parseFloat(shiftLeft, 10);
-    } else {
-      shiftTop = shift.top;
-      shiftLeft = shift.left;
-    }
-
-    top += shiftTop;
-    left += shiftLeft;
-
-    return { top: top, left: left };
-  }
-});
-return Tether;
-
-}));
-
-
-/***/ }),
-/* 5 */,
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery) {/**
- * Bootstrap Multiselect (https://github.com/davidstutz/bootstrap-multiselect)
- * 
- * Apache License, Version 2.0:
- * Copyright (c) 2012 - 2015 David Stutz
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a
- * copy of the License at http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations
- * under the License.
- * 
- * BSD 3-Clause License:
- * Copyright (c) 2012 - 2015 David Stutz
- * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *    - Redistributions of source code must retain the above copyright notice,
- *      this list of conditions and the following disclaimer.
- *    - Redistributions in binary form must reproduce the above copyright notice,
- *      this list of conditions and the following disclaimer in the documentation
- *      and/or other materials provided with the distribution.
- *    - Neither the name of David Stutz nor the names of its contributors may be
- *      used to endorse or promote products derived from this software without
- *      specific prior written permission.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-!function ($) {
-    "use strict";// jshint ;_;
-
-    if (typeof ko !== 'undefined' && ko.bindingHandlers && !ko.bindingHandlers.multiselect) {
-        ko.bindingHandlers.multiselect = {
-            after: ['options', 'value', 'selectedOptions'],
-
-            init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-                var $element = $(element);
-                var config = ko.toJS(valueAccessor());
-
-                $element.multiselect(config);
-
-                if (allBindings.has('options')) {
-                    var options = allBindings.get('options');
-                    if (ko.isObservable(options)) {
-                        ko.computed({
-                            read: function() {
-                                options();
-                                setTimeout(function() {
-                                    var ms = $element.data('multiselect');
-                                    if (ms)
-                                        ms.updateOriginalOptions();//Not sure how beneficial this is.
-                                    $element.multiselect('rebuild');
-                                }, 1);
-                            },
-                            disposeWhenNodeIsRemoved: element
-                        });
-                    }
-                }
-
-                //value and selectedOptions are two-way, so these will be triggered even by our own actions.
-                //It needs some way to tell if they are triggered because of us or because of outside change.
-                //It doesn't loop but it's a waste of processing.
-                if (allBindings.has('value')) {
-                    var value = allBindings.get('value');
-                    if (ko.isObservable(value)) {
-                        ko.computed({
-                            read: function() {
-                                value();
-                                setTimeout(function() {
-                                    $element.multiselect('refresh');
-                                }, 1);
-                            },
-                            disposeWhenNodeIsRemoved: element
-                        }).extend({ rateLimit: 100, notifyWhenChangesStop: true });
-                    }
-                }
-
-                //Switched from arrayChange subscription to general subscription using 'refresh'.
-                //Not sure performance is any better using 'select' and 'deselect'.
-                if (allBindings.has('selectedOptions')) {
-                    var selectedOptions = allBindings.get('selectedOptions');
-                    if (ko.isObservable(selectedOptions)) {
-                        ko.computed({
-                            read: function() {
-                                selectedOptions();
-                                setTimeout(function() {
-                                    $element.multiselect('refresh');
-                                }, 1);
-                            },
-                            disposeWhenNodeIsRemoved: element
-                        }).extend({ rateLimit: 100, notifyWhenChangesStop: true });
-                    }
-                }
-
-                ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
-                    $element.multiselect('destroy');
-                });
-            },
-
-            update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-                var $element = $(element);
-                var config = ko.toJS(valueAccessor());
-
-                $element.multiselect('setOptions', config);
-                $element.multiselect('rebuild');
-            }
-        };
-    }
-
-    function forEach(array, callback) {
-        for (var index = 0; index < array.length; ++index) {
-            callback(array[index], index);
-        }
-    }
-
-    /**
-     * Constructor to create a new multiselect using the given select.
-     *
-     * @param {jQuery} select
-     * @param {Object} options
-     * @returns {Multiselect}
-     */
-    function Multiselect(select, options) {
-
-        this.$select = $(select);
-        
-        // Placeholder via data attributes
-        if (this.$select.attr("data-placeholder")) {
-            options.nonSelectedText = this.$select.data("placeholder");
-        }
-        
-        this.options = this.mergeOptions($.extend({}, options, this.$select.data()));
-
-        // Initialization.
-        // We have to clone to create a new reference.
-        this.originalOptions = this.$select.clone()[0].options;
-        this.query = '';
-        this.searchTimeout = null;
-        this.lastToggledInput = null
-
-        this.options.multiple = this.$select.attr('multiple') === "multiple";
-        this.options.onChange = $.proxy(this.options.onChange, this);
-        this.options.onDropdownShow = $.proxy(this.options.onDropdownShow, this);
-        this.options.onDropdownHide = $.proxy(this.options.onDropdownHide, this);
-        this.options.onDropdownShown = $.proxy(this.options.onDropdownShown, this);
-        this.options.onDropdownHidden = $.proxy(this.options.onDropdownHidden, this);
-        
-        // Build select all if enabled.
-        this.buildContainer();
-        this.buildButton();
-        this.buildDropdown();
-        this.buildSelectAll();
-        this.buildDropdownOptions();
-        this.buildFilter();
-
-        this.updateButtonText();
-        this.updateSelectAll();
-
-        if (this.options.disableIfEmpty && $('option', this.$select).length <= 0) {
-            this.disable();
-        }
-        
-        this.$select.hide().after(this.$container);
-    };
-
-    Multiselect.prototype = {
-
-        defaults: {
-            /**
-             * Default text function will either print 'None selected' in case no
-             * option is selected or a list of the selected options up to a length
-             * of 3 selected options.
-             * 
-             * @param {jQuery} options
-             * @param {jQuery} select
-             * @returns {String}
-             */
-            buttonText: function(options, select) {
-                if (options.length === 0) {
-                    return this.nonSelectedText;
-                }
-                else if (this.allSelectedText 
-                            && options.length === $('option', $(select)).length 
-                            && $('option', $(select)).length !== 1 
-                            && this.multiple) {
-
-                    if (this.selectAllNumber) {
-                        return this.allSelectedText + ' (' + options.length + ')';
-                    }
-                    else {
-                        return this.allSelectedText;
-                    }
-                }
-                else if (options.length > this.numberDisplayed) {
-                    return options.length + ' ' + this.nSelectedText;
-                }
-                else {
-                    var selected = '';
-                    var delimiter = this.delimiterText;
-                    
-                    options.each(function() {
-                        var label = ($(this).attr('label') !== undefined) ? $(this).attr('label') : $(this).text();
-                        selected += label + delimiter;
-                    });
-                    
-                    return selected.substr(0, selected.length - 2);
-                }
-            },
-            /**
-             * Updates the title of the button similar to the buttonText function.
-             * 
-             * @param {jQuery} options
-             * @param {jQuery} select
-             * @returns {@exp;selected@call;substr}
-             */
-            buttonTitle: function(options, select) {
-                if (options.length === 0) {
-                    return this.nonSelectedText;
-                }
-                else {
-                    var selected = '';
-                    var delimiter = this.delimiterText;
-                    
-                    options.each(function () {
-                        var label = ($(this).attr('label') !== undefined) ? $(this).attr('label') : $(this).text();
-                        selected += label + delimiter;
-                    });
-                    return selected.substr(0, selected.length - 2);
-                }
-            },
-            /**
-             * Create a label.
-             *
-             * @param {jQuery} element
-             * @returns {String}
-             */
-            optionLabel: function(element){
-                return $(element).attr('label') || $(element).text();
-            },
-            /**
-             * Triggered on change of the multiselect.
-             * 
-             * Not triggered when selecting/deselecting options manually.
-             * 
-             * @param {jQuery} option
-             * @param {Boolean} checked
-             */
-            onChange : function(option, checked) {
-
-            },
-            /**
-             * Triggered when the dropdown is shown.
-             *
-             * @param {jQuery} event
-             */
-            onDropdownShow: function(event) {
-
-            },
-            /**
-             * Triggered when the dropdown is hidden.
-             *
-             * @param {jQuery} event
-             */
-            onDropdownHide: function(event) {
-
-            },
-            /**
-             * Triggered after the dropdown is shown.
-             * 
-             * @param {jQuery} event
-             */
-            onDropdownShown: function(event) {
-                
-            },
-            /**
-             * Triggered after the dropdown is hidden.
-             * 
-             * @param {jQuery} event
-             */
-            onDropdownHidden: function(event) {
-                
-            },
-            /**
-             * Triggered on select all.
-             */
-            onSelectAll: function() {
-                
-            },
-            enableHTML: false,
-            buttonClass: 'btn btn-default',
-            inheritClass: false,
-            buttonWidth: 'auto',
-            buttonContainer: '<div class="btn-group" />',
-            dropRight: false,
-            selectedClass: 'active',
-            // Maximum height of the dropdown menu.
-            // If maximum height is exceeded a scrollbar will be displayed.
-            maxHeight: false,
-            checkboxName: false,
-            includeSelectAllOption: false,
-            includeSelectAllIfMoreThan: 0,
-            selectAllText: 'انتخاب همه',
-            selectAllValue: 'multiselect-all',
-            selectAllName: false,
-            selectAllNumber: true,
-            enableFiltering: false,
-            enableCaseInsensitiveFiltering: false,
-            enableClickableOptGroups: false,
-            filterPlaceholder: 'Search',
-            // possible options: 'text', 'value', 'both'
-            filterBehavior: 'text',
-            includeFilterClearBtn: true,
-            preventInputChangeEvent: false,
-            nonSelectedText: 'None selected',
-            nSelectedText: 'selected',
-            allSelectedText: 'All selected',
-            numberDisplayed: 3,
-            disableIfEmpty: false,
-            delimiterText: ', ',
-            templates: {
-                button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> <b class="caret"></b></button>',
-                ul: '<ul class="multiselect-container dropdown-menu"></ul>',
-                filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
-                filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default multiselect-clear-filter" type="button"><i class="glyphicon glyphicon-remove-circle"></i></button></span>',
-                li: '<li><a tabindex="0"><label></label></a></li>',
-                divider: '<li class="multiselect-item divider"></li>',
-                liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
-            }
-        },
-
-        constructor: Multiselect,
-
-        /**
-         * Builds the container of the multiselect.
-         */
-        buildContainer: function() {
-            this.$container = $(this.options.buttonContainer);
-            this.$container.on('show.bs.dropdown', this.options.onDropdownShow);
-            this.$container.on('hide.bs.dropdown', this.options.onDropdownHide);
-            this.$container.on('shown.bs.dropdown', this.options.onDropdownShown);
-            this.$container.on('hidden.bs.dropdown', this.options.onDropdownHidden);
-        },
-
-        /**
-         * Builds the button of the multiselect.
-         */
-        buildButton: function() {
-            this.$button = $(this.options.templates.button).addClass(this.options.buttonClass);
-            if (this.$select.attr('class') && this.options.inheritClass) {
-                this.$button.addClass(this.$select.attr('class'));
-            }
-            // Adopt active state.
-            if (this.$select.prop('disabled')) {
-                this.disable();
-            }
-            else {
-                this.enable();
-            }
-
-            // Manually add button width if set.
-            if (this.options.buttonWidth && this.options.buttonWidth !== 'auto') {
-                this.$button.css({
-                    'width' : this.options.buttonWidth,
-                    'overflow' : 'hidden',
-                    'text-overflow' : 'ellipsis'
-                });
-                this.$container.css({
-                    'width': this.options.buttonWidth
-                });
-            }
-
-            // Keep the tab index from the select.
-            var tabindex = this.$select.attr('tabindex');
-            if (tabindex) {
-                this.$button.attr('tabindex', tabindex);
-            }
-
-            this.$container.prepend(this.$button);
-        },
-
-        /**
-         * Builds the ul representing the dropdown menu.
-         */
-        buildDropdown: function() {
-
-            // Build ul.
-            this.$ul = $(this.options.templates.ul);
-
-            if (this.options.dropRight) {
-                this.$ul.addClass('pull-right');
-            }
-
-            // Set max height of dropdown menu to activate auto scrollbar.
-            if (this.options.maxHeight) {
-                // TODO: Add a class for this option to move the css declarations.
-                this.$ul.css({
-                    'max-height': this.options.maxHeight + 'px',
-                    'overflow-y': 'auto',
-                    'overflow-x': 'hidden'
-                });
-            }
-
-            this.$container.append(this.$ul);
-        },
-
-        /**
-         * Build the dropdown options and binds all nessecary events.
-         * 
-         * Uses createDivider and createOptionValue to create the necessary options.
-         */
-        buildDropdownOptions: function() {
-
-            this.$select.children().each($.proxy(function(index, element) {
-
-                var $element = $(element);
-                // Support optgroups and options without a group simultaneously.
-                var tag = $element.prop('tagName')
-                    .toLowerCase();
-            
-                if ($element.prop('value') === this.options.selectAllValue) {
-                    return;
-                }
-
-                if (tag === 'optgroup') {
-                    this.createOptgroup(element);
-                }
-                else if (tag === 'option') {
-
-                    if ($element.data('role') === 'divider') {
-                        this.createDivider();
-                    }
-                    else {
-                        this.createOptionValue(element);
-                    }
-
-                }
-
-                // Other illegal tags will be ignored.
-            }, this));
-
-            // Bind the change event on the dropdown elements.
-            $('li input', this.$ul).on('change', $.proxy(function(event) {
-                var $target = $(event.target);
-
-                var checked = $target.prop('checked') || false;
-                var isSelectAllOption = $target.val() === this.options.selectAllValue;
-
-                // Apply or unapply the configured selected class.
-                if (this.options.selectedClass) {
-                    if (checked) {
-                        $target.closest('li')
-                            .addClass(this.options.selectedClass);
-                    }
-                    else {
-                        $target.closest('li')
-                            .removeClass(this.options.selectedClass);
-                    }
-                }
-
-                // Get the corresponding option.
-                var value = $target.val();
-                var $option = this.getOptionByValue(value);
-
-                var $optionsNotThis = $('option', this.$select).not($option);
-                var $checkboxesNotThis = $('input', this.$container).not($target);
-
-                if (isSelectAllOption) {
-                    if (checked) {
-                        this.selectAll();
-                    }
-                    else {
-                        this.deselectAll();
-                    }
-                }
-
-                if(!isSelectAllOption){
-                    if (checked) {
-                        $option.prop('selected', true);
-
-                        if (this.options.multiple) {
-                            // Simply select additional option.
-                            $option.prop('selected', true);
-                        }
-                        else {
-                            // Unselect all other options and corresponding checkboxes.
-                            if (this.options.selectedClass) {
-                                $($checkboxesNotThis).closest('li').removeClass(this.options.selectedClass);
-                            }
-
-                            $($checkboxesNotThis).prop('checked', false);
-                            $optionsNotThis.prop('selected', false);
-
-                            // It's a single selection, so close.
-                            this.$button.click();
-                        }
-
-                        if (this.options.selectedClass === "active") {
-                            $optionsNotThis.closest("a").css("outline", "");
-                        }
-                    }
-                    else {
-                        // Unselect option.
-                        $option.prop('selected', false);
-                    }
-                }
-
-                this.$select.change();
-
-                this.updateButtonText();
-                this.updateSelectAll();
-
-                this.options.onChange($option, checked);
-
-                if(this.options.preventInputChangeEvent) {
-                    return false;
-                }
-            }, this));
-
-            $('li a', this.$ul).on('mousedown', function(e) {
-                if (e.shiftKey) {
-                    // Prevent selecting text by Shift+click
-                    return false;
-                }
-            });
-        
-            $('li a', this.$ul).on('touchstart click', $.proxy(function(event) {
-                event.stopPropagation();
-
-                var $target = $(event.target);
-                
-                if (event.shiftKey && this.options.multiple) {
-                    if($target.is("label")){ // Handles checkbox selection manually (see https://github.com/davidstutz/bootstrap-multiselect/issues/431)
-                        event.preventDefault();
-                        $target = $target.find("input");
-                        $target.prop("checked", !$target.prop("checked"));
-                    }
-                    var checked = $target.prop('checked') || false;
-
-                    if (this.lastToggledInput !== null && this.lastToggledInput !== $target) { // Make sure we actually have a range
-                        var from = $target.closest("li").index();
-                        var to = this.lastToggledInput.closest("li").index();
-                        
-                        if (from > to) { // Swap the indices
-                            var tmp = to;
-                            to = from;
-                            from = tmp;
-                        }
-                        
-                        // Make sure we grab all elements since slice excludes the last index
-                        ++to;
-                        
-                        // Change the checkboxes and underlying options
-                        var range = this.$ul.find("li").slice(from, to).find("input");
-                        
-                        range.prop('checked', checked);
-                        
-                        if (this.options.selectedClass) {
-                            range.closest('li')
-                                .toggleClass(this.options.selectedClass, checked);
-                        }
-                        
-                        for (var i = 0, j = range.length; i < j; i++) {
-                            var $checkbox = $(range[i]);
-
-                            var $option = this.getOptionByValue($checkbox.val());
-
-                            $option.prop('selected', checked);
-                        }                   
-                    }
-                    
-                    // Trigger the select "change" event
-                    $target.trigger("change");
-                }
-                
-                // Remembers last clicked option
-                if($target.is("input") && !$target.closest("li").is(".multiselect-item")){
-                    this.lastToggledInput = $target;
-                }
-
-                $target.blur();
-            }, this));
-
-            // Keyboard support.
-            this.$container.off('keydown.multiselect').on('keydown.multiselect', $.proxy(function(event) {
-                if ($('input[type="text"]', this.$container).is(':focus')) {
-                    return;
-                }
-
-                if (event.keyCode === 9 && this.$container.hasClass('open')) {
-                    this.$button.click();
-                }
-                else {
-                    var $items = $(this.$container).find("li:not(.divider):not(.disabled) a").filter(":visible");
-
-                    if (!$items.length) {
-                        return;
-                    }
-
-                    var index = $items.index($items.filter(':focus'));
-
-                    // Navigation up.
-                    if (event.keyCode === 38 && index > 0) {
-                        index--;
-                    }
-                    // Navigate down.
-                    else if (event.keyCode === 40 && index < $items.length - 1) {
-                        index++;
-                    }
-                    else if (!~index) {
-                        index = 0;
-                    }
-
-                    var $current = $items.eq(index);
-                    $current.focus();
-
-                    if (event.keyCode === 32 || event.keyCode === 13) {
-                        var $checkbox = $current.find('input');
-
-                        $checkbox.prop("checked", !$checkbox.prop("checked"));
-                        $checkbox.change();
-                    }
-
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            }, this));
-
-            if(this.options.enableClickableOptGroups && this.options.multiple) {
-                $('li.multiselect-group', this.$ul).on('click', $.proxy(function(event) {
-                    event.stopPropagation();
-
-                    var group = $(event.target).parent();
-
-                    // Search all option in optgroup
-                    var $options = group.nextUntil('li.multiselect-group');
-                    var $visibleOptions = $options.filter(":visible:not(.disabled)");
-
-                    // check or uncheck items
-                    var allChecked = true;
-                    var optionInputs = $visibleOptions.find('input');
-                    optionInputs.each(function() {
-                        allChecked = allChecked && $(this).prop('checked');
-                    });
-
-                    optionInputs.prop('checked', !allChecked).trigger('change');
-               }, this));
-            }
-        },
-
-        /**
-         * Create an option using the given select option.
-         *
-         * @param {jQuery} element
-         */
-        createOptionValue: function(element) {
-            var $element = $(element);
-            if ($element.is(':selected')) {
-                $element.prop('selected', true);
-            }
-
-            // Support the label attribute on options.
-            var label = this.options.optionLabel(element);
-            var value = $element.val();
-            var inputType = this.options.multiple ? "checkbox" : "radio";
-
-            var $li = $(this.options.templates.li);
-            var $label = $('label', $li);
-            $label.addClass(inputType);
-
-            if (this.options.enableHTML) {
-                $label.html(" " + label);
-            }
-            else {
-                $label.text(" " + label);
-            }
-        
-            var $checkbox = $('<input/>').attr('type', inputType);
-
-            if (this.options.checkboxName) {
-                $checkbox.attr('name', this.options.checkboxName);
-            }
-            $label.prepend($checkbox);
-
-            var selected = $element.prop('selected') || false;
-            $checkbox.val(value);
-
-            if (value === this.options.selectAllValue) {
-                $li.addClass("multiselect-item multiselect-all");
-                $checkbox.parent().parent()
-                    .addClass('multiselect-all');
-            }
-
-            $label.attr('title', $element.attr('title'));
-
-            this.$ul.append($li);
-
-            if ($element.is(':disabled')) {
-                $checkbox.attr('disabled', 'disabled')
-                    .prop('disabled', true)
-                    .closest('a')
-                    .attr("tabindex", "-1")
-                    .closest('li')
-                    .addClass('disabled');
-            }
-
-            $checkbox.prop('checked', selected);
-
-            if (selected && this.options.selectedClass) {
-                $checkbox.closest('li')
-                    .addClass(this.options.selectedClass);
-            }
-        },
-
-        /**
-         * Creates a divider using the given select option.
-         *
-         * @param {jQuery} element
-         */
-        createDivider: function(element) {
-            var $divider = $(this.options.templates.divider);
-            this.$ul.append($divider);
-        },
-
-        /**
-         * Creates an optgroup.
-         *
-         * @param {jQuery} group
-         */
-        createOptgroup: function(group) {
-            var groupName = $(group).prop('label');
-
-            // Add a header for the group.
-            var $li = $(this.options.templates.liGroup);
-            
-            if (this.options.enableHTML) {
-                $('label', $li).html(groupName);
-            }
-            else {
-                $('label', $li).text(groupName);
-            }
-            
-            if (this.options.enableClickableOptGroups) {
-                $li.addClass('multiselect-group-clickable');
-            }
-
-            this.$ul.append($li);
-
-            if ($(group).is(':disabled')) {
-                $li.addClass('disabled');
-            }
-
-            // Add the options of the group.
-            $('option', group).each($.proxy(function(index, element) {
-                this.createOptionValue(element);
-            }, this));
-        },
-
-        /**
-         * Build the selct all.
-         * 
-         * Checks if a select all has already been created.
-         */
-        buildSelectAll: function() {
-            if (typeof this.options.selectAllValue === 'number') {
-                this.options.selectAllValue = this.options.selectAllValue.toString();
-            }
-            
-            var alreadyHasSelectAll = this.hasSelectAll();
-
-            if (!alreadyHasSelectAll && this.options.includeSelectAllOption && this.options.multiple
-                    && $('option', this.$select).length > this.options.includeSelectAllIfMoreThan) {
-
-                // Check whether to add a divider after the select all.
-                if (this.options.includeSelectAllDivider) {
-                    this.$ul.prepend($(this.options.templates.divider));
-                }
-
-                var $li = $(this.options.templates.li);
-                $('label', $li).addClass("checkbox");
-                
-                if (this.options.enableHTML) {
-                    $('label', $li).html(" " + this.options.selectAllText);
-                }
-                else {
-                    $('label', $li).text(" " + this.options.selectAllText);
-                }
-                
-                if (this.options.selectAllName) {
-                    $('label', $li).prepend('<input type="checkbox" name="' + this.options.selectAllName + '" />');
-                }
-                else {
-                    $('label', $li).prepend('<input type="checkbox" />');
-                }
-                
-                var $checkbox = $('input', $li);
-                $checkbox.val(this.options.selectAllValue);
-
-                $li.addClass("multiselect-item multiselect-all");
-                $checkbox.parent().parent()
-                    .addClass('multiselect-all');
-
-                this.$ul.prepend($li);
-
-                $checkbox.prop('checked', false);
-            }
-        },
-
-        /**
-         * Builds the filter.
-         */
-        buildFilter: function() {
-
-            // Build filter if filtering OR case insensitive filtering is enabled and the number of options exceeds (or equals) enableFilterLength.
-            if (this.options.enableFiltering || this.options.enableCaseInsensitiveFiltering) {
-                var enableFilterLength = Math.max(this.options.enableFiltering, this.options.enableCaseInsensitiveFiltering);
-
-                if (this.$select.find('option').length >= enableFilterLength) {
-
-                    this.$filter = $(this.options.templates.filter);
-                    $('input', this.$filter).attr('placeholder', this.options.filterPlaceholder);
-                    
-                    // Adds optional filter clear button
-                    if(this.options.includeFilterClearBtn){
-                        var clearBtn = $(this.options.templates.filterClearBtn);
-                        clearBtn.on('click', $.proxy(function(event){
-                            clearTimeout(this.searchTimeout);
-                            this.$filter.find('.multiselect-search').val('');
-                            $('li', this.$ul).show().removeClass("filter-hidden");
-                            this.updateSelectAll();
-                        }, this));
-                        this.$filter.find('.input-group').append(clearBtn);
-                    }
-                    
-                    this.$ul.prepend(this.$filter);
-
-                    this.$filter.val(this.query).on('click', function(event) {
-                        event.stopPropagation();
-                    }).on('input keydown', $.proxy(function(event) {
-                        // Cancel enter key default behaviour
-                        if (event.which === 13) {
-                          event.preventDefault();
-                        }
-                        
-                        // This is useful to catch "keydown" events after the browser has updated the control.
-                        clearTimeout(this.searchTimeout);
-
-                        this.searchTimeout = this.asyncFunction($.proxy(function() {
-
-                            if (this.query !== event.target.value) {
-                                this.query = event.target.value;
-
-                                var currentGroup, currentGroupVisible;
-                                $.each($('li', this.$ul), $.proxy(function(index, element) {
-                                    var value = $('input', element).length > 0 ? $('input', element).val() : "";
-                                    var text = $('label', element).text();
-
-                                    var filterCandidate = '';
-                                    if ((this.options.filterBehavior === 'text')) {
-                                        filterCandidate = text;
-                                    }
-                                    else if ((this.options.filterBehavior === 'value')) {
-                                        filterCandidate = value;
-                                    }
-                                    else if (this.options.filterBehavior === 'both') {
-                                        filterCandidate = text + '\n' + value;
-                                    }
-
-                                    if (value !== this.options.selectAllValue && text) {
-                                        // By default lets assume that element is not
-                                        // interesting for this search.
-                                        var showElement = false;
-
-                                        if (this.options.enableCaseInsensitiveFiltering && filterCandidate.toLowerCase().indexOf(this.query.toLowerCase()) > -1) {
-                                            showElement = true;
-                                        }
-                                        else if (filterCandidate.indexOf(this.query) > -1) {
-                                            showElement = true;
-                                        }
-
-                                        // Toggle current element (group or group item) according to showElement boolean.
-                                        $(element).toggle(showElement).toggleClass('filter-hidden', !showElement);
-                                        
-                                        // Differentiate groups and group items.
-                                        if ($(element).hasClass('multiselect-group')) {
-                                            // Remember group status.
-                                            currentGroup = element;
-                                            currentGroupVisible = showElement;
-                                        }
-                                        else {
-                                            // Show group name when at least one of its items is visible.
-                                            if (showElement) {
-                                                $(currentGroup).show().removeClass('filter-hidden');
-                                            }
-                                            
-                                            // Show all group items when group name satisfies filter.
-                                            if (!showElement && currentGroupVisible) {
-                                                $(element).show().removeClass('filter-hidden');
-                                            }
-                                        }
-                                    }
-                                }, this));
-                            }
-
-                            this.updateSelectAll();
-                        }, this), 300, this);
-                    }, this));
-                }
-            }
-        },
-
-        /**
-         * Unbinds the whole plugin.
-         */
-        destroy: function() {
-            this.$container.remove();
-            this.$select.show();
-            this.$select.data('multiselect', null);
-        },
-
-        /**
-         * Refreshs the multiselect based on the selected options of the select.
-         */
-        refresh: function() {
-            $('option', this.$select).each($.proxy(function(index, element) {
-                var $input = $('li input', this.$ul).filter(function() {
-                    return $(this).val() === $(element).val();
-                });
-
-                if ($(element).is(':selected')) {
-                    $input.prop('checked', true);
-
-                    if (this.options.selectedClass) {
-                        $input.closest('li')
-                            .addClass(this.options.selectedClass);
-                    }
-                }
-                else {
-                    $input.prop('checked', false);
-
-                    if (this.options.selectedClass) {
-                        $input.closest('li')
-                            .removeClass(this.options.selectedClass);
-                    }
-                }
-
-                if ($(element).is(":disabled")) {
-                    $input.attr('disabled', 'disabled')
-                        .prop('disabled', true)
-                        .closest('li')
-                        .addClass('disabled');
-                }
-                else {
-                    $input.prop('disabled', false)
-                        .closest('li')
-                        .removeClass('disabled');
-                }
-            }, this));
-
-            this.updateButtonText();
-            this.updateSelectAll();
-        },
-
-        /**
-         * Select all options of the given values.
-         * 
-         * If triggerOnChange is set to true, the on change event is triggered if
-         * and only if one value is passed.
-         * 
-         * @param {Array} selectValues
-         * @param {Boolean} triggerOnChange
-         */
-        select: function(selectValues, triggerOnChange) {
-            if(!$.isArray(selectValues)) {
-                selectValues = [selectValues];
-            }
-
-            for (var i = 0; i < selectValues.length; i++) {
-                var value = selectValues[i];
-
-                if (value === null || value === undefined) {
-                    continue;
-                }
-
-                var $option = this.getOptionByValue(value);
-                var $checkbox = this.getInputByValue(value);
-
-                if($option === undefined || $checkbox === undefined) {
-                    continue;
-                }
-                
-                if (!this.options.multiple) {
-                    this.deselectAll(false);
-                }
-                
-                if (this.options.selectedClass) {
-                    $checkbox.closest('li')
-                        .addClass(this.options.selectedClass);
-                }
-
-                $checkbox.prop('checked', true);
-                $option.prop('selected', true);
-                
-                if (triggerOnChange) {
-                    this.options.onChange($option, true);
-                }
-            }
-
-            this.updateButtonText();
-            this.updateSelectAll();
-        },
-
-        /**
-         * Clears all selected items.
-         */
-        clearSelection: function () {
-            this.deselectAll(false);
-            this.updateButtonText();
-            this.updateSelectAll();
-        },
-
-        /**
-         * Deselects all options of the given values.
-         * 
-         * If triggerOnChange is set to true, the on change event is triggered, if
-         * and only if one value is passed.
-         * 
-         * @param {Array} deselectValues
-         * @param {Boolean} triggerOnChange
-         */
-        deselect: function(deselectValues, triggerOnChange) {
-            if(!$.isArray(deselectValues)) {
-                deselectValues = [deselectValues];
-            }
-
-            for (var i = 0; i < deselectValues.length; i++) {
-                var value = deselectValues[i];
-
-                if (value === null || value === undefined) {
-                    continue;
-                }
-
-                var $option = this.getOptionByValue(value);
-                var $checkbox = this.getInputByValue(value);
-
-                if($option === undefined || $checkbox === undefined) {
-                    continue;
-                }
-
-                if (this.options.selectedClass) {
-                    $checkbox.closest('li')
-                        .removeClass(this.options.selectedClass);
-                }
-
-                $checkbox.prop('checked', false);
-                $option.prop('selected', false);
-                
-                if (triggerOnChange) {
-                    this.options.onChange($option, false);
-                }
-            }
-
-            this.updateButtonText();
-            this.updateSelectAll();
-        },
-        
-        /**
-         * Selects all enabled & visible options.
-         *
-         * If justVisible is true or not specified, only visible options are selected.
-         *
-         * @param {Boolean} justVisible
-         * @param {Boolean} triggerOnSelectAll
-         */
-        selectAll: function (justVisible, triggerOnSelectAll) {
-            var justVisible = typeof justVisible === 'undefined' ? true : justVisible;
-            var allCheckboxes = $("li input[type='checkbox']:enabled", this.$ul);
-            var visibleCheckboxes = allCheckboxes.filter(":visible");
-            var allCheckboxesCount = allCheckboxes.length;
-            var visibleCheckboxesCount = visibleCheckboxes.length;
-            
-            if(justVisible) {
-                visibleCheckboxes.prop('checked', true);
-                $("li:not(.divider):not(.disabled)", this.$ul).filter(":visible").addClass(this.options.selectedClass);
-            }
-            else {
-                allCheckboxes.prop('checked', true);
-                $("li:not(.divider):not(.disabled)", this.$ul).addClass(this.options.selectedClass);
-            }
-                
-            if (allCheckboxesCount === visibleCheckboxesCount || justVisible === false) {
-                $("option:enabled", this.$select).prop('selected', true);
-            }
-            else {
-                var values = visibleCheckboxes.map(function() {
-                    return $(this).val();
-                }).get();
-                
-                $("option:enabled", this.$select).filter(function(index) {
-                    return $.inArray($(this).val(), values) !== -1;
-                }).prop('selected', true);
-            }
-            
-            if (triggerOnSelectAll) {
-                this.options.onSelectAll();
-            }
-        },
-
-        /**
-         * Deselects all options.
-         * 
-         * If justVisible is true or not specified, only visible options are deselected.
-         * 
-         * @param {Boolean} justVisible
-         */
-        deselectAll: function (justVisible) {
-            var justVisible = typeof justVisible === 'undefined' ? true : justVisible;
-            
-            if(justVisible) {              
-                var visibleCheckboxes = $("li input[type='checkbox']:not(:disabled)", this.$ul).filter(":visible");
-                visibleCheckboxes.prop('checked', false);
-                
-                var values = visibleCheckboxes.map(function() {
-                    return $(this).val();
-                }).get();
-                
-                $("option:enabled", this.$select).filter(function(index) {
-                    return $.inArray($(this).val(), values) !== -1;
-                }).prop('selected', false);
-                
-                if (this.options.selectedClass) {
-                    $("li:not(.divider):not(.disabled)", this.$ul).filter(":visible").removeClass(this.options.selectedClass);
-                }
-            }
-            else {
-                $("li input[type='checkbox']:enabled", this.$ul).prop('checked', false);
-                $("option:enabled", this.$select).prop('selected', false);
-                
-                if (this.options.selectedClass) {
-                    $("li:not(.divider):not(.disabled)", this.$ul).removeClass(this.options.selectedClass);
-                }
-            }
-        },
-
-        /**
-         * Rebuild the plugin.
-         * 
-         * Rebuilds the dropdown, the filter and the select all option.
-         */
-        rebuild: function() {
-            this.$ul.html('');
-
-            // Important to distinguish between radios and checkboxes.
-            this.options.multiple = this.$select.attr('multiple') === "multiple";
-
-            this.buildSelectAll();
-            this.buildDropdownOptions();
-            this.buildFilter();
-
-            this.updateButtonText();
-            this.updateSelectAll();
-            
-            if (this.options.disableIfEmpty && $('option', this.$select).length <= 0) {
-                this.disable();
-            }
-            else {
-                this.enable();
-            }
-            
-            if (this.options.dropRight) {
-                this.$ul.addClass('pull-right');
-            }
-        },
-
-        /**
-         * The provided data will be used to build the dropdown.
-         */
-        dataprovider: function(dataprovider) {
-            
-            var groupCounter = 0;
-            var $select = this.$select.empty();
-            
-            $.each(dataprovider, function (index, option) {
-                var $tag;
-                
-                if ($.isArray(option.children)) { // create optiongroup tag
-                    groupCounter++;
-                    
-                    $tag = $('<optgroup/>').attr({
-                        label: option.label || 'Group ' + groupCounter,
-                        disabled: !!option.disabled
-                    });
-                    
-                    forEach(option.children, function(subOption) { // add children option tags
-                        $tag.append($('<option/>').attr({
-                            value: subOption.value,
-                            label: subOption.label || subOption.value,
-                            title: subOption.title,
-                            selected: !!subOption.selected,
-                            disabled: !!subOption.disabled
-                        }));
-                    });
-                }
-                else {
-                    $tag = $('<option/>').attr({
-                        value: option.value,
-                        label: option.label || option.value,
-                        title: option.title,
-                        selected: !!option.selected,
-                        disabled: !!option.disabled
-                    });
-                }
-                
-                $select.append($tag);
-            });
-            
-            this.rebuild();
-        },
-
-        /**
-         * Enable the multiselect.
-         */
-        enable: function() {
-            this.$select.prop('disabled', false);
-            this.$button.prop('disabled', false)
-                .removeClass('disabled');
-        },
-
-        /**
-         * Disable the multiselect.
-         */
-        disable: function() {
-            this.$select.prop('disabled', true);
-            this.$button.prop('disabled', true)
-                .addClass('disabled');
-        },
-
-        /**
-         * Set the options.
-         *
-         * @param {Array} options
-         */
-        setOptions: function(options) {
-            this.options = this.mergeOptions(options);
-        },
-
-        /**
-         * Merges the given options with the default options.
-         *
-         * @param {Array} options
-         * @returns {Array}
-         */
-        mergeOptions: function(options) {
-            return $.extend(true, {}, this.defaults, this.options, options);
-        },
-
-        /**
-         * Checks whether a select all checkbox is present.
-         *
-         * @returns {Boolean}
-         */
-        hasSelectAll: function() {
-            return $('li.multiselect-all', this.$ul).length > 0;
-        },
-
-        /**
-         * Updates the select all checkbox based on the currently displayed and selected checkboxes.
-         */
-        updateSelectAll: function() {
-            if (this.hasSelectAll()) {
-                var allBoxes = $("li:not(.multiselect-item):not(.filter-hidden) input:enabled", this.$ul);
-                var allBoxesLength = allBoxes.length;
-                var checkedBoxesLength = allBoxes.filter(":checked").length;
-                var selectAllLi  = $("li.multiselect-all", this.$ul);
-                var selectAllInput = selectAllLi.find("input");
-                
-                if (checkedBoxesLength > 0 && checkedBoxesLength === allBoxesLength) {
-                    selectAllInput.prop("checked", true);
-                    selectAllLi.addClass(this.options.selectedClass);
-                    this.options.onSelectAll();
-                }
-                else {
-                    selectAllInput.prop("checked", false);
-                    selectAllLi.removeClass(this.options.selectedClass);
-                }
-            }
-        },
-
-        /**
-         * Update the button text and its title based on the currently selected options.
-         */
-        updateButtonText: function() {
-            var options = this.getSelected();
-            
-            // First update the displayed button text.
-            if (this.options.enableHTML) {
-                $('.multiselect .multiselect-selected-text', this.$container).html(this.options.buttonText(options, this.$select));
-            }
-            else {
-                $('.multiselect .multiselect-selected-text', this.$container).text(this.options.buttonText(options, this.$select));
-            }
-            
-            // Now update the title attribute of the button.
-            $('.multiselect', this.$container).attr('title', this.options.buttonTitle(options, this.$select));
-        },
-
-        /**
-         * Get all selected options.
-         *
-         * @returns {jQUery}
-         */
-        getSelected: function() {
-            return $('option', this.$select).filter(":selected");
-        },
-
-        /**
-         * Gets a select option by its value.
-         *
-         * @param {String} value
-         * @returns {jQuery}
-         */
-        getOptionByValue: function (value) {
-
-            var options = $('option', this.$select);
-            var valueToCompare = value.toString();
-
-            for (var i = 0; i < options.length; i = i + 1) {
-                var option = options[i];
-                if (option.value === valueToCompare) {
-                    return $(option);
-                }
-            }
-        },
-
-        /**
-         * Get the input (radio/checkbox) by its value.
-         *
-         * @param {String} value
-         * @returns {jQuery}
-         */
-        getInputByValue: function (value) {
-
-            var checkboxes = $('li input', this.$ul);
-            var valueToCompare = value.toString();
-
-            for (var i = 0; i < checkboxes.length; i = i + 1) {
-                var checkbox = checkboxes[i];
-                if (checkbox.value === valueToCompare) {
-                    return $(checkbox);
-                }
-            }
-        },
-
-        /**
-         * Used for knockout integration.
-         */
-        updateOriginalOptions: function() {
-            this.originalOptions = this.$select.clone()[0].options;
-        },
-
-        asyncFunction: function(callback, timeout, self) {
-            var args = Array.prototype.slice.call(arguments, 3);
-            return setTimeout(function() {
-                callback.apply(self || window, args);
-            }, timeout);
-        },
-
-        setAllSelectedText: function(allSelectedText) {
-            this.options.allSelectedText = allSelectedText;
-            this.updateButtonText();
-        }
-    };
-
-    $.fn.multiselect = function(option, parameter, extraOptions) {
-        return this.each(function() {
-            var data = $(this).data('multiselect');
-            var options = typeof option === 'object' && option;
-
-            // Initialize the multiselect.
-            if (!data) {
-                data = new Multiselect(this, options);
-                $(this).data('multiselect', data);
-            }
-
-            // Call multiselect method.
-            if (typeof option === 'string') {
-                data[option](parameter, extraOptions);
-                
-                if (option === 'destroy') {
-                    $(this).data('multiselect', false);
-                }
-            }
-        });
-    };
-
-    $.fn.multiselect.Constructor = Multiselect;
-
-    $(function() {
-        $("select[data-role=multiselect]").multiselect();
-    });
-
-}(__webpack_provided_window_dot_jQuery);
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * Waves v0.7.5
- * http://fian.my.id/Waves
- *
- * Copyright 2014-2016 Alfiana E. Sibuea and other contributors
- * Released under the MIT license
- * https://github.com/fians/Waves/blob/master/LICENSE
- */
-
-;(function(window, factory) {
-    'use strict';
-
-    // AMD. Register as an anonymous module.  Wrap in function so we have access
-    // to root via `this`.
-    if (true) {
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
-            return factory.apply(window);
-        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    }
-
-    // Node. Does not work with strict CommonJS, but only CommonJS-like
-    // environments that support module.exports, like Node.
-    else if (typeof exports === 'object') {
-        module.exports = factory.call(window);
-    }
-
-    // Browser globals.
-    else {
-        window.Waves = factory.call(window);
-    }
-})(typeof global === 'object' ? global : this, function() {
-    'use strict';
-
-    var Waves            = Waves || {};
-    var $$               = document.querySelectorAll.bind(document);
-    var toString         = Object.prototype.toString;
-    var isTouchAvailable = 'ontouchstart' in window;
-
-
-    // Find exact position of element
-    function isWindow(obj) {
-        return obj !== null && obj === obj.window;
-    }
-
-    function getWindow(elem) {
-        return isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
-    }
-
-    function isObject(value) {
-        var type = typeof value;
-        return type === 'function' || type === 'object' && !!value;
-    }
-
-    function isDOMNode(obj) {
-        return isObject(obj) && obj.nodeType > 0;
-    }
-
-    function getWavesElements(nodes) {
-        var stringRepr = toString.call(nodes);
-
-        if (stringRepr === '[object String]') {
-            return $$(nodes);
-        } else if (isObject(nodes) && /^\[object (Array|HTMLCollection|NodeList|Object)\]$/.test(stringRepr) && nodes.hasOwnProperty('length')) {
-            return nodes;
-        } else if (isDOMNode(nodes)) {
-            return [nodes];
-        }
-
-        return [];
-    }
-
-    function offset(elem) {
-        var docElem, win,
-            box = { top: 0, left: 0 },
-            doc = elem && elem.ownerDocument;
-
-        docElem = doc.documentElement;
-
-        if (typeof elem.getBoundingClientRect !== typeof undefined) {
-            box = elem.getBoundingClientRect();
-        }
-        win = getWindow(doc);
-        return {
-            top: box.top + win.pageYOffset - docElem.clientTop,
-            left: box.left + win.pageXOffset - docElem.clientLeft
-        };
-    }
-
-    function convertStyle(styleObj) {
-        var style = '';
-
-        for (var prop in styleObj) {
-            if (styleObj.hasOwnProperty(prop)) {
-                style += (prop + ':' + styleObj[prop] + ';');
-            }
-        }
-
-        return style;
-    }
-
-    var Effect = {
-
-        // Effect duration
-        duration: 750,
-
-        // Effect delay (check for scroll before showing effect)
-        delay: 200,
-
-        show: function(e, element, velocity) {
-
-            // Disable right click
-            if (e.button === 2) {
-                return false;
-            }
-
-            element = element || this;
-
-            // Create ripple
-            var ripple = document.createElement('div');
-            ripple.className = 'waves-ripple waves-rippling';
-            element.appendChild(ripple);
-
-            // Get click coordinate and element width
-            var pos       = offset(element);
-            var relativeY = 0;
-            var relativeX = 0;
-            // Support for touch devices
-            if('touches' in e && e.touches.length) {
-                relativeY   = (e.touches[0].pageY - pos.top);
-                relativeX   = (e.touches[0].pageX - pos.left);
-            }
-            //Normal case
-            else {
-                relativeY   = (e.pageY - pos.top);
-                relativeX   = (e.pageX - pos.left);
-            }
-            // Support for synthetic events
-            relativeX = relativeX >= 0 ? relativeX : 0;
-            relativeY = relativeY >= 0 ? relativeY : 0;
-
-            var scale     = 'scale(' + ((element.clientWidth / 100) * 3) + ')';
-            var translate = 'translate(0,0)';
-
-            if (velocity) {
-                translate = 'translate(' + (velocity.x) + 'px, ' + (velocity.y) + 'px)';
-            }
-
-            // Attach data to element
-            ripple.setAttribute('data-hold', Date.now());
-            ripple.setAttribute('data-x', relativeX);
-            ripple.setAttribute('data-y', relativeY);
-            ripple.setAttribute('data-scale', scale);
-            ripple.setAttribute('data-translate', translate);
-
-            // Set ripple position
-            var rippleStyle = {
-                top: relativeY + 'px',
-                left: relativeX + 'px'
-            };
-
-            ripple.classList.add('waves-notransition');
-            ripple.setAttribute('style', convertStyle(rippleStyle));
-            ripple.classList.remove('waves-notransition');
-
-            // Scale the ripple
-            rippleStyle['-webkit-transform'] = scale + ' ' + translate;
-            rippleStyle['-moz-transform'] = scale + ' ' + translate;
-            rippleStyle['-ms-transform'] = scale + ' ' + translate;
-            rippleStyle['-o-transform'] = scale + ' ' + translate;
-            rippleStyle.transform = scale + ' ' + translate;
-            rippleStyle.opacity = '1';
-
-            var duration = e.type === 'mousemove' ? 2500 : Effect.duration;
-            rippleStyle['-webkit-transition-duration'] = duration + 'ms';
-            rippleStyle['-moz-transition-duration']    = duration + 'ms';
-            rippleStyle['-o-transition-duration']      = duration + 'ms';
-            rippleStyle['transition-duration']         = duration + 'ms';
-
-            ripple.setAttribute('style', convertStyle(rippleStyle));
-        },
-
-        hide: function(e, element) {
-            element = element || this;
-
-            var ripples = element.getElementsByClassName('waves-rippling');
-
-            for (var i = 0, len = ripples.length; i < len; i++) {
-                removeRipple(e, element, ripples[i]);
-            }
-        }
-    };
-
-    /**
-     * Collection of wrapper for HTML element that only have single tag
-     * like <input> and <img>
-     */
-    var TagWrapper = {
-
-        // Wrap <input> tag so it can perform the effect
-        input: function(element) {
-
-            var parent = element.parentNode;
-
-            // If input already have parent just pass through
-            if (parent.tagName.toLowerCase() === 'i' && parent.classList.contains('waves-effect')) {
-                return;
-            }
-
-            // Put element class and style to the specified parent
-            var wrapper       = document.createElement('i');
-            wrapper.className = element.className + ' waves-input-wrapper';
-            element.className = 'waves-button-input';
-
-            // Put element as child
-            parent.replaceChild(wrapper, element);
-            wrapper.appendChild(element);
-
-            // Apply element color and background color to wrapper
-            var elementStyle    = window.getComputedStyle(element, null);
-            var color           = elementStyle.color;
-            var backgroundColor = elementStyle.backgroundColor;
-
-            wrapper.setAttribute('style', 'color:' + color + ';background:' + backgroundColor);
-            element.setAttribute('style', 'background-color:rgba(0,0,0,0);');
-
-        },
-
-        // Wrap <img> tag so it can perform the effect
-        img: function(element) {
-
-            var parent = element.parentNode;
-
-            // If input already have parent just pass through
-            if (parent.tagName.toLowerCase() === 'i' && parent.classList.contains('waves-effect')) {
-                return;
-            }
-
-            // Put element as child
-            var wrapper  = document.createElement('i');
-            parent.replaceChild(wrapper, element);
-            wrapper.appendChild(element);
-
-        }
-    };
-
-    /**
-     * Hide the effect and remove the ripple. Must be
-     * a separate function to pass the JSLint...
-     */
-    function removeRipple(e, el, ripple) {
-
-        // Check if the ripple still exist
-        if (!ripple) {
-            return;
-        }
-
-        ripple.classList.remove('waves-rippling');
-
-        var relativeX = ripple.getAttribute('data-x');
-        var relativeY = ripple.getAttribute('data-y');
-        var scale     = ripple.getAttribute('data-scale');
-        var translate = ripple.getAttribute('data-translate');
-
-        // Get delay beetween mousedown and mouse leave
-        var diff = Date.now() - Number(ripple.getAttribute('data-hold'));
-        var delay = 350 - diff;
-
-        if (delay < 0) {
-            delay = 0;
-        }
-
-        if (e.type === 'mousemove') {
-            delay = 150;
-        }
-
-        // Fade out ripple after delay
-        var duration = e.type === 'mousemove' ? 2500 : Effect.duration;
-
-        setTimeout(function() {
-
-            var style = {
-                top: relativeY + 'px',
-                left: relativeX + 'px',
-                opacity: '0',
-
-                // Duration
-                '-webkit-transition-duration': duration + 'ms',
-                '-moz-transition-duration': duration + 'ms',
-                '-o-transition-duration': duration + 'ms',
-                'transition-duration': duration + 'ms',
-                '-webkit-transform': scale + ' ' + translate,
-                '-moz-transform': scale + ' ' + translate,
-                '-ms-transform': scale + ' ' + translate,
-                '-o-transform': scale + ' ' + translate,
-                'transform': scale + ' ' + translate
-            };
-
-            ripple.setAttribute('style', convertStyle(style));
-
-            setTimeout(function() {
-                try {
-                    el.removeChild(ripple);
-                } catch (e) {
-                    return false;
-                }
-            }, duration);
-
-        }, delay);
-    }
-
-
-    /**
-     * Disable mousedown event for 500ms during and after touch
-     */
-    var TouchHandler = {
-
-        /* uses an integer rather than bool so there's no issues with
-         * needing to clear timeouts if another touch event occurred
-         * within the 500ms. Cannot mouseup between touchstart and
-         * touchend, nor in the 500ms after touchend. */
-        touches: 0,
-
-        allowEvent: function(e) {
-
-            var allow = true;
-
-            if (/^(mousedown|mousemove)$/.test(e.type) && TouchHandler.touches) {
-                allow = false;
-            }
-
-            return allow;
-        },
-        registerEvent: function(e) {
-            var eType = e.type;
-
-            if (eType === 'touchstart') {
-
-                TouchHandler.touches += 1; // push
-
-            } else if (/^(touchend|touchcancel)$/.test(eType)) {
-
-                setTimeout(function() {
-                    if (TouchHandler.touches) {
-                        TouchHandler.touches -= 1; // pop after 500ms
-                    }
-                }, 500);
-
-            }
-        }
-    };
-
-
-    /**
-     * Delegated click handler for .waves-effect element.
-     * returns null when .waves-effect element not in "click tree"
-     */
-    function getWavesEffectElement(e) {
-
-        if (TouchHandler.allowEvent(e) === false) {
-            return null;
-        }
-
-        var element = null;
-        var target = e.target || e.srcElement;
-
-        while (target.parentElement !== null) {
-            if (target.classList.contains('waves-effect') && (!(target instanceof SVGElement))) {
-                element = target;
-                break;
-            }
-            target = target.parentElement;
-        }
-
-        return element;
-    }
-
-    /**
-     * Bubble the click and show effect if .waves-effect elem was found
-     */
-    function showEffect(e) {
-
-        // Disable effect if element has "disabled" property on it
-        // In some cases, the event is not triggered by the current element
-        // if (e.target.getAttribute('disabled') !== null) {
-        //     return;
-        // }
-
-        var element = getWavesEffectElement(e);
-
-        if (element !== null) {
-
-            // Make it sure the element has either disabled property, disabled attribute or 'disabled' class
-            if (element.disabled || element.getAttribute('disabled') || element.classList.contains('disabled')) {
-                return;
-            }
-
-            TouchHandler.registerEvent(e);
-
-            if (e.type === 'touchstart' && Effect.delay) {
-
-                var hidden = false;
-
-                var timer = setTimeout(function () {
-                    timer = null;
-                    Effect.show(e, element);
-                }, Effect.delay);
-
-                var hideEffect = function(hideEvent) {
-
-                    // if touch hasn't moved, and effect not yet started: start effect now
-                    if (timer) {
-                        clearTimeout(timer);
-                        timer = null;
-                        Effect.show(e, element);
-                    }
-                    if (!hidden) {
-                        hidden = true;
-                        Effect.hide(hideEvent, element);
-                    }
-                };
-
-                var touchMove = function(moveEvent) {
-                    if (timer) {
-                        clearTimeout(timer);
-                        timer = null;
-                    }
-                    hideEffect(moveEvent);
-                };
-
-                element.addEventListener('touchmove', touchMove, false);
-                element.addEventListener('touchend', hideEffect, false);
-                element.addEventListener('touchcancel', hideEffect, false);
-
-            } else {
-
-                Effect.show(e, element);
-
-                if (isTouchAvailable) {
-                    element.addEventListener('touchend', Effect.hide, false);
-                    element.addEventListener('touchcancel', Effect.hide, false);
-                }
-
-                element.addEventListener('mouseup', Effect.hide, false);
-                element.addEventListener('mouseleave', Effect.hide, false);
-            }
-        }
-    }
-
-    Waves.init = function(options) {
-        var body = document.body;
-
-        options = options || {};
-
-        if ('duration' in options) {
-            Effect.duration = options.duration;
-        }
-
-        if ('delay' in options) {
-            Effect.delay = options.delay;
-        }
-
-        if (isTouchAvailable) {
-            body.addEventListener('touchstart', showEffect, false);
-            body.addEventListener('touchcancel', TouchHandler.registerEvent, false);
-            body.addEventListener('touchend', TouchHandler.registerEvent, false);
-        }
-
-        body.addEventListener('mousedown', showEffect, false);
-    };
-
-
-    /**
-     * Attach Waves to dynamically loaded inputs, or add .waves-effect and other
-     * waves classes to a set of elements. Set drag to true if the ripple mouseover
-     * or skimming effect should be applied to the elements.
-     */
-    Waves.attach = function(elements, classes) {
-
-        elements = getWavesElements(elements);
-
-        if (toString.call(classes) === '[object Array]') {
-            classes = classes.join(' ');
-        }
-
-        classes = classes ? ' ' + classes : '';
-
-        var element, tagName;
-
-        for (var i = 0, len = elements.length; i < len; i++) {
-
-            element = elements[i];
-            tagName = element.tagName.toLowerCase();
-
-            if (['input', 'img'].indexOf(tagName) !== -1) {
-                TagWrapper[tagName](element);
-                element = element.parentElement;
-            }
-
-            if (element.className.indexOf('waves-effect') === -1) {
-                element.className += ' waves-effect' + classes;
-            }
-        }
-    };
-
-
-    /**
-     * Cause a ripple to appear in an element via code.
-     */
-    Waves.ripple = function(elements, options) {
-        elements = getWavesElements(elements);
-        var elementsLen = elements.length;
-
-        options          = options || {};
-        options.wait     = options.wait || 0;
-        options.position = options.position || null; // default = centre of element
-
-
-        if (elementsLen) {
-            var element, pos, off, centre = {}, i = 0;
-            var mousedown = {
-                type: 'mousedown',
-                button: 1
-            };
-            var hideRipple = function(mouseup, element) {
-                return function() {
-                    Effect.hide(mouseup, element);
-                };
-            };
-
-            for (; i < elementsLen; i++) {
-                element = elements[i];
-                pos = options.position || {
-                    x: element.clientWidth / 2,
-                    y: element.clientHeight / 2
-                };
-
-                off      = offset(element);
-                centre.x = off.left + pos.x;
-                centre.y = off.top + pos.y;
-
-                mousedown.pageX = centre.x;
-                mousedown.pageY = centre.y;
-
-                Effect.show(mousedown, element);
-
-                if (options.wait >= 0 && options.wait !== null) {
-                    var mouseup = {
-                        type: 'mouseup',
-                        button: 1
-                    };
-
-                    setTimeout(hideRipple(mouseup, element), options.wait);
-                }
-            }
-        }
-    };
-
-    /**
-     * Remove all ripples from an element.
-     */
-    Waves.calm = function(elements) {
-        elements = getWavesElements(elements);
-        var mouseup = {
-            type: 'mouseup',
-            button: 1
-        };
-
-        for (var i = 0, len = elements.length; i < len; i++) {
-            Effect.hide(mouseup, elements[i]);
-        }
-    };
-
-    /**
-     * Deprecated API fallback
-     */
-    Waves.displayEffect = function(options) {
-        console.error('Waves.displayEffect() has been deprecated and will be removed in future version. Please use Waves.init() to initialize Waves effect');
-        Waves.init(options);
-    };
-
-    return Waves;
-});
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
-
-/***/ }),
+/* 7 */,
 /* 8 */,
 /* 9 */,
 /* 10 */,
 /* 11 */,
-/* 12 */,
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery, jQuery) {/**
@@ -20575,7 +18754,7 @@ return Tether;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(0)))
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (factory) {
@@ -20941,10 +19120,1831 @@ var FormatOptions = [
 
 
 /***/ }),
+/* 14 */,
 /* 15 */,
 /* 16 */,
 /* 17 */,
-/* 18 */,
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4.0 */
+
+(function(root, factory) {
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else if (typeof exports === 'object') {
+    module.exports = factory(require, exports, module);
+  } else {
+    root.Tether = factory();
+  }
+}(this, function(require, exports, module) {
+
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var TetherBase = undefined;
+if (typeof TetherBase === 'undefined') {
+  TetherBase = { modules: [] };
+}
+
+var zeroElement = null;
+
+// Same as native getBoundingClientRect, except it takes into account parent <frame> offsets
+// if the element lies within a nested document (<frame> or <iframe>-like).
+function getActualBoundingClientRect(node) {
+  var boundingRect = node.getBoundingClientRect();
+
+  // The original object returned by getBoundingClientRect is immutable, so we clone it
+  // We can't use extend because the properties are not considered part of the object by hasOwnProperty in IE9
+  var rect = {};
+  for (var k in boundingRect) {
+    rect[k] = boundingRect[k];
+  }
+
+  if (node.ownerDocument !== document) {
+    var _frameElement = node.ownerDocument.defaultView.frameElement;
+    if (_frameElement) {
+      var frameRect = getActualBoundingClientRect(_frameElement);
+      rect.top += frameRect.top;
+      rect.bottom += frameRect.top;
+      rect.left += frameRect.left;
+      rect.right += frameRect.left;
+    }
+  }
+
+  return rect;
+}
+
+function getScrollParents(el) {
+  // In firefox if the el is inside an iframe with display: none; window.getComputedStyle() will return null;
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
+  var computedStyle = getComputedStyle(el) || {};
+  var position = computedStyle.position;
+  var parents = [];
+
+  if (position === 'fixed') {
+    return [el];
+  }
+
+  var parent = el;
+  while ((parent = parent.parentNode) && parent && parent.nodeType === 1) {
+    var style = undefined;
+    try {
+      style = getComputedStyle(parent);
+    } catch (err) {}
+
+    if (typeof style === 'undefined' || style === null) {
+      parents.push(parent);
+      return parents;
+    }
+
+    var _style = style;
+    var overflow = _style.overflow;
+    var overflowX = _style.overflowX;
+    var overflowY = _style.overflowY;
+
+    if (/(auto|scroll)/.test(overflow + overflowY + overflowX)) {
+      if (position !== 'absolute' || ['relative', 'absolute', 'fixed'].indexOf(style.position) >= 0) {
+        parents.push(parent);
+      }
+    }
+  }
+
+  parents.push(el.ownerDocument.body);
+
+  // If the node is within a frame, account for the parent window scroll
+  if (el.ownerDocument !== document) {
+    parents.push(el.ownerDocument.defaultView);
+  }
+
+  return parents;
+}
+
+var uniqueId = (function () {
+  var id = 0;
+  return function () {
+    return ++id;
+  };
+})();
+
+var zeroPosCache = {};
+var getOrigin = function getOrigin() {
+  // getBoundingClientRect is unfortunately too accurate.  It introduces a pixel or two of
+  // jitter as the user scrolls that messes with our ability to detect if two positions
+  // are equivilant or not.  We place an element at the top left of the page that will
+  // get the same jitter, so we can cancel the two out.
+  var node = zeroElement;
+  if (!node || !document.body.contains(node)) {
+    node = document.createElement('div');
+    node.setAttribute('data-tether-id', uniqueId());
+    extend(node.style, {
+      top: 0,
+      left: 0,
+      position: 'absolute'
+    });
+
+    document.body.appendChild(node);
+
+    zeroElement = node;
+  }
+
+  var id = node.getAttribute('data-tether-id');
+  if (typeof zeroPosCache[id] === 'undefined') {
+    zeroPosCache[id] = getActualBoundingClientRect(node);
+
+    // Clear the cache when this position call is done
+    defer(function () {
+      delete zeroPosCache[id];
+    });
+  }
+
+  return zeroPosCache[id];
+};
+
+function removeUtilElements() {
+  if (zeroElement) {
+    document.body.removeChild(zeroElement);
+  }
+  zeroElement = null;
+};
+
+function getBounds(el) {
+  var doc = undefined;
+  if (el === document) {
+    doc = document;
+    el = document.documentElement;
+  } else {
+    doc = el.ownerDocument;
+  }
+
+  var docEl = doc.documentElement;
+
+  var box = getActualBoundingClientRect(el);
+
+  var origin = getOrigin();
+
+  box.top -= origin.top;
+  box.left -= origin.left;
+
+  if (typeof box.width === 'undefined') {
+    box.width = document.body.scrollWidth - box.left - box.right;
+  }
+  if (typeof box.height === 'undefined') {
+    box.height = document.body.scrollHeight - box.top - box.bottom;
+  }
+
+  box.top = box.top - docEl.clientTop;
+  box.left = box.left - docEl.clientLeft;
+  box.right = doc.body.clientWidth - box.width - box.left;
+  box.bottom = doc.body.clientHeight - box.height - box.top;
+
+  return box;
+}
+
+function getOffsetParent(el) {
+  return el.offsetParent || document.documentElement;
+}
+
+var _scrollBarSize = null;
+function getScrollBarSize() {
+  if (_scrollBarSize) {
+    return _scrollBarSize;
+  }
+  var inner = document.createElement('div');
+  inner.style.width = '100%';
+  inner.style.height = '200px';
+
+  var outer = document.createElement('div');
+  extend(outer.style, {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    pointerEvents: 'none',
+    visibility: 'hidden',
+    width: '200px',
+    height: '150px',
+    overflow: 'hidden'
+  });
+
+  outer.appendChild(inner);
+
+  document.body.appendChild(outer);
+
+  var widthContained = inner.offsetWidth;
+  outer.style.overflow = 'scroll';
+  var widthScroll = inner.offsetWidth;
+
+  if (widthContained === widthScroll) {
+    widthScroll = outer.clientWidth;
+  }
+
+  document.body.removeChild(outer);
+
+  var width = widthContained - widthScroll;
+
+  _scrollBarSize = { width: width, height: width };
+  return _scrollBarSize;
+}
+
+function extend() {
+  var out = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+  var args = [];
+
+  Array.prototype.push.apply(args, arguments);
+
+  args.slice(1).forEach(function (obj) {
+    if (obj) {
+      for (var key in obj) {
+        if (({}).hasOwnProperty.call(obj, key)) {
+          out[key] = obj[key];
+        }
+      }
+    }
+  });
+
+  return out;
+}
+
+function removeClass(el, name) {
+  if (typeof el.classList !== 'undefined') {
+    name.split(' ').forEach(function (cls) {
+      if (cls.trim()) {
+        el.classList.remove(cls);
+      }
+    });
+  } else {
+    var regex = new RegExp('(^| )' + name.split(' ').join('|') + '( |$)', 'gi');
+    var className = getClassName(el).replace(regex, ' ');
+    setClassName(el, className);
+  }
+}
+
+function addClass(el, name) {
+  if (typeof el.classList !== 'undefined') {
+    name.split(' ').forEach(function (cls) {
+      if (cls.trim()) {
+        el.classList.add(cls);
+      }
+    });
+  } else {
+    removeClass(el, name);
+    var cls = getClassName(el) + (' ' + name);
+    setClassName(el, cls);
+  }
+}
+
+function hasClass(el, name) {
+  if (typeof el.classList !== 'undefined') {
+    return el.classList.contains(name);
+  }
+  var className = getClassName(el);
+  return new RegExp('(^| )' + name + '( |$)', 'gi').test(className);
+}
+
+function getClassName(el) {
+  // Can't use just SVGAnimatedString here since nodes within a Frame in IE have
+  // completely separately SVGAnimatedString base classes
+  if (el.className instanceof el.ownerDocument.defaultView.SVGAnimatedString) {
+    return el.className.baseVal;
+  }
+  return el.className;
+}
+
+function setClassName(el, className) {
+  el.setAttribute('class', className);
+}
+
+function updateClasses(el, add, all) {
+  // Of the set of 'all' classes, we need the 'add' classes, and only the
+  // 'add' classes to be set.
+  all.forEach(function (cls) {
+    if (add.indexOf(cls) === -1 && hasClass(el, cls)) {
+      removeClass(el, cls);
+    }
+  });
+
+  add.forEach(function (cls) {
+    if (!hasClass(el, cls)) {
+      addClass(el, cls);
+    }
+  });
+}
+
+var deferred = [];
+
+var defer = function defer(fn) {
+  deferred.push(fn);
+};
+
+var flush = function flush() {
+  var fn = undefined;
+  while (fn = deferred.pop()) {
+    fn();
+  }
+};
+
+var Evented = (function () {
+  function Evented() {
+    _classCallCheck(this, Evented);
+  }
+
+  _createClass(Evented, [{
+    key: 'on',
+    value: function on(event, handler, ctx) {
+      var once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+
+      if (typeof this.bindings === 'undefined') {
+        this.bindings = {};
+      }
+      if (typeof this.bindings[event] === 'undefined') {
+        this.bindings[event] = [];
+      }
+      this.bindings[event].push({ handler: handler, ctx: ctx, once: once });
+    }
+  }, {
+    key: 'once',
+    value: function once(event, handler, ctx) {
+      this.on(event, handler, ctx, true);
+    }
+  }, {
+    key: 'off',
+    value: function off(event, handler) {
+      if (typeof this.bindings === 'undefined' || typeof this.bindings[event] === 'undefined') {
+        return;
+      }
+
+      if (typeof handler === 'undefined') {
+        delete this.bindings[event];
+      } else {
+        var i = 0;
+        while (i < this.bindings[event].length) {
+          if (this.bindings[event][i].handler === handler) {
+            this.bindings[event].splice(i, 1);
+          } else {
+            ++i;
+          }
+        }
+      }
+    }
+  }, {
+    key: 'trigger',
+    value: function trigger(event) {
+      if (typeof this.bindings !== 'undefined' && this.bindings[event]) {
+        var i = 0;
+
+        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+          args[_key - 1] = arguments[_key];
+        }
+
+        while (i < this.bindings[event].length) {
+          var _bindings$event$i = this.bindings[event][i];
+          var handler = _bindings$event$i.handler;
+          var ctx = _bindings$event$i.ctx;
+          var once = _bindings$event$i.once;
+
+          var context = ctx;
+          if (typeof context === 'undefined') {
+            context = this;
+          }
+
+          handler.apply(context, args);
+
+          if (once) {
+            this.bindings[event].splice(i, 1);
+          } else {
+            ++i;
+          }
+        }
+      }
+    }
+  }]);
+
+  return Evented;
+})();
+
+TetherBase.Utils = {
+  getActualBoundingClientRect: getActualBoundingClientRect,
+  getScrollParents: getScrollParents,
+  getBounds: getBounds,
+  getOffsetParent: getOffsetParent,
+  extend: extend,
+  addClass: addClass,
+  removeClass: removeClass,
+  hasClass: hasClass,
+  updateClasses: updateClasses,
+  defer: defer,
+  flush: flush,
+  uniqueId: uniqueId,
+  Evented: Evented,
+  getScrollBarSize: getScrollBarSize,
+  removeUtilElements: removeUtilElements
+};
+/* globals TetherBase, performance */
+
+'use strict';
+
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x6, _x7, _x8) { var _again = true; _function: while (_again) { var object = _x6, property = _x7, receiver = _x8; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x6 = parent; _x7 = property; _x8 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+if (typeof TetherBase === 'undefined') {
+  throw new Error('You must include the utils.js file before tether.js');
+}
+
+var _TetherBase$Utils = TetherBase.Utils;
+var getScrollParents = _TetherBase$Utils.getScrollParents;
+var getBounds = _TetherBase$Utils.getBounds;
+var getOffsetParent = _TetherBase$Utils.getOffsetParent;
+var extend = _TetherBase$Utils.extend;
+var addClass = _TetherBase$Utils.addClass;
+var removeClass = _TetherBase$Utils.removeClass;
+var updateClasses = _TetherBase$Utils.updateClasses;
+var defer = _TetherBase$Utils.defer;
+var flush = _TetherBase$Utils.flush;
+var getScrollBarSize = _TetherBase$Utils.getScrollBarSize;
+var removeUtilElements = _TetherBase$Utils.removeUtilElements;
+
+function within(a, b) {
+  var diff = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
+
+  return a + diff >= b && b >= a - diff;
+}
+
+var transformKey = (function () {
+  if (typeof document === 'undefined') {
+    return '';
+  }
+  var el = document.createElement('div');
+
+  var transforms = ['transform', 'WebkitTransform', 'OTransform', 'MozTransform', 'msTransform'];
+  for (var i = 0; i < transforms.length; ++i) {
+    var key = transforms[i];
+    if (el.style[key] !== undefined) {
+      return key;
+    }
+  }
+})();
+
+var tethers = [];
+
+var position = function position() {
+  tethers.forEach(function (tether) {
+    tether.position(false);
+  });
+  flush();
+};
+
+function now() {
+  if (typeof performance !== 'undefined' && typeof performance.now !== 'undefined') {
+    return performance.now();
+  }
+  return +new Date();
+}
+
+(function () {
+  var lastCall = null;
+  var lastDuration = null;
+  var pendingTimeout = null;
+
+  var tick = function tick() {
+    if (typeof lastDuration !== 'undefined' && lastDuration > 16) {
+      // We voluntarily throttle ourselves if we can't manage 60fps
+      lastDuration = Math.min(lastDuration - 16, 250);
+
+      // Just in case this is the last event, remember to position just once more
+      pendingTimeout = setTimeout(tick, 250);
+      return;
+    }
+
+    if (typeof lastCall !== 'undefined' && now() - lastCall < 10) {
+      // Some browsers call events a little too frequently, refuse to run more than is reasonable
+      return;
+    }
+
+    if (pendingTimeout != null) {
+      clearTimeout(pendingTimeout);
+      pendingTimeout = null;
+    }
+
+    lastCall = now();
+    position();
+    lastDuration = now() - lastCall;
+  };
+
+  if (typeof window !== 'undefined' && typeof window.addEventListener !== 'undefined') {
+    ['resize', 'scroll', 'touchmove'].forEach(function (event) {
+      window.addEventListener(event, tick);
+    });
+  }
+})();
+
+var MIRROR_LR = {
+  center: 'center',
+  left: 'right',
+  right: 'left'
+};
+
+var MIRROR_TB = {
+  middle: 'middle',
+  top: 'bottom',
+  bottom: 'top'
+};
+
+var OFFSET_MAP = {
+  top: 0,
+  left: 0,
+  middle: '50%',
+  center: '50%',
+  bottom: '100%',
+  right: '100%'
+};
+
+var autoToFixedAttachment = function autoToFixedAttachment(attachment, relativeToAttachment) {
+  var left = attachment.left;
+  var top = attachment.top;
+
+  if (left === 'auto') {
+    left = MIRROR_LR[relativeToAttachment.left];
+  }
+
+  if (top === 'auto') {
+    top = MIRROR_TB[relativeToAttachment.top];
+  }
+
+  return { left: left, top: top };
+};
+
+var attachmentToOffset = function attachmentToOffset(attachment) {
+  var left = attachment.left;
+  var top = attachment.top;
+
+  if (typeof OFFSET_MAP[attachment.left] !== 'undefined') {
+    left = OFFSET_MAP[attachment.left];
+  }
+
+  if (typeof OFFSET_MAP[attachment.top] !== 'undefined') {
+    top = OFFSET_MAP[attachment.top];
+  }
+
+  return { left: left, top: top };
+};
+
+function addOffset() {
+  var out = { top: 0, left: 0 };
+
+  for (var _len = arguments.length, offsets = Array(_len), _key = 0; _key < _len; _key++) {
+    offsets[_key] = arguments[_key];
+  }
+
+  offsets.forEach(function (_ref) {
+    var top = _ref.top;
+    var left = _ref.left;
+
+    if (typeof top === 'string') {
+      top = parseFloat(top, 10);
+    }
+    if (typeof left === 'string') {
+      left = parseFloat(left, 10);
+    }
+
+    out.top += top;
+    out.left += left;
+  });
+
+  return out;
+}
+
+function offsetToPx(offset, size) {
+  if (typeof offset.left === 'string' && offset.left.indexOf('%') !== -1) {
+    offset.left = parseFloat(offset.left, 10) / 100 * size.width;
+  }
+  if (typeof offset.top === 'string' && offset.top.indexOf('%') !== -1) {
+    offset.top = parseFloat(offset.top, 10) / 100 * size.height;
+  }
+
+  return offset;
+}
+
+var parseOffset = function parseOffset(value) {
+  var _value$split = value.split(' ');
+
+  var _value$split2 = _slicedToArray(_value$split, 2);
+
+  var top = _value$split2[0];
+  var left = _value$split2[1];
+
+  return { top: top, left: left };
+};
+var parseAttachment = parseOffset;
+
+var TetherClass = (function (_Evented) {
+  _inherits(TetherClass, _Evented);
+
+  function TetherClass(options) {
+    var _this = this;
+
+    _classCallCheck(this, TetherClass);
+
+    _get(Object.getPrototypeOf(TetherClass.prototype), 'constructor', this).call(this);
+    this.position = this.position.bind(this);
+
+    tethers.push(this);
+
+    this.history = [];
+
+    this.setOptions(options, false);
+
+    TetherBase.modules.forEach(function (module) {
+      if (typeof module.initialize !== 'undefined') {
+        module.initialize.call(_this);
+      }
+    });
+
+    this.position();
+  }
+
+  _createClass(TetherClass, [{
+    key: 'getClass',
+    value: function getClass() {
+      var key = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+      var classes = this.options.classes;
+
+      if (typeof classes !== 'undefined' && classes[key]) {
+        return this.options.classes[key];
+      } else if (this.options.classPrefix) {
+        return this.options.classPrefix + '-' + key;
+      } else {
+        return key;
+      }
+    }
+  }, {
+    key: 'setOptions',
+    value: function setOptions(options) {
+      var _this2 = this;
+
+      var pos = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
+      var defaults = {
+        offset: '0 0',
+        targetOffset: '0 0',
+        targetAttachment: 'auto auto',
+        classPrefix: 'tether'
+      };
+
+      this.options = extend(defaults, options);
+
+      var _options = this.options;
+      var element = _options.element;
+      var target = _options.target;
+      var targetModifier = _options.targetModifier;
+
+      this.element = element;
+      this.target = target;
+      this.targetModifier = targetModifier;
+
+      if (this.target === 'viewport') {
+        this.target = document.body;
+        this.targetModifier = 'visible';
+      } else if (this.target === 'scroll-handle') {
+        this.target = document.body;
+        this.targetModifier = 'scroll-handle';
+      }
+
+      ['element', 'target'].forEach(function (key) {
+        if (typeof _this2[key] === 'undefined') {
+          throw new Error('Tether Error: Both element and target must be defined');
+        }
+
+        if (typeof _this2[key].jquery !== 'undefined') {
+          _this2[key] = _this2[key][0];
+        } else if (typeof _this2[key] === 'string') {
+          _this2[key] = document.querySelector(_this2[key]);
+        }
+      });
+
+      addClass(this.element, this.getClass('element'));
+      if (!(this.options.addTargetClasses === false)) {
+        addClass(this.target, this.getClass('target'));
+      }
+
+      if (!this.options.attachment) {
+        throw new Error('Tether Error: You must provide an attachment');
+      }
+
+      this.targetAttachment = parseAttachment(this.options.targetAttachment);
+      this.attachment = parseAttachment(this.options.attachment);
+      this.offset = parseOffset(this.options.offset);
+      this.targetOffset = parseOffset(this.options.targetOffset);
+
+      if (typeof this.scrollParents !== 'undefined') {
+        this.disable();
+      }
+
+      if (this.targetModifier === 'scroll-handle') {
+        this.scrollParents = [this.target];
+      } else {
+        this.scrollParents = getScrollParents(this.target);
+      }
+
+      if (!(this.options.enabled === false)) {
+        this.enable(pos);
+      }
+    }
+  }, {
+    key: 'getTargetBounds',
+    value: function getTargetBounds() {
+      if (typeof this.targetModifier !== 'undefined') {
+        if (this.targetModifier === 'visible') {
+          if (this.target === document.body) {
+            return { top: pageYOffset, left: pageXOffset, height: innerHeight, width: innerWidth };
+          } else {
+            var bounds = getBounds(this.target);
+
+            var out = {
+              height: bounds.height,
+              width: bounds.width,
+              top: bounds.top,
+              left: bounds.left
+            };
+
+            out.height = Math.min(out.height, bounds.height - (pageYOffset - bounds.top));
+            out.height = Math.min(out.height, bounds.height - (bounds.top + bounds.height - (pageYOffset + innerHeight)));
+            out.height = Math.min(innerHeight, out.height);
+            out.height -= 2;
+
+            out.width = Math.min(out.width, bounds.width - (pageXOffset - bounds.left));
+            out.width = Math.min(out.width, bounds.width - (bounds.left + bounds.width - (pageXOffset + innerWidth)));
+            out.width = Math.min(innerWidth, out.width);
+            out.width -= 2;
+
+            if (out.top < pageYOffset) {
+              out.top = pageYOffset;
+            }
+            if (out.left < pageXOffset) {
+              out.left = pageXOffset;
+            }
+
+            return out;
+          }
+        } else if (this.targetModifier === 'scroll-handle') {
+          var bounds = undefined;
+          var target = this.target;
+          if (target === document.body) {
+            target = document.documentElement;
+
+            bounds = {
+              left: pageXOffset,
+              top: pageYOffset,
+              height: innerHeight,
+              width: innerWidth
+            };
+          } else {
+            bounds = getBounds(target);
+          }
+
+          var style = getComputedStyle(target);
+
+          var hasBottomScroll = target.scrollWidth > target.clientWidth || [style.overflow, style.overflowX].indexOf('scroll') >= 0 || this.target !== document.body;
+
+          var scrollBottom = 0;
+          if (hasBottomScroll) {
+            scrollBottom = 15;
+          }
+
+          var height = bounds.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth) - scrollBottom;
+
+          var out = {
+            width: 15,
+            height: height * 0.975 * (height / target.scrollHeight),
+            left: bounds.left + bounds.width - parseFloat(style.borderLeftWidth) - 15
+          };
+
+          var fitAdj = 0;
+          if (height < 408 && this.target === document.body) {
+            fitAdj = -0.00011 * Math.pow(height, 2) - 0.00727 * height + 22.58;
+          }
+
+          if (this.target !== document.body) {
+            out.height = Math.max(out.height, 24);
+          }
+
+          var scrollPercentage = this.target.scrollTop / (target.scrollHeight - height);
+          out.top = scrollPercentage * (height - out.height - fitAdj) + bounds.top + parseFloat(style.borderTopWidth);
+
+          if (this.target === document.body) {
+            out.height = Math.max(out.height, 24);
+          }
+
+          return out;
+        }
+      } else {
+        return getBounds(this.target);
+      }
+    }
+  }, {
+    key: 'clearCache',
+    value: function clearCache() {
+      this._cache = {};
+    }
+  }, {
+    key: 'cache',
+    value: function cache(k, getter) {
+      // More than one module will often need the same DOM info, so
+      // we keep a cache which is cleared on each position call
+      if (typeof this._cache === 'undefined') {
+        this._cache = {};
+      }
+
+      if (typeof this._cache[k] === 'undefined') {
+        this._cache[k] = getter.call(this);
+      }
+
+      return this._cache[k];
+    }
+  }, {
+    key: 'enable',
+    value: function enable() {
+      var _this3 = this;
+
+      var pos = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
+
+      if (!(this.options.addTargetClasses === false)) {
+        addClass(this.target, this.getClass('enabled'));
+      }
+      addClass(this.element, this.getClass('enabled'));
+      this.enabled = true;
+
+      this.scrollParents.forEach(function (parent) {
+        if (parent !== _this3.target.ownerDocument) {
+          parent.addEventListener('scroll', _this3.position);
+        }
+      });
+
+      if (pos) {
+        this.position();
+      }
+    }
+  }, {
+    key: 'disable',
+    value: function disable() {
+      var _this4 = this;
+
+      removeClass(this.target, this.getClass('enabled'));
+      removeClass(this.element, this.getClass('enabled'));
+      this.enabled = false;
+
+      if (typeof this.scrollParents !== 'undefined') {
+        this.scrollParents.forEach(function (parent) {
+          parent.removeEventListener('scroll', _this4.position);
+        });
+      }
+    }
+  }, {
+    key: 'destroy',
+    value: function destroy() {
+      var _this5 = this;
+
+      this.disable();
+
+      tethers.forEach(function (tether, i) {
+        if (tether === _this5) {
+          tethers.splice(i, 1);
+        }
+      });
+
+      // Remove any elements we were using for convenience from the DOM
+      if (tethers.length === 0) {
+        removeUtilElements();
+      }
+    }
+  }, {
+    key: 'updateAttachClasses',
+    value: function updateAttachClasses(elementAttach, targetAttach) {
+      var _this6 = this;
+
+      elementAttach = elementAttach || this.attachment;
+      targetAttach = targetAttach || this.targetAttachment;
+      var sides = ['left', 'top', 'bottom', 'right', 'middle', 'center'];
+
+      if (typeof this._addAttachClasses !== 'undefined' && this._addAttachClasses.length) {
+        // updateAttachClasses can be called more than once in a position call, so
+        // we need to clean up after ourselves such that when the last defer gets
+        // ran it doesn't add any extra classes from previous calls.
+        this._addAttachClasses.splice(0, this._addAttachClasses.length);
+      }
+
+      if (typeof this._addAttachClasses === 'undefined') {
+        this._addAttachClasses = [];
+      }
+      var add = this._addAttachClasses;
+
+      if (elementAttach.top) {
+        add.push(this.getClass('element-attached') + '-' + elementAttach.top);
+      }
+      if (elementAttach.left) {
+        add.push(this.getClass('element-attached') + '-' + elementAttach.left);
+      }
+      if (targetAttach.top) {
+        add.push(this.getClass('target-attached') + '-' + targetAttach.top);
+      }
+      if (targetAttach.left) {
+        add.push(this.getClass('target-attached') + '-' + targetAttach.left);
+      }
+
+      var all = [];
+      sides.forEach(function (side) {
+        all.push(_this6.getClass('element-attached') + '-' + side);
+        all.push(_this6.getClass('target-attached') + '-' + side);
+      });
+
+      defer(function () {
+        if (!(typeof _this6._addAttachClasses !== 'undefined')) {
+          return;
+        }
+
+        updateClasses(_this6.element, _this6._addAttachClasses, all);
+        if (!(_this6.options.addTargetClasses === false)) {
+          updateClasses(_this6.target, _this6._addAttachClasses, all);
+        }
+
+        delete _this6._addAttachClasses;
+      });
+    }
+  }, {
+    key: 'position',
+    value: function position() {
+      var _this7 = this;
+
+      var flushChanges = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
+
+      // flushChanges commits the changes immediately, leave true unless you are positioning multiple
+      // tethers (in which case call Tether.Utils.flush yourself when you're done)
+
+      if (!this.enabled) {
+        return;
+      }
+
+      this.clearCache();
+
+      // Turn 'auto' attachments into the appropriate corner or edge
+      var targetAttachment = autoToFixedAttachment(this.targetAttachment, this.attachment);
+
+      this.updateAttachClasses(this.attachment, targetAttachment);
+
+      var elementPos = this.cache('element-bounds', function () {
+        return getBounds(_this7.element);
+      });
+
+      var width = elementPos.width;
+      var height = elementPos.height;
+
+      if (width === 0 && height === 0 && typeof this.lastSize !== 'undefined') {
+        var _lastSize = this.lastSize;
+
+        // We cache the height and width to make it possible to position elements that are
+        // getting hidden.
+        width = _lastSize.width;
+        height = _lastSize.height;
+      } else {
+        this.lastSize = { width: width, height: height };
+      }
+
+      var targetPos = this.cache('target-bounds', function () {
+        return _this7.getTargetBounds();
+      });
+      var targetSize = targetPos;
+
+      // Get an actual px offset from the attachment
+      var offset = offsetToPx(attachmentToOffset(this.attachment), { width: width, height: height });
+      var targetOffset = offsetToPx(attachmentToOffset(targetAttachment), targetSize);
+
+      var manualOffset = offsetToPx(this.offset, { width: width, height: height });
+      var manualTargetOffset = offsetToPx(this.targetOffset, targetSize);
+
+      // Add the manually provided offset
+      offset = addOffset(offset, manualOffset);
+      targetOffset = addOffset(targetOffset, manualTargetOffset);
+
+      // It's now our goal to make (element position + offset) == (target position + target offset)
+      var left = targetPos.left + targetOffset.left - offset.left;
+      var top = targetPos.top + targetOffset.top - offset.top;
+
+      for (var i = 0; i < TetherBase.modules.length; ++i) {
+        var _module2 = TetherBase.modules[i];
+        var ret = _module2.position.call(this, {
+          left: left,
+          top: top,
+          targetAttachment: targetAttachment,
+          targetPos: targetPos,
+          elementPos: elementPos,
+          offset: offset,
+          targetOffset: targetOffset,
+          manualOffset: manualOffset,
+          manualTargetOffset: manualTargetOffset,
+          scrollbarSize: scrollbarSize,
+          attachment: this.attachment
+        });
+
+        if (ret === false) {
+          return false;
+        } else if (typeof ret === 'undefined' || typeof ret !== 'object') {
+          continue;
+        } else {
+          top = ret.top;
+          left = ret.left;
+        }
+      }
+
+      // We describe the position three different ways to give the optimizer
+      // a chance to decide the best possible way to position the element
+      // with the fewest repaints.
+      var next = {
+        // It's position relative to the page (absolute positioning when
+        // the element is a child of the body)
+        page: {
+          top: top,
+          left: left
+        },
+
+        // It's position relative to the viewport (fixed positioning)
+        viewport: {
+          top: top - pageYOffset,
+          bottom: pageYOffset - top - height + innerHeight,
+          left: left - pageXOffset,
+          right: pageXOffset - left - width + innerWidth
+        }
+      };
+
+      var doc = this.target.ownerDocument;
+      var win = doc.defaultView;
+
+      var scrollbarSize = undefined;
+      if (win.innerHeight > doc.documentElement.clientHeight) {
+        scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
+        next.viewport.bottom -= scrollbarSize.height;
+      }
+
+      if (win.innerWidth > doc.documentElement.clientWidth) {
+        scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
+        next.viewport.right -= scrollbarSize.width;
+      }
+
+      if (['', 'static'].indexOf(doc.body.style.position) === -1 || ['', 'static'].indexOf(doc.body.parentElement.style.position) === -1) {
+        // Absolute positioning in the body will be relative to the page, not the 'initial containing block'
+        next.page.bottom = doc.body.scrollHeight - top - height;
+        next.page.right = doc.body.scrollWidth - left - width;
+      }
+
+      if (typeof this.options.optimizations !== 'undefined' && this.options.optimizations.moveElement !== false && !(typeof this.targetModifier !== 'undefined')) {
+        (function () {
+          var offsetParent = _this7.cache('target-offsetparent', function () {
+            return getOffsetParent(_this7.target);
+          });
+          var offsetPosition = _this7.cache('target-offsetparent-bounds', function () {
+            return getBounds(offsetParent);
+          });
+          var offsetParentStyle = getComputedStyle(offsetParent);
+          var offsetParentSize = offsetPosition;
+
+          var offsetBorder = {};
+          ['Top', 'Left', 'Bottom', 'Right'].forEach(function (side) {
+            offsetBorder[side.toLowerCase()] = parseFloat(offsetParentStyle['border' + side + 'Width']);
+          });
+
+          offsetPosition.right = doc.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;
+          offsetPosition.bottom = doc.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom;
+
+          if (next.page.top >= offsetPosition.top + offsetBorder.top && next.page.bottom >= offsetPosition.bottom) {
+            if (next.page.left >= offsetPosition.left + offsetBorder.left && next.page.right >= offsetPosition.right) {
+              // We're within the visible part of the target's scroll parent
+              var scrollTop = offsetParent.scrollTop;
+              var scrollLeft = offsetParent.scrollLeft;
+
+              // It's position relative to the target's offset parent (absolute positioning when
+              // the element is moved to be a child of the target's offset parent).
+              next.offset = {
+                top: next.page.top - offsetPosition.top + scrollTop - offsetBorder.top,
+                left: next.page.left - offsetPosition.left + scrollLeft - offsetBorder.left
+              };
+            }
+          }
+        })();
+      }
+
+      // We could also travel up the DOM and try each containing context, rather than only
+      // looking at the body, but we're gonna get diminishing returns.
+
+      this.move(next);
+
+      this.history.unshift(next);
+
+      if (this.history.length > 3) {
+        this.history.pop();
+      }
+
+      if (flushChanges) {
+        flush();
+      }
+
+      return true;
+    }
+
+    // THE ISSUE
+  }, {
+    key: 'move',
+    value: function move(pos) {
+      var _this8 = this;
+
+      if (!(typeof this.element.parentNode !== 'undefined')) {
+        return;
+      }
+
+      var same = {};
+
+      for (var type in pos) {
+        same[type] = {};
+
+        for (var key in pos[type]) {
+          var found = false;
+
+          for (var i = 0; i < this.history.length; ++i) {
+            var point = this.history[i];
+            if (typeof point[type] !== 'undefined' && !within(point[type][key], pos[type][key])) {
+              found = true;
+              break;
+            }
+          }
+
+          if (!found) {
+            same[type][key] = true;
+          }
+        }
+      }
+
+      var css = { top: '', left: '', right: '', bottom: '' };
+
+      var transcribe = function transcribe(_same, _pos) {
+        var hasOptimizations = typeof _this8.options.optimizations !== 'undefined';
+        var gpu = hasOptimizations ? _this8.options.optimizations.gpu : null;
+        if (gpu !== false) {
+          var yPos = undefined,
+              xPos = undefined;
+          if (_same.top) {
+            css.top = 0;
+            yPos = _pos.top;
+          } else {
+            css.bottom = 0;
+            yPos = -_pos.bottom;
+          }
+
+          if (_same.left) {
+            css.left = 0;
+            xPos = _pos.left;
+          } else {
+            css.right = 0;
+            xPos = -_pos.right;
+          }
+
+          if (window.matchMedia) {
+            // HubSpot/tether#207
+            var retina = window.matchMedia('only screen and (min-resolution: 1.3dppx)').matches || window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 1.3)').matches;
+            if (!retina) {
+              xPos = Math.round(xPos);
+              yPos = Math.round(yPos);
+            }
+          }
+
+          css[transformKey] = 'translateX(' + xPos + 'px) translateY(' + yPos + 'px)';
+
+          if (transformKey !== 'msTransform') {
+            // The Z transform will keep this in the GPU (faster, and prevents artifacts),
+            // but IE9 doesn't support 3d transforms and will choke.
+            css[transformKey] += " translateZ(0)";
+          }
+        } else {
+          if (_same.top) {
+            css.top = _pos.top + 'px';
+          } else {
+            css.bottom = _pos.bottom + 'px';
+          }
+
+          if (_same.left) {
+            css.left = _pos.left + 'px';
+          } else {
+            css.right = _pos.right + 'px';
+          }
+        }
+      };
+
+      var moved = false;
+      if ((same.page.top || same.page.bottom) && (same.page.left || same.page.right)) {
+        css.position = 'absolute';
+        transcribe(same.page, pos.page);
+      } else if ((same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right)) {
+        css.position = 'fixed';
+        transcribe(same.viewport, pos.viewport);
+      } else if (typeof same.offset !== 'undefined' && same.offset.top && same.offset.left) {
+        (function () {
+          css.position = 'absolute';
+          var offsetParent = _this8.cache('target-offsetparent', function () {
+            return getOffsetParent(_this8.target);
+          });
+
+          if (getOffsetParent(_this8.element) !== offsetParent) {
+            defer(function () {
+              _this8.element.parentNode.removeChild(_this8.element);
+              offsetParent.appendChild(_this8.element);
+            });
+          }
+
+          transcribe(same.offset, pos.offset);
+          moved = true;
+        })();
+      } else {
+        css.position = 'absolute';
+        transcribe({ top: true, left: true }, pos.page);
+      }
+
+      if (!moved) {
+        if (this.options.bodyElement) {
+          this.options.bodyElement.appendChild(this.element);
+        } else {
+          var offsetParentIsBody = true;
+          var currentNode = this.element.parentNode;
+          while (currentNode && currentNode.nodeType === 1 && currentNode.tagName !== 'BODY') {
+            if (getComputedStyle(currentNode).position !== 'static') {
+              offsetParentIsBody = false;
+              break;
+            }
+
+            currentNode = currentNode.parentNode;
+          }
+
+          if (!offsetParentIsBody) {
+            this.element.parentNode.removeChild(this.element);
+            this.element.ownerDocument.body.appendChild(this.element);
+          }
+        }
+      }
+
+      // Any css change will trigger a repaint, so let's avoid one if nothing changed
+      var writeCSS = {};
+      var write = false;
+      for (var key in css) {
+        var val = css[key];
+        var elVal = this.element.style[key];
+
+        if (elVal !== val) {
+          write = true;
+          writeCSS[key] = val;
+        }
+      }
+
+      if (write) {
+        defer(function () {
+          extend(_this8.element.style, writeCSS);
+          _this8.trigger('repositioned');
+        });
+      }
+    }
+  }]);
+
+  return TetherClass;
+})(Evented);
+
+TetherClass.modules = [];
+
+TetherBase.position = position;
+
+var Tether = extend(TetherClass, TetherBase);
+/* globals TetherBase */
+
+'use strict';
+
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+
+var _TetherBase$Utils = TetherBase.Utils;
+var getBounds = _TetherBase$Utils.getBounds;
+var extend = _TetherBase$Utils.extend;
+var updateClasses = _TetherBase$Utils.updateClasses;
+var defer = _TetherBase$Utils.defer;
+
+var BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
+
+function getBoundingRect(tether, to) {
+  if (to === 'scrollParent') {
+    to = tether.scrollParents[0];
+  } else if (to === 'window') {
+    to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset];
+  }
+
+  if (to === document) {
+    to = to.documentElement;
+  }
+
+  if (typeof to.nodeType !== 'undefined') {
+    (function () {
+      var node = to;
+      var size = getBounds(to);
+      var pos = size;
+      var style = getComputedStyle(to);
+
+      to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top];
+
+      // Account any parent Frames scroll offset
+      if (node.ownerDocument !== document) {
+        var win = node.ownerDocument.defaultView;
+        to[0] += win.pageXOffset;
+        to[1] += win.pageYOffset;
+        to[2] += win.pageXOffset;
+        to[3] += win.pageYOffset;
+      }
+
+      BOUNDS_FORMAT.forEach(function (side, i) {
+        side = side[0].toUpperCase() + side.substr(1);
+        if (side === 'Top' || side === 'Left') {
+          to[i] += parseFloat(style['border' + side + 'Width']);
+        } else {
+          to[i] -= parseFloat(style['border' + side + 'Width']);
+        }
+      });
+    })();
+  }
+
+  return to;
+}
+
+TetherBase.modules.push({
+  position: function position(_ref) {
+    var _this = this;
+
+    var top = _ref.top;
+    var left = _ref.left;
+    var targetAttachment = _ref.targetAttachment;
+
+    if (!this.options.constraints) {
+      return true;
+    }
+
+    var _cache = this.cache('element-bounds', function () {
+      return getBounds(_this.element);
+    });
+
+    var height = _cache.height;
+    var width = _cache.width;
+
+    if (width === 0 && height === 0 && typeof this.lastSize !== 'undefined') {
+      var _lastSize = this.lastSize;
+
+      // Handle the item getting hidden as a result of our positioning without glitching
+      // the classes in and out
+      width = _lastSize.width;
+      height = _lastSize.height;
+    }
+
+    var targetSize = this.cache('target-bounds', function () {
+      return _this.getTargetBounds();
+    });
+
+    var targetHeight = targetSize.height;
+    var targetWidth = targetSize.width;
+
+    var allClasses = [this.getClass('pinned'), this.getClass('out-of-bounds')];
+
+    this.options.constraints.forEach(function (constraint) {
+      var outOfBoundsClass = constraint.outOfBoundsClass;
+      var pinnedClass = constraint.pinnedClass;
+
+      if (outOfBoundsClass) {
+        allClasses.push(outOfBoundsClass);
+      }
+      if (pinnedClass) {
+        allClasses.push(pinnedClass);
+      }
+    });
+
+    allClasses.forEach(function (cls) {
+      ['left', 'top', 'right', 'bottom'].forEach(function (side) {
+        allClasses.push(cls + '-' + side);
+      });
+    });
+
+    var addClasses = [];
+
+    var tAttachment = extend({}, targetAttachment);
+    var eAttachment = extend({}, this.attachment);
+
+    this.options.constraints.forEach(function (constraint) {
+      var to = constraint.to;
+      var attachment = constraint.attachment;
+      var pin = constraint.pin;
+
+      if (typeof attachment === 'undefined') {
+        attachment = '';
+      }
+
+      var changeAttachX = undefined,
+          changeAttachY = undefined;
+      if (attachment.indexOf(' ') >= 0) {
+        var _attachment$split = attachment.split(' ');
+
+        var _attachment$split2 = _slicedToArray(_attachment$split, 2);
+
+        changeAttachY = _attachment$split2[0];
+        changeAttachX = _attachment$split2[1];
+      } else {
+        changeAttachX = changeAttachY = attachment;
+      }
+
+      var bounds = getBoundingRect(_this, to);
+
+      if (changeAttachY === 'target' || changeAttachY === 'both') {
+        if (top < bounds[1] && tAttachment.top === 'top') {
+          top += targetHeight;
+          tAttachment.top = 'bottom';
+        }
+
+        if (top + height > bounds[3] && tAttachment.top === 'bottom') {
+          top -= targetHeight;
+          tAttachment.top = 'top';
+        }
+      }
+
+      if (changeAttachY === 'together') {
+        if (tAttachment.top === 'top') {
+          if (eAttachment.top === 'bottom' && top < bounds[1]) {
+            top += targetHeight;
+            tAttachment.top = 'bottom';
+
+            top += height;
+            eAttachment.top = 'top';
+          } else if (eAttachment.top === 'top' && top + height > bounds[3] && top - (height - targetHeight) >= bounds[1]) {
+            top -= height - targetHeight;
+            tAttachment.top = 'bottom';
+
+            eAttachment.top = 'bottom';
+          }
+        }
+
+        if (tAttachment.top === 'bottom') {
+          if (eAttachment.top === 'top' && top + height > bounds[3]) {
+            top -= targetHeight;
+            tAttachment.top = 'top';
+
+            top -= height;
+            eAttachment.top = 'bottom';
+          } else if (eAttachment.top === 'bottom' && top < bounds[1] && top + (height * 2 - targetHeight) <= bounds[3]) {
+            top += height - targetHeight;
+            tAttachment.top = 'top';
+
+            eAttachment.top = 'top';
+          }
+        }
+
+        if (tAttachment.top === 'middle') {
+          if (top + height > bounds[3] && eAttachment.top === 'top') {
+            top -= height;
+            eAttachment.top = 'bottom';
+          } else if (top < bounds[1] && eAttachment.top === 'bottom') {
+            top += height;
+            eAttachment.top = 'top';
+          }
+        }
+      }
+
+      if (changeAttachX === 'target' || changeAttachX === 'both') {
+        if (left < bounds[0] && tAttachment.left === 'left') {
+          left += targetWidth;
+          tAttachment.left = 'right';
+        }
+
+        if (left + width > bounds[2] && tAttachment.left === 'right') {
+          left -= targetWidth;
+          tAttachment.left = 'left';
+        }
+      }
+
+      if (changeAttachX === 'together') {
+        if (left < bounds[0] && tAttachment.left === 'left') {
+          if (eAttachment.left === 'right') {
+            left += targetWidth;
+            tAttachment.left = 'right';
+
+            left += width;
+            eAttachment.left = 'left';
+          } else if (eAttachment.left === 'left') {
+            left += targetWidth;
+            tAttachment.left = 'right';
+
+            left -= width;
+            eAttachment.left = 'right';
+          }
+        } else if (left + width > bounds[2] && tAttachment.left === 'right') {
+          if (eAttachment.left === 'left') {
+            left -= targetWidth;
+            tAttachment.left = 'left';
+
+            left -= width;
+            eAttachment.left = 'right';
+          } else if (eAttachment.left === 'right') {
+            left -= targetWidth;
+            tAttachment.left = 'left';
+
+            left += width;
+            eAttachment.left = 'left';
+          }
+        } else if (tAttachment.left === 'center') {
+          if (left + width > bounds[2] && eAttachment.left === 'left') {
+            left -= width;
+            eAttachment.left = 'right';
+          } else if (left < bounds[0] && eAttachment.left === 'right') {
+            left += width;
+            eAttachment.left = 'left';
+          }
+        }
+      }
+
+      if (changeAttachY === 'element' || changeAttachY === 'both') {
+        if (top < bounds[1] && eAttachment.top === 'bottom') {
+          top += height;
+          eAttachment.top = 'top';
+        }
+
+        if (top + height > bounds[3] && eAttachment.top === 'top') {
+          top -= height;
+          eAttachment.top = 'bottom';
+        }
+      }
+
+      if (changeAttachX === 'element' || changeAttachX === 'both') {
+        if (left < bounds[0]) {
+          if (eAttachment.left === 'right') {
+            left += width;
+            eAttachment.left = 'left';
+          } else if (eAttachment.left === 'center') {
+            left += width / 2;
+            eAttachment.left = 'left';
+          }
+        }
+
+        if (left + width > bounds[2]) {
+          if (eAttachment.left === 'left') {
+            left -= width;
+            eAttachment.left = 'right';
+          } else if (eAttachment.left === 'center') {
+            left -= width / 2;
+            eAttachment.left = 'right';
+          }
+        }
+      }
+
+      if (typeof pin === 'string') {
+        pin = pin.split(',').map(function (p) {
+          return p.trim();
+        });
+      } else if (pin === true) {
+        pin = ['top', 'left', 'right', 'bottom'];
+      }
+
+      pin = pin || [];
+
+      var pinned = [];
+      var oob = [];
+
+      if (top < bounds[1]) {
+        if (pin.indexOf('top') >= 0) {
+          top = bounds[1];
+          pinned.push('top');
+        } else {
+          oob.push('top');
+        }
+      }
+
+      if (top + height > bounds[3]) {
+        if (pin.indexOf('bottom') >= 0) {
+          top = bounds[3] - height;
+          pinned.push('bottom');
+        } else {
+          oob.push('bottom');
+        }
+      }
+
+      if (left < bounds[0]) {
+        if (pin.indexOf('left') >= 0) {
+          left = bounds[0];
+          pinned.push('left');
+        } else {
+          oob.push('left');
+        }
+      }
+
+      if (left + width > bounds[2]) {
+        if (pin.indexOf('right') >= 0) {
+          left = bounds[2] - width;
+          pinned.push('right');
+        } else {
+          oob.push('right');
+        }
+      }
+
+      if (pinned.length) {
+        (function () {
+          var pinnedClass = undefined;
+          if (typeof _this.options.pinnedClass !== 'undefined') {
+            pinnedClass = _this.options.pinnedClass;
+          } else {
+            pinnedClass = _this.getClass('pinned');
+          }
+
+          addClasses.push(pinnedClass);
+          pinned.forEach(function (side) {
+            addClasses.push(pinnedClass + '-' + side);
+          });
+        })();
+      }
+
+      if (oob.length) {
+        (function () {
+          var oobClass = undefined;
+          if (typeof _this.options.outOfBoundsClass !== 'undefined') {
+            oobClass = _this.options.outOfBoundsClass;
+          } else {
+            oobClass = _this.getClass('out-of-bounds');
+          }
+
+          addClasses.push(oobClass);
+          oob.forEach(function (side) {
+            addClasses.push(oobClass + '-' + side);
+          });
+        })();
+      }
+
+      if (pinned.indexOf('left') >= 0 || pinned.indexOf('right') >= 0) {
+        eAttachment.left = tAttachment.left = false;
+      }
+      if (pinned.indexOf('top') >= 0 || pinned.indexOf('bottom') >= 0) {
+        eAttachment.top = tAttachment.top = false;
+      }
+
+      if (tAttachment.top !== targetAttachment.top || tAttachment.left !== targetAttachment.left || eAttachment.top !== _this.attachment.top || eAttachment.left !== _this.attachment.left) {
+        _this.updateAttachClasses(eAttachment, tAttachment);
+        _this.trigger('update', {
+          attachment: eAttachment,
+          targetAttachment: tAttachment
+        });
+      }
+    });
+
+    defer(function () {
+      if (!(_this.options.addTargetClasses === false)) {
+        updateClasses(_this.target, addClasses, allClasses);
+      }
+      updateClasses(_this.element, addClasses, allClasses);
+    });
+
+    return { top: top, left: left };
+  }
+});
+/* globals TetherBase */
+
+'use strict';
+
+var _TetherBase$Utils = TetherBase.Utils;
+var getBounds = _TetherBase$Utils.getBounds;
+var updateClasses = _TetherBase$Utils.updateClasses;
+var defer = _TetherBase$Utils.defer;
+
+TetherBase.modules.push({
+  position: function position(_ref) {
+    var _this = this;
+
+    var top = _ref.top;
+    var left = _ref.left;
+
+    var _cache = this.cache('element-bounds', function () {
+      return getBounds(_this.element);
+    });
+
+    var height = _cache.height;
+    var width = _cache.width;
+
+    var targetPos = this.getTargetBounds();
+
+    var bottom = top + height;
+    var right = left + width;
+
+    var abutted = [];
+    if (top <= targetPos.bottom && bottom >= targetPos.top) {
+      ['left', 'right'].forEach(function (side) {
+        var targetPosSide = targetPos[side];
+        if (targetPosSide === left || targetPosSide === right) {
+          abutted.push(side);
+        }
+      });
+    }
+
+    if (left <= targetPos.right && right >= targetPos.left) {
+      ['top', 'bottom'].forEach(function (side) {
+        var targetPosSide = targetPos[side];
+        if (targetPosSide === top || targetPosSide === bottom) {
+          abutted.push(side);
+        }
+      });
+    }
+
+    var allClasses = [];
+    var addClasses = [];
+
+    var sides = ['left', 'top', 'right', 'bottom'];
+    allClasses.push(this.getClass('abutted'));
+    sides.forEach(function (side) {
+      allClasses.push(_this.getClass('abutted') + '-' + side);
+    });
+
+    if (abutted.length) {
+      addClasses.push(this.getClass('abutted'));
+    }
+
+    abutted.forEach(function (side) {
+      addClasses.push(_this.getClass('abutted') + '-' + side);
+    });
+
+    defer(function () {
+      if (!(_this.options.addTargetClasses === false)) {
+        updateClasses(_this.target, addClasses, allClasses);
+      }
+      updateClasses(_this.element, addClasses, allClasses);
+    });
+
+    return true;
+  }
+});
+/* globals TetherBase */
+
+'use strict';
+
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+
+TetherBase.modules.push({
+  position: function position(_ref) {
+    var top = _ref.top;
+    var left = _ref.left;
+
+    if (!this.options.shift) {
+      return;
+    }
+
+    var shift = this.options.shift;
+    if (typeof this.options.shift === 'function') {
+      shift = this.options.shift.call(this, { top: top, left: left });
+    }
+
+    var shiftTop = undefined,
+        shiftLeft = undefined;
+    if (typeof shift === 'string') {
+      shift = shift.split(' ');
+      shift[1] = shift[1] || shift[0];
+
+      var _shift = shift;
+
+      var _shift2 = _slicedToArray(_shift, 2);
+
+      shiftTop = _shift2[0];
+      shiftLeft = _shift2[1];
+
+      shiftTop = parseFloat(shiftTop, 10);
+      shiftLeft = parseFloat(shiftLeft, 10);
+    } else {
+      shiftTop = shift.top;
+      shiftLeft = shift.left;
+    }
+
+    top += shiftTop;
+    left += shiftLeft;
+
+    return { top: top, left: left };
+  }
+});
+return Tether;
+
+}));
+
+
+/***/ }),
 /* 19 */,
 /* 20 */,
 /* 21 */,
@@ -20978,12 +20978,12 @@ var FormatOptions = [
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(49);
-__webpack_require__(13);
+__webpack_require__(12);
 __webpack_require__(50);
 __webpack_require__(51);
 __webpack_require__(52);
-__webpack_require__(14);
-__webpack_require__(6);
+__webpack_require__(13);
+__webpack_require__(4);
 __webpack_require__(53);
 __webpack_require__(54);
 __webpack_require__(55);
@@ -24126,19 +24126,19 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */(function(jQuery) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_typed_js__ = __webpack_require__(56);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_typed_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_typed_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_node_waves__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_node_waves__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_node_waves___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_node_waves__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nouislider__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_nouislider___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_nouislider__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_wnumb__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_wnumb__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_wnumb___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_wnumb__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_smooth_scroll__ = __webpack_require__(58);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_smooth_scroll___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_smooth_scroll__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_owl_carousel__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_owl_carousel__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_owl_carousel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_owl_carousel__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_bootstrap__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_bootstrap__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_bootstrap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_bootstrap__);
 
 

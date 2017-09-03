@@ -144,7 +144,7 @@
   top: 50%;
   margin-left: -40px;
   margin-top: -40px;
-  background: url(/images/vendor/owl.carousel/dist/owl.video.play.png?4cbde124d6cd8122c801118696c16f07) no-repeat;
+  background: url("/owl.video.play.png") no-repeat;
   cursor: pointer;
   z-index: 1;
   -webkit-backface-visibility: hidden;
