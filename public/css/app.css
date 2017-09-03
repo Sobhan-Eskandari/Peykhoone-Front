@@ -11222,7 +11222,6 @@ body {
   color: gray;
   font-size: 9px;
   margin-bottom: 5px;
-  left: 180% !important;
 }
 
 .m-card [data-balloon]:before {
@@ -12882,6 +12881,11 @@ a.estate-category-link:hover {
 
 .dashed-border {
   border: 2px dashed lightgray;
+}
+
+.border-right-gray {
+  /* Line: */
+  border-right: 1px solid #979797;
 }
 
 .rounded {

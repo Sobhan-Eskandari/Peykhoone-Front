@@ -150,46 +150,94 @@
                                     <div class="container-fluid p-0">
                                         <div class="row" id="row1">
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                @component('components.card')@endcomponent
+                                                @component('components.card')
+                                                    @slot('type')
+                                                        normal
+                                                    @endslot
+                                                @endcomponent
                                             </div>
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                @component('components.card')@endcomponent
+                                                @component('components.card')
+                                                    @slot('type')
+                                                        normal
+                                                    @endslot
+                                                @endcomponent
                                             </div>
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr is-last-card">
-                                                @component('components.card')@endcomponent
+                                                @component('components.card')
+                                                    @slot('type')
+                                                        normal
+                                                    @endslot
+                                                @endcomponent
                                             </div>
                                         </div>
                                         <div class="row" id="row2">
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                @component('components.card')@endcomponent
+                                                @component('components.card')
+                                                    @slot('type')
+                                                        normal
+                                                    @endslot
+                                                @endcomponent
                                             </div>
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                @component('components.card')@endcomponent
+                                                @component('components.card')
+                                                    @slot('type')
+                                                        normal
+                                                    @endslot
+                                                @endcomponent
                                             </div>
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                @component('components.card')@endcomponent
+                                                @component('components.card')
+                                                    @slot('type')
+                                                        normal
+                                                    @endslot
+                                                @endcomponent
                                             </div>
                                         </div>
                                         <div class="row" id="row3">
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                @component('components.card')@endcomponent
+                                                @component('components.card')
+                                                    @slot('type')
+                                                        normal
+                                                    @endslot
+                                                @endcomponent
                                             </div>
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                @component('components.card')@endcomponent
+                                                @component('components.card')
+                                                    @slot('type')
+                                                        normal
+                                                    @endslot
+                                                @endcomponent
                                             </div>
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr is-last-card">
-                                                @component('components.card')@endcomponent
+                                                @component('components.card')
+                                                    @slot('type')
+                                                        normal
+                                                    @endslot
+                                                @endcomponent
                                             </div>
                                         </div>
                                         <div class="row" id="row4">
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                @component('components.card')@endcomponent
+                                                @component('components.card')
+                                                    @slot('type')
+                                                        normal
+                                                    @endslot
+                                                @endcomponent
                                             </div>
                                             <div class="col-lg-4 col-sm-6 my-3 l-ltr">
-                                                @component('components.card')@endcomponent
+                                                @component('components.card')
+                                                    @slot('type')
+                                                        normal
+                                                    @endslot
+                                                @endcomponent
                                             </div>
                                             <div class="col-lg-4 col-sm-6 my-2 l-ltr">
-                                                @component('components.card')@endcomponent
+                                                @component('components.card')
+                                                    @slot('type')
+                                                        normal
+                                                    @endslot
+                                                @endcomponent
                                             </div>
                                         </div>
                                         {{------------- [ Horizental Cards ] ------------}}
