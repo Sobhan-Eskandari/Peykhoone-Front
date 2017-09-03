@@ -5,6 +5,7 @@ import noUiSlider from 'nouislider'
 import wNumb from 'wnumb'
 import SmoothScroll from 'smooth-scroll'
 import 'owl.carousel';
+import 'bootstrap'
 
 
 // active category item in real state page
@@ -80,7 +81,6 @@ $("a").on('click', function (event) {
 //******************   Gallery Aks khane Autplay ********************
 $('.carousel').on('slide.bs.carousel', function () {
     let el = $(".carousel-indicators .active");
-    console.log(el.offset().left - 200);
     $('.carousel-indicators').animate({scrollLeft: el.offset().left - 800}, 1000);
 });
 
@@ -90,12 +90,6 @@ $("#l-navigator a").on('click',function () {
     $("#l-navigator").find('i').removeClass('gradient-text');
 
     $(this).find('i').addClass('gradient-text');
-});
-
-
-
-$(".carousel-control-prev").on('click', function () {
-    $('.carousel').carousel(6);
 });
 
 //******************  Tozihate Moshaver dare safe agahie Baz shode ********************
@@ -166,6 +160,7 @@ $(".is-hovered-adCard").mouseleave(function () {
     $(this).find(".m-card-moreInfo").css('color', 'black');
     $(this).find(".home-cost").css('font-weight', 'normal');
 });
+
 
 if ($(window).width() <= 768) {
     // do something for medium screens
@@ -565,13 +560,36 @@ var options = {
     showCursor : true,
     backSpeed : 10,
     backDelay : 900
-}
+};
 if( $('#typedjs').length )  {
-    var typed = new Typed("#typedjs", options);
+    let typed = new Typed("#typedjs", options);
 }
 
+//****************** Beautiful Spinner ********************
+(function($) {
+    $.fn.spinner = function() {
+        this.each(function() {
+            var el = $(this);
 
-var typed = new Typed("#typedjs", options);
+// add elements
+            el.wrap('<span class="spinner"></span>');
+            el.before('<span class="sub">-</span>');
+            el.after('<span class="add">+</span>');
 
+// substract
+            el.parent().on('click', '.sub', function () {
+                if (el.val() > parseInt(el.attr('min')))
+                    el.val( function(i, oldval) { return --oldval; });
+            });
 
+// increment
+            el.parent().on('click', '.add', function () {
+                if (el.val() < parseInt(el.attr('max')))
+                    el.val( function(i, oldval) { return ++oldval; });
+            });
+        });
+    };
+})(jQuery);
+
+$('input[type=number]').spinner();
 

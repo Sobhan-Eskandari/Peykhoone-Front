@@ -1,8 +1,9 @@
 import 'materialize-stepper'
 import 'jquery'
+import 'jquery-ui'
 import Waves from 'node-waves';
 import mixitup from 'mixitup';
-// require('./bootstrap');
+
 
 // ****************** Animate Css ********************
 $.fn.extend({
@@ -14,6 +15,12 @@ $.fn.extend({
         return this;
     }
 });
+
+//****************** Responsive ********************
+if ($(window).width() <= 991) {
+    $(".is-changedto-fluid").toggleClass('container','container-fluid');
+}
+
 
 // ****************** Dropdowns Acitvator ********************
 $( document ).ready(function() {
@@ -76,14 +83,6 @@ $( document ).ready(function() {
 $(window).load(function () {
     $("#loading").remove();
     $("#content").show();
-});
-
-// ****************** Horizental Stepper ********************
-$('.stepper').activateStepper({
-    linearStepsNavigation: true, //allow navigation by clicking on the next and previous steps on linear steppers
-    autoFocusInput: true, //since 2.1.1, stepper can auto focus on first input of each step
-    autoFormCreation: true, //control the auto generation of a form around the stepper (in case you want to disable it)
-    showFeedbackLoader: true //set if a loading screen will appear while feedbacks functions are running
 });
 
 //****************** Wave Js ********************
@@ -195,12 +194,39 @@ $('#foroosh_ba_mostajer').change(function() {
     }
 });
 
+(function ($) {
+    window.addRule = function (selector, styles, sheet) {
+        if (typeof styles !== "string") {
+            var clone = "";
+            for (var style in styles) {
+                var val = styles[style];
+                style = style.replace(/([A-Z])/g, "-$1").toLowerCase(); // convert to dash-case
+                clone += style + ":" + (style === "content" ? '"' + val + '"' : val) + "; ";
+            }
+            styles = clone;
+        }
+        sheet = sheet || document.styleSheets[0];
+        sheet.addRule(selector, styles);
+        return this;
+    };
+    if ($) {
+        $.fn.addRule = function (styles, sheet) {
+            addRule(this.selector, styles, sheet);
+            return this;
+        };
+    }
+}(window.jQuery));
+
 //****************** Ads Card Hover Effect ********************
 $(".is-hovered-adCard").mouseenter(function () {
     $(this).find(".m-card-moreInfo").addClass('show');
     $(this).find(".m-card-azhansName").addClass('showTooltip');
     $(this).find(".m-card-moreInfo").css('color', 'white');
     $(this).find(".home-cost").css('font-weight', 'bold');
+    let hoverBoloonTextlenght = $(this).find(".balloon").attr('data-balloon').length;
+    let lefSpace = "left: " + hoverBoloonTextlenght * 10 + "% !important";
+    console.log(lefSpace);
+    $($(this).find(".balloon:after")).addRule(lefSpace);
 });
 $(".is-hovered-adCard").mouseleave(function () {
     $(this).find(".m-card-moreInfo").removeClass('show');
@@ -210,3 +236,10 @@ $(".is-hovered-adCard").mouseleave(function () {
     $(this).find(".home-cost").css('font-weight', 'normal');
 });
 
+// ****************** Horizental Stepper ********************
+$('.stepper').activateStepper({
+    linearStepsNavigation: true, //allow navigation by clicking on the next and previous steps on linear steppers
+    autoFocusInput: true, //since 2.1.1, stepper can auto focus on first input of each step
+    autoFormCreation: true, //control the auto generation of a form around the stepper (in case you want to disable it)
+    showFeedbackLoader: true //set if a loading screen will appear while feedbacks functions are running
+});

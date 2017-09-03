@@ -23,6 +23,8 @@
     "bootstrap-multiselect": "^0.9.13-1",
     "dropzone": "^5.1.1",
     "infinite-scroll": "^3.0.1",
+    "jquery-ui": "^1.12.1",
+    "jquery-ui-dist": "^1.12.1",
     "lightgallery": "^1.6.0",
     "materialize-stepper": "^2.1.4",
     "node-waves": "^0.7.5",

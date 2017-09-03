@@ -267,7 +267,11 @@
                     <div class="row mt-3">
                         @for($i = 0; $i < 4; $i++)
                         <div class="col-12 col-md-6 col-lg-3 my-3">
-                            @component('components.card')@endcomponent
+                            @component('components.card')
+                                @slot('type')
+                                    normal
+                                @endslot
+                            @endcomponent
                         </div>
                         @endfor
                     </div>
@@ -275,7 +279,11 @@
                     <div class="row mt-3">
                         @for($i = 0; $i < 4; $i++)
                             <div class="col-12 col-md-6 col-lg-3 my-3">
-                               @component('components.card')@endcomponent
+                                @component('components.card')
+                                    @slot('type')
+                                        normal
+                                    @endslot
+                                @endcomponent
                             </div>
                         @endfor
                     </div>

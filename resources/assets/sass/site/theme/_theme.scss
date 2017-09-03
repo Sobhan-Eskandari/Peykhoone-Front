@@ -43,6 +43,13 @@
 }
 
 //----------- [ Borders Style ] -----------
+
+.border-right-gray{
+  /* Line: */
+  border-right: 1px solid #979797;
+}
+
+//----------- [ Borders Radius Style ] -----------
 .rounded {
   border-radius: 60px;
 }
