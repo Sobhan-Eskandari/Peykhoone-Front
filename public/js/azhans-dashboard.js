@@ -20900,7 +20900,7 @@ module.exports = g;
             checkboxName: false,
             includeSelectAllOption: false,
             includeSelectAllIfMoreThan: 0,
-            selectAllText: 'انتخاب همه',
+            selectAllText: ' Select all',
             selectAllValue: 'multiselect-all',
             selectAllName: false,
             selectAllNumber: true,
@@ -43841,6 +43841,16 @@ $(document).ready(function () {
         includeSelectAllOption: true,
         allSelectedText: 'همه‌‌ی موارد'
     });
+    $('.userProvince').multiselect({
+        nonSelectedText: 'گیلان',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.userCity').multiselect({
+        nonSelectedText: 'رشت',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
 });
 
 //****************** Site Loading ********************
@@ -44188,9 +44198,9 @@ $.fn.closeAction = function(order, callback) {
       closable.stop().slideUp(300,"easeOutQuad", callback);
    } else {
       if(order==1) {
-          closable.animate({left: '100%'},function(){closable.css({display: 'none', left: '0%'}, callback);});
+         closable.animate({left: '-100%'},function(){closable.css({display: 'none', left: '0%'}, callback);});
       } else {
-          closable.animate({left: '-100%'},function(){closable.css({display: 'none', left: '0%'}, callback);});
+         closable.animate({left: '100%'},function(){closable.css({display: 'none', left: '0%'}, callback);});
       }
    }
 };
@@ -44201,9 +44211,9 @@ $.fn.openAction = function(order, callback) {
       openable.slideDown(300,"easeOutQuad", callback);
    } else {
       if(order==1) {
-          openable.css({left: '-100%', display: 'block'}).animate({left: '0%'}, callback);
+         openable.css({left: '100%', display: 'block'}).animate({left: '0%'}, callback);
       } else {
-          openable.css({left: '100%', display: 'block'}).animate({left: '0%'}, callback);
+         openable.css({left: '-100%', display: 'block'}).animate({left: '0%'}, callback);
       }
    }
 };

@@ -144,7 +144,7 @@
   top: 50%;
   margin-left: -40px;
   margin-top: -40px;
-  background: url(/images/vendor/owl.carousel/dist/owl.video.play.png?4cbde124d6cd8122c801118696c16f07) no-repeat;
+  background: url("/owl.video.play.png") no-repeat;
   cursor: pointer;
   z-index: 1;
   -webkit-backface-visibility: hidden;
@@ -13056,6 +13056,7 @@ a.estate-category-link:hover {
   background: #282828;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
   /* enables momentum scrolling in iOS overflow elements */
 }
 
@@ -13304,6 +13305,11 @@ footer.site-footer {
 .pushy-button {
   margin-top: -8px;
   padding-bottom: 15px;
+}
+
+.pushy-dropDown {
+  margin-left: 97px !important;
+  margin-top: -10px !important;
 }
 
 /* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */

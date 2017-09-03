@@ -17,11 +17,6 @@
     <!-- Dashboard Azhans Css -->
     <link rel="stylesheet" href="{{asset('css/dashboard-azhans.css')}}">
 
-
-
-
-
-
     @yield('css_resources')
 </head>
 
@@ -72,8 +67,7 @@
                         <div class="row mx-auto text-center">
                             <div class="col-6 pt-3">
                                 <button class="m-btn m-btn-gradient gradient-background-horizental my-2 my-sm-0 mx-2 m-dashboard-navBar-btn text-center"
-                                        type="submit">ثبت آگهی
-                                    +
+                                        type="submit">ثبت آگهی +
                                 </button>
                             </div>
                             <div class="col-6">
@@ -116,16 +110,34 @@
                              class="my-4 mr-1">
                     </a>
                 </li>
-                <li class="pushy-link text-right">
+                <li class="text-right mb-4 l-rtl">
+                    <div class="dropdown">
+                        <a href="https://example.com" id="dropdownMenuLink"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="{{ asset('images/Avatar.png') }}" alt="پروفایل" height="50px"
+                                 width="50px">&nbsp;&nbsp;<span class="hi-fontSize-11 white-text">سبحان اسکندری</span>&nbsp;
+                            <i class="icon-expand-button white-text hi-fontSize-11" aria-hidden="true"></i>
+                        </a>
+                        <div class="dropdown-menu m-dashboad-nav-dropdown pushy-dropDown"
+                             aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item text-center px-1 hi-fontSize-12 m-dashboad-nav-dropItem black-text"
+                               href="#">
+                                <i class="icon-user"></i>
+                                <span> پروفایل من</span>
+                            </a>
+                            <hr class="my-1 mx-2">
+                            <a class="dropdown-item text-center px-1 hi-fontSize-12 m-dashboad-nav-dropItem black-text"
+                               href="#">
+                                <i class="icon-power"></i>
+                                <span>خروج از حساب</span>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="pushy-link text-right mb-4">
                     <button class="btn btn-primary m-btn m-btn-gradient my-2 my-sm-0 m-navBar-btn text-center mr-5"
                             type="submit">ثبت آگهی
                         +
-                    </button>
-                </li>
-                <li class="pushy-link text-right mb-4 mt-3">
-                    <button class="btn m-btn m-btn-outline hvr-shutter-out-horizontal my-2 my-sm-0 text-center mr-5"
-                            type="submit">ثبت
-                        نام | ورود
                     </button>
                 </li>
                 <li class="pushy-link text-right"><a href="#" class="pushy-a">صفحه اصلی</a>
@@ -135,37 +147,7 @@
                 <li class="pushy-link text-right"><a href="#" class="pushy-a">آژانس های املاک</a></li>
                 <li class="pushy-link text-right"><a href="#" class="pushy-a">درباره ما</a></li>
                 <li class="pushy-link text-right"><a href="#" class="pushy-a">تماس با ما</a></li>
-                <li class="my-5"></li>
-                <li class="pushy-link text-right">
-                    <hr class="pushy-seprate mb-0 mx-5">
-                    <a href="#" class="pushy-a">...در تماس باشید</a></li>
-                <li class="pushy-link text-right"><a href="#" class="pushy-a">013 478 84 84</a></li>
             </ul>
-            <div class="row l-rtl mx-0 justify-content-start">
-                <div class="col-1 px-0">
-                    <a href="#" class="social-icon">
-                        <p class="text-center social-icon-scoop-telegram" style="">
-                            <i class="icon-telegram-icon-logo hi-fontSize-16">
-                            </i>
-                        </p>
-                    </a>
-                </div>
-                <div class="col-1 pl-3 pr-2">
-                    <a href="#" class="social-icon">
-                        <i class="icon-facebook-logo-button hi-fontSize-26 white-text"></i>
-                    </a>
-                </div>
-                <div class="col-1 px-3">
-                    <a href="#" class="social-icon">
-                        <i class="icon-twitter-logo-button hi-fontSize-26 white-text"></i>
-                    </a>
-                </div>
-                <div class="col-1 px-3">
-                    <a href="#" class="social-icon">
-                        <i class="icon-instagram-logo hi-fontSize-26 white-text"></i>
-                    </a>
-                </div>
-            </div>
         </div>
     </nav>
 
@@ -177,7 +159,7 @@
         <!-- Menu Button -->
         <div class="row hidden-lg-up l-rtl">
             <button class="menu-btn">
-                <i class="icon-menu-3line menu-btn-iconFont hi-fontSize-26" aria-hidden="true"></i>
+                <i class="icon-menu-3line menu-btn-iconFont hi-fontSize-26 @yield('menu-btn-color')" aria-hidden="true"></i>
             </button>
         </div>
         <!--header img-->

@@ -12,6 +12,7 @@
   background: #282828;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
   /* enables momentum scrolling in iOS overflow elements */
 }
 
@@ -249,4 +250,8 @@ nav.pushy.pushy-right, header.push, div#container, footer.site-footer {
 .pushy-button {
   margin-top: -8px;
   padding-bottom: 15px;
+}
+.pushy-dropDown{
+  margin-left: 97px !important;
+  margin-top: -10px !important;
 }
