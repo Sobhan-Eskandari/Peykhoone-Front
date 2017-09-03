@@ -1,5 +1,6 @@
 @extends('layout.dashboard')
 @section('backColor', 'm-navBar-black')
+@section('menu-btn-color', 'black-text')
 @section('content')
     <div class="row mt-5">
         <div class="col-12 mt-5 pt-5">

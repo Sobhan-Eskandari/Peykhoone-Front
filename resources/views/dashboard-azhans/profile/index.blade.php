@@ -12,7 +12,7 @@
                 <form>
                     <div class="input-group all-agencies-inputGroup">
                         <input type="search" class="form-control all-agencies-inputSearch"
-                               aria-label="Search input" placeholder="جستجو کنید...">
+                               aria-label="Search input" placeholder="جستجو کنید..." tabindex="1">
                         <button type="button" class="btn all-agencies-btnSearch waves-effect waves-light">
                             <i class="icon-search hi-fontSize-18"></i>
                         </button>
@@ -21,7 +21,7 @@
             </div>
             <div class="col-lg-2 col-md-12 col-sm-12 col-12 pt-lg-0 pt-md-4 pt-sm-4 pt-4">
                 <div class="m-simple-multiselected-btn text-center">
-                    <select id="example-getting-started l-rtl" multiple="multiple" class="buy-presell-btn">
+                    <select multiple="multiple" class="buy-presell-btn" tabindex="2">
                         <option value="خرید">خرید</option>
                         <option value="پیش فروش">پیش فروش</option>
                         <option value="معاوضه">ماوضه</option>
@@ -30,7 +30,7 @@
             </div>
             <div class="col-lg-2 col-md-12 col-sm-12 col-12 py-lg-0 py-md-4 py-sm-4 py-4">
                 <div class="m-simple-multiselected-btn text-center">
-                    <select id="example-getting-started l-rtl" multiple="multiple" class="state-kind-btn">
+                    <select multiple="multiple" class="state-kind-btn" tabindex="3">
                         <option value="خرید">آپارتمان</option>
                         <option value="پیش فروش">ویلایی</option>
                         <option value="معاوضه">هم کف</option>
@@ -40,7 +40,7 @@
             <div class="col-lg-1 col-md-12 col-sm-12 col-12 px-lg-0 pt-2 ">
                 <div class="m-ads-checkbox checkbox-theme-blue ">
                     <div class="pure-checkbox  l-fullWidth text-center">
-                        <input id="confirmation" name="checkbox" type="checkbox">
+                        <input id="confirmation" name="checkbox" type="checkbox" tabindex="4">
                         <label class="m-form-label" for="confirmation">تایید شده</label>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
             <div class="col-lg-2 col-md-12 col-sm-12 col-12 pt-2">
                 <div class="m-ads-checkbox checkbox-theme-yellow">
                     <div class="pure-checkbox  l-fullWidth text-center mr-lg-0 mr-md-2 mr-sm-2 mr-2">
-                        <input id="pending" name="checkbox" type="checkbox">
+                        <input id="pending" name="checkbox" type="checkbox" tabindex="5">
                         <label class="m-form-label" for="pending">در حال بررسی</label>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
             <div class="col-lg-1 col-md-12 col-sm-12 col-12 px-lg-0 pt-2">
                 <div class="m-ads-checkbox checkbox-theme-red">
                     <div class="pure-checkbox  l-fullWidth text-center">
-                        <input id="notConfirmation" name="checkbox" type="checkbox">
+                        <input id="notConfirmation" name="checkbox" type="checkbox" tabindex="6">
                         <label class="m-form-label" for="notConfirmation">تایید نشده</label>
                     </div>
                 </div>
@@ -80,7 +80,8 @@
                     <br>
                     <div class="row">
                         <div class="col-12 mx-auto text-center">
-                            <button class="btn hi-fontSize-14 m-btn-makeAdv waves-light waves-effect">ایجاد آگهی +
+                            <button class="btn hi-fontSize-14 m-btn-makeAdv waves-light waves-effect" tabindex="9">ایجاد
+                                آگهی +
                             </button>
                         </div>
                     </div>
@@ -89,5 +90,4 @@
         </div>
     </div>
     <br><br><br>
-    {{--<img src="{{asset('images/')}}" width="100%" height="100%">--}}
 @endsection
