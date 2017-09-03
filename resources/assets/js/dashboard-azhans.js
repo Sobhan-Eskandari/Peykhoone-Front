@@ -69,6 +69,16 @@ $( document ).ready(function() {
         includeSelectAllOption: true,
         allSelectedText: 'همه‌‌ی موارد'
     });
+    $('.userProvince').multiselect({
+        nonSelectedText: 'گیلان',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
+    $('.userCity').multiselect({
+        nonSelectedText: 'رشت',
+        includeSelectAllOption: true,
+        allSelectedText: 'همه‌‌ی موارد'
+    });
 });
 
 
