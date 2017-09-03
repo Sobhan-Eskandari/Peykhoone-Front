@@ -75,7 +75,35 @@
       </div>
   </div>
 
-  <!-- Signup Modal -->
+  {{------------- [ Pagination ] ------------}}
+  <div class="row my-5 justify-content-center l-ltr">
+      <div class="col-auto p-0">
+          <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                  <li class="page-item">
+                      <a class="page-link m-pagination-angleLink" href="#" aria-label="Previous">
+                          <span aria-hidden="true" class="m-pagination-angle">&#xf104;</span>
+                          <span class="sr-only">Previous</span>
+                      </a>
+                  </li>
+                  <li class="page-item"><a class="page-link m-pagination-num" href="#">۱</a></li>
+                  <li class="page-item"><a class="page-link m-pagination-num" href="#">۲</a></li>
+                  <li class="page-item"><a class="page-link m-pagination-num" href="#">۳</a></li>
+                  <li class="page-item"><a class="page-link m-pagination-num" href="#">۴</a></li>
+                  <li class="page-item"><a class="page-link m-pagination-num" href="#">...</a></li>
+                  <li class="page-item"><a class="page-link m-pagination-num" href="#">۵</a></li>
+                  <li class="page-item">
+                      <a class="page-link m-pagination-angleLink" href="#" aria-label="Next">
+                          <span aria-hidden="true" class="m-pagination-angle">&#xf105;</span>
+                          <span class="sr-only">Next</span>
+                      </a>
+                  </li>
+              </ul>
+          </nav>
+      </div>
+  </div>
+
+  <!-- Creat Ad Modal -->
   <div class="remodal l-modal p-0" data-remodal-id="createAdModal" role="dialog" aria-labelledby="modal1Title" aria-describedby="modal1Desc">
       <button data-remodal-action="close" class="remodal-close" aria-label="Close"></button>
       <!-- Nav tabs -->
