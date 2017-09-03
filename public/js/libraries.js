@@ -24286,6 +24286,9 @@ __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").mouseenter(
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".m-card-azhansName").addClass('showTooltip');
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".m-card-moreInfo").css('color', 'white');
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".home-cost").css('font-weight', 'bold');
+    var hoverBoloonTextlenght = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".balloon").attr('data-balloon').length;
+    var lefSpace = "left: " + hoverBoloonTextlenght * 10 + "% !important";
+    __WEBPACK_IMPORTED_MODULE_2_jquery___default()(__WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".balloon:after")).addRule(lefSpace);
 });
 __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".is-hovered-adCard").mouseleave(function () {
     __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this).find(".m-card-moreInfo").removeClass('show');

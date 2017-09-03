@@ -43989,7 +43989,6 @@ $(".is-hovered-adCard").mouseenter(function () {
     $(this).find(".home-cost").css('font-weight', 'bold');
     var hoverBoloonTextlenght = $(this).find(".balloon").attr('data-balloon').length;
     var lefSpace = "left: " + hoverBoloonTextlenght * 10 + "% !important";
-    console.log(lefSpace);
     $($(this).find(".balloon:after")).addRule(lefSpace);
 });
 $(".is-hovered-adCard").mouseleave(function () {

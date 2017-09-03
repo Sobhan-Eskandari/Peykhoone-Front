@@ -152,6 +152,9 @@ $(".is-hovered-adCard").mouseenter(function () {
     $(this).find(".m-card-azhansName").addClass('showTooltip');
     $(this).find(".m-card-moreInfo").css('color', 'white');
     $(this).find(".home-cost").css('font-weight', 'bold');
+    let hoverBoloonTextlenght = $(this).find(".balloon").attr('data-balloon').length;
+    let lefSpace = "left: " + hoverBoloonTextlenght * 10 + "% !important";
+    $($(this).find(".balloon:after")).addRule(lefSpace);
 });
 $(".is-hovered-adCard").mouseleave(function () {
     $(this).find(".m-card-moreInfo").removeClass('show');
