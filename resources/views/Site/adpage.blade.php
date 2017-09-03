@@ -28,6 +28,41 @@
         </div>
     </div>
 
+    {{------------- [ Edit Ad ] ------------}}
+    <section class="l-edit-ad">
+        <div class="container is-changedto-fluid px-0">
+            <div class="row is-justified-center">
+                <div class="col-12 col-sm-11 col-md-11 col-lg-12">
+                    <div class="m-card px-5 py-3 rounded-8">
+                        <div class="row l-rtl justify-content-between">
+                            <div class="col-auto">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a href="#"><button type="button" class="m-btn rounded-5 cyan hi-shadow-1 px-4"><strong>ویرایش آگهی</strong></button></a>
+                                    <a href="#"><button type="button" class="m-btn rounded-5 red hi-shadow-1 mr-4 px-4"><strong>حذف آگهی</strong></button></a>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="row mt-3 mt-md-0 align-items-center justify-content-end">
+                                    <div class="col-auto mx-2">
+                                        <p class="m-0">تمدید آگهی : </p>
+                                    </div>
+                                    <div class="col-auto mx-2">
+                                        <div class="wan-spinner wan-spinner-2">
+                                            <input class="m-spinner" type="number" min="1" max="100" value="1" />
+                                        </div>
+                                    </div>
+                                    <div class="col-auto mx-2">
+                                        <a href="#"><button type="button" class="m-btn rounded-5 cyan hi-shadow-1 px-3"><strong>تمدید</strong></button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="l-home-info" id="homeInfo">
         <div class="container-fluid">
             <div class="row l-rtl mt-3 is-justified-center">
@@ -64,7 +99,7 @@
                                 {{---------- [ Gallery of images ] ---------}}
                                 <div class="row mt-3">
                                     <div class="col-12 l-ltr p-0">
-                                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                        <div id="carouselExampleIndicators" data-interval="false" data-wrap="false" class="carousel slide" data-ride="carousel">
                                             <ol class="carousel-indicators">
                                                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
                                                     <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="عکس ملک">
@@ -129,11 +164,11 @@
                                                     <img class="d-block carousel-cell-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/tulip.jpg" alt="عکس ملک">
                                                 </div>
                                             </div>
-                                            <a class="carousel-control-prev"  href="#carouselExampleIndicators" onclick="nextSlide()" role="button" data-slide="prev">
+                                            <a class="carousel-control-prev" data-target="#carouselExampleIndicators" role="button" data-slide="prev">
                                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                                 <span class="sr-only">Previous</span>
                                             </a>
-                                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                            <a class="carousel-control-next" data-target="#carouselExampleIndicators" role="button" data-slide="next">
                                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                                 <span class="sr-only">Next</span>
                                             </a>
@@ -292,12 +327,12 @@
                                         @for ($i = 0; $i < 6; $i++)
                                             <div class="col-lg-2 col-md-3 col-sm-4 col-8  m-facilities-checkBox">
                                                 <div class="row">
-                                                    <div class="col-9"><h6 class="mt-1 m-facilities-checkText medium-title">پنجره دو جداره</h6></div>
-                                                    <div class="col-3 px-0">
-                                                        <div class="round pull-right">
-                                                            <img src="{{ asset('images/check-rhb.png') }}" alt="در حال بارگذاری" height="26px" width="26px">
+                                                    <div class="col-3 px-0 text-left">
+                                                        <div class="round">
+                                                            <span class="icon-round-done-button gradient-text hi-fontSize-22"></span>
                                                         </div>
                                                     </div>
+                                                    <div class="col-9"><h6 class="mt-1 m-facilities-checkText medium-title">پنجره دو جداره</h6></div>
                                                 </div>
                                             </div>
                                         @endfor
@@ -355,7 +390,11 @@
                         <div class="row mt-4 justify-content-center l-ltr">
                             @for($i = 0; $i < 4; $i++)
                                 <div class="col-10 col-md-6 col-lg-3 my-4">
-                                    @component('components.card')@endcomponent
+                                    @component('components.card')
+                                        @slot('type')
+                                            normal
+                                        @endslot
+                                    @endcomponent
                                 </div>
                             @endfor
                         </div>

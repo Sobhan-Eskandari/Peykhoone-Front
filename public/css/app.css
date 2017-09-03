@@ -144,7 +144,7 @@
   top: 50%;
   margin-left: -40px;
   margin-top: -40px;
-  background: url("/owl.video.play.png") no-repeat;
+  background: url(/images/vendor/owl.carousel/dist/owl.video.play.png?4cbde124d6cd8122c801118696c16f07) no-repeat;
   cursor: pointer;
   z-index: 1;
   -webkit-backface-visibility: hidden;
@@ -11222,7 +11222,6 @@ body {
   color: gray;
   font-size: 9px;
   margin-bottom: 5px;
-  left: 180% !important;
 }
 
 .m-card [data-balloon]:before {
@@ -12880,8 +12879,21 @@ a.estate-category-link:hover {
   top: 45% !important;
 }
 
+.dashed-border {
+  border: 2px dashed lightgray;
+}
+
+.border-right-gray {
+  /* Line: */
+  border-right: 1px solid #979797;
+}
+
 .rounded {
   border-radius: 60px;
+}
+
+.rounded-5 {
+  border-radius: 6px !important;
 }
 
 .rounded-6 {
@@ -12947,6 +12959,10 @@ a.estate-category-link:hover {
   background-color: #949494;
 }
 
+.khakestarie-roshan {
+  background-color: #F3F3F3 !important;
+}
+
 .gradient-background {
   background: -webkit-gradient(linear, left top, left bottom, from(#007991), to(#63E7CA));
   background: linear-gradient(-180deg, #007991 0%, #63E7CA 100%);
@@ -12963,6 +12979,10 @@ a.estate-category-link:hover {
 .turnUpsideDown {
   -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
+}
+
+.mouse-pointer {
+  cursor: pointer;
 }
 
 @media (max-width: 575px) {

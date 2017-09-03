@@ -170,28 +170,44 @@
             <div class="row">
                 @for ($i = 0; $i < 4; $i++)
                     <div class="col-lg-3 col-md-6 col-sm-6 col-12 p-3">
-                        @component('components.card') @endcomponent
+                        @component('components.card')
+                            @slot('type')
+                                normal
+                            @endslot
+                        @endcomponent
                     </div>
                 @endfor
             </div>
             <div class="row">
                 @for ($i = 0; $i < 4; $i++)
                     <div class="col-lg-3 col-md-6 col-sm-6 col-12 p-3">
-                        @component('components.card') @endcomponent
+                        @component('components.card')
+                            @slot('type')
+                                normal
+                            @endslot
+                        @endcomponent
                     </div>
                 @endfor
             </div>
             <div class="row">
                 @for ($i = 0; $i < 4; $i++)
                     <div class="col-lg-3 col-md-6 col-sm-6 col-12 p-3">
-                        @component('components.card') @endcomponent
+                        @component('components.card')
+                            @slot('type')
+                                normal
+                            @endslot
+                        @endcomponent
                     </div>
                 @endfor
             </div>
             <div class="row">
                 @for ($i = 0; $i < 4; $i++)
                     <div class="col-lg-3 col-md-6 col-sm-6 col-12 p-3">
-                        @component('components.card') @endcomponent
+                        @component('components.card')
+                            @slot('type')
+                                normal
+                            @endslot
+                        @endcomponent
                     </div>
                 @endfor
             </div>

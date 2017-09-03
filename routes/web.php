@@ -103,3 +103,6 @@ Route::get('/504', function () {
 Route::get('/fast', function () {
     return view('dashboard-azhans.Ads.create-fast');
 });
+Route::get('/dashboard/ads', function () {
+    return view('dashboard-azhans.ads.index');
+});
