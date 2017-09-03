@@ -30,7 +30,7 @@ ul.stepper {
    padding: 0 24px;
 }
 
-@media only screen and (min-width: 993px){
+@media only screen and (min-width: 0px){
    ul.stepper.horizontal {
       position: relative;
       display: -ms-flexbox;
@@ -95,7 +95,7 @@ ul.stepper .step.feedbacking .step-content>*:not(.wait-feedback) {
    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
 }
 
-@media only screen and (min-width: 993px){
+@media only screen and (min-width: 0px){
    ul.stepper.horizontal .step {
       position: static;
       margin: 0;
@@ -171,7 +171,7 @@ ul.stepper .step-title {
    display: block;
 }
 
-@media only screen and (min-width: 993px){
+@media only screen and (min-width: 0px){
    ul.stepper.horizontal .step.active .step-title:before, ul.stepper.horizontal .step.done .step-title:before {
       background-color: #2196f3;
    }
@@ -252,7 +252,7 @@ ul.stepper .step-title:after {
    font-weight: 400;
 }
 
-@media only screen and (min-width: 993px){
+@media only screen and (min-width: 0px){
    ul.stepper.horizontal .step-title:after {
       top:15px;
    }
@@ -276,7 +276,7 @@ ul.stepper .step-content {
    margin-right: 24px;
 }
 
-@media only screen and (min-width: 993px){
+@media only screen and (min-width: 0px){
    ul.stepper.horizontal .step-content {
       position: absolute;
       height: calc(100% - 84px);
@@ -338,7 +338,7 @@ ul.stepper .step-actions .btn:not(:last-child), ul.stepper .step-actions .btn-fl
    margin-right:5px;
 }
 
-@media only screen and (min-width: 993px){
+@media only screen and (min-width: 0px){
    ul.stepper.horizontal .step-actions .btn:not(:last-child), ul.stepper.horizontal .step-actions .btn-flat:not(:last-child), ul.stepper.horizontal .step-actions .btn-large:not(:last-child) {
       margin-left:5px;
       margin-right:0;
